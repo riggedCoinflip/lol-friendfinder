@@ -1,14 +1,26 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const { graphqlHTTP } = require('express-graphql');
 require('dotenv').config();
 
 const port = process.env.PORT || 5000;
 const ATLAS_URI = `mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@${process.env.ATLAS_CLUSTER}.mongodb.net/${process.env.ATLAS_ENVIRONMENT}`
 
+// MIDDLEWARE
 const app = express();
-app.use(express.json());
+//app.use(express.json());
+app.use(cors());
 
+const graphqlSchema = require('./schemas/index');
+app.use(
+    "/graphql",
+    graphqlHTTP({
+        context: { startTime: Date.now() },
+        graphiql: true,
+        schema: graphqlSchema,
+    })
+)
 
 mongoose
     .connect(ATLAS_URI, {
@@ -27,12 +39,3 @@ db.once('open', () => {
     })
 })
 
-const graphqlSchema = require('./schemas/index');
-app.use(
-    "/graphql",
-    graphqlHTTP({
-            context: { startTime: Date.now() },
-            graphiql: true,
-            schema: graphqlSchema,
-    })
-)
