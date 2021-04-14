@@ -1,26 +1,38 @@
-
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
+const { graphqlHTTP } = require('express-graphql');
 require('dotenv').config();
 
-const app = express();
 const port = process.env.PORT || 5000;
+const ATLAS_URI = `mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@${process.env.ATLAS_CLUSTER}.mongodb.net/${process.env.ATLAS_ENVIRONMENT}`
 
-app.use(cors());
+const app = express();
 app.use(express.json());
 
-const uri = process.env.ATLAS_URI;
-console.log(uri)
-mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true})
+
+mongoose
+    .connect(ATLAS_URI, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+})
+    .then(() => console.log("MongoDB database connection established successfully"))
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 db.once('open', () => {
-    console.log("MongoDB database connection established successfully")
+    app.listen(port, () => {
+        console.log(`Server is running on port: ${port}`)
+    })
 })
 
-app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`)
-})
+const graphqlSchema = require('./schemas/index');
+app.use(
+    "/graphql",
+    graphqlHTTP({
+            context: { startTime: Date.now() },
+            graphiql: true,
+            schema: graphqlSchema,
+    })
+)
