@@ -1,7 +1,7 @@
 import React from 'react';
 import {useQuery, gql} from '@apollo/client';
 
-const USERS = gql`
+const GET_USERS = gql`
     query GetUsers{
         userMany {
             name,
@@ -10,8 +10,8 @@ const USERS = gql`
     }
 `;
 
-function Users() {
-    const {loading, error, data} = useQuery(USERS);
+export default function Users() {
+    const {loading, error, data} = useQuery(GET_USERS);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
@@ -38,5 +38,3 @@ function Users() {
     </div>
 
 }
-
-export default Users
