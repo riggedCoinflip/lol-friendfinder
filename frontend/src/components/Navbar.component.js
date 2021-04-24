@@ -21,7 +21,7 @@ export default class Navbar extends Component {
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target=".dual-collapse" aria-controls=".dual-collapse"
                                 aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon"></span>
+                            <span className="navbar-toggler-icon"></span>{/*TODO */}
                         </button>
                     </div>
 
@@ -40,7 +40,6 @@ export default class Navbar extends Component {
                     </div>
                 </div>
             </nav>
-
         );
     }
 }
