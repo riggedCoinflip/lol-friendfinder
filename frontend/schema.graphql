@@ -374,8 +374,9 @@ type UpdateOneUserPayload {
 type User {
     _id: MongoID!
     createdAt: Date
-    email: String
+    email: String!
     name: String!
+    password: String!
     updatedAt: Date
 }
 
@@ -413,6 +414,8 @@ enum SortConnectionProfileEnum {
 }
 
 enum SortConnectionUserEnum {
+    EMAIL_ASC
+    EMAIL_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -425,6 +428,8 @@ enum SortFindByIdsProfileInput {
 }
 
 enum SortFindByIdsUserInput {
+    EMAIL_ASC
+    EMAIL_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -437,6 +442,8 @@ enum SortFindManyProfileInput {
 }
 
 enum SortFindManyUserInput {
+    EMAIL_ASC
+    EMAIL_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -449,6 +456,8 @@ enum SortFindOneProfileInput {
 }
 
 enum SortFindOneUserInput {
+    EMAIL_ASC
+    EMAIL_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -461,6 +470,8 @@ enum SortRemoveOneProfileInput {
 }
 
 enum SortRemoveOneUserInput {
+    EMAIL_ASC
+    EMAIL_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -473,6 +484,8 @@ enum SortUpdateManyProfileInput {
 }
 
 enum SortUpdateManyUserInput {
+    EMAIL_ASC
+    EMAIL_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -485,6 +498,8 @@ enum SortUpdateOneProfileInput {
 }
 
 enum SortUpdateOneUserInput {
+    EMAIL_ASC
+    EMAIL_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -502,8 +517,9 @@ input CreateManyProfileInput {
 
 input CreateManyUserInput {
     createdAt: Date
-    email: String
+    email: String!
     name: String!
+    password: String!
     updatedAt: Date
 }
 
@@ -518,8 +534,9 @@ input CreateOneProfileInput {
 
 input CreateOneUserInput {
     createdAt: Date
-    email: String
+    email: String!
     name: String!
+    password: String!
     updatedAt: Date
 }
 
@@ -553,6 +570,18 @@ input FilterCountProfile_idOperatorsInput {
     nin: [MongoID]
 }
 
+input FilterCountUserEmailOperatorsInput {
+    exists: Boolean
+    gt: String
+    gte: String
+    in: [String]
+    lt: String
+    lte: String
+    ne: String
+    nin: [String]
+    regex: RegExpAsString
+}
+
 input FilterCountUserInput {
     AND: [FilterCountUserInput!]
     OR: [FilterCountUserInput!]
@@ -562,6 +591,7 @@ input FilterCountUserInput {
     createdAt: Date
     email: String
     name: String
+    password: String
     updatedAt: Date
 }
 
@@ -580,6 +610,7 @@ input FilterCountUserNameOperatorsInput {
 "For performance reason this type contains only *indexed* fields."
 input FilterCountUserOperatorsInput {
     _id: FilterCountUser_idOperatorsInput
+    email: FilterCountUserEmailOperatorsInput
     name: FilterCountUserNameOperatorsInput
 }
 
@@ -624,6 +655,18 @@ input FilterFindManyProfile_idOperatorsInput {
     nin: [MongoID]
 }
 
+input FilterFindManyUserEmailOperatorsInput {
+    exists: Boolean
+    gt: String
+    gte: String
+    in: [String]
+    lt: String
+    lte: String
+    ne: String
+    nin: [String]
+    regex: RegExpAsString
+}
+
 input FilterFindManyUserInput {
     AND: [FilterFindManyUserInput!]
     OR: [FilterFindManyUserInput!]
@@ -633,6 +676,7 @@ input FilterFindManyUserInput {
     createdAt: Date
     email: String
     name: String
+    password: String
     updatedAt: Date
 }
 
@@ -651,6 +695,7 @@ input FilterFindManyUserNameOperatorsInput {
 "For performance reason this type contains only *indexed* fields."
 input FilterFindManyUserOperatorsInput {
     _id: FilterFindManyUser_idOperatorsInput
+    email: FilterFindManyUserEmailOperatorsInput
     name: FilterFindManyUserNameOperatorsInput
 }
 
@@ -695,6 +740,18 @@ input FilterFindOneProfile_idOperatorsInput {
     nin: [MongoID]
 }
 
+input FilterFindOneUserEmailOperatorsInput {
+    exists: Boolean
+    gt: String
+    gte: String
+    in: [String]
+    lt: String
+    lte: String
+    ne: String
+    nin: [String]
+    regex: RegExpAsString
+}
+
 input FilterFindOneUserInput {
     AND: [FilterFindOneUserInput!]
     OR: [FilterFindOneUserInput!]
@@ -704,6 +761,7 @@ input FilterFindOneUserInput {
     createdAt: Date
     email: String
     name: String
+    password: String
     updatedAt: Date
 }
 
@@ -722,6 +780,7 @@ input FilterFindOneUserNameOperatorsInput {
 "For performance reason this type contains only *indexed* fields."
 input FilterFindOneUserOperatorsInput {
     _id: FilterFindOneUser_idOperatorsInput
+    email: FilterFindOneUserEmailOperatorsInput
     name: FilterFindOneUserNameOperatorsInput
 }
 
@@ -766,6 +825,18 @@ input FilterRemoveManyProfile_idOperatorsInput {
     nin: [MongoID]
 }
 
+input FilterRemoveManyUserEmailOperatorsInput {
+    exists: Boolean
+    gt: String
+    gte: String
+    in: [String]
+    lt: String
+    lte: String
+    ne: String
+    nin: [String]
+    regex: RegExpAsString
+}
+
 input FilterRemoveManyUserInput {
     AND: [FilterRemoveManyUserInput!]
     OR: [FilterRemoveManyUserInput!]
@@ -775,6 +846,7 @@ input FilterRemoveManyUserInput {
     createdAt: Date
     email: String
     name: String
+    password: String
     updatedAt: Date
 }
 
@@ -793,6 +865,7 @@ input FilterRemoveManyUserNameOperatorsInput {
 "For performance reason this type contains only *indexed* fields."
 input FilterRemoveManyUserOperatorsInput {
     _id: FilterRemoveManyUser_idOperatorsInput
+    email: FilterRemoveManyUserEmailOperatorsInput
     name: FilterRemoveManyUserNameOperatorsInput
 }
 
@@ -837,6 +910,18 @@ input FilterRemoveOneProfile_idOperatorsInput {
     nin: [MongoID]
 }
 
+input FilterRemoveOneUserEmailOperatorsInput {
+    exists: Boolean
+    gt: String
+    gte: String
+    in: [String]
+    lt: String
+    lte: String
+    ne: String
+    nin: [String]
+    regex: RegExpAsString
+}
+
 input FilterRemoveOneUserInput {
     AND: [FilterRemoveOneUserInput!]
     OR: [FilterRemoveOneUserInput!]
@@ -846,6 +931,7 @@ input FilterRemoveOneUserInput {
     createdAt: Date
     email: String
     name: String
+    password: String
     updatedAt: Date
 }
 
@@ -864,6 +950,7 @@ input FilterRemoveOneUserNameOperatorsInput {
 "For performance reason this type contains only *indexed* fields."
 input FilterRemoveOneUserOperatorsInput {
     _id: FilterRemoveOneUser_idOperatorsInput
+    email: FilterRemoveOneUserEmailOperatorsInput
     name: FilterRemoveOneUserNameOperatorsInput
 }
 
@@ -908,6 +995,18 @@ input FilterUpdateManyProfile_idOperatorsInput {
     nin: [MongoID]
 }
 
+input FilterUpdateManyUserEmailOperatorsInput {
+    exists: Boolean
+    gt: String
+    gte: String
+    in: [String]
+    lt: String
+    lte: String
+    ne: String
+    nin: [String]
+    regex: RegExpAsString
+}
+
 input FilterUpdateManyUserInput {
     AND: [FilterUpdateManyUserInput!]
     OR: [FilterUpdateManyUserInput!]
@@ -917,6 +1016,7 @@ input FilterUpdateManyUserInput {
     createdAt: Date
     email: String
     name: String
+    password: String
     updatedAt: Date
 }
 
@@ -935,6 +1035,7 @@ input FilterUpdateManyUserNameOperatorsInput {
 "For performance reason this type contains only *indexed* fields."
 input FilterUpdateManyUserOperatorsInput {
     _id: FilterUpdateManyUser_idOperatorsInput
+    email: FilterUpdateManyUserEmailOperatorsInput
     name: FilterUpdateManyUserNameOperatorsInput
 }
 
@@ -979,6 +1080,18 @@ input FilterUpdateOneProfile_idOperatorsInput {
     nin: [MongoID]
 }
 
+input FilterUpdateOneUserEmailOperatorsInput {
+    exists: Boolean
+    gt: String
+    gte: String
+    in: [String]
+    lt: String
+    lte: String
+    ne: String
+    nin: [String]
+    regex: RegExpAsString
+}
+
 input FilterUpdateOneUserInput {
     AND: [FilterUpdateOneUserInput!]
     OR: [FilterUpdateOneUserInput!]
@@ -988,6 +1101,7 @@ input FilterUpdateOneUserInput {
     createdAt: Date
     email: String
     name: String
+    password: String
     updatedAt: Date
 }
 
@@ -1006,6 +1120,7 @@ input FilterUpdateOneUserNameOperatorsInput {
 "For performance reason this type contains only *indexed* fields."
 input FilterUpdateOneUserOperatorsInput {
     _id: FilterUpdateOneUser_idOperatorsInput
+    email: FilterUpdateOneUserEmailOperatorsInput
     name: FilterUpdateOneUserNameOperatorsInput
 }
 
@@ -1033,6 +1148,7 @@ input UpdateByIdUserInput {
     createdAt: Date
     email: String
     name: String
+    password: String
     updatedAt: Date
 }
 
@@ -1049,6 +1165,7 @@ input UpdateManyUserInput {
     createdAt: Date
     email: String
     name: String
+    password: String
     updatedAt: Date
 }
 
@@ -1065,6 +1182,7 @@ input UpdateOneUserInput {
     createdAt: Date
     email: String
     name: String
+    password: String
     updatedAt: Date
 }
 

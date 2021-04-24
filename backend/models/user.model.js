@@ -11,7 +11,16 @@ const userSchema = new Schema({
         minlength: 3,
         maxlength: 16,
     },
-    email: String,
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+    },
+    password: { //hashed and salted using bcrypt
+        type: String,
+        required: true
+    }
 }, {
     timestamps: true,
 });
