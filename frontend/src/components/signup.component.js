@@ -44,25 +44,17 @@ const USER_CREATE = gql`
     }
 `;
 
-/** TODO write function
- * Returns true if the string only contains UTF8-1Byte aka US-ASCII Characters
- * @param str
- * @returns {boolean}
- */
-function isAscii(str) {
-
-}
-
 /**
- * Returns true if the string matches the password rules
- * @param str
+ * Returns true if the string matches the following rules:
+ * allow all alphanumeric characters
+ * allow all defined special characters
+ * @param {string} str
+ * @param {string} specialChararcters
  * @returns {boolean}
  */
-function containsOnlyAllowedCharacters(str) {
-    if (!isAscii(str)) return false;
-    else {
-        //TODO
-    }
+function passwordContainsOnlyAllowedCharacters(str, specialChararcters) {
+    const regex = new RegExp(`^[a-zA-Z0-9${specialChararcters}]+$`)
+    return regex.test(str)
 }
 
 /**
@@ -93,55 +85,63 @@ function containsDigit(str) {
 }
 
 /**
- * validate if form fits the business policies:
- * * contains at least 1 lowercase character
- * * contains at least 1 uppercase character
- * * contains at least 1 digit
- * * password and password 2 (confirmation) have to be the same
- * @return {Object}
+ * Returns true if the string is a (perhaps) valid email address.
+ * We rather want to have false positives than false negatives, so we choose a permissive regex.
+ * @param {string} str
+ * @return {boolean}
  */
-function validateOnChange(password, password2) {
-    let errors = {}
-
-    if (!containsLower(password)) errors.passwordHasLower = "Password requires at least 1 lowercase letter";
-    if (!containsUpper(password)) errors.passwordHasUpper = "Password requires at least 1 uppercase letter";
-    if (!containsDigit(password)) errors.passwordHasDigit = "Password requires at least 1 number";
-    if (!containsOnlyAllowedCharacters(password)) errors.passwordCharactersAllowed = "Password contains unallowed characters.";
-    if (password !== password2) errors.passwordIsSame = "Password confirmation has to match the password";
-
-    return errors
+function isEmail(str) {
+    return /^.+[@].+$/.test(str) //one to unlimited chars, then @, then one to unlimited chars
 }
 
 /**
- * TODO
- * this validates if the form is correct on submit.
- * If the form is syntactically correct (password business rules etc.) it looks if the Username/Password are allowed
+ * validate if form fits the business policies
+ * @param {String} email
+ * @param {String} password
+ * @param {String} password2
+ * @param {String} specialChars
+ * @return {Object} validation
+ */
+function validateOnChange(email, password, password2, specialChars) {
+    return {
+        emailIsValid: isEmail(email),
+        
+        passwordHasLower: containsLower(password),
+        passwordHasUpper: containsUpper(password),
+        passwordHasDigit: containsDigit(password),
+        passwordCharactersAllowed: passwordContainsOnlyAllowedCharacters(password, specialChars),
+        passwordIsSame: password === password2,
+    }
+}
+
+/**
+ * takes a response and checks if the username/email the user wishes to create an account for are available
  * @param {Object} response
  * @param {String} response.data.nameExists.name
  * @param {String} response.data.emailExists.email
- * @return {Object}
+ * @return {Object} validation
  */
 function validateOnSubmit(response) {
-    const errors = {}
-
-    const username_available = response.data?.nameExists?.name == null
-    const email_available = response.data?.emailExists?.email == null
-
-    if (!username_available) errors.usernameAvailable = "A User with that name exists already";
-    if (!email_available) errors.emailAvailable = "Email is already in use";
-
-    return errors
+    return {
+        usernameAvailable: response.data?.nameExists?.name == null,
+        emailAvailable: response.data?.emailExists?.email == null
+    }
 }
 
 /**
- * TODO
+ * A Signup form that allows the user to create an account
+ * Submit Button is disabled while there are errors in the input.
+ * Takes username, email and password and does a query if that username/email already exists.
+ * If it doesnt, the DB is mutated with a new user
+ * If it does, an annotation is given to the user prompting him to resubmit after changes
  * @return {JSX.Element}
  * @constructor
  */
 export default function Signup() {
-    const [pw_minLength, pw_maxLength] = [8, 72];
+    const [pwMinLength, pwMaxLength] = [8, 72];
+    const pwAllowedSpecialCharacters = "*.!@#$%^&(){}:;<>,.?~_=|" //special characters that dont need escaping in regex. //OPTIMIZE add more allowed special characters
 
-    //TODO write function that blocks the user from writing not allowed characters
+    //TODO write function that blocks the user from writing not allowed characters in the first place (currently only checking against)
 
     const client = useApolloClient();
     const [state, setState] = useState({
@@ -151,23 +151,33 @@ export default function Signup() {
         password2: "",
         passwordInvisible: true,
     });
-    const [errors, setErrors] = useState({});
-    const [errorsQuery, setErrorsQuery] = useState({});
+    const [validation, setValidation] = useState({
+        emailIsValid: false,
+
+        passwordHasLower: false,
+        passwordHasUpper: false,
+        passwordHasDigit: false,
+        passwordCharactersAllowed: false,
+        passwordIsSame: false,
+    });
+    const [validationQuery, setValidationQuery] = useState({
+        emailAvailable: null,
+        usernameAvailable: null,
+    });
 
 
     useEffect(() => {
         console.table(state)
-        //OPTIMIZE calling validate every time the state changes might be too expensive. Bottleneck will highly likely be the user input itself anyway,
-        setErrors(validateOnChange(state.password, state.password2))
+        setValidation(validateOnChange(state.email, state.password, state.password2, pwAllowedSpecialCharacters))
     }, [state]);
 
     useEffect(() => {
-        console.log(errors)
-    }, [errors])
+        console.log(validation)
+    }, [validation])
 
     useEffect(() => {
-        console.log(errorsQuery)
-    }, [errorsQuery])
+        console.log(validationQuery)
+    }, [validationQuery])
 
     /**
      * update the corresponding state field
@@ -179,26 +189,26 @@ export default function Signup() {
 
     /**
      * call handleChange
-     * invalidate the errorsQuery for username
+     * invalidate the validationQuery for username
      * @param event
      */
     function handleUsernameChange(event) {
         handleChange(event)
 
-        const {usernameAvailable, ...newErrorsQuery} = errorsQuery //use destructuring to remove key
-        setErrorsQuery(newErrorsQuery)
+        const {usernameAvailable, ...newValidationQuery} = validationQuery //use destructuring to remove key
+        setValidationQuery(newValidationQuery)
     }
 
     /**
      * call handleChange
-     * invalidate the errorsQuery for email
+     * invalidate the validationQuery for email
      * @param event
      */
     function handleEmailChange(event) {
         handleChange(event)
 
-        const {emailAvailable, ...newErrorsQuery} = errorsQuery //use destructuring to remove key
-        setErrorsQuery(newErrorsQuery)
+        const {emailAvailable, ...newValidationQuery} = validationQuery //use destructuring to remove key
+        setValidationQuery(newValidationQuery)
     }
 
     /**
@@ -222,10 +232,10 @@ export default function Signup() {
                 }
             })
             .then(response => {
-                const newErrorsQuery = validateOnSubmit(response)
-                setErrorsQuery(newErrorsQuery)
+                const newValidationQuery = validateOnSubmit(response)
+                setValidationQuery(newValidationQuery)
 
-                if (Object.keys(newErrorsQuery).length === 0) { //if no errors
+                if (newValidationQuery.every(true)) { //if no errors
                     createUser(state.username, state.email, state.password)
                         .then((response) => {
                             console.log(`User created: ${response.data.userCreateOne.record}`)
@@ -281,9 +291,9 @@ export default function Signup() {
                         required={true}
                         onChange={handleEmailChange}
                     />
-                    <small id="passwordHelpBlock" className="form-text text-muted">
+                    <small id="emailHelpBlock" className="form-text text-muted">
                         <ul>
-                            {errorsQuery.emailAvailable &&
+                            {validationQuery.emailAvailable === false &&
                             <li className="text-danger">Email already in use</li>
                             }
                         </ul>
@@ -303,10 +313,10 @@ export default function Signup() {
                         maxLength="16"
                         onChange={handleUsernameChange}
                     />
-                    <small id="passwordHelpBlock" className="form-text text-muted">
+                    <small id="usernameHelpBlock" className="form-text text-muted">
                         <ul>
                             <li className={state.username.length >= 3 ? "text-success" : "text-danger"}>3-16 Characters</li>
-                            {errorsQuery.usernameAvailable &&
+                            {validationQuery.usernameAvailable === false &&
                             <li className="text-danger">Username already in use</li>
                             }
                         </ul>
@@ -323,8 +333,8 @@ export default function Signup() {
                             placeholder="Enter password"
                             autoComplete="new-password"
                             required={true}
-                            minLength={pw_minLength}
-                            maxLength={pw_maxLength}
+                            minLength={pwMinLength}
+                            maxLength={pwMaxLength}
                             onChange={handleChange}
                         />
                         <button type="button" className="btn btn-outline-secondary" onClick={changePasswordVisibility}>
@@ -334,10 +344,10 @@ export default function Signup() {
                     <small id="passwordHelpBlock" className="form-text text-muted">
                         <ul>
                             <li className={state.password.length >= 8 ? "text-success" : "text-danger"}>At least 8 characters</li>
-                            <li className={!errors.passwordHasUpper ? "text-success" : "text-danger"}>At least 1 uppercase letter</li>
-                            <li className={!errors.passwordHasLower ? "text-success" : "text-danger"}>At least 1 lowercase letter</li>
-                            <li className={!errors.passwordHasDigit ? "text-success" : "text-danger"}>At least 1 digit</li>
-                            <li>No spaces, emojis or special characters</li> {/*TODO enforce*/}
+                            <li className={validation.passwordHasUpper ? "text-success" : "text-danger"}>At least 1 uppercase letter</li>
+                            <li className={validation.passwordHasLower ? "text-success" : "text-danger"}>At least 1 lowercase letter</li>
+                            <li className={validation.passwordHasDigit ? "text-success" : "text-danger"}>At least 1 digit</li>
+                            <li className={validation.passwordCharactersAllowed ? "text-success" : "text-danger"}>No spaces, only Alphanumeric Characters or one of these special characters: {pwAllowedSpecialCharacters}</li>
                         </ul>
                     </small>
                 </div>
@@ -351,13 +361,13 @@ export default function Signup() {
                         placeholder="Enter password"
                         autoComplete="new-password"
                         required={true}
-                        minLength={pw_minLength}
-                        maxLength={pw_maxLength}
+                        minLength={pwMinLength}
+                        maxLength={pwMaxLength}
                         onChange={handleChange}
                     />
-                    <small id="passwordHelpBlock" className="form-text text-muted">
+                    <small id="password2HelpBlock" className="form-text text-muted">
                         <ul>
-                            <li className={!errors.passwordIsSame ? "text-success" : "text-danger"}>Has to be equal to password</li>
+                            <li className={validation.passwordIsSame ? "text-success" : "text-danger"}>Has to be equal to password</li>
                         </ul>
                     </small>
                 </div>
@@ -365,23 +375,14 @@ export default function Signup() {
                 <button
                     type="submit"
                     className="btn btn-primary btn-block"
-                    disabled={Object.keys({...errors, ...errorsQuery}).length !== 0}
+                    disabled={Object.keys({...validation, ...validationQuery}).length !== 0}
                 >
                     Sign Up
                 </button>
                 <p className="forgot-password text-right">
-                    Already registered <Link to="/login">sign in?</Link>
+                    Already registered? <Link to="/login">Log in</Link>
                 </p>
             </form>
-            <ul>
-                {
-                    //TODO integrate this as part of the form
-                    Object.entries({...errors, ...errorsQuery}).map(([key, value]) =>
-                        <li key={key}>
-                            {value}
-                        </li>
-                    )}
-            </ul>
         </div>
     );
 }
