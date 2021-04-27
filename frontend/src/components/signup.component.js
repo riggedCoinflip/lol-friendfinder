@@ -235,7 +235,7 @@ export default function Signup() {
                 const newValidationQuery = validateOnSubmit(response)
                 setValidationQuery(newValidationQuery)
 
-                if (newValidationQuery.every(true)) { //if no errors
+                if (Object.values(newValidationQuery).every(item => item === true)) { //if no errors
                     createUser(state.username, state.email, state.password)
                         .then((response) => {
                             console.log(`User created: ${response.data.userCreateOne.record}`)
@@ -293,6 +293,7 @@ export default function Signup() {
                     />
                     <small id="emailHelpBlock" className="form-text text-muted">
                         <ul>
+                            <li className={validation.emailIsValid ? "text-success" : "text-danger"}>Valid Email</li>
                             {validationQuery.emailAvailable === false &&
                             <li className="text-danger">Email already in use</li>
                             }
@@ -375,7 +376,7 @@ export default function Signup() {
                 <button
                     type="submit"
                     className="btn btn-primary btn-block"
-                    disabled={Object.keys({...validation, ...validationQuery}).length !== 0}
+                    disabled={!Object.values({...validation, ...validationQuery}).every(v => v === true)}
                 >
                     Sign Up
                 </button>
