@@ -10,6 +10,8 @@ const GET_USERS = gql`
     }
 `;
 
+
+//TODO this component is only used for testing. delete on prod
 export default function Users() {
     const {loading, error, data} = useQuery(GET_USERS);
 
