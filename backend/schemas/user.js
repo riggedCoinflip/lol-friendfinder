@@ -1,5 +1,4 @@
-require('graphql-compose');
-const {UserTC} = require('../models/user.model');
+const {UserTC} = require('../models/user');
 const {createUserOneHashPassword} = require("../resolvers/user");
 
 const UserQuery = {
