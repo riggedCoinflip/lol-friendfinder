@@ -3,7 +3,7 @@ import {gql, useApolloClient} from "@apollo/client";
 import {Link} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-
+import * as sharedUtils from "../../../shared/utils/validateSignup"
 
 
 const USER_EXISTS = gql`
@@ -45,56 +45,6 @@ const USER_CREATE = gql`
 `;
 
 /**
- * Returns true if the string matches the following rules:
- * allow all alphanumeric characters
- * allow all defined special characters
- * @param {string} str
- * @param {string} specialChararcters
- * @returns {boolean}
- */
-function passwordContainsOnlyAllowedCharacters(str, specialChararcters) {
-    const regex = new RegExp(`^[a-zA-Z0-9${specialChararcters}]+$`)
-    return regex.test(str)
-}
-
-/**
- * Returns true if the string contains at least 1 lower case char
- * @param {string} str
- * @returns {boolean}
- */
-function containsLower(str) {
-    return str !== str.toUpperCase()
-}
-
-/**
- * Returns true if the string contains at least 1 upper case char
- * @param {string} str
- * @returns {boolean}
- */
-function containsUpper(str) {
-    return str !== str.toLowerCase()
-}
-
-/**
- * Returns true if the string contains at least 1 digit
- * @param {string} str
- * @returns {boolean}
- */
-function containsDigit(str) {
-    return /\d/.test(str)
-}
-
-/**
- * Returns true if the string is a (perhaps) valid email address.
- * We rather want to have false positives than false negatives, so we choose a permissive regex.
- * @param {string} str
- * @return {boolean}
- */
-function isEmail(str) {
-    return /^.+[@].+$/.test(str) //one to unlimited chars, then @, then one to unlimited chars
-}
-
-/**
  * validate if form fits the business policies
  * @param {String} email
  * @param {String} password
@@ -104,12 +54,11 @@ function isEmail(str) {
  */
 function validateOnChange(email, password, password2, specialChars) {
     return {
-        emailIsValid: isEmail(email),
-        
-        passwordHasLower: containsLower(password),
-        passwordHasUpper: containsUpper(password),
-        passwordHasDigit: containsDigit(password),
-        passwordCharactersAllowed: passwordContainsOnlyAllowedCharacters(password, specialChars),
+        emailIsValid: sharedUtils.isEmail(email),
+        passwordHasLower: sharedUtils.containsLower(password),
+        passwordHasUpper: sharedUtils.containsUpper(password),
+        passwordHasDigit: sharedUtils.containsDigit(password),
+        passwordCharactersAllowed: sharedUtils.passwordContainsOnlyAllowedCharacters(password, specialChars),
         passwordIsSame: password === password2,
     }
 }
@@ -138,7 +87,6 @@ function validateOnSubmit(response) {
  * @constructor
  */
 export default function Signup() {
-    const [pwMinLength, pwMaxLength] = [8, 72];
     const pwAllowedSpecialCharacters = "*.!@#$%^&(){}:;<>,.?~_=|" //special characters that dont need escaping in regex. //OPTIMIZE add more allowed special characters
 
     //OPTIMIZE write function that blocks the user from writing not allowed characters in the first place (currently only checking against)
@@ -310,8 +258,8 @@ export default function Signup() {
                         placeholder="Enter username"
                         autoComplete="username"
                         required={true}
-                        minLength="3"
-                        maxLength="16"
+                        minLength={sharedUtils.usernameMinLength}
+                        maxLength={sharedUtils.usernameMaxLength}
                         onChange={handleUsernameChange}
                     />
                     <small id="usernameHelpBlock" className="form-text text-muted">
@@ -334,8 +282,8 @@ export default function Signup() {
                             placeholder="Enter password"
                             autoComplete="new-password"
                             required={true}
-                            minLength={pwMinLength}
-                            maxLength={pwMaxLength}
+                            minLength={sharedUtils.passwordMinLength}
+                            maxLength={sharedUtils.passwordMaxLength}
                             onChange={handleChange}
                         />
                         <button type="button" className="btn btn-outline-secondary" onClick={changePasswordVisibility}>
@@ -362,8 +310,8 @@ export default function Signup() {
                         placeholder="Enter password"
                         autoComplete="new-password"
                         required={true}
-                        minLength={pwMinLength}
-                        maxLength={pwMaxLength}
+                        minLength={sharedUtils.passwordMinLength}
+                        maxLength={sharedUtils.passwordMaxLength}
                         onChange={handleChange}
                     />
                     <small id="password2HelpBlock" className="form-text text-muted">
