@@ -27,7 +27,7 @@ const USER_EXISTS = gql`
 const USER_CREATE = gql`
     mutation createUser($name: String!, $email: String!, $password: String!) #TODO hash password server side
     {
-        userCreateOne(
+        userCreateOneHashPassword(
             record: {
                 name: $name
                 email: $email
