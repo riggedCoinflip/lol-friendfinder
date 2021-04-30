@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
+import {Link, useHistory} from "react-router-dom";
 import {gql, useApolloClient} from "@apollo/client";
-import {Link} from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import * as sharedUtils from "../../../shared/utils/validateSignup"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import * as validateSignup from "../shared/util/validateSignup"
 
 
 const USER_EXISTS = gql`
@@ -54,11 +54,11 @@ const USER_CREATE = gql`
  */
 function validateOnChange(email, password, password2, specialChars) {
     return {
-        emailIsValid: sharedUtils.isEmail(email),
-        passwordHasLower: sharedUtils.containsLower(password),
-        passwordHasUpper: sharedUtils.containsUpper(password),
-        passwordHasDigit: sharedUtils.containsDigit(password),
-        passwordCharactersAllowed: sharedUtils.passwordContainsOnlyAllowedCharacters(password, specialChars),
+        emailIsValid: validateSignup.emailValid(email),
+        passwordHasLower: validateSignup.containsLower(password),
+        passwordHasUpper: validateSignup.containsUpper(password),
+        passwordHasDigit: validateSignup.containsDigit(password),
+        passwordCharactersAllowed: validateSignup.containsOnlyAllowedCharacters(password, specialChars),
         passwordIsSame: password === password2,
     }
 }
@@ -87,11 +87,9 @@ function validateOnSubmit(response) {
  * @constructor
  */
 export default function Signup() {
-    const pwAllowedSpecialCharacters = "*.!@#$%^&(){}:;<>,.?~_=|" //special characters that dont need escaping in regex. //OPTIMIZE add more allowed special characters
-
     //OPTIMIZE write function that blocks the user from writing not allowed characters in the first place (currently only checking against)
-
     const client = useApolloClient();
+    const history = useHistory();
     const [state, setState] = useState({
         email: "",
         username: "",
@@ -116,7 +114,7 @@ export default function Signup() {
 
     useEffect(() => {
         console.table(state)
-        setValidation(validateOnChange(state.email, state.password, state.password2, pwAllowedSpecialCharacters))
+        setValidation(validateOnChange(state.email, state.password, state.password2, validateSignup.passwordAllowedSpecialCharacters))
     }, [state]);
 
     useEffect(() => {
@@ -184,9 +182,11 @@ export default function Signup() {
                 setValidationQuery(newValidationQuery)
 
                 if (Object.values(newValidationQuery).every(item => item === true)) { //if no errors
+                    console.log("state:", state)
                     createUser(state.username, state.email, state.password)
-                        .then((response) => {
-                            console.log(`User created: ${response.data.userCreateOne.record}`)
+                        .then((res) => {
+                            history.push("/")
+                            alert('Account creation successful!');
                         })
                         .catch((err) => {
                             console.error(`Error in createUser: ${err}`)
@@ -194,7 +194,7 @@ export default function Signup() {
                 }
             })
             .catch(err => {
-                    console.log("Something went wrong", err)
+                    console.error(err)
                 }
             );
     }
@@ -258,8 +258,8 @@ export default function Signup() {
                         placeholder="Enter username"
                         autoComplete="username"
                         required={true}
-                        minLength={sharedUtils.usernameMinLength}
-                        maxLength={sharedUtils.usernameMaxLength}
+                        minLength={validateSignup.usernameMinLength}
+                        maxLength={validateSignup.usernameMaxLength}
                         onChange={handleUsernameChange}
                     />
                     <small id="usernameHelpBlock" className="form-text text-muted">
@@ -282,8 +282,8 @@ export default function Signup() {
                             placeholder="Enter password"
                             autoComplete="new-password"
                             required={true}
-                            minLength={sharedUtils.passwordMinLength}
-                            maxLength={sharedUtils.passwordMaxLength}
+                            minLength={validateSignup.passwordMinLength}
+                            maxLength={validateSignup.passwordMaxLength}
                             onChange={handleChange}
                         />
                         <button type="button" className="btn btn-outline-secondary" onClick={changePasswordVisibility}>
@@ -296,7 +296,7 @@ export default function Signup() {
                             <li className={validation.passwordHasUpper ? "text-success" : "text-danger"}>At least 1 uppercase letter</li>
                             <li className={validation.passwordHasLower ? "text-success" : "text-danger"}>At least 1 lowercase letter</li>
                             <li className={validation.passwordHasDigit ? "text-success" : "text-danger"}>At least 1 digit</li>
-                            <li className={validation.passwordCharactersAllowed ? "text-success" : "text-danger"}>No spaces, only Alphanumeric Characters or one of these special characters: {pwAllowedSpecialCharacters}</li>
+                            <li className={validation.passwordCharactersAllowed ? "text-success" : "text-danger"}>No spaces, only Alphanumeric Characters or one of these special characters: {validateSignup.passwordAllowedSpecialCharacters}</li>
                         </ul>
                     </small>
                 </div>
@@ -310,8 +310,8 @@ export default function Signup() {
                         placeholder="Enter password"
                         autoComplete="new-password"
                         required={true}
-                        minLength={sharedUtils.passwordMinLength}
-                        maxLength={sharedUtils.passwordMaxLength}
+                        minLength={validateSignup.passwordMinLength}
+                        maxLength={validateSignup.passwordMaxLength}
                         onChange={handleChange}
                     />
                     <small id="password2HelpBlock" className="form-text text-muted">
