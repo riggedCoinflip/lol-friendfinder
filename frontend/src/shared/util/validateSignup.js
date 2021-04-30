@@ -75,6 +75,7 @@ function isLengthAllowed(str, minLength, maxLength) {
  * @return {boolean} password passed all checks
  */
 function passwordValid(password, specialCharacters = passwordAllowedSpecialCharacters, minLength = passwordMinLength, maxLength = passwordMaxLength) {
+    //console.log(password, minLength, maxLength)
     return (
         isLengthAllowed(password, minLength, maxLength) &&
         containsUpper(password) &&
@@ -136,7 +137,7 @@ module.exports = {
     usernameMaxLength,
     usernameValid,
     emailValid,
-    formValid
+    formValid,
 }
 
 
