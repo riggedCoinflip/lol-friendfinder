@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {gql, useApolloClient} from "@apollo/client";
 import {Link} from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -141,7 +141,7 @@ export default function Signup() {
     const [pwMinLength, pwMaxLength] = [8, 72];
     const pwAllowedSpecialCharacters = "*.!@#$%^&(){}:;<>,.?~_=|" //special characters that dont need escaping in regex. //OPTIMIZE add more allowed special characters
 
-    //TODO write function that blocks the user from writing not allowed characters in the first place (currently only checking against)
+    //OPTIMIZE write function that blocks the user from writing not allowed characters in the first place (currently only checking against)
 
     const client = useApolloClient();
     const [state, setState] = useState({
