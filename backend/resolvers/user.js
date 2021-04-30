@@ -1,29 +1,38 @@
-const {UserTC} = require('../models/user');
-const bcrypt = require('bcrypt');
+const {UserTC} = require("../models/user");
+const bcrypt = require("bcrypt");
+const {formValid} = require("../../frontend/src/shared/util/validateSignup");
 
 /**
+ * Generate a bcrypt hash from a plaintext password
+ * @async
  * @param {String} plaintextPassword
  * @param {number} saltRounds 2^saltRounds
- * @return hash on succeed, null on error
+ * @returns {(String|null)} hash on succeed, null on error
  */
-async function generateHash(plaintextPassword, saltRounds) {
+async function generateHash(plaintextPassword, saltRounds=10) {
     console.log("hashing")
     try {
-        const hash = await bcrypt.hash(plaintextPassword, saltRounds);
-        return hash;
+        return await bcrypt.hash(plaintextPassword, saltRounds);
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return null;
     }
 }
+
 
 const createUserOneHashPassword =
     UserTC
         .getResolver('createOne')
         .wrapResolve(next => async rp => {
-            rp.args.record.password = await generateHash(rp.args.record.password, 10);
-            //TODO validate if mutation is allowed, eg: email has @, username 3-16 chars etc
-            return next(rp);
+            const record = rp.args.record
+            if (formValid(record.email, record.name, record.password)) {
+                rp.args.record.password = await generateHash(record.password, 10);
+                return next(rp);
+            } else {
+                console.log("Validation checks failed for:")
+                console.dir(rp)
+                return null;
+            }
         })
 
 module.exports = {createUserOneHashPassword}
