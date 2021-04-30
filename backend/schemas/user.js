@@ -1,7 +1,9 @@
 require('graphql-compose');
 const {UserTC} = require('../models/user.model');
+const {createUserOneHashPassword} = require("../resolvers/user");
 
 const UserQuery = {
+    //graphql-compose-mongoose resolvers
     userById: UserTC.getResolver('findById'),
     userByIds: UserTC.getResolver('findByIds'),
     userOne: UserTC.getResolver('findOne'),
@@ -12,7 +14,8 @@ const UserQuery = {
 };
 
 const UserMutation = {
-    userCreateOne: UserTC.getResolver('createOne'),
+    //graphql-compose-mongoose resolvers
+    userCreateOne:  UserTC.getResolver('createOne'),
     userCreateMany: UserTC.getResolver('createMany'),
     userUpdateById: UserTC.getResolver('updateById'),
     userUpdateOne: UserTC.getResolver('updateOne'),
@@ -20,7 +23,13 @@ const UserMutation = {
     userRemoveById: UserTC.getResolver('removeById'),
     userRemoveOne: UserTC.getResolver('removeOne'),
     userRemoveMany: UserTC.getResolver('removeMany'),
+    //custom resolvers
+    userCreateOneHashPassword: createUserOneHashPassword,
 };
+
+
+
+
 
 module.exports = {
     UserQuery,
