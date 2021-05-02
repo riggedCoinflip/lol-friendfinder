@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Link, useHistory} from "react-router-dom";
 import {gql, useApolloClient} from "@apollo/client";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons'
 import * as validateSignup from "../shared/util/validateSignup"
 
 
@@ -225,87 +225,58 @@ export default function Signup() {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
 
-                <div className="form-group">
-                    <label>Email address</label>
+            <div className="form-group">
+                <label>Email address</label>
+                <input
+                    className="form-control"
+                    name="email"
+                    type="email"
+                    placeholder="Enter email"
+                    autoComplete="email"
+                    required={true}
+                    onChange={handleEmailChange}
+                />
+                <small id="emailHelpBlock" className="form-text text-muted">
+                    <ul>
+                        <li className={validation.emailIsValid ? "text-success" : "text-danger"}>Valid Email</li>
+                        {validationQuery.emailAvailable === false &&
+                        <li className="text-danger">Email already in use</li>
+                        }
+                    </ul>
+                </small>
+            </div>
+
+            <div className="form-group">
+                <label>Name</label>
+                <input
+                    className="form-control"
+                    name="username"
+                    type="text"
+                    placeholder="Enter username"
+                    autoComplete="username"
+                    required={true}
+                    minLength={validateSignup.usernameMinLength}
+                    maxLength={validateSignup.usernameMaxLength}
+                    onChange={handleUsernameChange}
+                />
+                <small id="usernameHelpBlock" className="form-text text-muted">
+                    <ul>
+                        <li className={state.username.length >= 3 ? "text-success" : "text-danger"}>3-16 Characters</li>
+                        {validationQuery.usernameAvailable === false &&
+                        <li className="text-danger">Username already in use</li>
+                        }
+                    </ul>
+                </small>
+            </div>
+
+            <div className="form-group">
+                <label>Password</label>
+                <div className="input-group">
                     <input
-                        className="form-control"
-                        name="email"
-                        type="email"
-                        placeholder="Enter email"
-                        autoComplete="email"
-                        required={true}
-                        onChange={handleEmailChange}
-                    />
-                    <small id="emailHelpBlock" className="form-text text-muted">
-                        <ul>
-                            <li className={validation.emailIsValid ? "text-success" : "text-danger"}>Valid Email</li>
-                            {validationQuery.emailAvailable === false &&
-                            <li className="text-danger">Email already in use</li>
-                            }
-                        </ul>
-                    </small>
-                </div>
-
-                <div className="form-group">
-                    <label>Name</label>
-                    <input
-                        className="form-control"
-                        name="username"
-                        type="text"
-                        placeholder="Enter username"
-                        autoComplete="username"
-                        required={true}
-                        minLength={validateSignup.usernameMinLength}
-                        maxLength={validateSignup.usernameMaxLength}
-                        onChange={handleUsernameChange}
-                    />
-                    <small id="usernameHelpBlock" className="form-text text-muted">
-                        <ul>
-                            <li className={state.username.length >= 3 ? "text-success" : "text-danger"}>3-16 Characters</li>
-                            {validationQuery.usernameAvailable === false &&
-                            <li className="text-danger">Username already in use</li>
-                            }
-                        </ul>
-                    </small>
-                </div>
-
-                <div className="form-group">
-                    <label>Password</label>
-                    <div className="input-group">
-                        <input
-                            name="password"
-                            type={state.passwordInvisible ? "password" : "text"}
-                            className="form-control"
-                            placeholder="Enter password"
-                            autoComplete="new-password"
-                            required={true}
-                            minLength={validateSignup.passwordMinLength}
-                            maxLength={validateSignup.passwordMaxLength}
-                            onChange={handleChange}
-                        />
-                        <button type="button" className="btn btn-outline-secondary" onClick={changePasswordVisibility}>
-                            <FontAwesomeIcon icon={state.passwordInvisible ? faEyeSlash : faEye} />
-                        </button>
-                    </div>
-                    <small id="passwordHelpBlock" className="form-text text-muted">
-                        <ul>
-                            <li className={state.password.length >= 8 ? "text-success" : "text-danger"}>At least 8 characters</li>
-                            <li className={validation.passwordHasUpper ? "text-success" : "text-danger"}>At least 1 uppercase letter</li>
-                            <li className={validation.passwordHasLower ? "text-success" : "text-danger"}>At least 1 lowercase letter</li>
-                            <li className={validation.passwordHasDigit ? "text-success" : "text-danger"}>At least 1 digit</li>
-                            <li className={validation.passwordCharactersAllowed ? "text-success" : "text-danger"}>No spaces, only Alphanumeric Characters or one of these special characters: {validateSignup.passwordAllowedSpecialCharacters}</li>
-                        </ul>
-                    </small>
-                </div>
-
-                <div className="form-group">
-                    <label>Confirm Password</label>
-                    <input
-                        name="password2"
-                        type="password"
+                        name="password"
+                        type={state.passwordInvisible ? "password" : "text"}
                         className="form-control"
                         placeholder="Enter password"
                         autoComplete="new-password"
@@ -314,24 +285,62 @@ export default function Signup() {
                         maxLength={validateSignup.passwordMaxLength}
                         onChange={handleChange}
                     />
-                    <small id="password2HelpBlock" className="form-text text-muted">
-                        <ul>
-                            <li className={validation.passwordIsSame ? "text-success" : "text-danger"}>Has to be equal to password</li>
-                        </ul>
-                    </small>
+                    <button type="button" className="btn btn-outline-secondary" onClick={changePasswordVisibility}>
+                        <FontAwesomeIcon icon={state.passwordInvisible ? faEyeSlash : faEye}/>
+                    </button>
                 </div>
+                <small id="passwordHelpBlock" className="form-text text-muted">
+                    <ul>
+                        <li className={state.password.length >= 8 ? "text-success" : "text-danger"}>At least 8
+                            characters
+                        </li>
+                        <li className={validation.passwordHasUpper ? "text-success" : "text-danger"}>At least 1
+                            uppercase letter
+                        </li>
+                        <li className={validation.passwordHasLower ? "text-success" : "text-danger"}>At least 1
+                            lowercase letter
+                        </li>
+                        <li className={validation.passwordHasDigit ? "text-success" : "text-danger"}>At least 1 digit
+                        </li>
+                        <li className={validation.passwordCharactersAllowed ? "text-success" : "text-danger"}>No spaces,
+                            only Alphanumeric Characters or one of these special
+                            characters: {validateSignup.passwordAllowedSpecialCharacters}</li>
+                    </ul>
+                </small>
+            </div>
 
-                <button
-                    type="submit"
-                    className="btn btn-primary btn-block"
-                    disabled={!Object.values({...validation, ...validationQuery}).every(v => v === true)}
-                >
-                    Sign Up
-                </button>
-                <p className="forgot-password text-right">
-                    Already registered? <Link to="/login">Log in</Link>
-                </p>
-            </form>
-        </div>
+            <div className="form-group">
+                <label>Confirm Password</label>
+                <input
+                    name="password2"
+                    type="password"
+                    className="form-control"
+                    placeholder="Enter password"
+                    autoComplete="new-password"
+                    required={true}
+                    minLength={validateSignup.passwordMinLength}
+                    maxLength={validateSignup.passwordMaxLength}
+                    onChange={handleChange}
+                />
+                <small id="password2HelpBlock" className="form-text text-muted">
+                    <ul>
+                        <li className={validation.passwordIsSame ? "text-success" : "text-danger"}>Has to be equal to
+                            password
+                        </li>
+                    </ul>
+                </small>
+            </div>
+
+            <button
+                type="submit"
+                className="btn btn-primary btn-block"
+                disabled={!Object.values({...validation, ...validationQuery}).every(v => v === true)}
+            >
+                Sign Up
+            </button>
+            <p className="forgot-password text-right">
+                Already registered? <Link to="/login">Log in</Link>
+            </p>
+        </form>
     );
 }
