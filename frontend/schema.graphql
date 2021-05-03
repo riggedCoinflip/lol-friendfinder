@@ -10,17 +10,6 @@ interface ErrorInterface {
     message: String
 }
 
-type CreateManyProfilePayload {
-    "Number of created documents"
-    createdCount: Int!
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Documents IDs"
-    recordIds: [MongoID!]!
-    "Created documents"
-    records: [Profile!]
-}
-
 type CreateManyUserPayload {
     "Number of created documents"
     createdCount: Int!
@@ -30,15 +19,6 @@ type CreateManyUserPayload {
     recordIds: [MongoID!]!
     "Created documents"
     records: [User!]
-}
-
-type CreateOneProfilePayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Created document"
-    record: Profile
-    "Document ID"
-    recordId: MongoID
 }
 
 type CreateOneUserPayload {
@@ -52,46 +32,13 @@ type CreateOneUserPayload {
 
 type Mutation {
     "Creates Many documents with mongoose defaults, setters, hooks and validation"
-    profileCreateMany(records: [CreateManyProfileInput!]!): CreateManyProfilePayload
-    "Create one document with mongoose defaults, setters, hooks and validation"
-    profileCreateOne(record: CreateOneProfileInput!): CreateOneProfilePayload
-    "Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document."
-    profileRemoveById(_id: MongoID!): RemoveByIdProfilePayload
-    "Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation. "
-    profileRemoveMany(
-        "Filter by fields"
-        filter: FilterRemoveManyProfileInput!,
-        limit: Int = 100
-    ): RemoveManyProfilePayload
-    "Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document."
-    profileRemoveOne(
-        "Filter by fields"
-        filter: FilterRemoveOneProfileInput,
-        sort: SortRemoveOneProfileInput
-    ): RemoveOneProfilePayload
-    "Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it."
-    profileUpdateById(_id: MongoID!, record: UpdateByIdProfileInput!): UpdateByIdProfilePayload
-    "Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation. "
-    profileUpdateMany(
-        "Filter by fields"
-        filter: FilterUpdateManyProfileInput,
-        limit: Int = 100,
-        record: UpdateManyProfileInput!,
-        skip: Int,
-        sort: SortUpdateManyProfileInput
-    ): UpdateManyProfilePayload
-    "Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it."
-    profileUpdateOne(
-        "Filter by fields"
-        filter: FilterUpdateOneProfileInput,
-        record: UpdateOneProfileInput!,
-        skip: Int,
-        sort: SortUpdateOneProfileInput
-    ): UpdateOneProfilePayload
-    "Creates Many documents with mongoose defaults, setters, hooks and validation"
     userCreateMany(records: [CreateManyUserInput!]!): CreateManyUserPayload
     "Create one document with mongoose defaults, setters, hooks and validation"
     userCreateOne(record: CreateOneUserInput!): CreateOneUserPayload
+    "Create one document with mongoose defaults, setters, hooks and validation"
+    userCreateOneHashPassword(record: CreateOneUserInput!): CreateOneUserPayload
+    "Provide a valid username + password to login the user"
+    userLogin(name: String!, password: String!): User
     "Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document."
     userRemoveById(_id: MongoID!): RemoveByIdUserPayload
     "Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation. "
@@ -148,86 +95,7 @@ type PaginationInfo {
     perPage: Int!
 }
 
-type Profile {
-    _id: MongoID!
-    createdAt: Date
-    favourite_color: String
-    some_date: Date
-    some_number: Float
-    updatedAt: Date
-    user: MongoID
-}
-
-"A connection to a list of items."
-type ProfileConnection {
-    "Total object count."
-    count: Int!
-    "Information to aid in pagination."
-    edges: [ProfileEdge!]!
-    "Information to aid in pagination."
-    pageInfo: PageInfo!
-}
-
-"An edge in a connection."
-type ProfileEdge {
-    "A cursor for use in pagination"
-    cursor: String!
-    "The item at the end of the edge"
-    node: Profile!
-}
-
-"List of items with pagination."
-type ProfilePagination {
-    "Total object count."
-    count: Int
-    "Array of objects."
-    items: [Profile!]
-    "Information to aid in pagination."
-    pageInfo: PaginationInfo!
-}
-
 type Query {
-    profileById(_id: MongoID!): Profile
-    profileByIds(_ids: [MongoID!]!, limit: Int = 100, sort: SortFindByIdsProfileInput): [Profile!]!
-    profileConnection(
-        "Forward pagination argument for returning at most first edges"
-        after: String,
-        "Backward pagination argument for returning at most last edges"
-        before: String,
-        "Filter by fields"
-        filter: FilterFindManyProfileInput,
-        "Forward pagination argument for returning at most first edges"
-        first: Int,
-        "Backward pagination argument for returning at most last edges"
-        last: Int,
-        "Sort argument for data ordering"
-        sort: SortConnectionProfileEnum = _ID_DESC
-    ): ProfileConnection
-    profileCount(
-        "Filter by fields"
-        filter: FilterCountProfileInput
-    ): Int
-    profileMany(
-        "Filter by fields"
-        filter: FilterFindManyProfileInput,
-        limit: Int = 100,
-        skip: Int,
-        sort: SortFindManyProfileInput
-    ): [Profile!]!
-    profileOne(
-        "Filter by fields"
-        filter: FilterFindOneProfileInput,
-        skip: Int,
-        sort: SortFindOneProfileInput
-    ): Profile
-    profilePagination(
-        "Filter by fields"
-        filter: FilterFindManyProfileInput,
-        "Page number for displaying"
-        page: Int,
-        perPage: Int = 20,
-        sort: SortFindManyProfileInput
-    ): ProfilePagination
     userById(_id: MongoID!): User
     userByIds(_ids: [MongoID!]!, limit: Int = 100, sort: SortFindByIdsUserInput): [User!]!
     userConnection(
@@ -271,15 +139,6 @@ type Query {
     ): UserPagination
 }
 
-type RemoveByIdProfilePayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Removed document"
-    record: Profile
-    "Document ID"
-    recordId: MongoID
-}
-
 type RemoveByIdUserPayload {
     "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
     error: ErrorInterface
@@ -289,13 +148,6 @@ type RemoveByIdUserPayload {
     recordId: MongoID
 }
 
-type RemoveManyProfilePayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Affected documents number"
-    numAffected: Int
-}
-
 type RemoveManyUserPayload {
     "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
     error: ErrorInterface
@@ -303,29 +155,11 @@ type RemoveManyUserPayload {
     numAffected: Int
 }
 
-type RemoveOneProfilePayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Removed document"
-    record: Profile
-    "Document ID"
-    recordId: MongoID
-}
-
 type RemoveOneUserPayload {
     "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
     error: ErrorInterface
     "Removed document"
     record: User
-    "Document ID"
-    recordId: MongoID
-}
-
-type UpdateByIdProfilePayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Updated document"
-    record: Profile
     "Document ID"
     recordId: MongoID
 }
@@ -339,27 +173,11 @@ type UpdateByIdUserPayload {
     recordId: MongoID
 }
 
-type UpdateManyProfilePayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Affected documents number"
-    numAffected: Int
-}
-
 type UpdateManyUserPayload {
     "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
     error: ErrorInterface
     "Affected documents number"
     numAffected: Int
-}
-
-type UpdateOneProfilePayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Updated document"
-    record: Profile
-    "Document ID"
-    recordId: MongoID
 }
 
 type UpdateOneUserPayload {
@@ -408,21 +226,11 @@ type UserPagination {
     pageInfo: PaginationInfo!
 }
 
-enum SortConnectionProfileEnum {
-    _ID_ASC
-    _ID_DESC
-}
-
 enum SortConnectionUserEnum {
     EMAIL_ASC
     EMAIL_DESC
     NAME_ASC
     NAME_DESC
-    _ID_ASC
-    _ID_DESC
-}
-
-enum SortFindByIdsProfileInput {
     _ID_ASC
     _ID_DESC
 }
@@ -436,21 +244,11 @@ enum SortFindByIdsUserInput {
     _ID_DESC
 }
 
-enum SortFindManyProfileInput {
-    _ID_ASC
-    _ID_DESC
-}
-
 enum SortFindManyUserInput {
     EMAIL_ASC
     EMAIL_DESC
     NAME_ASC
     NAME_DESC
-    _ID_ASC
-    _ID_DESC
-}
-
-enum SortFindOneProfileInput {
     _ID_ASC
     _ID_DESC
 }
@@ -464,21 +262,11 @@ enum SortFindOneUserInput {
     _ID_DESC
 }
 
-enum SortRemoveOneProfileInput {
-    _ID_ASC
-    _ID_DESC
-}
-
 enum SortRemoveOneUserInput {
     EMAIL_ASC
     EMAIL_DESC
     NAME_ASC
     NAME_DESC
-    _ID_ASC
-    _ID_DESC
-}
-
-enum SortUpdateManyProfileInput {
     _ID_ASC
     _ID_DESC
 }
@@ -492,11 +280,6 @@ enum SortUpdateManyUserInput {
     _ID_DESC
 }
 
-enum SortUpdateOneProfileInput {
-    _ID_ASC
-    _ID_DESC
-}
-
 enum SortUpdateOneUserInput {
     EMAIL_ASC
     EMAIL_DESC
@@ -504,15 +287,6 @@ enum SortUpdateOneUserInput {
     NAME_DESC
     _ID_ASC
     _ID_DESC
-}
-
-input CreateManyProfileInput {
-    createdAt: Date
-    favourite_color: String
-    some_date: Date
-    some_number: Float
-    updatedAt: Date
-    user: MongoID
 }
 
 input CreateManyUserInput {
@@ -523,51 +297,12 @@ input CreateManyUserInput {
     updatedAt: Date
 }
 
-input CreateOneProfileInput {
-    createdAt: Date
-    favourite_color: String
-    some_date: Date
-    some_number: Float
-    updatedAt: Date
-    user: MongoID
-}
-
 input CreateOneUserInput {
     createdAt: Date
     email: String!
     name: String!
     password: String!
     updatedAt: Date
-}
-
-input FilterCountProfileInput {
-    AND: [FilterCountProfileInput!]
-    OR: [FilterCountProfileInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterCountProfileOperatorsInput
-    createdAt: Date
-    favourite_color: String
-    some_date: Date
-    some_number: Float
-    updatedAt: Date
-    user: MongoID
-}
-
-"For performance reason this type contains only *indexed* fields."
-input FilterCountProfileOperatorsInput {
-    _id: FilterCountProfile_idOperatorsInput
-}
-
-input FilterCountProfile_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
 }
 
 input FilterCountUserEmailOperatorsInput {
@@ -615,36 +350,6 @@ input FilterCountUserOperatorsInput {
 }
 
 input FilterCountUser_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
-}
-
-input FilterFindManyProfileInput {
-    AND: [FilterFindManyProfileInput!]
-    OR: [FilterFindManyProfileInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterFindManyProfileOperatorsInput
-    createdAt: Date
-    favourite_color: String
-    some_date: Date
-    some_number: Float
-    updatedAt: Date
-    user: MongoID
-}
-
-"For performance reason this type contains only *indexed* fields."
-input FilterFindManyProfileOperatorsInput {
-    _id: FilterFindManyProfile_idOperatorsInput
-}
-
-input FilterFindManyProfile_idOperatorsInput {
     exists: Boolean
     gt: MongoID
     gte: MongoID
@@ -710,36 +415,6 @@ input FilterFindManyUser_idOperatorsInput {
     nin: [MongoID]
 }
 
-input FilterFindOneProfileInput {
-    AND: [FilterFindOneProfileInput!]
-    OR: [FilterFindOneProfileInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterFindOneProfileOperatorsInput
-    createdAt: Date
-    favourite_color: String
-    some_date: Date
-    some_number: Float
-    updatedAt: Date
-    user: MongoID
-}
-
-"For performance reason this type contains only *indexed* fields."
-input FilterFindOneProfileOperatorsInput {
-    _id: FilterFindOneProfile_idOperatorsInput
-}
-
-input FilterFindOneProfile_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
-}
-
 input FilterFindOneUserEmailOperatorsInput {
     exists: Boolean
     gt: String
@@ -785,36 +460,6 @@ input FilterFindOneUserOperatorsInput {
 }
 
 input FilterFindOneUser_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
-}
-
-input FilterRemoveManyProfileInput {
-    AND: [FilterRemoveManyProfileInput!]
-    OR: [FilterRemoveManyProfileInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterRemoveManyProfileOperatorsInput
-    createdAt: Date
-    favourite_color: String
-    some_date: Date
-    some_number: Float
-    updatedAt: Date
-    user: MongoID
-}
-
-"For performance reason this type contains only *indexed* fields."
-input FilterRemoveManyProfileOperatorsInput {
-    _id: FilterRemoveManyProfile_idOperatorsInput
-}
-
-input FilterRemoveManyProfile_idOperatorsInput {
     exists: Boolean
     gt: MongoID
     gte: MongoID
@@ -880,36 +525,6 @@ input FilterRemoveManyUser_idOperatorsInput {
     nin: [MongoID]
 }
 
-input FilterRemoveOneProfileInput {
-    AND: [FilterRemoveOneProfileInput!]
-    OR: [FilterRemoveOneProfileInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterRemoveOneProfileOperatorsInput
-    createdAt: Date
-    favourite_color: String
-    some_date: Date
-    some_number: Float
-    updatedAt: Date
-    user: MongoID
-}
-
-"For performance reason this type contains only *indexed* fields."
-input FilterRemoveOneProfileOperatorsInput {
-    _id: FilterRemoveOneProfile_idOperatorsInput
-}
-
-input FilterRemoveOneProfile_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
-}
-
 input FilterRemoveOneUserEmailOperatorsInput {
     exists: Boolean
     gt: String
@@ -955,36 +570,6 @@ input FilterRemoveOneUserOperatorsInput {
 }
 
 input FilterRemoveOneUser_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
-}
-
-input FilterUpdateManyProfileInput {
-    AND: [FilterUpdateManyProfileInput!]
-    OR: [FilterUpdateManyProfileInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterUpdateManyProfileOperatorsInput
-    createdAt: Date
-    favourite_color: String
-    some_date: Date
-    some_number: Float
-    updatedAt: Date
-    user: MongoID
-}
-
-"For performance reason this type contains only *indexed* fields."
-input FilterUpdateManyProfileOperatorsInput {
-    _id: FilterUpdateManyProfile_idOperatorsInput
-}
-
-input FilterUpdateManyProfile_idOperatorsInput {
     exists: Boolean
     gt: MongoID
     gte: MongoID
@@ -1050,36 +635,6 @@ input FilterUpdateManyUser_idOperatorsInput {
     nin: [MongoID]
 }
 
-input FilterUpdateOneProfileInput {
-    AND: [FilterUpdateOneProfileInput!]
-    OR: [FilterUpdateOneProfileInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterUpdateOneProfileOperatorsInput
-    createdAt: Date
-    favourite_color: String
-    some_date: Date
-    some_number: Float
-    updatedAt: Date
-    user: MongoID
-}
-
-"For performance reason this type contains only *indexed* fields."
-input FilterUpdateOneProfileOperatorsInput {
-    _id: FilterUpdateOneProfile_idOperatorsInput
-}
-
-input FilterUpdateOneProfile_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
-}
-
 input FilterUpdateOneUserEmailOperatorsInput {
     exists: Boolean
     gt: String
@@ -1135,15 +690,6 @@ input FilterUpdateOneUser_idOperatorsInput {
     nin: [MongoID]
 }
 
-input UpdateByIdProfileInput {
-    createdAt: Date
-    favourite_color: String
-    some_date: Date
-    some_number: Float
-    updatedAt: Date
-    user: MongoID
-}
-
 input UpdateByIdUserInput {
     createdAt: Date
     email: String
@@ -1152,30 +698,12 @@ input UpdateByIdUserInput {
     updatedAt: Date
 }
 
-input UpdateManyProfileInput {
-    createdAt: Date
-    favourite_color: String
-    some_date: Date
-    some_number: Float
-    updatedAt: Date
-    user: MongoID
-}
-
 input UpdateManyUserInput {
     createdAt: Date
     email: String
     name: String
     password: String
     updatedAt: Date
-}
-
-input UpdateOneProfileInput {
-    createdAt: Date
-    favourite_color: String
-    some_date: Date
-    some_number: Float
-    updatedAt: Date
-    user: MongoID
 }
 
 input UpdateOneUserInput {
