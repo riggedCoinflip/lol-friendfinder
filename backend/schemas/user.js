@@ -1,5 +1,5 @@
 const {UserTC} = require('../models/user');
-const {createUserOneHashPassword} = require("../resolvers/user");
+const {createUserOneHashPassword, userLogin} = require("../resolvers/user");
 
 const UserQuery = {
     //graphql-compose-mongoose resolvers
@@ -24,6 +24,7 @@ const UserMutation = {
     userRemoveMany: UserTC.getResolver('removeMany'),
     //custom resolvers
     userCreateOneHashPassword: createUserOneHashPassword,
+    userLogin: userLogin,
 };
 
 
