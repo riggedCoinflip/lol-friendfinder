@@ -37,6 +37,8 @@ type Mutation {
     userCreateOne(record: CreateOneUserInput!): CreateOneUserPayload
     "Create one document with mongoose defaults, setters, hooks and validation"
     userCreateOneHashPassword(record: CreateOneUserInput!): CreateOneUserPayload
+    "Provide a valid username + password to login the user"
+    userLogin(name: String!, password: String!): User
     "Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document."
     userRemoveById(_id: MongoID!): RemoveByIdUserPayload
     "Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation. "
