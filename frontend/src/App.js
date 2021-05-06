@@ -4,11 +4,11 @@ import {
     Route,
 } from 'react-router-dom';
 
-import Navbar from './components/Navbar.component';
-import Home from './components/Home.component';
-import Login from './components/login.component';
-import SignUp from './components/signup.component';
-import Users from './components/Users.component';
+import Navbar from './components/Navbar';
+import Home from './components/Home';
+import Login from './components/Login';
+import SignUp from './components/Signup';
+import Users from './components/Users';
 
 
 
