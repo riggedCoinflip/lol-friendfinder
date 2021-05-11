@@ -1,42 +1,49 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const { graphqlHTTP } = require('express-graphql');
-require('dotenv').config();
+import assert from "assert";
+import express from "express";
+import dotenv from "dotenv";
+import {ApolloServer} from "apollo-server-express";
+import mongoose from "mongoose";
 
-const port = process.env.PORT || 5000;
-const ATLAS_URI = process.env.ATLAS_URI
+import isAuth from "./src/middleware/jwt/is-auth.js";
+import {graphqlSchema} from "./src/schemas/index.js";
 
-// MIDDLEWARE
-const app = express();
-//app.use(express.json());
-app.use(cors());
 
-const graphqlSchema = require('./schemas/index');
-app.use(
-    "/graphql",
-    graphqlHTTP({
-        context: { startTime: Date.now() },
-        graphiql: true,
-        schema: graphqlSchema,
-    })
-)
+// allow use of dotenv
+dotenv.config()
 
+
+// Connect MongoDB
+const ATLAS_URI = process.env.ATLAS_URI;
+assert(ATLAS_URI, "No MongoDB Atlas URI specified")
 mongoose
     .connect(ATLAS_URI, {
         useNewUrlParser: true,
         useCreateIndex: true,
         useUnifiedTopology: true,
-})
-    .then(() => console.log("MongoDB database connection established successfully"))
-    .catch(err => console.log(err));
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-db.once('open', () => {
-    app.listen(port, () => {
-        console.log(`Server is running on port: ${port}`)
     })
-})
+    .then(() => {
+        console.log('Connection to DB successful');
+    })
+    .catch(err => {
+        console.log(`Connection to DB Error: ${err}`);
+    });
+
+//express
+const app = express();
+app.use(isAuth);
+
+
+//apollo
+const apollo = new ApolloServer({
+    schema: graphqlSchema,
+    context: ({req, res}) => ({req, res})
+});
+apollo.applyMiddleware({app, path: "/graphql"});
+
+
+//launch
+const PORT = process.env.PORT || 5000;
+app.listen({port: PORT}, () => {
+    console.log(`🚀 Apollo Server ready on http://localhost:${PORT}${apollo.graphqlPath}`);
+});
 
