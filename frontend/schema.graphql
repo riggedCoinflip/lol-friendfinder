@@ -10,17 +10,6 @@ interface ErrorInterface {
     message: String
 }
 
-type CreateManyUserPayload {
-    "Number of created documents"
-    createdCount: Int!
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Documents IDs"
-    recordIds: [MongoID!]!
-    "Created documents"
-    records: [User!]
-}
-
 type CreateOneUserPayload {
     "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
     error: ErrorInterface
@@ -31,162 +20,36 @@ type CreateOneUserPayload {
 }
 
 type Mutation {
-    "Creates Many documents with mongoose defaults, setters, hooks and validation"
-    userCreateMany(records: [CreateManyUserInput!]!): CreateManyUserPayload
     "Create one document with mongoose defaults, setters, hooks and validation"
     userCreateOne(record: CreateOneUserInput!): CreateOneUserPayload
     "Create one document with mongoose defaults, setters, hooks and validation"
-    userCreateOneHashPassword(record: CreateOneUserInput!): CreateOneUserPayload
-    "Provide a valid username + password to login the user"
-    userLogin(name: String!, password: String!): User
-    "Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document."
-    userRemoveById(_id: MongoID!): RemoveByIdUserPayload
-    "Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation. "
-    userRemoveMany(
-        "Filter by fields"
-        filter: FilterRemoveManyUserInput!,
-        limit: Int = 100
-    ): RemoveManyUserPayload
-    "Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document."
-    userRemoveOne(
-        "Filter by fields"
-        filter: FilterRemoveOneUserInput,
-        sort: SortRemoveOneUserInput
-    ): RemoveOneUserPayload
-    "Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it."
-    userUpdateById(_id: MongoID!, record: UpdateByIdUserInput!): UpdateByIdUserPayload
-    "Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation. "
-    userUpdateMany(
-        "Filter by fields"
-        filter: FilterUpdateManyUserInput,
-        limit: Int = 100,
-        record: UpdateManyUserInput!,
-        skip: Int,
-        sort: SortUpdateManyUserInput
-    ): UpdateManyUserPayload
-    "Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it."
-    userUpdateOne(
-        "Filter by fields"
-        filter: FilterUpdateOneUserInput,
-        record: UpdateOneUserInput!,
-        skip: Int,
-        sort: SortUpdateOneUserInput
-    ): UpdateOneUserPayload
-}
-
-"Information about pagination in a connection."
-type PageInfo {
-    "When paginating forwards, the cursor to continue."
-    endCursor: String
-    "When paginating forwards, are there more items?"
-    hasNextPage: Boolean!
-    "When paginating backwards, are there more items?"
-    hasPreviousPage: Boolean!
-    "When paginating backwards, the cursor to continue."
-    startCursor: String
-}
-
-type PaginationInfo {
-    currentPage: Int!
-    hasNextPage: Boolean
-    hasPreviousPage: Boolean
-    itemCount: Int
-    pageCount: Int
-    perPage: Int!
+    x(record: CreateOneUserInput!): CreateOneUserPayload
 }
 
 type Query {
     userById(_id: MongoID!): User
-    userByIds(_ids: [MongoID!]!, limit: Int = 100, sort: SortFindByIdsUserInput): [User!]!
-    userConnection(
-        "Forward pagination argument for returning at most first edges"
-        after: String,
-        "Backward pagination argument for returning at most last edges"
-        before: String,
-        "Filter by fields"
-        filter: FilterFindManyUserInput,
-        "Forward pagination argument for returning at most first edges"
-        first: Int,
-        "Backward pagination argument for returning at most last edges"
-        last: Int,
-        "Sort argument for data ordering"
-        sort: SortConnectionUserEnum = _ID_DESC
-    ): UserConnection
-    userCount(
-        "Filter by fields"
-        filter: FilterCountUserInput
-    ): Int
-    userMany(
-        "Filter by fields"
-        filter: FilterFindManyUserInput,
-        limit: Int = 100,
-        skip: Int,
-        sort: SortFindManyUserInput
-    ): [User!]!
-    userOne(
+    userOneAdmin(
         "Filter by fields"
         filter: FilterFindOneUserInput,
         skip: Int,
         sort: SortFindOneUserInput
     ): User
-    userPagination(
+    userX(
         "Filter by fields"
-        filter: FilterFindManyUserInput,
-        "Page number for displaying"
-        page: Int,
-        perPage: Int = 20,
-        sort: SortFindManyUserInput
-    ): UserPagination
+        filter: FilterFindOneReducedUserCustomQueryInput,
+        skip: Int,
+        sort: SortFindOneReducedUserCustomQueryInput
+    ): ReducedUser
 }
 
-type RemoveByIdUserPayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Removed document"
-    record: User
-    "Document ID"
-    recordId: MongoID
-}
-
-type RemoveManyUserPayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Affected documents number"
-    numAffected: Int
-}
-
-type RemoveOneUserPayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Removed document"
-    record: User
-    "Document ID"
-    recordId: MongoID
-}
-
-type UpdateByIdUserPayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Updated document"
-    record: User
-    "Document ID"
-    recordId: MongoID
-}
-
-type UpdateManyUserPayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Affected documents number"
-    numAffected: Int
-}
-
-type UpdateOneUserPayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Updated document"
-    record: User
-    "Document ID"
-    recordId: MongoID
+type ReducedUser {
+    _id: MongoID!
+    createdAt: Date
+    email: String!
+    name: String!
+    password: String!
+    someOtherField: String
+    updatedAt: Date
 }
 
 type User {
@@ -195,56 +58,11 @@ type User {
     email: String!
     name: String!
     password: String!
+    someOtherField: String
     updatedAt: Date
 }
 
-"A connection to a list of items."
-type UserConnection {
-    "Total object count."
-    count: Int!
-    "Information to aid in pagination."
-    edges: [UserEdge!]!
-    "Information to aid in pagination."
-    pageInfo: PageInfo!
-}
-
-"An edge in a connection."
-type UserEdge {
-    "A cursor for use in pagination"
-    cursor: String!
-    "The item at the end of the edge"
-    node: User!
-}
-
-"List of items with pagination."
-type UserPagination {
-    "Total object count."
-    count: Int
-    "Array of objects."
-    items: [User!]
-    "Information to aid in pagination."
-    pageInfo: PaginationInfo!
-}
-
-enum SortConnectionUserEnum {
-    EMAIL_ASC
-    EMAIL_DESC
-    NAME_ASC
-    NAME_DESC
-    _ID_ASC
-    _ID_DESC
-}
-
-enum SortFindByIdsUserInput {
-    EMAIL_ASC
-    EMAIL_DESC
-    NAME_ASC
-    NAME_DESC
-    _ID_ASC
-    _ID_DESC
-}
-
-enum SortFindManyUserInput {
+enum SortFindOneReducedUserCustomQueryInput {
     EMAIL_ASC
     EMAIL_DESC
     NAME_ASC
@@ -262,41 +80,6 @@ enum SortFindOneUserInput {
     _ID_DESC
 }
 
-enum SortRemoveOneUserInput {
-    EMAIL_ASC
-    EMAIL_DESC
-    NAME_ASC
-    NAME_DESC
-    _ID_ASC
-    _ID_DESC
-}
-
-enum SortUpdateManyUserInput {
-    EMAIL_ASC
-    EMAIL_DESC
-    NAME_ASC
-    NAME_DESC
-    _ID_ASC
-    _ID_DESC
-}
-
-enum SortUpdateOneUserInput {
-    EMAIL_ASC
-    EMAIL_DESC
-    NAME_ASC
-    NAME_DESC
-    _ID_ASC
-    _ID_DESC
-}
-
-input CreateManyUserInput {
-    createdAt: Date
-    email: String!
-    name: String!
-    password: String!
-    updatedAt: Date
-}
-
 input CreateOneUserInput {
     createdAt: Date
     email: String!
@@ -305,32 +88,20 @@ input CreateOneUserInput {
     updatedAt: Date
 }
 
-input FilterCountUserEmailOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
-}
-
-input FilterCountUserInput {
-    AND: [FilterCountUserInput!]
-    OR: [FilterCountUserInput!]
+input FilterFindOneReducedUserCustomQueryInput {
+    AND: [FilterFindOneReducedUserCustomQueryInput!]
+    OR: [FilterFindOneReducedUserCustomQueryInput!]
     _id: MongoID
     "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterCountUserOperatorsInput
+    _operators: FilterFindOneReducedUserOperatorsCustomQueryInput
     createdAt: Date
-    email: String
     name: String
     password: String
+    someOtherField: String
     updatedAt: Date
 }
 
-input FilterCountUserNameOperatorsInput {
+input FilterFindOneReducedUserNameOperatorsCustomQueryInput {
     exists: Boolean
     gt: String
     gte: String
@@ -343,68 +114,12 @@ input FilterCountUserNameOperatorsInput {
 }
 
 "For performance reason this type contains only *indexed* fields."
-input FilterCountUserOperatorsInput {
-    _id: FilterCountUser_idOperatorsInput
-    email: FilterCountUserEmailOperatorsInput
-    name: FilterCountUserNameOperatorsInput
+input FilterFindOneReducedUserOperatorsCustomQueryInput {
+    _id: FilterFindOneReducedUser_idOperatorsCustomQueryInput
+    name: FilterFindOneReducedUserNameOperatorsCustomQueryInput
 }
 
-input FilterCountUser_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
-}
-
-input FilterFindManyUserEmailOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
-}
-
-input FilterFindManyUserInput {
-    AND: [FilterFindManyUserInput!]
-    OR: [FilterFindManyUserInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterFindManyUserOperatorsInput
-    createdAt: Date
-    email: String
-    name: String
-    password: String
-    updatedAt: Date
-}
-
-input FilterFindManyUserNameOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
-}
-
-"For performance reason this type contains only *indexed* fields."
-input FilterFindManyUserOperatorsInput {
-    _id: FilterFindManyUser_idOperatorsInput
-    email: FilterFindManyUserEmailOperatorsInput
-    name: FilterFindManyUserNameOperatorsInput
-}
-
-input FilterFindManyUser_idOperatorsInput {
+input FilterFindOneReducedUser_idOperatorsCustomQueryInput {
     exists: Boolean
     gt: MongoID
     gte: MongoID
@@ -437,6 +152,7 @@ input FilterFindOneUserInput {
     email: String
     name: String
     password: String
+    someOtherField: String
     updatedAt: Date
 }
 
@@ -468,250 +184,6 @@ input FilterFindOneUser_idOperatorsInput {
     lte: MongoID
     ne: MongoID
     nin: [MongoID]
-}
-
-input FilterRemoveManyUserEmailOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
-}
-
-input FilterRemoveManyUserInput {
-    AND: [FilterRemoveManyUserInput!]
-    OR: [FilterRemoveManyUserInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterRemoveManyUserOperatorsInput
-    createdAt: Date
-    email: String
-    name: String
-    password: String
-    updatedAt: Date
-}
-
-input FilterRemoveManyUserNameOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
-}
-
-"For performance reason this type contains only *indexed* fields."
-input FilterRemoveManyUserOperatorsInput {
-    _id: FilterRemoveManyUser_idOperatorsInput
-    email: FilterRemoveManyUserEmailOperatorsInput
-    name: FilterRemoveManyUserNameOperatorsInput
-}
-
-input FilterRemoveManyUser_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
-}
-
-input FilterRemoveOneUserEmailOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
-}
-
-input FilterRemoveOneUserInput {
-    AND: [FilterRemoveOneUserInput!]
-    OR: [FilterRemoveOneUserInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterRemoveOneUserOperatorsInput
-    createdAt: Date
-    email: String
-    name: String
-    password: String
-    updatedAt: Date
-}
-
-input FilterRemoveOneUserNameOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
-}
-
-"For performance reason this type contains only *indexed* fields."
-input FilterRemoveOneUserOperatorsInput {
-    _id: FilterRemoveOneUser_idOperatorsInput
-    email: FilterRemoveOneUserEmailOperatorsInput
-    name: FilterRemoveOneUserNameOperatorsInput
-}
-
-input FilterRemoveOneUser_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
-}
-
-input FilterUpdateManyUserEmailOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
-}
-
-input FilterUpdateManyUserInput {
-    AND: [FilterUpdateManyUserInput!]
-    OR: [FilterUpdateManyUserInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterUpdateManyUserOperatorsInput
-    createdAt: Date
-    email: String
-    name: String
-    password: String
-    updatedAt: Date
-}
-
-input FilterUpdateManyUserNameOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
-}
-
-"For performance reason this type contains only *indexed* fields."
-input FilterUpdateManyUserOperatorsInput {
-    _id: FilterUpdateManyUser_idOperatorsInput
-    email: FilterUpdateManyUserEmailOperatorsInput
-    name: FilterUpdateManyUserNameOperatorsInput
-}
-
-input FilterUpdateManyUser_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
-}
-
-input FilterUpdateOneUserEmailOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
-}
-
-input FilterUpdateOneUserInput {
-    AND: [FilterUpdateOneUserInput!]
-    OR: [FilterUpdateOneUserInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterUpdateOneUserOperatorsInput
-    createdAt: Date
-    email: String
-    name: String
-    password: String
-    updatedAt: Date
-}
-
-input FilterUpdateOneUserNameOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
-}
-
-"For performance reason this type contains only *indexed* fields."
-input FilterUpdateOneUserOperatorsInput {
-    _id: FilterUpdateOneUser_idOperatorsInput
-    email: FilterUpdateOneUserEmailOperatorsInput
-    name: FilterUpdateOneUserNameOperatorsInput
-}
-
-input FilterUpdateOneUser_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
-}
-
-input UpdateByIdUserInput {
-    createdAt: Date
-    email: String
-    name: String
-    password: String
-    updatedAt: Date
-}
-
-input UpdateManyUserInput {
-    createdAt: Date
-    email: String
-    name: String
-    password: String
-    updatedAt: Date
-}
-
-input UpdateOneUserInput {
-    createdAt: Date
-    email: String
-    name: String
-    password: String
-    updatedAt: Date
 }
 
 
