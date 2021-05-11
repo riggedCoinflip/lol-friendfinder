@@ -1,7 +1,7 @@
 # Installation
 ```shell
-cd backend && node install
-cd ../frontend && node install
+cd backend && npm install
+cd ../frontend && npm install
 ```
 _If chokidar errors, try `npm update --force`_
 # Run
