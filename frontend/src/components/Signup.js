@@ -230,6 +230,7 @@ export default function Signup() {
             <div className="form-group">
                 <label>Email address</label>
                 <input
+                    id="email-input"
                     className="form-control"
                     name="email"
                     type="email"
@@ -251,6 +252,7 @@ export default function Signup() {
             <div className="form-group">
                 <label>Name</label>
                 <input
+                    id="username-input"
                     className="form-control"
                     name="username"
                     type="text"
@@ -275,6 +277,7 @@ export default function Signup() {
                 <label>Password</label>
                 <div className="input-group">
                     <input
+                        id="password-input"
                         name="password"
                         type={state.passwordInvisible ? "password" : "text"}
                         className="form-control"
@@ -312,6 +315,7 @@ export default function Signup() {
             <div className="form-group">
                 <label>Confirm Password</label>
                 <input
+                    id="password2-input"
                     name="password2"
                     type="password"
                     className="form-control"
