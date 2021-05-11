@@ -1,8 +1,7 @@
 # Installation
 ```shell
 cd backend && node install
-cd ..
-cd frontend && node install
+cd ../frontend && node install
 ```
 
 # Run
