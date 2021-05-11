@@ -22,7 +22,7 @@ type CreateOneUserLoginSignupPayload {
 type Mutation {
     login(email: String!, password: String!): UpdateByIdUserAdminPayload
     "Create one document with mongoose defaults, setters, hooks and validation"
-    userCreateOne(record: CreateOneUserLoginSignupInput!): CreateOneUserLoginSignupPayload
+    signup(record: CreateOneUserLoginSignupInput!): CreateOneUserLoginSignupPayload
 }
 
 type Query {
@@ -49,7 +49,7 @@ type UpdateByIdUserAdminPayload {
     recordId: MongoID
 }
 
-"Full User Model. Exposed only for Admins - currently: exposed to every1"
+"Full User Model. Exposed only for Admins - currently: exposed after login"
 type UserAdmin {
     _id: MongoID!
     createdAt: Date
