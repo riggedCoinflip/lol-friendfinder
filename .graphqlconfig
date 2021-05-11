@@ -1,5 +1,5 @@
 {
-  "name": "Untitled GraphQL Schema",
+  "name": "Default GraphQL Schema",
   "schemaPath": "schema.graphql",
   "extensions": {
     "endpoints": {
@@ -8,7 +8,7 @@
         "headers": {
           "user-agent": "JS GraphQL"
         },
-        "introspect": true
+        "introspect": false
       }
     }
   }
