@@ -1,8 +1,7 @@
 # Installation
 ```shell
-cd backend && npm install
-cd ..
-cd frontend && npm install
+cd backend && node install
+cd ../frontend && node install
 ```
 
 # Run
