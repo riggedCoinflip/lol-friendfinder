@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     Switch,
-    Route,
+    Route
 } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
@@ -18,10 +18,10 @@ export default function App() {
             <Navbar/>
 
             <Switch>
-                <Route exact path="/" component={Home}/>
+                <Route exact path="/"  component={Home}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/signup" component={SignUp}/>
-                <Route path="/users" component={Users}/>
+                <Route exact path="/users" component={ () => <Users authorized={false}/>} />
             </Switch>
         </div>
     );

@@ -1,6 +1,6 @@
-import React, {useState} from "react";
-import {gql, useMutation} from "@apollo/client";
-import {useHistory} from "react-router-dom";
+import React, { useState } from "react";
+import { gql, useMutation } from "@apollo/client";
+import { useHistory } from "react-router-dom";
 
 //TODO use mutation query
 const LOGIN_USER = gql`
@@ -20,6 +20,11 @@ export default function Login() {
         username: "",
         password: "",
     });
+/* ToDo is this a better alternative?
+    const [username, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+    */
+
     const [errored, setErrored] = useState(false);
     const [submitLogin, {data}] = useMutation(LOGIN_USER);
     const history = useHistory();

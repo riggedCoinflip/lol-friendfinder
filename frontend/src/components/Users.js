@@ -1,5 +1,8 @@
 import React from 'react';
 import {useQuery, gql} from '@apollo/client';
+import {Redirect} from 'react-router-dom';
+
+
 
 const GET_USERS = gql`
     query GetUsers{
@@ -12,8 +15,16 @@ const GET_USERS = gql`
 
 
 //TODO this component is only used for testing. delete on prod
-export default function Users() {
+export default function Users({ authorized }) {
+
+  
+
     const {loading, error, data} = useQuery(GET_USERS);
+    //Is the user authorized/logged in? 
+    if (!authorized) {
+        alert("please login to see the other users ;)");
+        return <Redirect to="/" />;
+        }
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
