@@ -63,7 +63,12 @@ UserTCAdmin.addResolver({
         if (!isEqual) {
             throw new Error('Password is not correct.');
         }
-        const token = jwt.sign({_id: user._id, username: user.name, role: user.role}, process.env.JWT_SECRET, {
+        const token = jwt.sign({
+            _id: user._id,
+            username: user.name,
+            role: user.role
+        },
+            process.env.JWT_SECRET, {
             expiresIn: '24h'
         });
         return {
