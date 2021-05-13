@@ -3,14 +3,18 @@ import jwt from 'jsonwebtoken';
 export default (req, res, next) => {
     const token = req.headers['x-auth-token'];
     if (!token) {
-        req.user.isAuth = false;
+        req.user = {
+            isAuth: false,
+        }
         return next();
     }
     let decodedToken;
     try {
         decodedToken = jwt.verify(token, process.env.JWT_SECRET)
     } catch (err) {
-        req.user.isAuth = false;
+        req.user = {
+            isAuth: false,
+        }
         return next();
     }
 
@@ -18,7 +22,7 @@ export default (req, res, next) => {
         isAuth: true,
         _id: decodedToken._id,
         name: decodedToken.username,
-        roles: decodedToken.role,
+        role: decodedToken.role,
     }
 
     console.log(req)

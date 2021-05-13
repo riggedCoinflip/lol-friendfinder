@@ -1,3 +1,5 @@
+import requireAuthentication from "./require-authentication.js"
+
 //TODO wrap this with graphql-middleware:
 // https://github.com/graphql-compose/graphql-compose-mongoose/issues/158
 // https://github.com/maticzav/graphql-middleware
@@ -11,7 +13,7 @@
  * @return {Array.<Object>} resolvers
  */
 export default (resolvers, role="admin") => {
-    //TODO integrate require-authentication
+    resolvers = requireAuthentication(resolvers)
     Object.keys(resolvers).forEach((k) => {
         resolvers[k] = resolvers[k].wrapResolve(next => async rp => {
             if (rp.context.req.user.role !== role) {
