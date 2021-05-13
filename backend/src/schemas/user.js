@@ -23,6 +23,20 @@ UserTCPublic.addResolver({
 //*** custom mutations ***
 //************************
 
+//TODO
+/*
+UserTCPublic.addResolver({
+    kind: 'mutation',
+    name: 'userUpdateSelf',
+    description: "update schema of currently logged in user",
+    type: UserTCPublic.mongooseResolvers.updateById().getType,
+    resolve: async ({args, context}) => {
+        return User.updateOne();
+    }
+})
+ */
+
+
 const signup = UserTCSignup.mongooseResolvers.createOne().wrapResolve(next => async rp => {
     const record = rp.args.record
 
@@ -54,14 +68,14 @@ UserTCAdmin.addFields({
     }
 })
 
-UserTCAdmin.addResolver({
+UserTCPublic.addResolver({
     kind: 'mutation',
     name: 'login',
     args: {
         email: 'String!',
         password: 'String!',
     },
-    type: UserTCAdmin.mongooseResolvers.updateById().getType(),
+    type: "String!",
     resolve: async ({args}) => {
         let user = await User.findOne({email: args.email});
 
@@ -80,12 +94,7 @@ UserTCAdmin.addResolver({
             process.env.JWT_SECRET, {
                 expiresIn: '24h'
             });
-        return {
-            record: {
-                email: user.email,
-                token: token,
-            }
-        }
+        return token
     }
 })
 
@@ -114,7 +123,7 @@ export const UserQuery = {
 
 export const UserMutation = {
     signup: signup,
-    login: UserTCAdmin.getResolver("login"),
+    login: UserTCPublic.getResolver("login"),
     ...requireAuthorization({
             userCreateOneAdmin: UserTCAdmin.mongooseResolvers.createOne(),
             userCreateManyAdmin: UserTCAdmin.mongooseResolvers.createMany(),
