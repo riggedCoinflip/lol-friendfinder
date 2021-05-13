@@ -7,8 +7,8 @@
  * If the user is not logged in, throw error (query will not resolve)
  * If authenticated, proceed
  * If not, query will not execute and error is shown instead
- * @param {Array.<Object>} resolvers
- * @return {Array.<Object>} resolvers
+ * @param resolvers
+ * @return resolvers
  */
 export default (resolvers) => {
     Object.keys(resolvers).forEach((k) => {

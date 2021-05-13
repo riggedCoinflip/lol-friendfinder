@@ -9,12 +9,20 @@ import requireAuthorization from "../middleware/jwt/require-authorization.js"
 //*** custom queries ***
 //**********************
 
+UserTCPublic.addResolver({
+    kind: 'query',
+    name: 'userSelf',
+    description: "get public schema of currently logged in user",
+    type: UserTCPublic.mongooseResolvers.findById().getType(),
+    resolve: async ({context}) => {
+        return User.findById(context.req.user._id);
+    }
+})
 
 //************************
 //*** custom mutations ***
 //************************
 
-//signup
 const signup = UserTCSignup.mongooseResolvers.createOne().wrapResolve(next => async rp => {
     const record = rp.args.record
 
@@ -81,16 +89,24 @@ UserTCAdmin.addResolver({
     }
 })
 
+
 //***************
 //*** EXPORTS ***
 //***************
 
 export const UserQuery = {
     ...requireAuthentication({
-        user: UserTCPublic.mongooseResolvers.findOne(),
-    })
+        userSelf: UserTCPublic.getResolver("userSelf"),
+        user: UserTCPublic.mongooseResolvers.findOne(), //TODO restrict filters
+    }),
     ...requireAuthorization({
-            userAdmin: UserTCAdmin.mongooseResolvers.findOne(),
+            userByIdAdmin: UserTCAdmin.mongooseResolvers.findById(),
+            userByIdsAdmin: UserTCAdmin.mongooseResolvers.findByIds(),
+            userOneAdmin: UserTCAdmin.mongooseResolvers.findOne(),
+            userManyAdmin: UserTCAdmin.mongooseResolvers.findMany(),
+            userCountAdmin: UserTCAdmin.mongooseResolvers.count(),
+            userConnectionAdmin: UserTCAdmin.mongooseResolvers.connection(),
+            userPaginationAdmin: UserTCAdmin.mongooseResolvers.pagination(),
         },
         "admin"
     ),
@@ -100,3 +116,5 @@ export const UserMutation = {
     signup: signup,
     login: UserTCAdmin.getResolver("login"),
 };
+
+

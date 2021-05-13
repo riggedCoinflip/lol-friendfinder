@@ -25,6 +25,5 @@ export default (req, res, next) => {
         role: decodedToken.role,
     }
 
-    console.log(req)
     next();
 }
