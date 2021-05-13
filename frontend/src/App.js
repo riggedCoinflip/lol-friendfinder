@@ -6,10 +6,10 @@ import {
 
 import Navbar from './components/Navbar';
 import Home from './components/Home';
-import Logins from './components/LoginSignup';
+import Login from './components/Login';
 import SignUp from './components/Signup';
 import Users from './components/Users';
-import NavbarT from './components/NavbarT';
+//import NavbarT from './components/NavbarT';
 
 
 
@@ -21,7 +21,7 @@ export default function App() {
 
             <Switch>
                 <Route exact path="/"  component={Home}/>
-                <Route path="/login" component={Logins}/>
+                <Route path="/login" component={Login}/>
                 <Route path="/signup" component={SignUp}/>
                 <Route exact path="/users" component={ () => <Users authorized={true}/>} />
             </Switch>

@@ -41,6 +41,9 @@ import { useHistory } from 'react-router';
                             <li className=" nav-item">
                                 <Link to="/signup" className="nav-link text-warning" >Signup for free!</Link>
                             </li>
+                            <li className="nav-item">
+                                <Link to="/login" className="nav-link" >Login</Link>
+                            </li>
                         </ul>
                             
                     </div>
