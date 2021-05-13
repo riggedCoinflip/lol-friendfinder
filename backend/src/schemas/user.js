@@ -2,6 +2,7 @@ import {User, UserTCAdmin, UserTCSignup, UserTCPublic} from "../models/user.js";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt";
 import {emailValid, passwordValid, usernameValid} from "../../shared_utils/index.js"
+import requireAuthentication from "../middleware/jwt/require-authentication.js"
 import requireAuthorization from "../middleware/jwt/require-authorization.js"
 
 //**********************
@@ -85,7 +86,9 @@ UserTCAdmin.addResolver({
 //***************
 
 export const UserQuery = {
-    user: UserTCPublic.mongooseResolvers.findOne(),
+    ...requireAuthentication({
+        user: UserTCPublic.mongooseResolvers.findOne(),
+    })
     ...requireAuthorization({
             userAdmin: UserTCAdmin.mongooseResolvers.findOne(),
         },
