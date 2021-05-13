@@ -1,53 +1,47 @@
-import React from 'react';
-import {useQuery, gql} from '@apollo/client';
-import {Redirect} from 'react-router-dom';
-
-
+import { useState, React } from 'react';
+import { useQuery, gql } from '@apollo/client';
 
 const GET_USERS = gql`
-    query GetUsers{
-        userMany {
-            name,
-            email
-        }
-    }
-`;
+       { user
+         {
+            name
+           }          
+        }`;
 
 
-//TODO this component is only used for testing. delete on prod
-export default function Users({ authorized }) {
+const Users = () => {
+  //  const [users, setUsers] =  useState(null);
 
+const { loading, error, data } = useQuery(GET_USERS)
+if (loading) return <p>Loading...</p>;
+if (error) return <p>Error!</p>;
+//setUsers();
+console.log(data)
+
+return(
+<div>
   
+<p>Data is there, check the console</p>
 
-    const {loading, error, data} = useQuery(GET_USERS);
-    //Is the user authorized/logged in? 
-    if (!authorized) {
-        alert("please login to see the other users ;)");
-        return <Redirect to="/" />;
-        }
+{
+/*
+data.user &&
+          data.user.map((data, index) => {
+          
+            return (
+              <div key={index}>
+                <h3>ID {index + 1}</h3>
+                <h2>{data.name}</h2>
+              </div>
+            );
+        })
+    */
+    } 
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error :(</p>;
-
-    return <div className="Users">
-        <h1>List of Users</h1>
-        <table className="table table-striped">
-
-            <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-            </tr>
-            </thead>
-            <tbody>
-            {data.userMany.map(({name, email}) => (
-                <tr key={name}>
-                    <td>{name}</td>
-                    <td>{email}</td>
-                </tr>
-            ))}
-            </tbody>
-        </table>
-    </div>
-
+</div>);
 }
+
+
+
+
+export default Users;

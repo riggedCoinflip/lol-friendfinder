@@ -1,8 +1,16 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+//import { withRouter } from 'react-router';
+import { AUTH_TOKEN } from '../constants';
+import { useHistory } from 'react-router';
 
-export default class Navbar extends Component {
-    render() {
+
+//class Navbar extends Component {
+    const Navbar = () => {
+
+    //render() {
+        const history = useHistory();
+        const authToken = localStorage.getItem(AUTH_TOKEN);
         return (
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                 <div className="container-fluid">
@@ -33,13 +41,15 @@ export default class Navbar extends Component {
                             <li className=" nav-item">
                                 <Link to="/signup" className="nav-link text-warning" >Signup for free!</Link>
                             </li>
-                            <li className="nav-item">
-                                <Link to="/login" className="nav-link" >Login</Link>
-                            </li>
                         </ul>
+                            
                     </div>
                 </div>
+
+            
+                
             </nav>
         );
     }
-}
+
+export default Navbar;
