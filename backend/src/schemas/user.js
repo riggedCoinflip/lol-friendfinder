@@ -115,6 +115,16 @@ export const UserQuery = {
 export const UserMutation = {
     signup: signup,
     login: UserTCAdmin.getResolver("login"),
+    ...requireAuthorization({
+            userCreateOneAdmin: UserTCAdmin.mongooseResolvers.createOne(),
+            userCreateManyAdmin: UserTCAdmin.mongooseResolvers.createMany(),
+            userUpdateByIdAdmin: UserTCAdmin.mongooseResolvers.updateById(),
+            userUpdateOneAdmin: UserTCAdmin.mongooseResolvers.updateOne(),
+            userUpdateManyAdmin: UserTCAdmin.mongooseResolvers.updateMany(),
+            userRemoveByIdAdmin: UserTCAdmin.mongooseResolvers.removeById(),
+            userRemoveOneAdmin: UserTCAdmin.mongooseResolvers.removeOne(),
+            userRemoveManyAdmin: UserTCAdmin.mongooseResolvers.removeMany(),
+        },
+        "admin"
+    ),
 };
-
-
