@@ -11,7 +11,7 @@ import {graphqlSchema} from "./src/schemas/index.js";
 // allow use of dotenv
 dotenv.config()
 //check if env variables set
-assert(process.env.NODE_ENV, "NODE_ENV should be =development or =production") //development
+assert(process.env.NODE_ENV, "NODE_ENV should be =development or =production")
 assert(process.env.ATLAS_URI, "No MongoDB Atlas URI specified")
 assert(process.env.JWT_SECRET, "Set this to ANY String (for development)")
 
