@@ -88,7 +88,8 @@ An example query that requires authorization exposes all fields to us. To not le
 want to only allow specific users to use this query.  
 Currently, we only require the user to be authorized and not to be an admin - but the point stands.
 
-unlike the arguments we can set in the query, the JWT belongs in the context. Set it as an HTTP header: !img
+unlike the arguments we can set in the query, the JWT belongs in the context. Set it as an HTTP header:
+![](httpheaders.PNG)
 
 ```json
 {
