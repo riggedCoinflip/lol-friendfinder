@@ -1,6 +1,13 @@
 import mongoose from "mongoose";
 import {composeMongoose} from 'graphql-compose-mongoose';
 
+/*
+dev-admin:
+name: Admin
+email: admin@admin
+password: Admin123
+ */
+
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -39,7 +46,7 @@ export const User = mongoose.model('User', UserSchema)
 //see opts: https://graphql-compose.github.io/docs/plugins/plugin-mongoose.html#customization-options
 export const UserTCAdmin = composeMongoose(User, {
     name: "UserAdmin",
-    description: "Full User Model. Exposed only for Admins - currently: exposed after login" //TODO only expose for admins
+    description: "Full User Model. Exposed only for Admins"
 });
 
 
@@ -52,8 +59,8 @@ export const UserTCPublic = composeMongoose(User, {
     ]
 })
 
-export const UserTCLoginSignup = composeMongoose(User, {
-    name: "UserLoginSignup",
+export const UserTCSignup = composeMongoose(User, {
+    name: "UserSignup",
     description: "Login a user or create a new user",
     onlyFields: [
         "name",

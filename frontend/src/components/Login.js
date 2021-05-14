@@ -10,12 +10,7 @@ const LOGIN = gql`
         login(
             email: $email
             password: $password
-        ) {
-            record {
-                email,
-                token
-            }
-        }
+        )
     }
 `;
 
@@ -44,7 +39,8 @@ export default function Login() {
         })
             .then((res) => {
                 history.push("/")
-                alert(`Log in successful! - Token: ${res.data.login.record.token}`);
+
+                alert(`Log in successful! - Token: ${res.data.login}`);
                 console.log(res) //for now, log token //TODO find a way to store token
             })
             .catch(() => {
@@ -58,7 +54,7 @@ export default function Login() {
 
             <div className="form-group">
                 {/*TODO add min/maxlength validation from shared/utils. This will reduce server load as less (100% false) forms will be submitted*/}
-                <label>Name</label>
+                <label>Email</label>
                 <input
                     className="form-control"
                     name="email"
