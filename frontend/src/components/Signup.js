@@ -6,28 +6,22 @@ import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons'
 import * as validateSignup from "../shared/util/validateSignup"
 
 
+//TODO create check for email (missing GQL endpoint for that)
 const USER_EXISTS = gql`
-    query getAlreadyExists($name: String!, $email: String!) {
-        nameExists: userOne(filter: {
+    query user_exists($name: String!) {
+        nameExists: user(filter: {
             name: $name
-        })
-        {
+        }) {
             name
-        }
-
-        emailExists: userOne(filter: {
-            email: $email
-        })
-        {
-            email
         }
     }
 `
 
+
 const USER_CREATE = gql`
-    mutation createUser($name: String!, $email: String!, $password: String!) #TODO hash password server side
+    mutation signup($name: String!, $email: String!, $password: String!) #TODO hash password server side
     {
-        userCreateOneHashPassword(
+        signup(
             record: {
                 name: $name
                 email: $email
@@ -73,8 +67,15 @@ function validateOnChange(email, password, password2, specialChars) {
 function validateOnSubmit(response) {
     return {
         usernameAvailable: response.data?.nameExists?.name == null,
+        emailAvailable: true,
+    }
+    //TODO create user check
+    /*
+    return {
+        usernameAvailable: response.data?.nameExists?.name == null,
         emailAvailable: response.data?.emailExists?.email == null
     }
+     */
 }
 
 /**
@@ -174,7 +175,7 @@ export default function Signup() {
                 query: USER_EXISTS,
                 variables: {
                     name: state.username,
-                    email: state.email,
+                    //email: state.email,
                 }
             })
             .then(response => {
