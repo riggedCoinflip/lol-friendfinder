@@ -1,16 +1,19 @@
 import { useState, React } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { AUTH_TOKEN } from '../constants';
+import Button from '@material-ui/core/Button';
 
 const GET_USER = gql`
        { userOneAdmin(filter:{name:"Carlo"})
         {name
         email
-        role}         
+        role
+        favouriteColor
+        }         
         }`;
 
 
-const Users = () => {
+const Profile = () => {
   //  const [users, setUsers] =  useState(null);
 
   
@@ -27,29 +30,23 @@ if (error) return <p>Error!</p>;
 console.log(data)
 
 return(
-<div>
+<div id="user-info">
   
-<p>Coming soon ...</p>
+<p>Welcome {data.userOneAdmin.name}</p>
+<p>Role: {data.userOneAdmin.role}</p>
+<p>Fav color: {data.userOneAdmin.favouriteColor}</p>
+<p>Fav email: {data.userOneAdmin.email}</p>
+<Button  variant="outlined" color="primary"> Edit your profile WIP </Button>
+      
+    
 
-{
-/*
-data.user &&
-          data.user.map((data, index) => {
-          
-            return (
-              <div key={index}>
-                <h3>ID {index + 1}</h3>
-                <h2>{data.name}</h2>
-              </div>
-            );
-        })
-    */
-    } 
 
-</div>);
+</div>
+
+);
 }
 
 
 
 
-export default Users;
+export default Profile;

@@ -4,6 +4,14 @@ import { Link } from 'react-router-dom';
 import { AUTH_TOKEN } from '../constants';
 import { useHistory } from 'react-router';
 
+/* query showUserInfo 
+{ 
+  userOneAdmin(filter:{role:admin})
+        {name
+        email
+role}
+}
+*/
 
 //class Navbar extends Component {
     const NavbarT = () => {
