@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
 export default class Navbar extends Component {
+    
     render() {
+        const  Branch = 'Master';
         return (
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                 <div className="container-fluid">
@@ -17,7 +19,7 @@ export default class Navbar extends Component {
 
                     {/* Middle */}
                     <div className="mx-auto order-0">
-                        <Link to="/" className="navbar-brand mx-auto">Hooked</Link>
+                        <Link to="/" className="navbar-brand mx-auto">Hooked {Branch}</Link>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target=".dual-collapse" aria-controls=".dual-collapse"
                                 aria-expanded="false" aria-label="Toggle navigation">
