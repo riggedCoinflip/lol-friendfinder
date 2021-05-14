@@ -5,13 +5,26 @@ import {ApolloClient, InMemoryCache} from '@apollo/client';
 import {ApolloProvider} from '@apollo/client/react';
 import './main.scss';
 import App from './App';
+import { onError } from 'apollo-link-error';
 
 
 const client = new ApolloClient({
     uri: "http://localhost:5000/graphql",
     cache: new InMemoryCache(),
-});
-
+    onError: ({ networkError, graphQLErrors }) => {
+        console.log('graphQLErrors', graphQLErrors)
+        console.log('networkError', networkError)
+    
+}});
+const link = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors)
+      graphQLErrors.forEach(({ message, locations, path }) =>
+        console.log(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        )
+      );
+    if (networkError) console.log(`[Network error]: ${networkError}`);
+  });
 render(
     <Router>
         <ApolloProvider client={client}>

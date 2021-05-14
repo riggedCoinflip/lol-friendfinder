@@ -39,6 +39,7 @@ export default function Login() {
         })
             .then((res) => {
                 history.push("/")
+
                 alert(`Log in successful! - Token: ${res.data.login}`);
                 console.log(res) //for now, log token //TODO find a way to store token
             })

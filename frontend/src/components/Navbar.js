@@ -1,5 +1,8 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+//import { withRouter } from 'react-router';
+import { AUTH_TOKEN } from '../constants';
+import { useHistory } from 'react-router';
 
 export default class Navbar extends Component {
     render() {
@@ -17,7 +20,7 @@ export default class Navbar extends Component {
 
                     {/* Middle */}
                     <div className="mx-auto order-0">
-                        <Link to="/" className="navbar-brand mx-auto">Hooked</Link>
+                        <Link to="/" className="navbar-brand mx-auto">Hooked {Branch}</Link>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target=".dual-collapse" aria-controls=".dual-collapse"
                                 aria-expanded="false" aria-label="Toggle navigation">
@@ -26,7 +29,6 @@ export default class Navbar extends Component {
                     </div>
 
                     {/* Right */}
-
                     <div className="collapse navbar-collapse w-100 order-3 dual-collapse">
                         <ul className="navbar-nav ms-auto">
                             {/* TODO require not logged in */}
@@ -38,8 +40,9 @@ export default class Navbar extends Component {
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div>      
             </nav>
         );
     }
-}
+
+export default Navbar;
