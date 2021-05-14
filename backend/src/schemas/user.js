@@ -1,8 +1,9 @@
-import {User, UserTCAdmin, UserTCLoginSignup, UserTCPublic} from "../models/user.js";
+import {User, UserTCAdmin, UserTCSignup, UserTCPublic} from "../models/user.js";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt";
 import {emailValid, passwordValid, usernameValid} from "../../shared_utils/index.js"
-import requireAuth from "../middleware/jwt/require-auth.js"
+import requireAuthentication from "../middleware/jwt/require-authentication.js"
+import requireAuthorization from "../middleware/jwt/require-authorization.js"
 
 //**********************
 //*** custom queries ***
@@ -14,7 +15,7 @@ import requireAuth from "../middleware/jwt/require-auth.js"
 //************************
 
 //signup
-const signup = UserTCLoginSignup.mongooseResolvers.createOne().wrapResolve(next => async rp => {
+const signup = UserTCSignup.mongooseResolvers.createOne().wrapResolve(next => async rp => {
     const record = rp.args.record
 
     //OPTIMIZE give more granular errors
@@ -63,11 +64,15 @@ UserTCAdmin.addResolver({
         if (!isEqual) {
             throw new Error('Password is not correct.');
         }
-        const token = jwt.sign({userId: user.id}, process.env.JWT_SECRET, {
-            expiresIn: '24h'
-        });
+        const token = jwt.sign({
+                _id: user._id,
+                username: user.name,
+                role: user.role
+            },
+            process.env.JWT_SECRET, {
+                expiresIn: '24h'
+            });
         return {
-            recordId: user._id,
             record: {
                 email: user.email,
                 token: token,
@@ -81,10 +86,14 @@ UserTCAdmin.addResolver({
 //***************
 
 export const UserQuery = {
-    user: UserTCPublic.mongooseResolvers.findOne(),
-    ...requireAuth({//TODO require auth (works) AND user group admin
-        userAdmin: UserTCAdmin.mongooseResolvers.findOne(),
-    }),
+    ...requireAuthentication({
+        user: UserTCPublic.mongooseResolvers.findOne(),
+    })
+    ...requireAuthorization({
+            userAdmin: UserTCAdmin.mongooseResolvers.findOne(),
+        },
+        "admin"
+    ),
 };
 
 export const UserMutation = {

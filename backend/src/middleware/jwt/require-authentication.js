@@ -2,10 +2,18 @@
 // https://github.com/graphql-compose/graphql-compose-mongoose/issues/158
 // https://github.com/maticzav/graphql-middleware
 
+/**
+ * wrap graphql resolvers with an authentication check.
+ * If the user is not logged in, throw error (query will not resolve)
+ * If authenticated, proceed
+ * If not, query will not execute and error is shown instead
+ * @param {Array.<Object>} resolvers
+ * @return {Array.<Object>} resolvers
+ */
 export default (resolvers) => {
     Object.keys(resolvers).forEach((k) => {
         resolvers[k] = resolvers[k].wrapResolve(next => async rp => {
-            if (!rp.context.req.isAuth) {
+            if (!rp.context.req.user.isAuth) {
                 throw new Error('You must login to view this.');
             }
             return next(rp)
@@ -13,5 +21,3 @@ export default (resolvers) => {
     })
     return resolvers
 }
-
-// TODO create function isAppLevelAuthorized -> check for app level that contains types like user, mod, superuser

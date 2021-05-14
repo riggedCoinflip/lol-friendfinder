@@ -1,6 +1,13 @@
 import mongoose from "mongoose";
 import {composeMongoose} from 'graphql-compose-mongoose';
 
+/*
+dev-admin:
+name: Admin
+email: admin@admin
+password: Admin123
+ */
+
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -52,8 +59,8 @@ export const UserTCPublic = composeMongoose(User, {
     ]
 })
 
-export const UserTCLoginSignup = composeMongoose(User, {
-    name: "UserLoginSignup",
+export const UserTCSignup = composeMongoose(User, {
+    name: "UserSignup",
     description: "Login a user or create a new user",
     onlyFields: [
         "name",
