@@ -2,26 +2,26 @@ import React, {useState} from "react";
 import {gql, useMutation} from "@apollo/client";
 import {useHistory} from "react-router-dom";
 
-//TODO use mutation query
-const LOGIN_USER = gql`
-    query passwordCorrect($name: String!, $password: String!){
-        userOne(filter: {
-            name: $name
+const LOGIN = gql`
+    mutation (
+        $email: String!
+        $password: String!
+    ) {
+        login(
+            email: $email
             password: $password
-        }) 
-        {
-            name,
-        }
+        )
     }
-`
+`;
 
 export default function Login() {
     const [state, setState] = useState({
         username: "",
         password: "",
     });
+
     const [errored, setErrored] = useState(false);
-    const [submitLogin, {data}] = useMutation(LOGIN_USER);
+    const [submitLogin, {data}] = useMutation(LOGIN);
     const history = useHistory();
 
     function handleChange(event) {
@@ -33,14 +33,14 @@ export default function Login() {
 
         submitLogin({
             variables: {
-                username: this.state.username,
-                password: this.state.password,
+                email: state.email,
+                password: state.password,
             }
         })
             .then((res) => {
-                //TODO do something with JIT token in response
                 history.push("/")
-                alert('Log in successful!');
+                alert(`Log in successful! - Token: ${res.data.login}`);
+                console.log(res) //for now, log token //TODO find a way to store token
             })
             .catch(() => {
                 setErrored(true)
@@ -56,10 +56,10 @@ export default function Login() {
                 <label>Name</label>
                 <input
                     className="form-control"
-                    name="username"
+                    name="email"
                     type="text"
-                    placeholder="Enter username"
-                    autoComplete="username"
+                    placeholder="Enter Email"
+                    autoComplete="email"
                     required={true}
                     onChange={handleChange}
                 />
@@ -85,7 +85,7 @@ export default function Login() {
                         <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
                     </div>
                 </div>
-                TODO integrate remember button behaviour on BE
+                TODO integrate remember button behaviour on BE - or store it cached on client?
                 */}
 
             {
@@ -94,7 +94,7 @@ export default function Login() {
                     id="loginHelpBlock"
                     className="form-text text-muted"
                 >
-                    Username or Password incorrect
+                    Email or Password incorrect
                 </small>
             }
 

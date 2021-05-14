@@ -46,7 +46,7 @@ export const User = mongoose.model('User', UserSchema)
 //see opts: https://graphql-compose.github.io/docs/plugins/plugin-mongoose.html#customization-options
 export const UserTCAdmin = composeMongoose(User, {
     name: "UserAdmin",
-    description: "Full User Model. Exposed only for Admins - currently: exposed after login" //TODO only expose for admins
+    description: "Full User Model. Exposed only for Admins"
 });
 
 

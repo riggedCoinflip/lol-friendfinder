@@ -8,9 +8,9 @@ import requireAuthentication from "./require-authentication.js"
  * wrap graphql resolvers with an authorization check.
  * If the user is not logged in or does not have a role with enough power, throw error (query will not resolve)
  * If authorized, proceed
- * @param {Array.<Object>} resolvers
+ * @param resolvers
  * @param {String} role Required role
- * @return {Array.<Object>} resolvers
+ * @return resolvers
  */
 export default (resolvers, role="admin") => {
     resolvers = requireAuthentication(resolvers)
