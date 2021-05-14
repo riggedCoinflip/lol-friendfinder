@@ -53,7 +53,7 @@ export default function Login() {
 
             <div className="form-group">
                 {/*TODO add min/maxlength validation from shared/utils. This will reduce server load as less (100% false) forms will be submitted*/}
-                <label>Name</label>
+                <label>Email</label>
                 <input
                     className="form-control"
                     name="email"
