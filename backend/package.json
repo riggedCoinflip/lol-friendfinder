@@ -1,5 +1,5 @@
 {
-  "name": "apollo_tutorial",
+  "name": "lol-friendfinder-backend",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -7,10 +7,11 @@
     "node": "14.x"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js",
+    "test": "jest"
   },
   "keywords": [],
-  "author": "",
+  "author": "riggedCoinflip",
   "license": "MIT",
   "type": "module",
   "dependencies": {
@@ -25,6 +26,7 @@
     "mongoose": "^5.12.7"
   },
   "devDependencies": {
+    "jest": "^26.6.3",
     "nodemon": "^2.0.7"
   }
 }
