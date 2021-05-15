@@ -15,11 +15,6 @@ export default class Navbar extends Component {
                             <li className="nav-item">
                                 <Link to="/profile" className="nav-link">Profile</Link>
                             </li>
-                        </ul>
-                    </div>
-
-                    <div className="collapse navbar-collapse w-100 order-1 order-md-0 dual-collapse">
-                        <ul className="navbar-nav me-auto">
                             <li className="nav-item">
                                 <Link to="/Users" className="nav-link">Users</Link>
                             </li>
