@@ -11,24 +11,17 @@ import SignUp from './components/Signup';
 import Users from './components/Users';
 import Profile from './components/Profile';
 
-//import NavbarT from './components/NavbarT';
-
-
-
 export default function App() {
     return (
         <div>
             <Navbar/>
-            
-
             <Switch>
-                <Route exact path="/"  component={Home}/>
+                <Route exact path="/" component={Home}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/signup" component={SignUp}/>
-                <Route exact path="/users" component={ () => <Users authorized={true}/>} />
-                <Route exact path="/profile" component={ () => <Profile authorized={true}/>} />
-                <Route exact path="/users" component={ () => <Users authorized={true}/>} />
-
+                <Route exact path="/users" component={() => <Users authorized={true}/>}/>
+                <Route exact path="/profile" component={() => <Profile authorized={true}/>}/>
+                <Route exact path="/users" component={() => <Users authorized={true}/>}/>
             </Switch>
         </div>
     );
