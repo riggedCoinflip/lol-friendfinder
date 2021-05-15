@@ -35,15 +35,6 @@ export default class Navbar extends Component {
                     <div className="collapse navbar-collapse w-100 order-3 dual-collapse">
                         <ul className="navbar-nav ms-auto">
                             {AUTH_TOKEN ?
-                                <>
-                                    <li className=" nav-item">
-                                        <Link to="/signup" className="nav-link text-warning">Signup for free!</Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link to="/login" className="nav-link">Login</Link>
-                                    </li>
-                                </>
-                                :
                                 <li className="nav-item dropdown">
                                     <Link to="/profile" className="nav-link dropdown-toggle" role="button"
                                           data-bs-toggle="dropdown" aria-expanded="false">
@@ -74,6 +65,15 @@ export default class Navbar extends Component {
                                         </Link></li>
                                     </ul>
                                 </li>
+                                :
+                                <>
+                                    <li className=" nav-item">
+                                        <Link to="/signup" className="nav-link text-warning">Signup for free!</Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link to="/login" className="nav-link">Login</Link>
+                                    </li>
+                                </>
                             }
                         </ul>
                     </div>
