@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-//import { withRouter } from 'react-router';
-import { AUTH_TOKEN } from '../constants';
-import { useHistory } from 'react-router';
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import {AUTH_TOKEN} from '../constants';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faEye, faEyeSlash, faSignOutAlt} from '@fortawesome/free-solid-svg-icons'
 
 export default class Navbar extends Component {
     render() {
@@ -25,45 +25,58 @@ export default class Navbar extends Component {
                     <div className="mx-auto order-0">
                         <Link to="/" className="navbar-brand mx-auto">Hooked </Link>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target=".dual-collapse" aria-controls=".dual-collapse"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon" />
+                                data-bs-target=".dual-collapse" aria-controls=".dual-collapse"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"/>
                         </button>
                     </div>
 
                     {/* Right */}
                     <div className="collapse navbar-collapse w-100 order-3 dual-collapse">
                         <ul className="navbar-nav ms-auto">
-                            {/* TODO require not logged in */}
-                            <li className=" nav-item">
-                                <Link to="/signup" className="nav-link text-warning" >Signup for free!</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="/Profile" className="nav-link" >Login</Link>
-                            </li>
+                            {AUTH_TOKEN ?
+                                <>
+                                    <li className=" nav-item">
+                                        <Link to="/signup" className="nav-link text-warning">Signup for free!</Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link to="/login" className="nav-link">Login</Link>
+                                    </li>
+                                </>
+                                :
+                                <li className="nav-item dropdown">
+                                    <Link to="/profile" className="nav-link dropdown-toggle" role="button"
+                                          data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="TODO ADD PROFILE PIC" className="rounded-circle"
+                                             alt="USERNAME" width="30px"/>
+                                    </Link>
+                                    <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <li><Link className="dropdown-item">
+                                            Signed in as <strong>USERNAME</strong>
+                                        </Link></li>
+                                        <li>
+                                            <hr className="dropdown-divider"/>
+                                        </li>
 
-
-                            
-                            {AUTH_TOKEN &&
-                            <li className="nav-item">
-                                <Link to="/login" className="nav-link" onClick={() => {
-                                    // localStorage.removeItem(AUTH_TOKEN);
-                                    // {//TODO we do not need this Link}
-                                    localStorage.clear();
-                                    console.log('L. Storage cleaned');
-                                   // document.getElementById("user-info").reset();
-                                   
-                                }}>
-                                    Logout   </Link>
-
-                      
-                            </li>
-                                  }
-
+                                        <li><Link
+                                            to="/logout"
+                                            className="dropdown-item"
+                                            onClick={() => {
+                                                // localStorage.removeItem(AUTH_TOKEN);
+                                                // {//TODO we do not need this Link}
+                                                localStorage.clear();
+                                                console.log('L. Storage cleaned');
+                                                // document.getElementById("user-info").reset();
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faSignOutAlt}/>
+                                            Logout
+                                        </Link></li>
+                                    </ul>
+                                </li>
+                            }
                         </ul>
                     </div>
-
-
                 </div>
             </nav>
         );
