@@ -1,10 +1,12 @@
-import faker from "faker";
+const faker = require("faker");
 
-export default {
-    "name": faker.internet.username(),
+const fakeUser = {
+    "name": faker.internet.userName(),
     "email":  faker.internet.email(),
     "password": faker.internet.password(),
     "role": "user",
     "favouriteColor": faker.internet.color(),
 }
+
+module.exports = fakeUser
 

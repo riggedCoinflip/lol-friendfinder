@@ -1,4 +1,4 @@
-import requireAuthentication from "./require-authentication.js"
+const requireAuthentication = require("./require-authentication");
 
 //TODO wrap this with graphql-middleware:
 // https://github.com/graphql-compose/graphql-compose-mongoose/issues/158
@@ -12,7 +12,7 @@ import requireAuthentication from "./require-authentication.js"
  * @param {String} role Required role
  * @return resolvers
  */
-export default (resolvers, role="admin") => {
+module.exports = (resolvers, role="admin") => {
     resolvers = requireAuthentication(resolvers)
     Object.keys(resolvers).forEach((k) => {
         resolvers[k] = resolvers[k].wrapResolve(next => async rp => {

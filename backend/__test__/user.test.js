@@ -1,19 +1,19 @@
-import {seed as fakerSeed} from "faker"
-import {User} from "../src/models/user.js"
-import fakeUserdata from "../src/utils/test-utils/fakeUserdata";
-import {
+const faker = require("faker");
+const {User} = require("../src/models/user.js");
+const fakeUserdata = require("../src/utils/test-utils/fakeUserdata");
+const {
     validateNotEmpty,
     validateStringEquality,
     validateMongoDuplicationError
-} from "../src/utils/test-utils/validators";
-import {dbConnect, dbDisconnect} from "../src/utils/test-utils/db-handler";
+} = require("../src/utils/test-utils/validators");
+const {dbConnect, dbDisconnect} = require("../src/utils/test-utils/db-handler");
 
 beforeAll(async () => dbConnect());
-afterAll(async () => dbDisconnect());
+//afterAll(async () => dbDisconnect());
 
 describe('User Model Test Suite', () => {
     test('should validate saving a new student user successfully', async () => {
-        fakerSeed(598672938)
+        faker.seed(23587359)
 
         const fakeUser = fakeUserdata
         console.log(fakeUser)
@@ -30,8 +30,7 @@ describe('User Model Test Suite', () => {
     });
 
     test('should validate MongoError duplicate error with code 11000', async () => {
-        fakerSeed(3746164)
-        expect.assertions(5);
+        faker.seed(283579468)
 
         const fakeUser = fakeUserdata
 
@@ -42,7 +41,7 @@ describe('User Model Test Suite', () => {
         try {
             await validStudentUser2.save();
         } catch (error) {
-            const { name, code } = error;
+            const {name, code} = error;
             validateMongoDuplicationError(name, code);
         }
     });

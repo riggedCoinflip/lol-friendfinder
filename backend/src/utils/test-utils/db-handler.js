@@ -1,9 +1,9 @@
-import mongoose from "mongoose"
-import {MongoMemoryServer} from "mongodb-memory-server"
+const mongoose = require("mongoose");
+const {MongoMemoryServer} = require("mongodb-memory-server");
 
 const mongoServer = new MongoMemoryServer();
 
-export async function dbConnect() {
+async function dbConnect() {
     const uri = await mongoServer.getUri();
 
     const mongooseOpts = {
@@ -16,8 +16,13 @@ export async function dbConnect() {
     await mongoose.connect(uri, mongooseOpts);
 };
 
-export async function dbDisconnect() {
+async function dbDisconnect() {
     await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
     await mongoServer.stop();
 };
+
+module.exports = {
+    dbConnect,
+    dbDisconnect
+}

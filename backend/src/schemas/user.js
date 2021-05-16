@@ -1,9 +1,9 @@
-import {User, UserTCAdmin, UserTCSignup, UserTCPublic} from "../models/user.js";
-import jwt from "jsonwebtoken"
-import bcrypt from "bcrypt";
-import {emailValid, passwordValid, usernameValid} from "../utils/shared_utils/index.js"
-import requireAuthentication from "../middleware/jwt/require-authentication.js"
-import requireAuthorization from "../middleware/jwt/require-authorization.js"
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const {User, UserTCAdmin, UserTCSignup, UserTCPublic} = require("../models/user");
+const {emailValid, passwordValid, usernameValid} = require("../utils/shared_utils/index");
+const requireAuthentication = require("../middleware/jwt/require-authentication");
+const requireAuthorization = require("../middleware/jwt/require-authorization");
 
 //**********************
 //*** custom queries ***
@@ -103,7 +103,7 @@ UserTCPublic.addResolver({
 //*** EXPORTS ***
 //***************
 
-export const UserQuery = {
+const UserQuery = {
     ...requireAuthentication({
         userSelf: UserTCPublic.getResolver("userSelf"),
         user: UserTCPublic.mongooseResolvers.findOne(), //TODO restrict filters
@@ -121,7 +121,7 @@ export const UserQuery = {
     ),
 };
 
-export const UserMutation = {
+const UserMutation = {
     signup: signup,
     login: UserTCPublic.getResolver("login"),
     ...requireAuthorization({
@@ -137,3 +137,8 @@ export const UserMutation = {
         "admin"
     ),
 };
+
+module.exports = {
+    UserQuery,
+    UserMutation
+}

@@ -10,7 +10,7 @@
  * @param resolvers
  * @return resolvers
  */
-export default (resolvers) => {
+module.exports = (resolvers) => {
     Object.keys(resolvers).forEach((k) => {
         resolvers[k] = resolvers[k].wrapResolve(next => async rp => {
             if (!rp.context.req.user.isAuth) {

@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import {composeMongoose} from "graphql-compose-mongoose";
+const mongoose = require("mongoose");
+const {composeMongoose} = require("graphql-compose-mongoose");
 
 /*
 dev-admin:
@@ -40,17 +40,16 @@ const UserSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-export const User = mongoose.model('User', UserSchema)
+const User = mongoose.model('User', UserSchema)
 
 //CONVERT MONGOOSE MODEL TO GraphQL PIECES
 //see opts: https://graphql-compose.github.io/docs/plugins/plugin-mongoose.html#customization-options
-export const UserTCAdmin = composeMongoose(User, {
+const UserTCAdmin = composeMongoose(User, {
     name: "UserAdmin",
     description: "Full User Model. Exposed only for Admins"
 });
 
-
-export const UserTCPublic = composeMongoose(User, {
+const UserTCPublic = composeMongoose(User, {
     name: "UserPublic",
     description: "Contains all public fields of users. Use this for filtering as well",
     onlyFields: [
@@ -59,7 +58,7 @@ export const UserTCPublic = composeMongoose(User, {
     ]
 })
 
-export const UserTCSignup = composeMongoose(User, {
+const UserTCSignup = composeMongoose(User, {
     name: "UserSignup",
     description: "Login a user or create a new user",
     onlyFields: [
@@ -69,4 +68,10 @@ export const UserTCSignup = composeMongoose(User, {
     ]
 })
 
+module.exports = {
+    User,
+    UserTCAdmin,
+    UserTCPublic,
+    UserTCSignup
+}
 

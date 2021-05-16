@@ -8,12 +8,11 @@
   },
   "scripts": {
     "start": "nodemon server.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js -runInBand --detectOpenHandles"
+    "test": "jest"
   },
   "keywords": [],
   "author": "riggedCoinflip",
   "license": "MIT",
-  "type": "module",
   "jest": {
     "testEnvironment": "jest-environment-node",
     "transform": {}
