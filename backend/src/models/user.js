@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {composeMongoose} from 'graphql-compose-mongoose';
+import {composeMongoose} from "graphql-compose-mongoose";
 
 /*
 dev-admin:
