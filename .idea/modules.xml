@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/MERNG-tinderlike.iml" filepath="$PROJECT_DIR$/.idea/MERNG-tinderlike.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/lol-friendfinder.iml" filepath="$PROJECT_DIR$/.idea/lol-friendfinder.iml" />
     </modules>
   </component>
 </project>
