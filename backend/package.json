@@ -8,11 +8,17 @@
   },
   "scripts": {
     "start": "nodemon server.js",
-    "test": "jest"
+    "test": "jest --setupFiles dotenv/config --runInBand --detectOpenHandles"
   },
   "keywords": [],
   "author": "riggedCoinflip",
   "license": "MIT",
+  "config": {
+    "mongodbMemoryServer": {
+      "version": "latest",
+      "debug": "1"
+    }
+  },
   "jest": {
     "testEnvironment": "jest-environment-node",
     "transform": {}

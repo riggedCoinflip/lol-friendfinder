@@ -6,36 +6,47 @@ const {
     validateStringEquality,
     validateMongoDuplicationError
 } = require("../src/utils/test-utils/validators");
-const {dbConnect, dbDisconnect} = require("../src/utils/test-utils/db-handler");
+const {dbConnect, dbDrop, dbDisconnect} = require("../src/utils/test-utils/db-handler");
+
+const validUser = {
+    name: "JohnDoe",
+    email: "JohnDoe@email.com",
+    password: "Password1",
+    role: "user",
+    favouriteColor: "red",
+}
+
+const validUser2 = {
+    name: "MaxMustermann",
+    email: "MaxMustermann@muster.de",
+    password: "Muster123",
+    role: "user",
+    favouriteColor: "green",
+}
+
 
 beforeAll(async () => dbConnect());
-//afterAll(async () => dbDisconnect());
+afterEach(async () => dbDrop())
+afterAll(async () => dbDisconnect());
 
 describe('User Model Test Suite', () => {
     test('should validate saving a new student user successfully', async () => {
-        faker.seed(23587359)
+        const newValidUser = new User(validUser);
+        const savedValidUser = await newValidUser.save();
 
-        const fakeUser = fakeUserdata
-        console.log(fakeUser)
-        const validStudentUser = new User(fakeUser);
-        const savedStudentUser = await validStudentUser.save();
+        validateNotEmpty(savedValidUser);
 
-        validateNotEmpty(savedStudentUser);
-
-        validateStringEquality(savedStudentUser.name, fakeUser.name);
-        validateStringEquality(savedStudentUser.email, fakeUser.email);
-        validateStringEquality(savedStudentUser.password, fakeUserData.password);
-        validateStringEquality(savedStudentUser.role, fakeUser.role);
-        validateStringEquality(savedStudentUser.favouriteColor, fakeUser.favouriteColor)
+        validateStringEquality(savedValidUser.name, validUser.name);
+        validateStringEquality(savedValidUser.email, validUser.email);
+        validateStringEquality(savedValidUser.password, validUser.password);
+        validateStringEquality(savedValidUser.role, validUser.role);
+        validateStringEquality(savedValidUser.favouriteColor, validUser.favouriteColor)
     });
 
     test('should validate MongoError duplicate error with code 11000', async () => {
-        faker.seed(283579468)
 
-        const fakeUser = fakeUserdata
-
-        const validStudentUser = new User(fakeUser);
-        const validStudentUser2 = new User(fakeUser); //clone fakeUser
+        const validStudentUser = new User(validUser);
+        const validStudentUser2 = new User(validUser); //clone fakeUser
 
         await validStudentUser.save();
         try {
