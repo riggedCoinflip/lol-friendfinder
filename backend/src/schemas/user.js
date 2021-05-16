@@ -1,7 +1,7 @@
 import {User, UserTCAdmin, UserTCSignup, UserTCPublic} from "../models/user.js";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt";
-import {emailValid, passwordValid, usernameValid} from "../../shared_utils/index.js"
+import {emailValid, passwordValid, usernameValid} from "../utils/shared_utils/index.js"
 import requireAuthentication from "../middleware/jwt/require-authentication.js"
 import requireAuthorization from "../middleware/jwt/require-authorization.js"
 
