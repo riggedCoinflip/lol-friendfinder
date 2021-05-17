@@ -8,6 +8,8 @@ email: admin@admin
 password: Admin123
  */
 
+//TODO https://stackoverflow.com/questions/13991604/mongoose-schema-validating-unique-field-case-insensitive/54577742
+//https://docs.mongodb.com/manual/reference/collation/
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -25,16 +27,17 @@ const UserSchema = new mongoose.Schema({
     },
     password: { //hashed and salted using bcrypt
         type: String,
-        required: true
+        required: true,
     },
     role: {
         type: String,
-        enum: ['user', 'admin'],
-        default: 'user'
+        enum: ["user", "admin"],
+        default: "user",
+        required: true,
     },
     favouriteColor: { //temp TODO replace with better fitting field, add more fields, add fields to UserTCPublic
         type: String,
-        default: 'blue'
+        default: "blue",
     }
 }, {
     timestamps: true,
