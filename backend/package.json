@@ -16,7 +16,6 @@
   "config": {
     "mongodbMemoryServer": {
       "version": "latest",
-      "debug": "1"
     }
   },
   "jest": {
