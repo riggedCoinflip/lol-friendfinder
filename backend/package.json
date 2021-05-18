@@ -15,7 +15,7 @@
   "license": "MIT",
   "config": {
     "mongodbMemoryServer": {
-      "version": "latest",
+      "version": "latest"
     }
   },
   "jest": {
