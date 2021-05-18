@@ -6,11 +6,11 @@ function validateNotEmptyAndTruthy(received) {
     expect(received).not.toBeNull();
     expect(received).not.toBeUndefined();
     expect(received).toBeTruthy();
-};
+}
 
 function validateStringEquality(received, expected) {
     expect(received).toEqual(expected);
-};
+}
 
 /**
  * Test if MongoDuplicationError is thrown
@@ -20,7 +20,7 @@ function validateStringEquality(received, expected) {
 function validateMongoDuplicationError(errorName, code) {
     expect(errorName).toEqual('MongoError');
     expect(code).toBe(11000);
-};
+}
 
 /**
  * Test if thrown ValidationError is expected one
