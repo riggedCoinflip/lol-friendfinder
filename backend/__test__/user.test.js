@@ -1,6 +1,4 @@
-const faker = require("faker");
 const {User} = require("../src/models/user.js");
-const fakeUserdata = require("../src/utils/test-utils/fakeUserdata");
 const validators = require("../src/utils/test-utils/validators");
 const {dbConnect, dbDrop, dbDisconnect} = require("../src/utils/test-utils/db-handler");
 const testUsers = require("./testusers")
