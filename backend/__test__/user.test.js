@@ -14,7 +14,7 @@ describe("User Model Test Suite", () => {
         const user = new User(testUsers.valid);
         const savedUser = await user.save();
 
-        validators.validateNotEmpty(savedUser);
+        validators.validateNotEmptyAndTruthy(savedUser);
 
         validators.validateStringEquality(savedUser.name, testUsers.valid.name);
         validators.validateStringEquality(savedUser.email, testUsers.valid.email);
@@ -40,7 +40,7 @@ describe("User Model Test Suite", () => {
         const user = new User(testUsers.trim);
         const savedUser = await user.save();
 
-        validators.validateNotEmpty(savedUser);
+        validators.validateNotEmptyAndTruthy(savedUser);
 
         validators.validateStringEquality(savedUser.name, "trimName");
         validators.validateStringEquality(savedUser.email, "trim@email.com");
@@ -64,12 +64,23 @@ describe("User Model Test Suite", () => {
         }
     })
 
-    test("Validate role enum", async () => {
-        fail()
+    it("errors on invalid value in enum", async () => {
+        const user = new User(testUsers.roleDoesNotExist);
+
+        try {
+            await user.save();
+        } catch (err) {
+            validators.validateMongoValidationError(err, "role", "enum")
+        }
     })
 
     test("Validate color default", async () => {
-        fail()
+        const user = new User(testUsers.useDefaultColor);
+        const savedUser = await user.save();
+
+        validators.validateNotEmptyAndTruthy(savedUser);
+
+        validators.validateStringEquality(savedUser.favouriteColor, "blue")
     })
 
     it("errors on missing fields", async () => {
