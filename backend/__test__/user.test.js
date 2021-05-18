@@ -51,7 +51,7 @@ describe("User Model Test Suite", () => {
     it("throws MongoDB ValidationError on String shorter than minlength", async () => {
         const user = new User(testUsers.nameTooShort);
         try {
-            await user.save()
+            await user.save();
         } catch (err) {
             validators.validateMongoValidationError(err, "name", "minlength")
         }
@@ -60,7 +60,7 @@ describe("User Model Test Suite", () => {
     it("throws MongoDB ValidationError on String longer than maxlength", async () => {
         const user = new User(testUsers.nameTooLong);
         try {
-            await user.save()
+            await user.save();
         } catch (err) {
             validators.validateMongoValidationError(err, "name", "maxlength")
         }
@@ -78,14 +78,14 @@ describe("User Model Test Suite", () => {
         //it errors on missing name
         const user = new User(testUsers.requiredFieldNameMissing);
         try {
-            await user.save()
+            await user.save();
         } catch (err) {
             validators.validateMongoValidationError(err, "name", "required")
         }
         //it errors on missing email
         const user2 = new User(testUsers.requiredFieldEmailMissing);
         try {
-            await user2.save()
+            await user2.save();
         } catch (err) {
             validators.validateMongoValidationError(err, "email", "required")
         }
@@ -93,14 +93,9 @@ describe("User Model Test Suite", () => {
         //it errors on missing password
         const user3 = new User(testUsers.requiredFieldPasswordMissing);
         try {
-            await user3.save()
+            await user3.save();
         } catch (err) {
             validators.validateMongoValidationError(err, "password", "required")
         }
     })
-
-    test("Something with timestamps", async () => {
-        fail()
-    })
-})
-;
+});
