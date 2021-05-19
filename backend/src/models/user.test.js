@@ -1,10 +1,10 @@
-const {User} = require("../src/models/user.js");
-const validators = require("../src/utils/test-utils/validators");
-const {dbConnect, dbDrop, dbDisconnect} = require("../src/utils/test-utils/db-handler");
-const testUsers = require("./testusers")
+const {User} = require("./user.js");
+const validators = require("../middleware/jwt/user.test.validators");
+const {dbConnect, dbDrop, dbDisconnect} = require("../utils/test-utils/db-handler");
+const testUsers = require("./user.test.data")
 
 beforeAll(async () => dbConnect());
-afterEach(async () => dbDrop())
+afterEach(async () => dbDrop());
 afterAll(async () => dbDisconnect());
 
 
