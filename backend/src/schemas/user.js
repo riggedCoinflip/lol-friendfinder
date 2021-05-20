@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+
 const {User, UserTCAdmin, UserTCSignup, UserTCPublic} = require("../models/user");
 const {emailValid, passwordValid, usernameValid} = require("../utils/shared_utils/index");
 const requireAuthentication = require("../middleware/jwt/require-authentication");
@@ -59,17 +59,14 @@ UserTCPublic.addResolver({
     },
     type: "String!",
     resolve: async ({args}) => {
-        let user = await User.findOne({email: args.email});
+        const user = await User.findOne({email: args.email});
 
+        if (!user) throw new Error('User does not exist.')
 
-        if (!user) {
-            throw new Error('User does not exist.')
-        }
-        const isEqual = await bcrypt.compare(args.password, user.password);
-        if (!isEqual) {
-            throw new Error('Password is not correct.');
-        }
-        const token = jwt.sign({
+        if (!await user.comparePassword(args.password)) throw new Error('Password is not correct.');
+
+        //generate token
+        return jwt.sign({
                 _id: user._id,
                 username: user.name,
                 role: user.role
@@ -77,7 +74,6 @@ UserTCPublic.addResolver({
             process.env.JWT_SECRET, {
                 expiresIn: '24h'
             });
-        return token
     }
 })
 
