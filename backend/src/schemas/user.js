@@ -50,13 +50,6 @@ const signup = UserTCSignup.mongooseResolvers.createOne().wrapResolve(next => as
 
 
 //login
-UserTCAdmin.addFields({
-    token: {
-        type: "String",
-        description: "Token of authenticated user",
-    }
-})
-
 UserTCPublic.addResolver({
     kind: 'mutation',
     name: 'login',
@@ -67,6 +60,7 @@ UserTCPublic.addResolver({
     type: "String!",
     resolve: async ({args}) => {
         let user = await User.findOne({email: args.email});
+
 
         if (!user) {
             throw new Error('User does not exist.')
