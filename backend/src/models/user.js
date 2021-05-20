@@ -25,7 +25,7 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true,
         trim: true,
-        set: v => v.toLowerCase(),
+        set: v => v.toLowerCase(), //do not allow users to have 2 accounts with same email (foo@email.com and FOO@email.com)
     },
     password: { //hashed and salted using bcrypt
         type: String,
@@ -40,7 +40,7 @@ const UserSchema = new mongoose.Schema({
     favouriteColor: { //temp TODO replace with better fitting field, add more fields, add fields to UserTCPublic
         type: String,
         default: "blue",
-        set: v => v.toLowerCase(),
+        set: v => v.toLowerCase(), //simplify queries
     }
 }, {
     timestamps: true,
