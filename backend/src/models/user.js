@@ -48,14 +48,13 @@ const UserSchema = new mongoose.Schema({
 
 //TODO test: CREATE (passed) and UPDATE (todo)
 UserSchema.pre("save", async function() {
-    // only hash the password if it has been modified (or is new)
+    // only hash password if it has been modified (or is new)
     if (this.isModified('password')) {
         // override the cleartext password with the hashed one
         this.password = await bcrypt.hash(this.password, 10);
     }
 });
 
-//TODO test
 UserSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
