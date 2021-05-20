@@ -10,7 +10,7 @@ afterAll(async () => dbDisconnect());
 
 //TODO make validations before save: https://stackoverflow.com/questions/11325372/mongoose-odm-change-variables-before-saving
 describe("User Model Test Suite", () => {
-    it("saves a user successfully", async () => {
+    it("saves a user successfully with hashed password", async () => {
         const user = new User(testUsers.valid);
         await user.save();
 
@@ -18,9 +18,39 @@ describe("User Model Test Suite", () => {
 
         validators.validateStringEquality(user.name, testUsers.valid.name);
         validators.validateStringEquality(user.email, testUsers.valid.email);
+        //use bcrypt compare to validate password
         expect(await user.comparePassword(testUsers.valid.password)).toBe(true);
         validators.validateStringEquality(user.role, testUsers.valid.role);
         validators.validateStringEquality(user.favouriteColor, testUsers.valid.favouriteColor)
+    });
+
+    it("creates new hash on password change", async () => {
+        const user = new User(testUsers.valid);
+
+        //save the cleartextPassword as it gets overriden by a hash on save
+        const cleartextPassword = user.password;
+        await user.save();
+
+        const oldHashedPassword = user.password;
+        //login with password possible
+        expect(await user.comparePassword(cleartextPassword)).toBe(true);
+        expect(user.password).toBe(oldHashedPassword);
+
+        /*
+        we need to change the password as our middleware only creates a new hash if the password is changed. ¹
+        we then change the password back and save AGAIN to make sure bcrypt works properly -
+        due to a different salt, the hash should be different as well.
+
+        ¹ See: UserSchema.pre("save",...)
+         */
+        user.password = "pwTemp12"
+        await user.save();
+        user.password = cleartextPassword
+        await user.save();
+
+        //login with same password still possible, but due to a different salt we should have a different hash
+        expect(await user.comparePassword(cleartextPassword)).toBe(true);
+        expect(user.password).not.toBe(oldHashedPassword);
     });
 
     it("throws MongoDB duplicate error with code 11000", async () => {
@@ -40,10 +70,22 @@ describe("User Model Test Suite", () => {
         const user = new User(testUsers.trim);
         await user.save();
 
-        validators.validateNotEmptyAndTruthy(user);
-
         validators.validateStringEquality(user.name, "trimName");
         validators.validateStringEquality(user.email, "trim@email.com");
+    })
+
+    it("lowers the email as setter", async () => {
+        const user = new User(testUsers.lowerEmail)
+        await user.save();
+
+        validators.validateStringEquality(user.email, "lower_this@email.com");
+    })
+
+    it("lowers the favouriteColor as setter", async () => {
+        const user = new User(testUsers.lowerFavouriteColor)
+        await user.save();
+
+        validators.validateStringEquality(user.favouriteColor, "red");
     })
 
     it("throws MongoDB ValidationError on String shorter than minlength", async () => {

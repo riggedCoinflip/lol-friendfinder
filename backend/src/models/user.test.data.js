@@ -14,6 +14,20 @@ module.exports = {
         password: "Password1",
     },
 
+    //email
+    lowerEmail: {
+        name: "lowerEmail",
+        email: "LOWER_THIS@Email.com",
+        password: "Password1",
+    },
+
+    lowerFavouriteColor: {
+        name: "lowerColor",
+        email: "changeColorToLowercase@email.com",
+        password: "Password1",
+        favouriteColor: "RED",
+    },
+
     //name that breaks the minLength rule
     nameTooShort: {
         name: "ab",
