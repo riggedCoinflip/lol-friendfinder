@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const {composeMongoose} = require("graphql-compose-mongoose");
 
 /*
@@ -24,6 +25,7 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true,
         trim: true,
+        set: v => v.toLowerCase(),
     },
     password: { //hashed and salted using bcrypt
         type: String,
@@ -38,10 +40,25 @@ const UserSchema = new mongoose.Schema({
     favouriteColor: { //temp TODO replace with better fitting field, add more fields, add fields to UserTCPublic
         type: String,
         default: "blue",
+        set: v => v.toLowerCase(),
     }
 }, {
     timestamps: true,
 });
+
+//TODO test: CREATE (passed) and UPDATE (todo)
+UserSchema.pre("save", async function() {
+    // only hash the password if it has been modified (or is new)
+    if (this.isModified('password')) {
+        // override the cleartext password with the hashed one
+        this.password = await bcrypt.hash(this.password, 10);
+    }
+});
+
+//TODO test
+UserSchema.methods.comparePassword = async function(candidatePassword) {
+    return await bcrypt.compare(candidatePassword, this.password);
+};
 
 const User = mongoose.model('User', UserSchema)
 

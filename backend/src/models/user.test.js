@@ -12,15 +12,15 @@ afterAll(async () => dbDisconnect());
 describe("User Model Test Suite", () => {
     it("saves a user successfully", async () => {
         const user = new User(testUsers.valid);
-        const savedUser = await user.save();
+        await user.save();
 
-        validators.validateNotEmptyAndTruthy(savedUser);
+        validators.validateNotEmptyAndTruthy(user);
 
-        validators.validateStringEquality(savedUser.name, testUsers.valid.name);
-        validators.validateStringEquality(savedUser.email, testUsers.valid.email);
-        validators.validateStringEquality(savedUser.password, testUsers.valid.password);
-        validators.validateStringEquality(savedUser.role, testUsers.valid.role);
-        validators.validateStringEquality(savedUser.favouriteColor, testUsers.valid.favouriteColor)
+        validators.validateStringEquality(user.name, testUsers.valid.name);
+        validators.validateStringEquality(user.email, testUsers.valid.email);
+        expect(await user.comparePassword(testUsers.valid.password)).toBe(true);
+        validators.validateStringEquality(user.role, testUsers.valid.role);
+        validators.validateStringEquality(user.favouriteColor, testUsers.valid.favouriteColor)
     });
 
     it("throws MongoDB duplicate error with code 11000", async () => {
@@ -38,12 +38,12 @@ describe("User Model Test Suite", () => {
 
     it("trims fields on save", async () => {
         const user = new User(testUsers.trim);
-        const savedUser = await user.save();
+        await user.save();
 
-        validators.validateNotEmptyAndTruthy(savedUser);
+        validators.validateNotEmptyAndTruthy(user);
 
-        validators.validateStringEquality(savedUser.name, "trimName");
-        validators.validateStringEquality(savedUser.email, "trim@email.com");
+        validators.validateStringEquality(user.name, "trimName");
+        validators.validateStringEquality(user.email, "trim@email.com");
     })
 
     it("throws MongoDB ValidationError on String shorter than minlength", async () => {
@@ -76,11 +76,11 @@ describe("User Model Test Suite", () => {
 
     test("Validate color default", async () => {
         const user = new User(testUsers.useDefaultColor);
-        const savedUser = await user.save();
+        await user.save();
 
-        validators.validateNotEmptyAndTruthy(savedUser);
+        validators.validateNotEmptyAndTruthy(user);
 
-        validators.validateStringEquality(savedUser.favouriteColor, "blue")
+        validators.validateStringEquality(user.favouriteColor, "blue")
     })
 
     it("errors on missing fields", async () => {

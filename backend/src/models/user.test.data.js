@@ -1,7 +1,7 @@
 module.exports = {
     valid: {
         name: "Name",
-        email: "Name@email.com",
+        email: "name@email.com",
         password: "Password1",
         role: "user",
         favouriteColor: "green",

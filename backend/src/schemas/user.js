@@ -45,17 +45,6 @@ const signup = UserTCSignup.mongooseResolvers.createOne().wrapResolve(next => as
     if (!emailValid(record.email)) throw new Error("email invalid")
     if (!passwordValid(record.password)) throw new Error("Password invalid")
 
-    rp.beforeRecordMutate = async function (doc) {
-        //hash pw
-        try {
-            doc.password = await bcrypt.hash(doc.password, 10);
-        } catch (err) {
-            throw new Error(err)
-        }
-
-        return doc
-    }
-
     return next(rp)
 })
 
