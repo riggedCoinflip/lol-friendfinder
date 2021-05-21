@@ -27,7 +27,7 @@ describe("User Model Test Suite", () => {
     it("creates new hash on password change", async () => {
         const user = new User(testUsers.valid);
 
-        //save the cleartextPassword as it gets overriden by a hash on save
+        //save the cleartextPassword as it gets overridden by a hash on save
         const cleartextPassword = user.password;
         await user.save();
 
@@ -147,6 +147,71 @@ describe("User Model Test Suite", () => {
             await user3.save();
         } catch (err) {
             validators.validateMongoValidationError(err, "password", "required")
+        }
+    })
+
+    //with changing requirements this test shall change - we might want to allow asian chars once we have asian customers
+    it("allows only ascii names", async () => {
+        const toTest = testUsers.nameNotAlphanumeric
+
+        for (const e of Object.keys(toTest)) {
+            const user = new User(toTest[e])
+            try {
+                await user.save();
+            } catch (err) {
+                validators.validateMongoValidationError(err, "name", "user defined")
+                //console.error(err)
+            }
+        }
+    })
+
+    it("errors on invalid passwords", async () => {
+        const pwInvalid = testUsers.invalidPassword
+
+        const user = new User(pwInvalid.tooShort)
+        try {
+            await user.save();
+        } catch (err) {
+            validators.validateMongoValidationError(err, "password", "minlength")
+        }
+
+        const user2 = new User(pwInvalid.tooLong)
+        try {
+            await user2.save();
+        } catch (err) {
+            validators.validateMongoValidationError(err, "password", "maxlength")
+        }
+
+        const user3 = new User(pwInvalid.noUppercase)
+        try {
+            await user3.save();
+        } catch (err) {
+            validators.validateMongoValidationError(err, "password", "user defined")
+            expect(err.errors.password.properties.message).toBe("Password must contain uppercase letter")
+        }
+
+        const user4 = new User(pwInvalid.noLowercase)
+        try {
+            await user4.save();
+        } catch (err) {
+            validators.validateMongoValidationError(err, "password", "user defined")
+            expect(err.errors.password.properties.message).toBe("Password must contain lowercase letter")
+        }
+
+        const user5 = new User(pwInvalid.noDigit)
+        try {
+            await user5.save();
+        } catch (err) {
+            validators.validateMongoValidationError(err, "password", "user defined")
+            expect(err.errors.password.properties.message).toBe("Password must contain a digit")
+        }
+
+        const user6 = new User(pwInvalid.invalidChar)
+        try {
+            await user6.save();
+        } catch (err) {
+            validators.validateMongoValidationError(err, "password", "user defined")
+            expect(err.errors.password.properties.message).toBe("Password may only contain certain special chars")
         }
     })
 });
