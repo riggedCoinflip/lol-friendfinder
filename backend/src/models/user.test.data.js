@@ -156,5 +156,19 @@ module.exports = {
         name: "useDefaultColor",
         email: "usesDefaultValueIfNoColorSpecified@email.com",
         password: "Password1",
+    },
+
+    usernameDifferentCapitalization: {
+        lower: {
+            name: "name",
+            email: "lower@email.com",
+            password: "Password1",
+        },
+
+        upper: {
+            name: "NAME",
+            email: "upper@email.com",
+            password: "Password1",
+        },
     }
 }
