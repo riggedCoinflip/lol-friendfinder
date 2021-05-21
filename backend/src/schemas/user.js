@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
-
 const {User, UserTCAdmin, UserTCSignup, UserTCPublic} = require("../models/user");
-const {emailValid, passwordValid, usernameValid} = require("../utils/shared_utils/index");
 const requireAuthentication = require("../middleware/jwt/require-authentication");
 const requireAuthorization = require("../middleware/jwt/require-authorization");
 
@@ -35,19 +33,6 @@ UserTCPublic.addResolver({
     }
 })
  */
-
-
-const signup = UserTCSignup.mongooseResolvers.createOne().wrapResolve(next => async rp => {
-    const record = rp.args.record
-
-    //OPTIMIZE give more granular errors
-    if (!usernameValid(record.name)) throw new Error("Username invalid")
-    if (!emailValid(record.email)) throw new Error("email invalid")
-    if (!passwordValid(record.password)) throw new Error("Password invalid")
-
-    return next(rp)
-})
-
 
 //login
 UserTCPublic.addResolver({
@@ -101,7 +86,7 @@ const UserQuery = {
 };
 
 const UserMutation = {
-    signup: signup,
+    signup: UserTCSignup.mongooseResolvers.createOne(),
     login: UserTCPublic.getResolver("login"),
     ...requireAuthorization({
             userCreateOneAdmin: UserTCAdmin.mongooseResolvers.createOne(),

@@ -43,7 +43,7 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         trim: true,
         lowercase: true, //do not allow users to have 2 accounts with same email (foo@email.com and FOO@email.com)
-        match: /^.+[@].+$/, //one to unlimited chars, then @, then one to unlimited chars
+        match: [/^.+[@].+$/, "Not a valid Email"], //one to unlimited chars, then @, then one to unlimited chars
     },
     password: { //hashed and salted using bcrypt
         type: String,
