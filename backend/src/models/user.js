@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const {composeMongoose} = require("graphql-compose-mongoose");
+const userValidation = require("../utils/shared_utils/index");
 
 /*
 dev-admin:
@@ -17,8 +18,14 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true,
         trim: true,
-        minlength: 3,
-        maxlength: 16,
+        minlength: userValidation.usernameMinLength,
+        maxlength: userValidation.usernameMaxLength,
+        validate: {
+            validator: v => {
+                if (!userValidation.isAlphanumeric(v)) throw new Error("Username may only contain alphanumeric chars");
+                return true
+            }
+        },
     },
     email: {
         type: String,
@@ -26,10 +33,29 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         trim: true,
         set: v => v.toLowerCase(), //do not allow users to have 2 accounts with same email (foo@email.com and FOO@email.com)
+        validate: {
+            validator: v => {
+                if (!userValidation.isEmail(v)) throw new Error("Invalid Email")
+
+                return true
+            }
+        }
     },
     password: { //hashed and salted using bcrypt
         type: String,
         required: true,
+        minlength: userValidation.passwordMinLength,
+        maxlength: userValidation.passwordMaxLength,
+        validate: {
+            validator: v => {
+                if (!userValidation.containsUpper(v)) throw new Error("Password must contain uppercase letter");
+                if (!userValidation.containsLower(v)) throw new Error("Password must contain lowercase letter");
+                if (!userValidation.containsDigit(v)) throw new Error("Password must contain a digit");
+                if (!userValidation.containsOnlyAllowedCharacters(v)) throw new Error("Password may only contain certain special chars");
+
+                return true
+            }
+        }
     },
     role: {
         type: String,
