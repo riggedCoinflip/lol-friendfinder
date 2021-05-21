@@ -27,19 +27,23 @@ const UserSchema = new mongoose.Schema({
             }
         },
     },
+    nameNormalized: {
+        /**
+         We want users to decide on capitalization (MyUsername vs myusername) but not be able to create users
+         that only differ in capitalization (foo and FOO may not exist concurrently)
+         -> We use this field for unique validation
+         https://stackoverflow.com/questions/13991604/mongoose-schema-validating-unique-field-case-insensitive
+         */
+        type: String,
+        unique: true
+    },
     email: {
         type: String,
         required: true,
         unique: true,
         trim: true,
-        set: v => v.toLowerCase(), //do not allow users to have 2 accounts with same email (foo@email.com and FOO@email.com)
-        validate: {
-            validator: v => {
-                if (!userValidation.isEmail(v)) throw new Error("Invalid Email")
-
-                return true
-            }
-        }
+        lowercase: true, //do not allow users to have 2 accounts with same email (foo@email.com and FOO@email.com)
+        match: /^.+[@].+$/, //one to unlimited chars, then @, then one to unlimited chars
     },
     password: { //hashed and salted using bcrypt
         type: String,
@@ -66,22 +70,39 @@ const UserSchema = new mongoose.Schema({
     favouriteColor: { //temp TODO replace with better fitting field, add more fields, add fields to UserTCPublic
         type: String,
         default: "blue",
-        set: v => v.toLowerCase(), //simplify queries
+        lowercase: true, //simplify queries
     }
 }, {
     timestamps: true,
 });
 
-//TODO test: CREATE (passed) and UPDATE (todo)
-UserSchema.pre("save", async function() {
+/**
+ * Save a hashed and salted password to the DB using bcrypt
+ */
+UserSchema.pre("save", async function (next) {
     // only hash password if it has been modified (or is new)
     if (this.isModified('password')) {
         // override the cleartext password with the hashed one
         this.password = await bcrypt.hash(this.password, 10);
     }
+
+    next()
 });
 
-UserSchema.methods.comparePassword = async function(candidatePassword) {
+/**
+ * Set a normalized name for unique name check
+ */
+UserSchema.pre("save", function (next) {
+    if (this.isModified("nameNormalized")) {
+        throw new Error("nameNormalized is read only!")
+    } else if (this.isModified("name")) {
+        const normalizedName = this.name.toLowerCase()
+        this.nameNormalized = normalizedName
+    }
+    next();
+})
+
+UserSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 
