@@ -1,6 +1,6 @@
 const {User} = require("./user.js");
 const validators = require("./user.test.validators");
-const {dbConnect, dbClean, dbDisconnect} = require("../utils/test-utils/db-handler");
+const {dbConnect, dbClean, dbDisconnectAndWipe} = require("../utils/test-utils/db-handler");
 const testUsers = require("./user.test.data")
 
 describe("User Model Test Suite", () => {
@@ -8,25 +8,25 @@ describe("User Model Test Suite", () => {
     afterEach(async () => {
         await User.deleteMany()
     });
-    afterAll(async () => dbDisconnect());
+    afterAll(async () => dbDisconnectAndWipe());
 
     it("saves a user successfully with hashed password", async () => {
-        const user = new User(testUsers.valid);
+        const user = new User(testUsers.validNoDefaults);
         await user.save();
 
         validators.validateNotEmptyAndTruthy(user);
 
-        validators.validateStringEquality(user.name, testUsers.valid.name);
-        validators.validateStringEquality(user.email, testUsers.valid.email);
+        validators.validateStringEquality(user.name, testUsers.validNoDefaults.name);
+        validators.validateStringEquality(user.email, testUsers.validNoDefaults.email);
         //use bcrypt compare to validate password
-        expect(await user.comparePassword(testUsers.valid.password)).toBe(true);
-        validators.validateStringEquality(user.role, testUsers.valid.role);
-        validators.validateStringEquality(user.favouriteColor, testUsers.valid.favouriteColor)
+        expect(await user.comparePassword(testUsers.validNoDefaults.password)).toBe(true);
+        validators.validateStringEquality(user.role, testUsers.validNoDefaults.role);
+        validators.validateStringEquality(user.favouriteColor, testUsers.validNoDefaults.favouriteColor)
     })
 
     it("throws MongoDB duplicate error with code 11000", async () => {
-        const user = new User(testUsers.valid);
-        const user2 = new User(testUsers.valid); //clone user
+        const user = new User(testUsers.validNoDefaults);
+        const user2 = new User(testUsers.validNoDefaults); //clone user
 
         await user.save();
 
@@ -40,7 +40,7 @@ describe("User Model Test Suite", () => {
     })
 
     it("creates new hash on password change", async () => {
-        const user = new User(testUsers.valid);
+        const user = new User(testUsers.validNoDefaults);
 
         //save the cleartextPassword as it gets overridden by a hash on save
         const cleartextPassword = user.password;
@@ -247,7 +247,7 @@ describe("User Model Test Suite", () => {
     })
 
     test("if the normalized username is readonly", async () => {
-        const user = new User(testUsers.valid)
+        const user = new User(testUsers.validNoDefaults)
         user.nameNormalized = "upsert on a readonly field should error" //upsert: update or insert
 
         try {
@@ -259,7 +259,8 @@ describe("User Model Test Suite", () => {
     })
 
     it("doesnt bcrypt the password if another field is updated", async () => {
-        const user = new User(testUsers.valid)
+        //BUG this randomly errors sometimes - on a rerun it then works again...
+        const user = new User(testUsers.validNoDefaults)
 
         await user.save()
         const oldHashedPassword = user.password
@@ -271,5 +272,4 @@ describe("User Model Test Suite", () => {
 
         expect(newHashedPassword).toBe(oldHashedPassword)
     })
-})
-;
+});
