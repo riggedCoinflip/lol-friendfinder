@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "nodemon server.js",
-    "test": "jest --setupFiles dotenv/config --runInBand --detectOpenHandles"
+    "test": "jest --runInBand --detectOpenHandles",
+    "test:coverage": "jest --runInBand --detectOpenHandles --coverage"
   },
   "keywords": [],
   "author": "riggedCoinflip",
@@ -19,7 +20,8 @@
     }
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "setupFiles": ["dotenv/config"]
   },
   "dependencies": {
     "apollo-server-express": "^2.24.0",
