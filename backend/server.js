@@ -1,11 +1,9 @@
 const assert = require("assert");
-const express = require("express");
 const dotenv = require("dotenv");
-const {ApolloServer} = require("apollo-server-express");
 const mongoose = require("mongoose");
+const createApollo = require("./src/utils/createApolloServer");
+const expressApp = require("./src/utils/expressApp")
 
-const isAuth = require("./src/middleware/jwt/is-auth");
-const graphqlSchema = require("./src/schemas/index");
 
 // allow use of dotenv
 dotenv.config()
@@ -33,17 +31,10 @@ mongoose
     });
 
 //express
-const app = express();
-app.use(isAuth);
-
+const app = expressApp;
 
 //apollo
-const apollo = new ApolloServer({
-    schema: graphqlSchema,
-    context: ({req, res}) => ({req, res})
-});
-apollo.applyMiddleware({app, path: "/graphql"});
-
+const apollo = createApollo()
 
 //launch
 const PORT = process.env.PORT || 5000;
