@@ -6,12 +6,65 @@ const util = require("./user.test.queries")
 const {createTestClient} = require("apollo-server-integration-testing");
 
 const createApollo = require("../utils/createApolloServer")
+const jwt = require("jsonwebtoken");
 const {query, mutate, setOptions} = createTestClient({apolloServer: createApollo()});
 
+/**
+ * Unfortunately we cannot use the *isAuth* middleware to properly authorize ourself
+ * This function mimics *isAuth* and uses *setOptions* to mimic a valid JWT auth token
+ * @param {String} email
+ * @param {String} password
+ */
+async function login(email, password) {
+    const loginResult = await mutate(
+        util.LOGIN, {
+            variables: {
+                email,
+                password
+            }
+        }
+    )
+    const token = loginResult.data.login
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+
+    setOptions({
+        request: {
+            user: {
+                isAuth: true,
+                _id: decodedToken._id,
+                name: decodedToken.username,
+                role: decodedToken.role,
+            }
+        }
+    });
+}
+
+async function loginUser() {
+    const {email, password} = testUsers.validNoDefaults
+    return login(email, password)
+}
+
+async function loginAdmin() {
+    const {email, password} = testUsers.admin
+    return login(email, password)
+}
+
+/**
+ * reset req and res to an empty object to keep tests atomic
+ * if we dont do this we might carry over a valid login to the next test if
+ * we don't define other *setOptions* in that specific test case
+ */
+function resetOptions() {
+    setOptions({
+        request: {},
+        response: {},
+    })
+}
 
 describe("User GraphQL Test Suite", () => {
     beforeAll(async () => dbConnect());
     beforeEach(async () => {
+        resetOptions()
         //create test users to have a user and admin login possible at all times
         await new User(testUsers.validNoDefaults).save();
         await new User(testUsers.admin).save();
@@ -112,5 +165,61 @@ describe("User GraphQL Test Suite", () => {
             });
         expect(pwInvalidChar.data.signup).toBeNull()
         expect(pwInvalidChar.errors[0].message).toBe("User validation failed: password: Password may only contain certain special chars")
+    })
+
+    it("returns a JWT on successful login", async () => {
+        const {email, password} = testUsers.validNoDefaults
+        const loginResult = await mutate(
+            util.LOGIN, {
+                variables: {
+                    email,
+                    password
+                }
+            }
+        )
+        const token = loginResult.data.login
+        expect(token).toBeTruthy()
+        expect(typeof token).toBe("string")
+    })
+
+    it("executes requireAuthentication queries", async () => {
+        await loginUser()
+
+        const resultUserSelf = await query(util.USER_SELF)
+        expect(resultUserSelf.errors).toBeUndefined()
+        expect(resultUserSelf.data.userSelf).toBeTruthy()
+    })
+
+    it("errors if authentication is missing/false on requireAuthentication queries", async () => {
+        //missing req.user completely
+        const resultUserSelf = await query(util.USER_SELF)
+        expect(resultUserSelf.errors[0].message).toBe("Cannot read property 'isAuth' of undefined")
+
+        setOptions({
+            request: {
+                user: {
+                    isAuth: false,
+                }
+            }
+        });
+        const resultUserSelf2 = await query(util.USER_SELF)
+        expect(resultUserSelf2.errors[0].message).toBe("You must login to view this.")
+    })
+
+    it("executes requireAuthorization queries", async () => {
+        await loginAdmin()
+
+        const resultUserOneAdmin = await query(util.USER_ONE_ADMIN)
+        //console.log(resultUserOneAdmin)
+        expect(resultUserOneAdmin.errors).toBeUndefined()
+        expect(resultUserOneAdmin.data.userOneAdmin).toBeDefined()
+    })
+
+    it("errors if role does not have permission for query", async () => {
+        //do log in with role:user for admin query so user is not authorized for query
+        await loginUser()
+
+        const resultUserOneAdmin = await query(util.USER_ONE_ADMIN)
+        expect(resultUserOneAdmin.errors[0].message).toBe("You do not have the required permissions to view this")
     })
 });

@@ -11,6 +11,36 @@ const SIGNUP = `
     }
 `
 
+const LOGIN = `
+    mutation login($email: String!, $password: String!){
+        login(email: $email, password: $password)
+    }
+`
+
+const USER_SELF = `
+    query {
+        userSelf{name, favouriteColor}
+    }
+`
+
+const USER_ONE_ADMIN = `
+    query {
+        userOneAdmin(filter: {nameNormalized: "name"}) {
+            _id
+            name
+            nameNormalized
+            email
+            password
+            favouriteColor
+            createdAt
+            updatedAt
+        }
+    }
+`
+
 module.exports = {
-    SIGNUP
+    SIGNUP,
+    LOGIN,
+    USER_SELF,
+    USER_ONE_ADMIN,
 }
