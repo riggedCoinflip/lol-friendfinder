@@ -10,8 +10,6 @@ email: admin@admin
 password: Admin123
  */
 
-//TODO https://stackoverflow.com/questions/13991604/mongoose-schema-validating-unique-field-case-insensitive/54577742
-//https://docs.mongodb.com/manual/reference/collation/
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,

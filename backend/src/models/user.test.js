@@ -245,5 +245,31 @@ describe("User Model Test Suite", () => {
             validators.validateMongoDuplicationError(name, code);
         }
     })
+
+    test("if the normalized username is readonly", async () => {
+        const user = new User(testUsers.valid)
+        user.nameNormalized = "upsert on a readonly field should error" //upsert: update or insert
+
+        try {
+            await user.save()
+            fail("Should throw error");
+        } catch (err) {
+            expect(err.message).toBe("nameNormalized is read only!")
+        }
+    })
+
+    it("doesnt bcrypt the password if another field is updated", async () => {
+        const user = new User(testUsers.valid)
+
+        await user.save()
+        const oldHashedPassword = user.password
+
+        //change other field
+        user.favouriteColor = "black"
+        await user.save()
+        const newHashedPassword = user.password
+
+        expect(newHashedPassword).toBe(oldHashedPassword)
+    })
 })
 ;
