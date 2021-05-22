@@ -10,8 +10,8 @@ const saltRounds = process.env.NODE_ENV!=="test" ? 10 : 5;
 /*
 dev-admin:
 name: Admin
-email: admin@admin
-password: Admin123
+email: admin@email.com
+password: Password1
  */
 const UserSchema = new mongoose.Schema({
     name: {
