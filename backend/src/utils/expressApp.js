@@ -1,5 +1,5 @@
 const express = require("express");
-const isAuth = require("../middleware/jwt/is-auth");
+const isAuth = require("../middleware/jwt/isAuth");
 
 const app = express();
 app.use(isAuth);
