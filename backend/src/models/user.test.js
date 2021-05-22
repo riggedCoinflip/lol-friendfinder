@@ -76,6 +76,16 @@ describe("User Model Test Suite", () => {
         validators.validateStringEquality(user.email, "trim@email.com");
     })
 
+    it("only allows valid email addresses", async () => {
+        const user = new User(testUsers.emailInvalid)
+        try {
+            await user.save();
+            fail("Should throw error");
+        } catch(err) {
+            validators.validateMongoValidationError(err, "email", "regexp")
+        }
+    })
+
     it("lowers the email on save", async () => {
         const user = new User(testUsers.lowerEmail)
         await user.save();
