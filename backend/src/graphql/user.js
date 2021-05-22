@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const {User, UserTCAdmin, UserTCSignup, UserTCPublic} = require("../models/user");
-const requireAuthentication = require("../middleware/jwt/require-authentication");
-const requireAuthorization = require("../middleware/jwt/require-authorization");
+const requireAuthentication = require("../middleware/jwt/requireAuthentication");
+const requireAuthorization = require("../middleware/jwt/requireAuthorization");
 
 //**********************
 //*** custom queries ***
@@ -104,5 +104,5 @@ const UserMutation = {
 
 module.exports = {
     UserQuery,
-    UserMutation
+    UserMutation,
 }

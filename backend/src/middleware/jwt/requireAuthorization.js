@@ -1,4 +1,4 @@
-const requireAuthentication = require("./require-authentication");
+const requireAuthentication = require("./requireAuthentication");
 
 //TODO wrap this with graphql-middleware:
 // https://github.com/graphql-compose/graphql-compose-mongoose/issues/158
