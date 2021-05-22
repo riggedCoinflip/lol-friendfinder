@@ -212,10 +212,9 @@ type UserAdmin {
     email: String!
     favouriteColor: String
     name: String!
+    nameNormalized: String
     password: String!
-    role: EnumUserAdminRole
-    "Token of authenticated user"
-    token: String
+    role: EnumUserAdminRole!
     updatedAt: Date
 }
 
@@ -268,6 +267,8 @@ enum EnumUserAdminRole {
 enum SortConnectionUserAdminEnum {
     EMAIL_ASC
     EMAIL_DESC
+    NAMENORMALIZED_ASC
+    NAMENORMALIZED_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -277,6 +278,8 @@ enum SortConnectionUserAdminEnum {
 enum SortFindByIdsUserAdminInput {
     EMAIL_ASC
     EMAIL_DESC
+    NAMENORMALIZED_ASC
+    NAMENORMALIZED_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -286,6 +289,8 @@ enum SortFindByIdsUserAdminInput {
 enum SortFindManyUserAdminInput {
     EMAIL_ASC
     EMAIL_DESC
+    NAMENORMALIZED_ASC
+    NAMENORMALIZED_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -295,6 +300,8 @@ enum SortFindManyUserAdminInput {
 enum SortFindOneUserAdminInput {
     EMAIL_ASC
     EMAIL_DESC
+    NAMENORMALIZED_ASC
+    NAMENORMALIZED_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -304,6 +311,8 @@ enum SortFindOneUserAdminInput {
 enum SortFindOneUserPublicInput {
     EMAIL_ASC
     EMAIL_DESC
+    NAMENORMALIZED_ASC
+    NAMENORMALIZED_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -313,6 +322,8 @@ enum SortFindOneUserPublicInput {
 enum SortRemoveOneUserAdminInput {
     EMAIL_ASC
     EMAIL_DESC
+    NAMENORMALIZED_ASC
+    NAMENORMALIZED_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -322,6 +333,8 @@ enum SortRemoveOneUserAdminInput {
 enum SortUpdateManyUserAdminInput {
     EMAIL_ASC
     EMAIL_DESC
+    NAMENORMALIZED_ASC
+    NAMENORMALIZED_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -331,6 +344,8 @@ enum SortUpdateManyUserAdminInput {
 enum SortUpdateOneUserAdminInput {
     EMAIL_ASC
     EMAIL_DESC
+    NAMENORMALIZED_ASC
+    NAMENORMALIZED_DESC
     NAME_ASC
     NAME_DESC
     _ID_ASC
@@ -342,8 +357,9 @@ input CreateManyUserAdminInput {
     email: String!
     favouriteColor: String
     name: String!
+    nameNormalized: String
     password: String!
-    role: EnumUserAdminRole
+    role: EnumUserAdminRole!
     updatedAt: Date
 }
 
@@ -352,8 +368,9 @@ input CreateOneUserAdminInput {
     email: String!
     favouriteColor: String
     name: String!
+    nameNormalized: String
     password: String!
-    role: EnumUserAdminRole
+    role: EnumUserAdminRole!
     updatedAt: Date
 }
 
@@ -385,9 +402,22 @@ input FilterCountUserAdminInput {
     email: String
     favouriteColor: String
     name: String
+    nameNormalized: String
     password: String
     role: EnumUserAdminRole
     updatedAt: Date
+}
+
+input FilterCountUserAdminNameNormalizedOperatorsInput {
+    exists: Boolean
+    gt: String
+    gte: String
+    in: [String]
+    lt: String
+    lte: String
+    ne: String
+    nin: [String]
+    regex: RegExpAsString
 }
 
 input FilterCountUserAdminNameOperatorsInput {
@@ -407,6 +437,7 @@ input FilterCountUserAdminOperatorsInput {
     _id: FilterCountUserAdmin_idOperatorsInput
     email: FilterCountUserAdminEmailOperatorsInput
     name: FilterCountUserAdminNameOperatorsInput
+    nameNormalized: FilterCountUserAdminNameNormalizedOperatorsInput
 }
 
 input FilterCountUserAdmin_idOperatorsInput {
@@ -442,9 +473,22 @@ input FilterFindManyUserAdminInput {
     email: String
     favouriteColor: String
     name: String
+    nameNormalized: String
     password: String
     role: EnumUserAdminRole
     updatedAt: Date
+}
+
+input FilterFindManyUserAdminNameNormalizedOperatorsInput {
+    exists: Boolean
+    gt: String
+    gte: String
+    in: [String]
+    lt: String
+    lte: String
+    ne: String
+    nin: [String]
+    regex: RegExpAsString
 }
 
 input FilterFindManyUserAdminNameOperatorsInput {
@@ -464,6 +508,7 @@ input FilterFindManyUserAdminOperatorsInput {
     _id: FilterFindManyUserAdmin_idOperatorsInput
     email: FilterFindManyUserAdminEmailOperatorsInput
     name: FilterFindManyUserAdminNameOperatorsInput
+    nameNormalized: FilterFindManyUserAdminNameNormalizedOperatorsInput
 }
 
 input FilterFindManyUserAdmin_idOperatorsInput {
@@ -499,9 +544,22 @@ input FilterFindOneUserAdminInput {
     email: String
     favouriteColor: String
     name: String
+    nameNormalized: String
     password: String
     role: EnumUserAdminRole
     updatedAt: Date
+}
+
+input FilterFindOneUserAdminNameNormalizedOperatorsInput {
+    exists: Boolean
+    gt: String
+    gte: String
+    in: [String]
+    lt: String
+    lte: String
+    ne: String
+    nin: [String]
+    regex: RegExpAsString
 }
 
 input FilterFindOneUserAdminNameOperatorsInput {
@@ -521,6 +579,7 @@ input FilterFindOneUserAdminOperatorsInput {
     _id: FilterFindOneUserAdmin_idOperatorsInput
     email: FilterFindOneUserAdminEmailOperatorsInput
     name: FilterFindOneUserAdminNameOperatorsInput
+    nameNormalized: FilterFindOneUserAdminNameNormalizedOperatorsInput
 }
 
 input FilterFindOneUserAdmin_idOperatorsInput {
@@ -582,9 +641,22 @@ input FilterRemoveManyUserAdminInput {
     email: String
     favouriteColor: String
     name: String
+    nameNormalized: String
     password: String
     role: EnumUserAdminRole
     updatedAt: Date
+}
+
+input FilterRemoveManyUserAdminNameNormalizedOperatorsInput {
+    exists: Boolean
+    gt: String
+    gte: String
+    in: [String]
+    lt: String
+    lte: String
+    ne: String
+    nin: [String]
+    regex: RegExpAsString
 }
 
 input FilterRemoveManyUserAdminNameOperatorsInput {
@@ -604,6 +676,7 @@ input FilterRemoveManyUserAdminOperatorsInput {
     _id: FilterRemoveManyUserAdmin_idOperatorsInput
     email: FilterRemoveManyUserAdminEmailOperatorsInput
     name: FilterRemoveManyUserAdminNameOperatorsInput
+    nameNormalized: FilterRemoveManyUserAdminNameNormalizedOperatorsInput
 }
 
 input FilterRemoveManyUserAdmin_idOperatorsInput {
@@ -639,9 +712,22 @@ input FilterRemoveOneUserAdminInput {
     email: String
     favouriteColor: String
     name: String
+    nameNormalized: String
     password: String
     role: EnumUserAdminRole
     updatedAt: Date
+}
+
+input FilterRemoveOneUserAdminNameNormalizedOperatorsInput {
+    exists: Boolean
+    gt: String
+    gte: String
+    in: [String]
+    lt: String
+    lte: String
+    ne: String
+    nin: [String]
+    regex: RegExpAsString
 }
 
 input FilterRemoveOneUserAdminNameOperatorsInput {
@@ -661,6 +747,7 @@ input FilterRemoveOneUserAdminOperatorsInput {
     _id: FilterRemoveOneUserAdmin_idOperatorsInput
     email: FilterRemoveOneUserAdminEmailOperatorsInput
     name: FilterRemoveOneUserAdminNameOperatorsInput
+    nameNormalized: FilterRemoveOneUserAdminNameNormalizedOperatorsInput
 }
 
 input FilterRemoveOneUserAdmin_idOperatorsInput {
@@ -696,9 +783,22 @@ input FilterUpdateManyUserAdminInput {
     email: String
     favouriteColor: String
     name: String
+    nameNormalized: String
     password: String
     role: EnumUserAdminRole
     updatedAt: Date
+}
+
+input FilterUpdateManyUserAdminNameNormalizedOperatorsInput {
+    exists: Boolean
+    gt: String
+    gte: String
+    in: [String]
+    lt: String
+    lte: String
+    ne: String
+    nin: [String]
+    regex: RegExpAsString
 }
 
 input FilterUpdateManyUserAdminNameOperatorsInput {
@@ -718,6 +818,7 @@ input FilterUpdateManyUserAdminOperatorsInput {
     _id: FilterUpdateManyUserAdmin_idOperatorsInput
     email: FilterUpdateManyUserAdminEmailOperatorsInput
     name: FilterUpdateManyUserAdminNameOperatorsInput
+    nameNormalized: FilterUpdateManyUserAdminNameNormalizedOperatorsInput
 }
 
 input FilterUpdateManyUserAdmin_idOperatorsInput {
@@ -753,9 +854,22 @@ input FilterUpdateOneUserAdminInput {
     email: String
     favouriteColor: String
     name: String
+    nameNormalized: String
     password: String
     role: EnumUserAdminRole
     updatedAt: Date
+}
+
+input FilterUpdateOneUserAdminNameNormalizedOperatorsInput {
+    exists: Boolean
+    gt: String
+    gte: String
+    in: [String]
+    lt: String
+    lte: String
+    ne: String
+    nin: [String]
+    regex: RegExpAsString
 }
 
 input FilterUpdateOneUserAdminNameOperatorsInput {
@@ -775,6 +889,7 @@ input FilterUpdateOneUserAdminOperatorsInput {
     _id: FilterUpdateOneUserAdmin_idOperatorsInput
     email: FilterUpdateOneUserAdminEmailOperatorsInput
     name: FilterUpdateOneUserAdminNameOperatorsInput
+    nameNormalized: FilterUpdateOneUserAdminNameNormalizedOperatorsInput
 }
 
 input FilterUpdateOneUserAdmin_idOperatorsInput {
@@ -793,6 +908,7 @@ input UpdateByIdUserAdminInput {
     email: String
     favouriteColor: String
     name: String
+    nameNormalized: String
     password: String
     role: EnumUserAdminRole
     updatedAt: Date
@@ -803,6 +919,7 @@ input UpdateManyUserAdminInput {
     email: String
     favouriteColor: String
     name: String
+    nameNormalized: String
     password: String
     role: EnumUserAdminRole
     updatedAt: Date
@@ -813,6 +930,7 @@ input UpdateOneUserAdminInput {
     email: String
     favouriteColor: String
     name: String
+    nameNormalized: String
     password: String
     role: EnumUserAdminRole
     updatedAt: Date
