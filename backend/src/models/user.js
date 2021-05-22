@@ -3,13 +3,16 @@ const bcrypt = require("bcrypt");
 const {composeMongoose} = require("graphql-compose-mongoose");
 const userValidation = require("../utils/shared_utils/index");
 
+
+//faster salting for testing to save time
+const saltRounds = process.env.NODE_ENV!=="test" ? 10 : 5;
+
 /*
 dev-admin:
 name: Admin
 email: admin@admin
 password: Admin123
  */
-
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -81,7 +84,7 @@ UserSchema.pre("save", async function (next) {
     // only hash password if it has been modified (or is new)
     if (this.isModified('password')) {
         // override the cleartext password with the hashed one
-        this.password = await bcrypt.hash(this.password, 10);
+        this.password = await bcrypt.hash(this.password, saltRounds);
     }
 
     next()
