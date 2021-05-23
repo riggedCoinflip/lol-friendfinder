@@ -182,6 +182,30 @@ describe("User GraphQL Test Suite", () => {
         expect(typeof token).toBe("string")
     })
 
+    it("errors on wrong login credentials", async () => {
+        const {email, password} = testUsers.validNoDefaults
+        const loginFalseEmailResult = await mutate(
+            util.LOGIN, {
+                variables: {
+                    email: email + "a",
+                    password
+                }
+            }
+        )
+        expect(loginFalseEmailResult.errors[0].message).toBe("User does not exist.")
+
+        const {email: email2, password: password2} = testUsers.validNoDefaults
+        const loginFalsePasswordResult = await mutate(
+            util.LOGIN, {
+                variables: {
+                    email: email2,
+                    password: password2 + "a"
+                }
+            }
+        )
+        expect(loginFalsePasswordResult.errors[0].message).toBe("Password is not correct.")
+    })
+
     it("executes requireAuthentication queries", async () => {
         await loginUser()
 
