@@ -8,8 +8,8 @@ const requireAuthorization = require("../middleware/jwt/requireAuthorization");
 //**********************
 
 UserTCPublic.addResolver({
-    kind: 'query',
-    name: 'userSelf',
+    kind: "query",
+    name: "userSelf",
     description: "get public schema of currently logged in user",
     type: UserTCPublic.mongooseResolvers.findById().getType(),
     resolve: async ({context}) => {
@@ -36,19 +36,19 @@ UserTCPublic.addResolver({
 
 //login
 UserTCPublic.addResolver({
-    kind: 'mutation',
-    name: 'login',
+    kind: "mutation",
+    name: "login",
     args: {
-        email: 'String!',
-        password: 'String!',
+        email: "String!",
+        password: "String!",
     },
     type: "String!",
     resolve: async ({args}) => {
         const user = await User.findOne({email: args.email});
 
-        if (!user) throw new Error('User does not exist.')
+        if (!user) throw new Error("User does not exist.")
 
-        if (!await user.comparePassword(args.password)) throw new Error('Password is not correct.');
+        if (!await user.comparePassword(args.password)) throw new Error("Password is not correct.");
 
         //generate token
         return jwt.sign({
@@ -57,7 +57,7 @@ UserTCPublic.addResolver({
                 role: user.role
             },
             process.env.JWT_SECRET, {
-                expiresIn: '24h'
+                expiresIn: "24h"
             });
     }
 })
