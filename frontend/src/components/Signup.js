@@ -170,6 +170,7 @@ export default function Signup() {
 
 
         // Request if the username/email exists already, if available, create the account
+       
         client
             .query({
                 query: USER_EXISTS,
@@ -181,6 +182,7 @@ export default function Signup() {
             .then(response => {
                 const newValidationQuery = validateOnSubmit(response)
                 setValidationQuery(newValidationQuery)
+                
 
                 if (Object.values(newValidationQuery).every(item => item === true)) { //if no errors
                     console.log("state:", state)
