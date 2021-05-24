@@ -3,15 +3,16 @@ const bcrypt = require("bcrypt");
 const {composeMongoose} = require("graphql-compose-mongoose");
 const userValidation = require("../utils/shared_utils/index");
 
+
+//faster salting for testing to save time
+const saltRounds = process.env.NODE_ENV!=="test" ? 10 : 5;
+
 /*
 dev-admin:
 name: Admin
-email: admin@admin
-password: Admin123
+email: admin@email.com
+password: Password1
  */
-
-//TODO https://stackoverflow.com/questions/13991604/mongoose-schema-validating-unique-field-case-insensitive/54577742
-//https://docs.mongodb.com/manual/reference/collation/
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -83,7 +84,7 @@ UserSchema.pre("save", async function (next) {
     // only hash password if it has been modified (or is new)
     if (this.isModified('password')) {
         // override the cleartext password with the hashed one
-        this.password = await bcrypt.hash(this.password, 10);
+        this.password = await bcrypt.hash(this.password, saltRounds);
     }
 
     next()

@@ -1,5 +1,18 @@
 module.exports = {
     valid: {
+        name: "validUser",
+        email: "valid@email.com",
+        password: "Password1",
+    },
+
+    admin: {
+        name: "Admin",
+        email: "admin@email.com",
+        password: "Password1",
+        role: "admin",
+    },
+
+    validNoDefaults: {
         name: "Name",
         email: "name@email.com",
         password: "Password1",
@@ -170,5 +183,11 @@ module.exports = {
             email: "upper@email.com",
             password: "Password1",
         },
+    },
+
+    emailInvalid: {
+        name: "name",
+        email: "@email.com",
+        password: "Password1",
     }
 }

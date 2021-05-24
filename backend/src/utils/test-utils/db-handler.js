@@ -24,7 +24,7 @@ async function dbConnect() {
 };
 
 
-async function dbDisconnect() {
+async function dbDisconnectAndWipe() {
     await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
     await mongod.stop();
@@ -32,5 +32,5 @@ async function dbDisconnect() {
 
 module.exports = {
     dbConnect,
-    dbDisconnect
+    dbDisconnectAndWipe
 }

@@ -1,15 +1,15 @@
 const jwt = require("jsonwebtoken");
 const {User, UserTCAdmin, UserTCSignup, UserTCPublic} = require("../models/user");
-const requireAuthentication = require("../middleware/jwt/require-authentication");
-const requireAuthorization = require("../middleware/jwt/require-authorization");
+const requireAuthentication = require("../middleware/jwt/requireAuthentication");
+const requireAuthorization = require("../middleware/jwt/requireAuthorization");
 
 //**********************
 //*** custom queries ***
 //**********************
 
 UserTCPublic.addResolver({
-    kind: 'query',
-    name: 'userSelf',
+    kind: "query",
+    name: "userSelf",
     description: "get public schema of currently logged in user",
     type: UserTCPublic.mongooseResolvers.findById().getType(),
     resolve: async ({context}) => {
@@ -36,19 +36,23 @@ UserTCPublic.addResolver({
 
 //login
 UserTCPublic.addResolver({
-    kind: 'mutation',
-    name: 'login',
+    kind: "mutation",
+    name: "login",
     args: {
-        email: 'String!',
-        password: 'String!',
+        email: "String!",
+        password: "String!",
     },
     type: "String!",
     resolve: async ({args}) => {
         const user = await User.findOne({email: args.email});
 
-        if (!user) throw new Error('User does not exist.')
-
-        if (!await user.comparePassword(args.password)) throw new Error('Password is not correct.');
+        //OPTIMIZE/FIXME 2 different error messages -> "hacker" can find out which emails exist and which dont
+        // if we want to fix the error, we still need a pseudo-compare password cause else a "hacker" can do
+        // timing attacks -> as a login takes substantially longer if the user is correct due to comparing a password
+        // a "hacker" can use the difference in time-till-response to find out which emails are in use
+        // SEVERITY: minor
+        if (!user) throw new Error("User does not exist.")
+        if (!await user.comparePassword(args.password)) throw new Error("Password is not correct.");
 
         //generate token
         return jwt.sign({
@@ -57,7 +61,7 @@ UserTCPublic.addResolver({
                 role: user.role
             },
             process.env.JWT_SECRET, {
-                expiresIn: '24h'
+                expiresIn: "24h"
             });
     }
 })
@@ -104,5 +108,5 @@ const UserMutation = {
 
 module.exports = {
     UserQuery,
-    UserMutation
+    UserMutation,
 }
