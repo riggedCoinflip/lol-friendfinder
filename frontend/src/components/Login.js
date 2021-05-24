@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import {gql, useMutation} from "@apollo/client";
 import {useHistory} from "react-router-dom";
+//import { AUTH_TOKEN } from '../constants';
+import * as Constants from '../constants'
 
 const LOGIN = gql`
     mutation (
@@ -24,8 +26,8 @@ export default function Login() {
     const [submitLogin, {data}] = useMutation(LOGIN);
     const history = useHistory();
 
-    function handleChange(event) {
-        setState({...state, [event.target.name]: event.target.value})
+    function handleChange(e) {
+        setState({...state, [e.target.name]: e.target.value})
     }
 
     function handleSubmit(event) {
@@ -38,19 +40,24 @@ export default function Login() {
             }
         })
             .then((res) => {
-                history.push("/")
+                history.push("/profile")
 
-                alert(`Log in successful! - Token: ${res.data.login}`);
-                console.log(res) //for now, log token //TODO find a way to store token
+                alert(`Log in successful! - Token is stored in localStorage. 
+                Wanna see? localStorage.getItem("SECREToken");`);
+                const DATA_AUTH_TOKEN = res.data.login;
+                console.log(DATA_AUTH_TOKEN) //for now, log token //TODO find a way to store token
+                localStorage.setItem("SECREToken", DATA_AUTH_TOKEN);
             })
             .catch(() => {
                 setErrored(true)
             })
     }
+   // 
 
     return (
         <form onSubmit={handleSubmit}>
             <h3>Log In</h3>
+            <h3></h3>
 
             <div className="form-group">
                 {/*TODO add min/maxlength validation from shared/utils. This will reduce server load as less (100% false) forms will be submitted*/}
@@ -98,6 +105,7 @@ export default function Login() {
                     Email or Password incorrect
                 </small>
             }
+            <div className="form-group">
 
             <button
                 type="submit"
@@ -105,6 +113,7 @@ export default function Login() {
             >
                 Submit
             </button>
+            </div>
             {/*
             <p className="forgot-password text-right">
                 Forgot <a href="#">password?</a>
