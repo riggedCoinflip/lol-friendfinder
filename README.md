@@ -8,14 +8,12 @@ _If chokidar errors, try `npm update --force`_
 
 ## Node Backend
 ```shell
-cd backend
-node server
+cd backend && npm start
 ```
 
 ## React Frontend
 ```shell
-cd frontend
-npm start
+cd frontend && npm start
 ```
 
 ### Cypress

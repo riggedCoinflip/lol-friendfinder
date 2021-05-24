@@ -1,12 +1,11 @@
-import assert from "assert";
-import express from "express";
-import dotenv from "dotenv";
-import {ApolloServer} from "apollo-server-express";
-import mongoose from "mongoose";
+const assert = require("assert");
+const express = require("express");
+const dotenv = require("dotenv");
+const {ApolloServer} = require("apollo-server-express");
+const mongoose = require("mongoose");
 
-import isAuth from "./src/middleware/jwt/is-auth.js";
-import {graphqlSchema} from "./src/schemas/index.js";
-
+const isAuth = require("./src/middleware/jwt/is-auth");
+const graphqlSchema = require("./src/schemas/index");
 
 // allow use of dotenv
 dotenv.config()
@@ -24,6 +23,7 @@ mongoose
         useNewUrlParser: true,
         useCreateIndex: true,
         useUnifiedTopology: true,
+        useFindAndModify: false,
     })
     .then(() => {
         console.log('Connection to DB successful');

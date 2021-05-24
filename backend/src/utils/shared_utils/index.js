@@ -1,6 +1,6 @@
-export const [passwordMinLength, passwordMaxLength] = [8, 72];
-export const passwordAllowedSpecialCharacters = "*.!@#$%^&(){}:;<>,.?~_=|" //special characters that dont need escaping in regex. //OPTIMIZE add more allowed special characters
-export const [usernameMinLength, usernameMaxLength] = [3, 16];
+const [passwordMinLength, passwordMaxLength] = [8, 72];
+const passwordAllowedSpecialCharacters = "*.!@#$%^&(){}:;<>,.?~_=|" //special characters that dont need escaping in regex. //OPTIMIZE add more allowed special characters
+const [usernameMinLength, usernameMaxLength] = [3, 16];
 
 /**
  * Returns true if the string matches the following rules:
@@ -74,7 +74,7 @@ function isLengthAllowed(str, minLength, maxLength) {
  * @param {number} maxLength
  * @return {boolean} password passed all checks
  */
-export function passwordValid(password, specialCharacters = passwordAllowedSpecialCharacters, minLength = passwordMinLength, maxLength = passwordMaxLength) {
+function passwordValid(password, specialCharacters = passwordAllowedSpecialCharacters, minLength = passwordMinLength, maxLength = passwordMaxLength) {
     //console.log(password, minLength, maxLength)
     return (
         isLengthAllowed(password, minLength, maxLength) &&
@@ -90,7 +90,7 @@ export function passwordValid(password, specialCharacters = passwordAllowedSpeci
  * @param {String} email
  * @return {boolean} email passed all checks
  */
-export function emailValid(email) {
+function emailValid(email) {
     return (
         isEmail(email)
     )
@@ -103,8 +103,19 @@ export function emailValid(email) {
  * @param {number} maxLength
  * @return {boolean}
  */
-export function usernameValid(username, minLength = usernameMinLength, maxLength = usernameMaxLength) {
+function usernameValid(username, minLength = usernameMinLength, maxLength = usernameMaxLength) {
     return (
         isLengthAllowed(username, minLength, maxLength)
     )
+}
+
+module.exports = {
+    passwordMinLength,
+    passwordMaxLength,
+    passwordAllowedSpecialCharacters,
+    passwordValid,
+    usernameMinLength,
+    usernameMaxLength,
+    usernameValid,
+    emailValid
 }

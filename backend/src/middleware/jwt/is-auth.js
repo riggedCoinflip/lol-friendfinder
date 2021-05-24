@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
+const jwt = require("jsonwebtoken");
 
-export default (req, res, next) => {
+module.exports = (req, res, next) => {
     const token = req.headers['x-auth-token'];
     if (!token) {
         req.user = {

@@ -1,5 +1,5 @@
-import {SchemaComposer} from "graphql-compose";
-import {UserMutation, UserQuery} from "./user.js";
+const {SchemaComposer} = require("graphql-compose");
+const {UserMutation, UserQuery} = require("./user");
 
 const schemaComposer = new SchemaComposer();
 
@@ -11,4 +11,4 @@ schemaComposer.Mutation.addFields({
     ...UserMutation
 });
 
-export const graphqlSchema = schemaComposer.buildSchema();
+module.exports = schemaComposer.buildSchema();
