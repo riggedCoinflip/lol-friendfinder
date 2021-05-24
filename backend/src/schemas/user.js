@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 const {User, UserTCAdmin, UserTCSignup, UserTCPublic} = require("../models/user");
-const {emailValid, passwordValid, usernameValid} = require("../utils/shared_utils/index");
 const requireAuthentication = require("../middleware/jwt/require-authentication");
 const requireAuthorization = require("../middleware/jwt/require-authorization");
 
@@ -36,38 +34,7 @@ UserTCPublic.addResolver({
 })
  */
 
-
-const signup = UserTCSignup.mongooseResolvers.createOne().wrapResolve(next => async rp => {
-    const record = rp.args.record
-
-    //OPTIMIZE give more granular errors
-    if (!usernameValid(record.name)) throw new Error("Username invalid")
-    if (!emailValid(record.email)) throw new Error("email invalid")
-    if (!passwordValid(record.password)) throw new Error("Password invalid")
-
-    rp.beforeRecordMutate = async function (doc) {
-        //hash pw
-        try {
-            doc.password = await bcrypt.hash(doc.password, 10);
-        } catch (err) {
-            throw new Error(err)
-        }
-
-        return doc
-    }
-
-    return next(rp)
-})
-
-
 //login
-UserTCAdmin.addFields({
-    token: {
-        type: "String",
-        description: "Token of authenticated user",
-    }
-})
-
 UserTCPublic.addResolver({
     kind: 'mutation',
     name: 'login',
@@ -77,16 +44,14 @@ UserTCPublic.addResolver({
     },
     type: "String!",
     resolve: async ({args}) => {
-        let user = await User.findOne({email: args.email});
+        const user = await User.findOne({email: args.email});
 
-        if (!user) {
-            throw new Error('User does not exist.')
-        }
-        const isEqual = await bcrypt.compare(args.password, user.password);
-        if (!isEqual) {
-            throw new Error('Password is not correct.');
-        }
-        const token = jwt.sign({
+        if (!user) throw new Error('User does not exist.')
+
+        if (!await user.comparePassword(args.password)) throw new Error('Password is not correct.');
+
+        //generate token
+        return jwt.sign({
                 _id: user._id,
                 username: user.name,
                 role: user.role
@@ -94,7 +59,6 @@ UserTCPublic.addResolver({
             process.env.JWT_SECRET, {
                 expiresIn: '24h'
             });
-        return token
     }
 })
 
@@ -122,7 +86,7 @@ const UserQuery = {
 };
 
 const UserMutation = {
-    signup: signup,
+    signup: UserTCSignup.mongooseResolvers.createOne(),
     login: UserTCPublic.getResolver("login"),
     ...requireAuthorization({
             userCreateOneAdmin: UserTCAdmin.mongooseResolvers.createOne(),

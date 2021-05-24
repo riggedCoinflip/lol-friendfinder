@@ -1,3 +1,10 @@
+/**
+ * bcrypt only uses the first 72 BYTES for its hash. Any char more will produce the same hash.
+ * We use UTF8 - meaning if sb uses unicode chars (1̵̤͒Äà🎈🎗😁 etc.) someone might enter a 72 char pw, but 100+ bytes
+ * This means that the last characters are irrelevant for the password and can be changed in the password query.
+ *
+ * We only allow chars that use 1 byte for the password
+ */
 const [passwordMinLength, passwordMaxLength] = [8, 72];
 const passwordAllowedSpecialCharacters = "*.!@#$%^&(){}:;<>,.?~_=|" //special characters that dont need escaping in regex. //OPTIMIZE add more allowed special characters
 const [usernameMinLength, usernameMaxLength] = [3, 16];
@@ -13,6 +20,15 @@ const [usernameMinLength, usernameMaxLength] = [3, 16];
 function containsOnlyAllowedCharacters(str, specialCharacters = passwordAllowedSpecialCharacters) {
     const regex = new RegExp(`^[a-zA-Z0-9${specialCharacters}]+$`)
     return regex.test(str)
+}
+
+/**
+ * Returns true if the string only contains alphanumeric characters
+ * @param {string} str
+ * @returns {boolean}
+ */
+function isAlphanumeric(str) {
+    return containsOnlyAllowedCharacters(str, "")
 }
 
 /**
@@ -113,9 +129,15 @@ module.exports = {
     passwordMinLength,
     passwordMaxLength,
     passwordAllowedSpecialCharacters,
+    containsOnlyAllowedCharacters,
+    containsLower,
+    containsUpper,
+    containsDigit,
     passwordValid,
     usernameMinLength,
     usernameMaxLength,
+    isAlphanumeric,
     usernameValid,
+    isEmail,
     emailValid
 }

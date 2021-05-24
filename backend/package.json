@@ -19,8 +19,7 @@
     }
   },
   "jest": {
-    "testEnvironment": "jest-environment-node",
-    "transform": {}
+    "testEnvironment": "node"
   },
   "dependencies": {
     "apollo-server-express": "^2.24.0",
