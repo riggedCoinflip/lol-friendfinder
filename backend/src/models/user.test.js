@@ -1,6 +1,6 @@
 const {User} = require("./user.js");
 const validators = require("./user.test.validators");
-const {dbConnect, dbClean, dbDisconnectAndWipe} = require("../utils/test-utils/db-handler");
+const {dbConnect, dbDisconnectAndWipe} = require("../utils/test-utils/db-handler");
 const testUsers = require("./user.test.data")
 
 describe("User Model Test Suite", () => {

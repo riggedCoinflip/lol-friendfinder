@@ -219,6 +219,7 @@ describe("User GraphQL Test Suite", () => {
         const resultUserSelf = await query(util.USER_SELF)
         expect(resultUserSelf.errors[0].message).toBe("Cannot read property 'isAuth' of undefined")
 
+        //JWT not correct
         setOptions({
             request: {
                 user: {
