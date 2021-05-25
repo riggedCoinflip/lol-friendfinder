@@ -31,7 +31,6 @@ export default function App() {
          
                 <Route exact path="/users" component={ () => <Users authorized={true}/>} />
                 <Route exact path="/profile" component={ () => <Profile authorized={true}/>} />
-                <Route exact path="/users" component={ () => <Users authorized={true}/>} />
 
             </Switch>
         </div>
