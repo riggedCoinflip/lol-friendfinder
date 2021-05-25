@@ -176,15 +176,14 @@ export default function Signup() {
         createUser
             (state.username, state.email, state.password)
               .then(res => {
-                history.push("/")
-                alert('Account creation successful!');
+                history.push("/login")
+                alert('Account creation successful 🔥!');
                     console.log("state:", state)
-                        .catch((err) => {
-                            console.error(`Error in createUser: ${err}`)
-                        })
-            })
+             })
             .catch(err => {
-                    console.error(err)
+                alert('Error: Name or E-Mail are already given 😓');
+                console.error(`Error in createUser: ${err}`);
+               
                 }
             );
             
