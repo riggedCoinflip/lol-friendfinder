@@ -55,14 +55,14 @@ export default function Login() {
    // 
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form  onSubmit={handleSubmit}>
             <h3>Log In</h3>
-            <h3></h3>
+
 
             <div className="form-group">
                 {/*TODO add min/maxlength validation from shared/utils. This will reduce server load as less (100% false) forms will be submitted*/}
                 <label>Email</label>
-                <input
+                <input 
                     className="form-control"
                     name="email"
                     type="text"
@@ -86,15 +86,7 @@ export default function Login() {
                     onChange={handleChange}
                 />
             </div>
-            {/*
-                <div className="form-group">
-                    <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
-                    </div>
-                </div>
-                TODO integrate remember button behaviour on BE - or store it cached on client?
-                */}
+         
 
             {
                 errored &&
@@ -105,12 +97,10 @@ export default function Login() {
                     Email or Password incorrect
                 </small>
             }
+            <br />
             <div className="form-group">
-
-            <button
-                type="submit"
-                className="btn btn-primary btn-block"
-            >
+            
+            <button type="submit" className="btn btn-primary">
                 Submit
             </button>
             </div>
