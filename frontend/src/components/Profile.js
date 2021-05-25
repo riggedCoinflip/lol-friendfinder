@@ -6,10 +6,8 @@ import * as Constants from '../constants'
 import Button from '@material-ui/core/Button';
 
 const GET_USER = gql`
-       { userOneAdmin(filter:{name :"Carlo"})
+       { userSelf
         {name
-        email
-        role
         favouriteColor
         }         
         }`;
@@ -25,21 +23,18 @@ const { loading, error, data } = useQuery(GET_USER, {
         "x-auth-token": Constants.AUTH_TOKEN 
     }
 }})
-console.log('from Profile: '+ Constants.AUTH_TOKEN)
+//console.log('from Profile: '+ Constants.AUTH_TOKEN)
 
 if (loading) return <p>Loading...</p>;
 if (error) return <p>Error!</p>;
-//setProfile(data); 
 console.log(data);
 
 
 return(
 <div id="user-info">
   
-<p>Welcome {data.userOneAdmin.name}</p>
-<p>Role: {data.userOneAdmin.role}</p>
-<p>Fav color: {data.userOneAdmin.favouriteColor}</p>
-<p>Fav email: {data.userOneAdmin.email}</p>
+<p>Welcome {data.userSelf.name}</p>
+<p>Fav color: {data.userSelf.favouriteColor}</p>
 <Button  variant="outlined" color="primary"
  onClick={() => {
                   // setProfile('');
