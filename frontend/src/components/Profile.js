@@ -3,7 +3,8 @@ import { useQuery, gql } from '@apollo/client';
 //import { AUTH_TOKEN } from '../constants';
 import * as Constants from '../constants'
 
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
+import {Button} from 'react-bootstrap';
 
 const GET_USER = gql`
        { userSelf
@@ -35,7 +36,7 @@ return(
   
 <p>Welcome {data.userSelf.name}</p>
 <p>Fav color: {data.userSelf.favouriteColor}</p>
-<Button  variant="outlined" color="primary"
+<Button  variant="primary"
  onClick={() => {
                   // setProfile('');
                   localStorage.clear();
