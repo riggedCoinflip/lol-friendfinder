@@ -4,7 +4,7 @@ import {
     Route
 } from 'react-router-dom';
 
-import MyNavbar from './components/MyNavbar';
+import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Login from './components/Login';
 import SignUp from './components/Signup';
@@ -20,8 +20,9 @@ import Logout from './components/Logout';
 export default function App() {
     return (
         <div>
-            <MyNavbar/>
+            <Navbar/>
             
+
             <Switch>
                 <Route exact path="/"  component={Home}/>
                 <Route path="/login" component={Login}/>
