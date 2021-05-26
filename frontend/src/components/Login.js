@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import {gql, useMutation} from "@apollo/client";
 import {useHistory} from "react-router-dom";
-//import { AUTH_TOKEN } from '../constants';
-import * as Constants from '../constants'
 
 const LOGIN = gql`
     mutation (
@@ -40,13 +38,12 @@ export default function Login() {
             }
         })
             .then((res) => {
-                history.push("/profile")
-
                 alert(`Log in successful! - Token is stored in localStorage. 
-                Wanna see? localStorage.getItem("SECREToken");`);
+                localStorage.getItem("SECREToken");`);
                 const DATA_AUTH_TOKEN = res.data.login;
                 console.log(DATA_AUTH_TOKEN) //for now, log token //TODO find a way to store token
                 localStorage.setItem("SECREToken", DATA_AUTH_TOKEN);
+                history.push("/users")
             })
             .catch(() => {
                 setErrored(true)
