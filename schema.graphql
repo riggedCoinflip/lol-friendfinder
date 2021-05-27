@@ -39,12 +39,6 @@ type CreateOneUserSignupPayload {
     recordId: MongoID
 }
 
-type Language {
-    alpha2: String
-    name: String!
-    nativeName: String!
-}
-
 type Mutation {
     login(email: String!, password: String!): String!
     "Create one document with mongoose defaults, setters, hooks and validation"
@@ -110,19 +104,6 @@ type PaginationInfo {
 }
 
 type Query {
-    languageMany(
-        "Filter by fields"
-        filter: FilterFindManyLanguageInput,
-        limit: Int = 100,
-        skip: Int,
-        sort: SortFindManyLanguageInput
-    ): [Language!]!
-    languageOne(
-        "Filter by fields"
-        filter: FilterFindOneLanguageInput,
-        skip: Int,
-        sort: SortFindOneLanguageInput
-    ): Language
     user(
         "Filter by fields"
         filter: FilterFindOneUserPublicInput,
@@ -227,16 +208,9 @@ type UpdateOneUserAdminPayload {
 "Full User Model. Exposed only for Admins"
 type UserAdmin {
     _id: MongoID!
-    aboutMe: String
-    "Uses the virtual \"age\" that is calculated from DateOfBirth"
-    age: Int
-    avatar: String
     createdAt: Date
-    dateOfBirth: Date
     email: String!
-    gender: EnumUserAdminGender!
-    ingameRole: [EnumUserAdminIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String!
     nameNormalized: String
     password: String!
@@ -274,13 +248,7 @@ type UserAdminPagination {
 
 "Contains all public fields of users. Use this for filtering as well"
 type UserPublic {
-    aboutMe: String
-    "Uses the virtual \"age\" that is calculated from DateOfBirth"
-    age: Int
-    avatar: String
-    gender: EnumUserPublicGender!
-    ingameRole: [EnumUserPublicIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String!
 }
 
@@ -291,47 +259,9 @@ type UserSignup {
     password: String!
 }
 
-enum EnumUserAdminGender {
-    I_prefer_not_to_say
-    female
-    intersex
-    male
-    non_binary
-    other
-    transgender
-}
-
-enum EnumUserAdminIngameRole {
-    Bot
-    Fill
-    Jungle
-    Mid
-    Support
-    Top
-}
-
 enum EnumUserAdminRole {
     admin
     user
-}
-
-enum EnumUserPublicGender {
-    I_prefer_not_to_say
-    female
-    intersex
-    male
-    non_binary
-    other
-    transgender
-}
-
-enum EnumUserPublicIngameRole {
-    Bot
-    Fill
-    Jungle
-    Mid
-    Support
-    Top
 }
 
 enum SortConnectionUserAdminEnum {
@@ -356,11 +286,6 @@ enum SortFindByIdsUserAdminInput {
     _ID_DESC
 }
 
-enum SortFindManyLanguageInput {
-    _ID_ASC
-    _ID_DESC
-}
-
 enum SortFindManyUserAdminInput {
     EMAIL_ASC
     EMAIL_DESC
@@ -368,11 +293,6 @@ enum SortFindManyUserAdminInput {
     NAMENORMALIZED_DESC
     NAME_ASC
     NAME_DESC
-    _ID_ASC
-    _ID_DESC
-}
-
-enum SortFindOneLanguageInput {
     _ID_ASC
     _ID_DESC
 }
@@ -433,14 +353,9 @@ enum SortUpdateOneUserAdminInput {
 }
 
 input CreateManyUserAdminInput {
-    aboutMe: String
-    avatar: String
     createdAt: Date
-    dateOfBirth: Date
     email: String!
-    gender: EnumUserAdminGender!
-    ingameRole: [EnumUserAdminIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String!
     nameNormalized: String
     password: String!
@@ -449,14 +364,9 @@ input CreateManyUserAdminInput {
 }
 
 input CreateOneUserAdminInput {
-    aboutMe: String
-    avatar: String
     createdAt: Date
-    dateOfBirth: Date
     email: String!
-    gender: EnumUserAdminGender!
-    ingameRole: [EnumUserAdminIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String!
     nameNormalized: String
     password: String!
@@ -488,14 +398,9 @@ input FilterCountUserAdminInput {
     _id: MongoID
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterCountUserAdminOperatorsInput
-    aboutMe: String
-    avatar: String
     createdAt: Date
-    dateOfBirth: Date
     email: String
-    gender: EnumUserAdminGender
-    ingameRole: [EnumUserAdminIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String
     nameNormalized: String
     password: String
@@ -546,14 +451,6 @@ input FilterCountUserAdmin_idOperatorsInput {
     nin: [MongoID]
 }
 
-input FilterFindManyLanguageInput {
-    AND: [FilterFindManyLanguageInput!]
-    OR: [FilterFindManyLanguageInput!]
-    alpha2: String
-    name: String
-    nativeName: String
-}
-
 input FilterFindManyUserAdminEmailOperatorsInput {
     exists: Boolean
     gt: String
@@ -572,14 +469,9 @@ input FilterFindManyUserAdminInput {
     _id: MongoID
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterFindManyUserAdminOperatorsInput
-    aboutMe: String
-    avatar: String
     createdAt: Date
-    dateOfBirth: Date
     email: String
-    gender: EnumUserAdminGender
-    ingameRole: [EnumUserAdminIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String
     nameNormalized: String
     password: String
@@ -630,14 +522,6 @@ input FilterFindManyUserAdmin_idOperatorsInput {
     nin: [MongoID]
 }
 
-input FilterFindOneLanguageInput {
-    AND: [FilterFindOneLanguageInput!]
-    OR: [FilterFindOneLanguageInput!]
-    alpha2: String
-    name: String
-    nativeName: String
-}
-
 input FilterFindOneUserAdminEmailOperatorsInput {
     exists: Boolean
     gt: String
@@ -656,14 +540,9 @@ input FilterFindOneUserAdminInput {
     _id: MongoID
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterFindOneUserAdminOperatorsInput
-    aboutMe: String
-    avatar: String
     createdAt: Date
-    dateOfBirth: Date
     email: String
-    gender: EnumUserAdminGender
-    ingameRole: [EnumUserAdminIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String
     nameNormalized: String
     password: String
@@ -719,11 +598,7 @@ input FilterFindOneUserPublicInput {
     OR: [FilterFindOneUserPublicInput!]
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterFindOneUserPublicOperatorsInput
-    aboutMe: String
-    avatar: String
-    gender: EnumUserPublicGender
-    ingameRole: [EnumUserPublicIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String
 }
 
@@ -762,14 +637,9 @@ input FilterRemoveManyUserAdminInput {
     _id: MongoID
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterRemoveManyUserAdminOperatorsInput
-    aboutMe: String
-    avatar: String
     createdAt: Date
-    dateOfBirth: Date
     email: String
-    gender: EnumUserAdminGender
-    ingameRole: [EnumUserAdminIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String
     nameNormalized: String
     password: String
@@ -838,14 +708,9 @@ input FilterRemoveOneUserAdminInput {
     _id: MongoID
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterRemoveOneUserAdminOperatorsInput
-    aboutMe: String
-    avatar: String
     createdAt: Date
-    dateOfBirth: Date
     email: String
-    gender: EnumUserAdminGender
-    ingameRole: [EnumUserAdminIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String
     nameNormalized: String
     password: String
@@ -914,14 +779,9 @@ input FilterUpdateManyUserAdminInput {
     _id: MongoID
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterUpdateManyUserAdminOperatorsInput
-    aboutMe: String
-    avatar: String
     createdAt: Date
-    dateOfBirth: Date
     email: String
-    gender: EnumUserAdminGender
-    ingameRole: [EnumUserAdminIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String
     nameNormalized: String
     password: String
@@ -990,14 +850,9 @@ input FilterUpdateOneUserAdminInput {
     _id: MongoID
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterUpdateOneUserAdminOperatorsInput
-    aboutMe: String
-    avatar: String
     createdAt: Date
-    dateOfBirth: Date
     email: String
-    gender: EnumUserAdminGender
-    ingameRole: [EnumUserAdminIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String
     nameNormalized: String
     password: String
@@ -1049,14 +904,9 @@ input FilterUpdateOneUserAdmin_idOperatorsInput {
 }
 
 input UpdateByIdUserAdminInput {
-    aboutMe: String
-    avatar: String
     createdAt: Date
-    dateOfBirth: Date
     email: String
-    gender: EnumUserAdminGender
-    ingameRole: [EnumUserAdminIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String
     nameNormalized: String
     password: String
@@ -1065,14 +915,9 @@ input UpdateByIdUserAdminInput {
 }
 
 input UpdateManyUserAdminInput {
-    aboutMe: String
-    avatar: String
     createdAt: Date
-    dateOfBirth: Date
     email: String
-    gender: EnumUserAdminGender
-    ingameRole: [EnumUserAdminIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String
     nameNormalized: String
     password: String
@@ -1081,14 +926,9 @@ input UpdateManyUserAdminInput {
 }
 
 input UpdateOneUserAdminInput {
-    aboutMe: String
-    avatar: String
     createdAt: Date
-    dateOfBirth: Date
     email: String
-    gender: EnumUserAdminGender
-    ingameRole: [EnumUserAdminIngameRole]
-    languages: [String]
+    favouriteColor: String
     name: String
     nameNormalized: String
     password: String
@@ -1100,7 +940,7 @@ input UpdateOneUserAdminInput {
 "The string representation of JavaScript regexp. You may provide it with flags \"/^abc.*/i\" or without flags like \"^abc.*\". More info about RegExp characters and flags: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions"
 scalar RegExpAsString
 
-scalar Date
-
 "The `ID` scalar type represents a unique MongoDB identifier in collection. MongoDB by default use 12-byte ObjectId value (https://docs.mongodb.com/manual/reference/bson-types/#objectid). But MongoDB also may accepts string or integer as correct values for _id field."
 scalar MongoID
+
+scalar Date

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const {User, UserTCAdmin, UserTCSignup, UserTCPublic} = require("../models/user/user");
+const {User, UserTCAdmin, UserTCSignup, UserTCPublic} = require("../models/user");
 const requireAuthentication = require("../middleware/jwt/requireAuthentication");
 const requireAuthorization = require("../middleware/jwt/requireAuthorization");
 
