@@ -54,13 +54,6 @@ module.exports = {
         password: "Password1",
     },
 
-    lowerFavouriteColor: {
-        name: "lowerColor",
-        email: "changeColorToLowercase@email.com",
-        password: "Password1",
-        favouriteColor: "RED",
-    },
-
     nameTooShort: {
         name: "ab",
         email: "min3Chars@email.com",
@@ -184,12 +177,6 @@ module.exports = {
         email: "OnlyRolesDefinedInEnumAllowed@email.com",
         password: "Password1",
         role: "ThisRoleDoesNotExist"
-    },
-
-    useDefaultColor: {
-        name: "useDefaultColor",
-        email: "usesDefaultValueIfNoColorSpecified@email.com",
-        password: "Password1",
     },
 
     usernameDifferentCapitalization: {
