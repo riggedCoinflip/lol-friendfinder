@@ -1,7 +1,7 @@
 import { useState, React, useEffect } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { AUTH_TOKEN } from '../constants';
-import { Card, CardGroup, CardDeck } from 'react-bootstrap';
+import { Card, CardGroup} from 'react-bootstrap';
 
 const howManyUsers = 8; //for the request
 const GET_USER = gql`
@@ -14,21 +14,19 @@ const GET_USER = gql`
 }`;
 
 
-const Users = () => {
-  //  const [users, setUsers] =  useState(null);
+function Users () {
   const [count, setCount] = useState(3);
+ 
   useEffect(() => {
-    console.log('count changed')
+    console.log('qty users changed')
   }, [count]);
+ 
   function increCount() {
     setCount(prevCount => prevCount + 1)
   }
   function decreCount() {
     setCount(prevCount => prevCount - 1)
   }
-  //const [errored, setErrored] = useState(false);
-
-
 
   const { loading, error, data } = useQuery(GET_USER, {
     context: {
@@ -50,6 +48,7 @@ const Users = () => {
     <div className="user">
 
       <p>Show me {count} users...</p>
+      <p>ToDo: filter using a checkbox...</p>
       <button onClick={decreCount}>-</button>
       <span>-</span>
 

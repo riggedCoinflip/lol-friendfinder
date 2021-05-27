@@ -12,14 +12,9 @@ import Users from './components/Users';
 import Profile from './components/Profile';
 import Logout from './components/Logout';
 
-
-//import NavbarT from './components/NavbarT';
-
-
-
 export default function App() {
     return (
-        <div>
+        <div >
             <MyNavbar/>
             
             <Switch>
@@ -28,7 +23,7 @@ export default function App() {
                 <Route path="/signup" component={SignUp}/>
                 <Route path="/logout" component={Logout}/>
          
-                <Route exact path="/users" component={ () => <Users authorized={true}/>} />
+                <Route exact path="/users" component={ () => <Users/>} />
                 <Route exact path="/profile" component={ () => <Profile authorized={true}/>} />
 
             </Switch>
