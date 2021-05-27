@@ -17,7 +17,28 @@ module.exports = {
         email: "name@email.com",
         password: "Password1",
         role: "user",
-        favouriteColor: "green",
+        aboutMe: "Lorem Ipsum",
+        gender: "male",
+        dateOfBirth: new Date(), //dateOfBirth = now
+        languages: ["de", "en"],
+        avatar: "URI to image",
+        ingameRole: ["Top", "Jungle"]
+    },
+
+    minDateOfBirthInYear: {
+        //should always have age of currentYear - 2000
+        name: "20000101",
+        email: "name@email.com",
+        password: "Password1",
+        dateOfBirth: new Date(Date.UTC(2000, 0, 1)),
+    },
+
+    maxDateOfBirthInYear: {
+        //should always have age of currentYear - 2000 - 1 (cause bday of this year didnt happen so far
+        name: "20001231",
+        email: "name2@email.com",
+        password: "Password1",
+        dateOfBirth: new Date(Date.UTC(2000, 11, 31)),
     },
 
     //name and emails with whitespaces that the DB should trim

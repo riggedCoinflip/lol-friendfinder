@@ -1,14 +1,13 @@
-const {User} = require("./user.js")
+const {User} = require("./user")
+const {createLanguages} = require("../../utils/createLanguages")
 const validators = require("./user.test.validators")
-const {dbConnect, dbDisconnectAndWipe} = require("../utils/test-utils/db-handler")
+const {dbConnect, dbDisconnectAndWipe} = require("../../utils/test-utils/db-handler")
 const testUsers = require("./user.test.data")
 
 describe("User Model Test Suite", () => {
-    beforeAll(async () => dbConnect())
-    afterEach(async () => {
-        await User.deleteMany()
-    })
-    afterAll(async () => dbDisconnectAndWipe())
+    beforeAll(async () => await dbConnect())
+    afterEach(async () => await User.deleteMany())
+    afterAll(async () => await dbDisconnectAndWipe())
 
     it("saves a user successfully with hashed password", async () => {
         const user = new User(testUsers.validNoDefaults)
@@ -19,9 +18,25 @@ describe("User Model Test Suite", () => {
         validators.validateStringEquality(user.name, testUsers.validNoDefaults.name)
         validators.validateStringEquality(user.email, testUsers.validNoDefaults.email)
         //use bcrypt compare to validate password
-        expect(await user.comparePassword(testUsers.validNoDefaults.password)).toBe(true);
-        validators.validateStringEquality(user.role, testUsers.validNoDefaults.role);
-        validators.validateStringEquality(user.favouriteColor, testUsers.validNoDefaults.favouriteColor)
+        expect(await user.comparePassword(testUsers.validNoDefaults.password)).toBe(true)
+        validators.validateStringEquality(user.role, testUsers.validNoDefaults.role)
+        validators.validateStringEquality(user.aboutMe, testUsers.validNoDefaults.aboutMe)
+        validators.validateStringEquality(user.gender, testUsers.validNoDefaults.gender)
+        validators.validateStringEquality(user.avatar, testUsers.validNoDefaults.avatar)
+        //expected is of type: CoreMongooseArray and needs to be transformed
+        expect(Array.from([...user.ingameRole])).toStrictEqual(testUsers.validNoDefaults.ingameRole)
+        expect(user.dateOfBirth).toBe(testUsers.validNoDefaults.dateOfBirth)
+        expect(user.age).toBe(0) //diff between current and current should be 0
+    })
+
+    it("calculates Age somewhat correctly", async () => {
+        const user = new User(testUsers.minDateOfBirthInYear)
+        await user.save()
+        expect(user.age).toBe(21)
+
+        const user2 = new User(testUsers.maxDateOfBirthInYear)
+        await user2.save()
+        expect(user2.age).toBe(20)
     })
 
     it("throws MongoDB duplicate error with code 11000", async () => {
@@ -264,21 +279,37 @@ describe("User Model Test Suite", () => {
         }
     })
 
+    /*
     it("doesnt bcrypt the password if another field is updated", async () => {
         //BUG this randomly errors sometimes - on a rerun it then works again...
         const user = new User(testUsers.validNoDefaults)
 
-        user.save()
-            .then(() => {
-                const oldHashedPassword = user.password
-                //change other field
-                user.aboutMe = "black"
-                user.save()
-                    .then(() => {
-                        const newHashedPassword = user.password
+        await user.save()
+        const oldHashedPassword = user.password
 
-                        expect(newHashedPassword).toBe(oldHashedPassword)
-                    })
-            })
+        //change other field
+        user.aboutMe = "foobar"
+        await user.save()
+        const newHashedPassword = user.password
+
+        expect(newHashedPassword).toBe(oldHashedPassword)
     })
+     */
+
+    it("populates language successfully", async () => {
+        await createLanguages()
+        const user = new User(testUsers.validNoDefaults)
+        await user.save()
+
+        const doc = await User
+            .findOne({nameNormalized: user.nameNormalized})
+            .populate("languages")
+
+        expect(doc.populated("languages")).toBeTruthy()
+
+        //unfortunately comparing MongooseCoreArray to Array does not really work
+        expect(doc.languages[0].nativeName).toBe("Deutsch")
+        expect(doc.languages[1].name).toBe("English")
+    })
+
 })
