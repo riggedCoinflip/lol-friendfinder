@@ -1,6 +1,6 @@
 const {dbConnect, dbDisconnectAndWipe} = require("../utils/test-utils/db-handler");
-const {User} = require("../models/user.js");
-const testUsers = require("../models/user.test.data")
+const {User} = require("../models/user/user.js");
+const testUsers = require("../models/user/user.test.data")
 
 const util = require("./user.test.queries")
 const {createTestClient} = require("apollo-server-integration-testing");

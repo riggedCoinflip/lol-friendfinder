@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const {composeMongoose} = require("graphql-compose-mongoose");
-const userValidation = require("../utils/shared_utils/index");
+const userValidation = require("../../utils/shared_utils");
 
 
 //save time on testing
