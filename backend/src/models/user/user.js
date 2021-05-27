@@ -4,8 +4,8 @@ const {composeMongoose} = require("graphql-compose-mongoose");
 const userValidation = require("../utils/shared_utils/index");
 
 
-//faster salting for testing to save time
-const saltRounds = process.env.NODE_ENV!=="test" ? 10 : 5;
+//save time on testing
+const SALT_ROUNDS = process.env.NODE_ENV === "test" ? 5 : 10;
 
 /*
 dev-admin:
@@ -33,7 +33,6 @@ const UserSchema = new mongoose.Schema({
          We want users to decide on capitalization (MyUsername vs myusername) but not be able to create users
          that only differ in capitalization (foo and FOO may not exist concurrently)
          -> We use this field for unique validation
-         https://stackoverflow.com/questions/13991604/mongoose-schema-validating-unique-field-case-insensitive
          */
         type: String,
         unique: true
