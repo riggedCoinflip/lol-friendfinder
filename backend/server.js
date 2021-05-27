@@ -8,7 +8,9 @@ const expressApp = require("./src/utils/expressApp")
 // allow use of dotenv
 dotenv.config()
 //check if env variables set
-assert(process.env.NODE_ENV, "NODE_ENV should be =development or =production")
+assert(process.env.NODE_ENV, "Specify NODE_ENV")
+const NODE_ENV_ALLOWED = ["production", "development", "test"]
+if (!NODE_ENV_ALLOWED.includes(process.env.NODE_ENV)) throw new Error(`NODE_ENV '${process.env.NODE_ENV}' has to be in: ${NODE_ENV_ALLOWED}`)
 assert(process.env.ATLAS_URI, "No MongoDB Atlas URI specified")
 assert(process.env.JWT_SECRET, "Set this to ANY String (for development)")
 
