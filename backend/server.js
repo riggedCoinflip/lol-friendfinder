@@ -25,8 +25,14 @@ mongoose
         useUnifiedTopology: true,
         useFindAndModify: false,
     })
-    .then(() => {
+    .then(async () => {
         console.log('Connection to DB successful');
+
+        if (process.env.NODE_ENV === "development") {
+            //create data for db
+            const createMongoData = require("./src/utils/createMongoData");
+            await createMongoData()
+        }
     })
     .catch(err => {
         console.log(`Connection to DB Error: ${err}`);
