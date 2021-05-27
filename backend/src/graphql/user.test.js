@@ -207,6 +207,8 @@ describe("User GraphQL Test Suite", () => {
     })
 
     it("executes requireAuthentication queries", async () => {
+        //the USER_SELF query requires authorization.
+        //We use it as an example for other authorization queries.
         await loginUser()
 
         const resultUserSelf = await query(util.USER_SELF)
