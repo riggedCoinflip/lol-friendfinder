@@ -119,6 +119,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.virtual("age").get(function () {
     //https://stackoverflow.com/a/24181701/12340711
     //good enough
+    if (!this.dateOfBirth) return -1 //default
     const ageDifMs = Date.now() - this.dateOfBirth
     const ageDate = new Date(ageDifMs); // miliseconds from epoch
     return Math.abs(ageDate.getUTCFullYear() - 1970);
@@ -186,7 +187,7 @@ const UserTCSignup = composeMongoose(User, {
 const ageForTC ={
     age: {
         type: "Int",
-        description: 'Uses the virtual "age" that is calculated from DateOfBirth',
+        description: 'Uses the virtual "age" that is calculated from DateOfBirth. Returns -1 if DateOfBirth is not set.',
     }
 }
 
