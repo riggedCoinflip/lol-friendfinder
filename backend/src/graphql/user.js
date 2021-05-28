@@ -6,33 +6,18 @@ const requireAuthorization = require("../middleware/jwt/requireAuthorization");
 //**********************
 //*** custom queries ***
 //**********************
-
-UserTCPublic.addResolver({
-    kind: "query",
-    name: "userSelf",
-    description: "get public schema of currently logged in user",
-    type: UserTCPublic.mongooseResolvers.findById().getType(),
-    resolve: async ({context}) => {
-        return User.findById(context.req.user._id);
-    }
-})
+const userSelf = UserTCPublic.mongooseResolvers
+    .findById()
+    .setDescription("Get information of currently logged in user")
+    .removeArg("_id")
+    .wrapResolve((next) => (rp) => {
+        rp.args._id = rp.context.req.user._id;
+        return next(rp);
+    })
 
 //************************
 //*** custom mutations ***
 //************************
-
-//TODO
-/*
-UserTCPublic.addResolver({
-    kind: 'mutation',
-    name: 'userUpdateSelf',
-    description: "update schema of currently logged in user",
-    type: UserTCPublic.mongooseResolvers.updateById().getType,
-    resolve: async ({args, context}) => {
-        return User.updateOne();
-    }
-})
- */
 
 //login
 UserTCPublic.addResolver({
@@ -64,6 +49,13 @@ UserTCPublic.addResolver({
     }
 })
 
+const userUpdateSelf = UserTCPublic.mongooseResolvers.updateById()
+    .setDescription("Update information of currently logged in user")
+    .removeArg("_id")
+    .wrapResolve((next) => (rp) => {
+        rp.args._id = rp.context.req.user._id;
+        return next(rp);
+    })
 
 //***************
 //*** EXPORTS ***
@@ -90,6 +82,9 @@ const UserQuery = {
 const UserMutation = {
     signup: UserTCSignup.mongooseResolvers.createOne(),
     login: UserTCPublic.getResolver("login"),
+    ...requireAuthentication({
+        userUpdateSelf,
+    }),
     ...requireAuthorization({
             userCreateOneAdmin: UserTCAdmin.mongooseResolvers.createOne(),
             userCreateManyAdmin: UserTCAdmin.mongooseResolvers.createMany(),
