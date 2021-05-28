@@ -10,6 +10,7 @@ function mongooseLanguages() {
             _id: current["639-1"],
             name: current["name"],
             nativeName: current["nativeName"],
+            emoji: current["emoji"],
         })
     })
 
