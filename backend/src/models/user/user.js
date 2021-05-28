@@ -157,6 +157,21 @@ const UserTCAdmin = composeMongoose(User, {
     description: "Full User Model. Exposed only for Admins"
 });
 
+const UserTCPrivate = composeMongoose(User, {
+    name: "UserPrivate",
+    description: "Fields the user can see about himself",
+    onlyFields: [
+        "name",
+        "email",
+        "aboutMe",
+        "languages",
+        "gender",
+        "dateOfBirth",
+        "avatar",
+        "ingameRole",
+    ]
+})
+
 
 const UserTCPublic = composeMongoose(User, {
     name: "UserPublic",
@@ -194,10 +209,12 @@ const ageForTC ={
 UserTCAdmin.addFields(ageForTC)
 UserTCPublic.addFields(ageForTC)
 
+
 module.exports = {
     User,
     UserTCAdmin,
     UserTCPublic,
+    UserTCPrivate,
     UserTCSignup
 }
 

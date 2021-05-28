@@ -1,12 +1,12 @@
 const jwt = require("jsonwebtoken");
-const {User, UserTCAdmin, UserTCSignup, UserTCPublic} = require("../models/user/user");
+const {User, UserTCAdmin, UserTCSignup, UserTCPublic, UserTCPrivate} = require("../models/user/user");
 const requireAuthentication = require("../middleware/jwt/requireAuthentication");
 const requireAuthorization = require("../middleware/jwt/requireAuthorization");
 
 //**********************
 //*** custom queries ***
 //**********************
-const userSelf = UserTCPublic.mongooseResolvers
+const userSelf = UserTCPrivate.mongooseResolvers
     .findById()
     .setDescription("Get information of currently logged in user")
     .removeArg("_id")
@@ -49,7 +49,8 @@ UserTCPublic.addResolver({
     }
 })
 
-const userUpdateSelf = UserTCPublic.mongooseResolvers.updateById()
+
+const userUpdateSelf = UserTCPrivate.mongooseResolvers.updateById()
     .setDescription("Update information of currently logged in user")
     .removeArg("_id")
     .wrapResolve((next) => (rp) => {
