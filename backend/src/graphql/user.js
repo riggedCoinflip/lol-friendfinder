@@ -31,7 +31,7 @@ UserTCPublic.addResolver({
     resolve: async ({args}) => {
         const user = await User.findOne({email: args.email});
 
-        //OPTIMIZE/FIXME
+        //FIXME
         // timing attacks -> as a login takes substantially longer if the user is correct due to comparing a password,
         // a "hacker" can use the difference in time-till-response to find out which emails are in use
         // SEVERITY: minor
