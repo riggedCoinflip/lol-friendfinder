@@ -35,10 +35,11 @@ mutation {
 {
     userSelf {
         name
+        email
         aboutMe
         languages
         gender
-        age
+        dateOfBirth
         avatar
         ingameRole
     }
