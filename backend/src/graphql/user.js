@@ -63,7 +63,7 @@ const userUpdateSelf = UserTCPublic.mongooseResolvers.updateById()
 
 const UserQuery = {
     ...requireAuthentication({
-        userSelf: UserTCPublic.getResolver("userSelf"),
+        userSelf,
         user: UserTCPublic.mongooseResolvers.findOne(), //TODO restrict filters
     }),
     ...requireAuthorization({
