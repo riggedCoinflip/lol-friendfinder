@@ -166,7 +166,6 @@ const UserTCPrivate = composeMongoose(User, {
         "aboutMe",
         "languages",
         "gender",
-        "dateOfBirth",
         "avatar",
         "ingameRole",
     ]

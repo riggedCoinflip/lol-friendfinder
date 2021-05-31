@@ -1,6 +1,6 @@
 const {dbConnect, dbDisconnectAndWipe} = require("../utils/test-utils/db-handler");
-const {User} = require("../models/user.js");
-const testUsers = require("../models/user.test.data")
+const {User} = require("../models/user/user.js");
+const testUsers = require("../models/user/user.test.data")
 
 const util = require("./user.test.queries")
 const {createTestClient} = require("apollo-server-integration-testing");
@@ -192,7 +192,7 @@ describe("User GraphQL Test Suite", () => {
                 }
             }
         )
-        expect(loginFalseEmailResult.errors[0].message).toBe("User or Password is not correct.")
+        expect(loginFalseEmailResult.errors[0].message).toBe("User does not exist.")
 
         const {email: email2, password: password2} = testUsers.validNoDefaults
         const loginFalsePasswordResult = await mutate(
@@ -203,10 +203,12 @@ describe("User GraphQL Test Suite", () => {
                 }
             }
         )
-        expect(loginFalsePasswordResult.errors[0].message).toBe("User or Password is not correct.")
+        expect(loginFalsePasswordResult.errors[0].message).toBe("Password is not correct.")
     })
 
     it("executes requireAuthentication queries", async () => {
+        //the USER_SELF query requires authorization.
+        //We use it as an example for other authorization queries.
         await loginUser()
 
         const resultUserSelf = await query(util.USER_SELF)
@@ -219,6 +221,7 @@ describe("User GraphQL Test Suite", () => {
         const resultUserSelf = await query(util.USER_SELF)
         expect(resultUserSelf.errors[0].message).toBe("Cannot read property 'isAuth' of undefined")
 
+        //JWT not correct
         setOptions({
             request: {
                 user: {

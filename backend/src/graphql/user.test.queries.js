@@ -9,27 +9,27 @@ const SIGNUP = `
             }
         }
     }
-`;
+`
 
 const LOGIN = `
     mutation login($email: String!, $password: String!){
         login(email: $email, password: $password)
     }
-`;
+`
+
 const USER_SELF = `
     query {
         userSelf{
         name
-        email
         aboutMe
         languages
         gender
-        dateOfBirth
+        age
         avatar
         ingameRole
         }
     }
-`;
+`
 
 const USER_ONE_ADMIN = `
     query {
@@ -39,16 +39,23 @@ const USER_ONE_ADMIN = `
             nameNormalized
             email
             password
-            favouriteColor
+            role
+            aboutMe
+            languages
+            gender
+            dateOfBirth
+            avatar
+            ingameRole
+            age
             createdAt
             updatedAt
         }
     }
-`;
+`
 
 module.exports = {
-  SIGNUP,
-  LOGIN,
-  USER_SELF,
-  USER_ONE_ADMIN,
-};
+    SIGNUP,
+    LOGIN,
+    USER_SELF,
+    USER_ONE_ADMIN,
+}
