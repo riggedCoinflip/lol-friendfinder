@@ -67,6 +67,7 @@ export default function Login() {
                     autoComplete="email"
                     required={true}
                     onChange={handleChange}
+                    id= "email-input"
                 />
             </div>
 
@@ -81,6 +82,7 @@ export default function Login() {
                     autoComplete="password"
                     required={true}
                     onChange={handleChange}
+                    id= "password-input"
                 />
             </div>
          
@@ -97,7 +99,7 @@ export default function Login() {
             <br />
             <div className="form-group">
             
-            <button type="submit" className="btn btn-primary">
+            <button id="btn-submit" type="submit" className="btn btn-primary">
                 Submit
             </button>
             </div>

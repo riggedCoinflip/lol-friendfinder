@@ -1,6 +1,6 @@
 describe('Test for home', () => {
     it('Render correctly', () => {
-        cy.visit('http://localhost:3000')
+        cy.visit('/')
         cy.get("#root").should("exist");
 
     })
