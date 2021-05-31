@@ -9,19 +9,27 @@ const SIGNUP = `
             }
         }
     }
-`
+`;
 
 const LOGIN = `
     mutation login($email: String!, $password: String!){
         login(email: $email, password: $password)
     }
-`
-
+`;
 const USER_SELF = `
     query {
-        userSelf{name, favouriteColor}
+        userSelf{
+        name
+        email
+        aboutMe
+        languages
+        gender
+        dateOfBirth
+        avatar
+        ingameRole
+        }
     }
-`
+`;
 
 const USER_ONE_ADMIN = `
     query {
@@ -36,11 +44,11 @@ const USER_ONE_ADMIN = `
             updatedAt
         }
     }
-`
+`;
 
 module.exports = {
-    SIGNUP,
-    LOGIN,
-    USER_SELF,
-    USER_ONE_ADMIN,
-}
+  SIGNUP,
+  LOGIN,
+  USER_SELF,
+  USER_ONE_ADMIN,
+};

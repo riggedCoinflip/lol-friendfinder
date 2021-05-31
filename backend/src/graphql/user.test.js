@@ -192,7 +192,7 @@ describe("User GraphQL Test Suite", () => {
                 }
             }
         )
-        expect(loginFalseEmailResult.errors[0].message).toBe("User does not exist.")
+        expect(loginFalseEmailResult.errors[0].message).toBe("User or Password is not correct.")
 
         const {email: email2, password: password2} = testUsers.validNoDefaults
         const loginFalsePasswordResult = await mutate(
@@ -203,7 +203,7 @@ describe("User GraphQL Test Suite", () => {
                 }
             }
         )
-        expect(loginFalsePasswordResult.errors[0].message).toBe("Password is not correct.")
+        expect(loginFalsePasswordResult.errors[0].message).toBe("User or Password is not correct.")
     })
 
     it("executes requireAuthentication queries", async () => {

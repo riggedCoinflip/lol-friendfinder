@@ -1,941 +1,980 @@
 # This file was generated based on ".graphqlconfig". Do not edit manually.
 
 schema {
-    query: Query
-    mutation: Mutation
+  query: Query
+  mutation: Mutation
 }
 
 interface ErrorInterface {
-    "Generic error message"
-    message: String
+  "Generic error message"
+  message: String
 }
 
 type CreateManyUserAdminPayload {
-    "Number of created documents"
-    createdCount: Int!
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Documents IDs"
-    recordIds: [MongoID!]!
-    "Created documents"
-    records: [UserAdmin!]
+  "Number of created documents"
+  createdCount: Int!
+  "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
+  error: ErrorInterface
+  "Documents IDs"
+  recordIds: [MongoID!]!
+  "Created documents"
+  records: [UserAdmin!]
 }
 
 type CreateOneUserAdminPayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Created document"
-    record: UserAdmin
-    "Document ID"
-    recordId: MongoID
+  "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
+  error: ErrorInterface
+  "Created document"
+  record: UserAdmin
+  "Document ID"
+  recordId: MongoID
 }
 
 type CreateOneUserSignupPayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Created document"
-    record: UserSignup
-    "Document ID"
-    recordId: MongoID
+  "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
+  error: ErrorInterface
+  "Created document"
+  record: UserSignup
+  "Document ID"
+  recordId: MongoID
 }
 
 type Mutation {
-    login(email: String!, password: String!): String!
-    "Create one document with mongoose defaults, setters, hooks and validation"
-    signup(record: CreateOneUserSignupInput!): CreateOneUserSignupPayload
-    "Creates Many documents with mongoose defaults, setters, hooks and validation"
-    userCreateManyAdmin(records: [CreateManyUserAdminInput!]!): CreateManyUserAdminPayload
-    "Create one document with mongoose defaults, setters, hooks and validation"
-    userCreateOneAdmin(record: CreateOneUserAdminInput!): CreateOneUserAdminPayload
-    "Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document."
-    userRemoveByIdAdmin(_id: MongoID!): RemoveByIdUserAdminPayload
-    "Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation. "
-    userRemoveManyAdmin(
-        "Filter by fields"
-        filter: FilterRemoveManyUserAdminInput!,
-        limit: Int = 100
-    ): RemoveManyUserAdminPayload
-    "Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document."
-    userRemoveOneAdmin(
-        "Filter by fields"
-        filter: FilterRemoveOneUserAdminInput,
-        sort: SortRemoveOneUserAdminInput
-    ): RemoveOneUserAdminPayload
-    "Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it."
-    userUpdateByIdAdmin(_id: MongoID!, record: UpdateByIdUserAdminInput!): UpdateByIdUserAdminPayload
-    "Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation. "
-    userUpdateManyAdmin(
-        "Filter by fields"
-        filter: FilterUpdateManyUserAdminInput,
-        limit: Int = 100,
-        record: UpdateManyUserAdminInput!,
-        skip: Int,
-        sort: SortUpdateManyUserAdminInput
-    ): UpdateManyUserAdminPayload
-    "Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it."
-    userUpdateOneAdmin(
-        "Filter by fields"
-        filter: FilterUpdateOneUserAdminInput,
-        record: UpdateOneUserAdminInput!,
-        skip: Int,
-        sort: SortUpdateOneUserAdminInput
-    ): UpdateOneUserAdminPayload
+  login(email: String!, password: String!): String!
+  "Create one document with mongoose defaults, setters, hooks and validation"
+  signup(record: CreateOneUserSignupInput!): CreateOneUserSignupPayload
+  "Creates Many documents with mongoose defaults, setters, hooks and validation"
+  userCreateManyAdmin(
+    records: [CreateManyUserAdminInput!]!
+  ): CreateManyUserAdminPayload
+  "Create one document with mongoose defaults, setters, hooks and validation"
+  userCreateOneAdmin(
+    record: CreateOneUserAdminInput!
+  ): CreateOneUserAdminPayload
+  "Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document."
+  userRemoveByIdAdmin(_id: MongoID!): RemoveByIdUserAdminPayload
+  "Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation. "
+  userRemoveManyAdmin(
+    "Filter by fields"
+    filter: FilterRemoveManyUserAdminInput!
+    limit: Int = 100
+  ): RemoveManyUserAdminPayload
+  "Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document."
+  userRemoveOneAdmin(
+    "Filter by fields"
+    filter: FilterRemoveOneUserAdminInput
+    sort: SortRemoveOneUserAdminInput
+  ): RemoveOneUserAdminPayload
+  "Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it."
+  userUpdateByIdAdmin(
+    _id: MongoID!
+    record: UpdateByIdUserAdminInput!
+  ): UpdateByIdUserAdminPayload
+  "Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation. "
+  userUpdateManyAdmin(
+    "Filter by fields"
+    filter: FilterUpdateManyUserAdminInput
+    limit: Int = 100
+    record: UpdateManyUserAdminInput!
+    skip: Int
+    sort: SortUpdateManyUserAdminInput
+  ): UpdateManyUserAdminPayload
+  "Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it."
+  userUpdateOneAdmin(
+    "Filter by fields"
+    filter: FilterUpdateOneUserAdminInput
+    record: UpdateOneUserAdminInput!
+    skip: Int
+    sort: SortUpdateOneUserAdminInput
+  ): UpdateOneUserAdminPayload
+  "Update information of currently logged in user"
+  userUpdateSelf(
+    record: UpdateByIdUserPublicInput!
+  ): UpdateByIdUserPublicPayload
 }
 
 "Information about pagination in a connection."
 type PageInfo {
-    "When paginating forwards, the cursor to continue."
-    endCursor: String
-    "When paginating forwards, are there more items?"
-    hasNextPage: Boolean!
-    "When paginating backwards, are there more items?"
-    hasPreviousPage: Boolean!
-    "When paginating backwards, the cursor to continue."
-    startCursor: String
+  "When paginating forwards, the cursor to continue."
+  endCursor: String
+  "When paginating forwards, are there more items?"
+  hasNextPage: Boolean!
+  "When paginating backwards, are there more items?"
+  hasPreviousPage: Boolean!
+  "When paginating backwards, the cursor to continue."
+  startCursor: String
 }
 
 type PaginationInfo {
-    currentPage: Int!
-    hasNextPage: Boolean
-    hasPreviousPage: Boolean
-    itemCount: Int
-    pageCount: Int
-    perPage: Int!
+  currentPage: Int!
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  itemCount: Int
+  pageCount: Int
+  perPage: Int!
 }
 
 type Query {
-    user(
-        "Filter by fields"
-        filter: FilterFindOneUserPublicInput,
-        skip: Int,
-        sort: SortFindOneUserPublicInput
-    ): UserPublic
-    userByIdAdmin(_id: MongoID!): UserAdmin
-    userByIdsAdmin(_ids: [MongoID!]!, limit: Int = 100, sort: SortFindByIdsUserAdminInput): [UserAdmin!]!
-    userConnectionAdmin(
-        "Forward pagination argument for returning at most first edges"
-        after: String,
-        "Backward pagination argument for returning at most last edges"
-        before: String,
-        "Filter by fields"
-        filter: FilterFindManyUserAdminInput,
-        "Forward pagination argument for returning at most first edges"
-        first: Int,
-        "Backward pagination argument for returning at most last edges"
-        last: Int,
-        "Sort argument for data ordering"
-        sort: SortConnectionUserAdminEnum = _ID_DESC
-    ): UserAdminConnection
-    userCountAdmin(
-        "Filter by fields"
-        filter: FilterCountUserAdminInput
-    ): Int
-    userManyAdmin(
-        "Filter by fields"
-        filter: FilterFindManyUserAdminInput,
-        limit: Int = 100,
-        skip: Int,
-        sort: SortFindManyUserAdminInput
-    ): [UserAdmin!]!
-    userOneAdmin(
-        "Filter by fields"
-        filter: FilterFindOneUserAdminInput,
-        skip: Int,
-        sort: SortFindOneUserAdminInput
-    ): UserAdmin
-    userPaginationAdmin(
-        "Filter by fields"
-        filter: FilterFindManyUserAdminInput,
-        "Page number for displaying"
-        page: Int,
-        perPage: Int = 20,
-        sort: SortFindManyUserAdminInput
-    ): UserAdminPagination
-    "get public schema of currently logged in user"
-    userSelf: UserPublic
+  user(
+    "Filter by fields"
+    filter: FilterFindOneUserPublicInput
+    skip: Int
+    sort: SortFindOneUserPublicInput
+  ): UserPublic
+  userByIdAdmin(_id: MongoID!): UserAdmin
+  userByIdsAdmin(
+    _ids: [MongoID!]!
+    limit: Int = 100
+    sort: SortFindByIdsUserAdminInput
+  ): [UserAdmin!]!
+  userConnectionAdmin(
+    "Forward pagination argument for returning at most first edges"
+    after: String
+    "Backward pagination argument for returning at most last edges"
+    before: String
+    "Filter by fields"
+    filter: FilterFindManyUserAdminInput
+    "Forward pagination argument for returning at most first edges"
+    first: Int
+    "Backward pagination argument for returning at most last edges"
+    last: Int
+    "Sort argument for data ordering"
+    sort: SortConnectionUserAdminEnum = _ID_DESC
+  ): UserAdminConnection
+  userCountAdmin("Filter by fields" filter: FilterCountUserAdminInput): Int
+  userManyAdmin(
+    "Filter by fields"
+    filter: FilterFindManyUserAdminInput
+    limit: Int = 100
+    skip: Int
+    sort: SortFindManyUserAdminInput
+  ): [UserAdmin!]!
+  userOneAdmin(
+    "Filter by fields"
+    filter: FilterFindOneUserAdminInput
+    skip: Int
+    sort: SortFindOneUserAdminInput
+  ): UserAdmin
+  userPaginationAdmin(
+    "Filter by fields"
+    filter: FilterFindManyUserAdminInput
+    "Page number for displaying"
+    page: Int
+    perPage: Int = 20
+    sort: SortFindManyUserAdminInput
+  ): UserAdminPagination
+  "Get information of currently logged in user"
+  userSelf: UserPublic
 }
 
 type RemoveByIdUserAdminPayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Removed document"
-    record: UserAdmin
-    "Document ID"
-    recordId: MongoID
+  "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
+  error: ErrorInterface
+  "Removed document"
+  record: UserAdmin
+  "Document ID"
+  recordId: MongoID
 }
 
 type RemoveManyUserAdminPayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Affected documents number"
-    numAffected: Int
+  "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
+  error: ErrorInterface
+  "Affected documents number"
+  numAffected: Int
 }
 
 type RemoveOneUserAdminPayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Removed document"
-    record: UserAdmin
-    "Document ID"
-    recordId: MongoID
+  "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
+  error: ErrorInterface
+  "Removed document"
+  record: UserAdmin
+  "Document ID"
+  recordId: MongoID
 }
 
 type UpdateByIdUserAdminPayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Updated document"
-    record: UserAdmin
-    "Document ID"
-    recordId: MongoID
+  "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
+  error: ErrorInterface
+  "Updated document"
+  record: UserAdmin
+  "Document ID"
+  recordId: MongoID
+}
+
+type UpdateByIdUserPublicPayload {
+  "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
+  error: ErrorInterface
+  "Updated document"
+  record: UserPublic
+  "Document ID"
+  recordId: MongoID
 }
 
 type UpdateManyUserAdminPayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Affected documents number"
-    numAffected: Int
+  "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
+  error: ErrorInterface
+  "Affected documents number"
+  numAffected: Int
 }
 
 type UpdateOneUserAdminPayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Updated document"
-    record: UserAdmin
-    "Document ID"
-    recordId: MongoID
+  "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
+  error: ErrorInterface
+  "Updated document"
+  record: UserAdmin
+  "Document ID"
+  recordId: MongoID
 }
 
 "Full User Model. Exposed only for Admins"
 type UserAdmin {
-    _id: MongoID!
-    createdAt: Date
-    email: String!
-    favouriteColor: String
-    name: String!
-    nameNormalized: String
-    password: String!
-    role: EnumUserAdminRole!
-    updatedAt: Date
+  _id: MongoID!
+  aboutMe: String
+  "Uses the virtual \"age\" that is calculated from DateOfBirth. Returns -1 if DateOfBirth is not set."
+  age: Int
+  avatar: String
+  createdAt: Date
+  email: String!
+  favouriteColor: String
+  name: String!
+  nameNormalized: String
+  password: String!
+  role: EnumUserAdminRole!
+  updatedAt: Date
 }
 
 "A connection to a list of items."
 type UserAdminConnection {
-    "Total object count."
-    count: Int!
-    "Information to aid in pagination."
-    edges: [UserAdminEdge!]!
-    "Information to aid in pagination."
-    pageInfo: PageInfo!
+  "Total object count."
+  count: Int!
+  "Information to aid in pagination."
+  edges: [UserAdminEdge!]!
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
 }
 
 "An edge in a connection."
 type UserAdminEdge {
-    "A cursor for use in pagination"
-    cursor: String!
-    "The item at the end of the edge"
-    node: UserAdmin!
+  "A cursor for use in pagination"
+  cursor: String!
+  "The item at the end of the edge"
+  node: UserAdmin!
 }
 
 "List of items with pagination."
 type UserAdminPagination {
-    "Total object count."
-    count: Int
-    "Array of objects."
-    items: [UserAdmin!]
-    "Information to aid in pagination."
-    pageInfo: PaginationInfo!
+  "Total object count."
+  count: Int
+  "Array of objects."
+  items: [UserAdmin!]
+  "Information to aid in pagination."
+  pageInfo: PaginationInfo!
 }
 
 "Contains all public fields of users. Use this for filtering as well"
 type UserPublic {
-    favouriteColor: String
-    name: String!
+  aboutMe: String
+  "Uses the virtual \"age\" that is calculated from DateOfBirth. Returns -1 if DateOfBirth is not set."
+  age: Int
+  avatar: String
+  gender: EnumUserPublicGender!
+  ingameRole: [EnumUserPublicIngameRole]
+  languages: [String]
+  name: String!
 }
 
 "Login a user or create a new user"
 type UserSignup {
-    email: String!
-    name: String!
-    password: String!
+  email: String!
+  name: String!
+  password: String!
 }
 
 enum EnumUserAdminRole {
-    admin
-    user
+  admin
+  user
 }
 
 enum SortConnectionUserAdminEnum {
-    EMAIL_ASC
-    EMAIL_DESC
-    NAMENORMALIZED_ASC
-    NAMENORMALIZED_DESC
-    NAME_ASC
-    NAME_DESC
-    _ID_ASC
-    _ID_DESC
+  EMAIL_ASC
+  EMAIL_DESC
+  NAMENORMALIZED_ASC
+  NAMENORMALIZED_DESC
+  NAME_ASC
+  NAME_DESC
+  _ID_ASC
+  _ID_DESC
 }
 
 enum SortFindByIdsUserAdminInput {
-    EMAIL_ASC
-    EMAIL_DESC
-    NAMENORMALIZED_ASC
-    NAMENORMALIZED_DESC
-    NAME_ASC
-    NAME_DESC
-    _ID_ASC
-    _ID_DESC
+  EMAIL_ASC
+  EMAIL_DESC
+  NAMENORMALIZED_ASC
+  NAMENORMALIZED_DESC
+  NAME_ASC
+  NAME_DESC
+  _ID_ASC
+  _ID_DESC
 }
 
 enum SortFindManyUserAdminInput {
-    EMAIL_ASC
-    EMAIL_DESC
-    NAMENORMALIZED_ASC
-    NAMENORMALIZED_DESC
-    NAME_ASC
-    NAME_DESC
-    _ID_ASC
-    _ID_DESC
+  EMAIL_ASC
+  EMAIL_DESC
+  NAMENORMALIZED_ASC
+  NAMENORMALIZED_DESC
+  NAME_ASC
+  NAME_DESC
+  _ID_ASC
+  _ID_DESC
 }
 
 enum SortFindOneUserAdminInput {
-    EMAIL_ASC
-    EMAIL_DESC
-    NAMENORMALIZED_ASC
-    NAMENORMALIZED_DESC
-    NAME_ASC
-    NAME_DESC
-    _ID_ASC
-    _ID_DESC
+  EMAIL_ASC
+  EMAIL_DESC
+  NAMENORMALIZED_ASC
+  NAMENORMALIZED_DESC
+  NAME_ASC
+  NAME_DESC
+  _ID_ASC
+  _ID_DESC
 }
 
 enum SortFindOneUserPublicInput {
-    EMAIL_ASC
-    EMAIL_DESC
-    NAMENORMALIZED_ASC
-    NAMENORMALIZED_DESC
-    NAME_ASC
-    NAME_DESC
-    _ID_ASC
-    _ID_DESC
+  EMAIL_ASC
+  EMAIL_DESC
+  NAMENORMALIZED_ASC
+  NAMENORMALIZED_DESC
+  NAME_ASC
+  NAME_DESC
+  _ID_ASC
+  _ID_DESC
 }
 
 enum SortRemoveOneUserAdminInput {
-    EMAIL_ASC
-    EMAIL_DESC
-    NAMENORMALIZED_ASC
-    NAMENORMALIZED_DESC
-    NAME_ASC
-    NAME_DESC
-    _ID_ASC
-    _ID_DESC
+  EMAIL_ASC
+  EMAIL_DESC
+  NAMENORMALIZED_ASC
+  NAMENORMALIZED_DESC
+  NAME_ASC
+  NAME_DESC
+  _ID_ASC
+  _ID_DESC
 }
 
 enum SortUpdateManyUserAdminInput {
-    EMAIL_ASC
-    EMAIL_DESC
-    NAMENORMALIZED_ASC
-    NAMENORMALIZED_DESC
-    NAME_ASC
-    NAME_DESC
-    _ID_ASC
-    _ID_DESC
+  EMAIL_ASC
+  EMAIL_DESC
+  NAMENORMALIZED_ASC
+  NAMENORMALIZED_DESC
+  NAME_ASC
+  NAME_DESC
+  _ID_ASC
+  _ID_DESC
 }
 
 enum SortUpdateOneUserAdminInput {
-    EMAIL_ASC
-    EMAIL_DESC
-    NAMENORMALIZED_ASC
-    NAMENORMALIZED_DESC
-    NAME_ASC
-    NAME_DESC
-    _ID_ASC
-    _ID_DESC
+  EMAIL_ASC
+  EMAIL_DESC
+  NAMENORMALIZED_ASC
+  NAMENORMALIZED_DESC
+  NAME_ASC
+  NAME_DESC
+  _ID_ASC
+  _ID_DESC
 }
 
 input CreateManyUserAdminInput {
-    createdAt: Date
-    email: String!
-    favouriteColor: String
-    name: String!
-    nameNormalized: String
-    password: String!
-    role: EnumUserAdminRole!
-    updatedAt: Date
+  createdAt: Date
+  email: String!
+  favouriteColor: String
+  name: String!
+  nameNormalized: String
+  password: String!
+  role: EnumUserAdminRole!
+  updatedAt: Date
 }
 
 input CreateOneUserAdminInput {
-    createdAt: Date
-    email: String!
-    favouriteColor: String
-    name: String!
-    nameNormalized: String
-    password: String!
-    role: EnumUserAdminRole!
-    updatedAt: Date
+  createdAt: Date
+  email: String!
+  favouriteColor: String
+  name: String!
+  nameNormalized: String
+  password: String!
+  role: EnumUserAdminRole!
+  updatedAt: Date
 }
 
 input CreateOneUserSignupInput {
-    email: String!
-    name: String!
-    password: String!
+  email: String!
+  name: String!
+  password: String!
 }
 
 input FilterCountUserAdminEmailOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 input FilterCountUserAdminInput {
-    AND: [FilterCountUserAdminInput!]
-    OR: [FilterCountUserAdminInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterCountUserAdminOperatorsInput
-    createdAt: Date
-    email: String
-    favouriteColor: String
-    name: String
-    nameNormalized: String
-    password: String
-    role: EnumUserAdminRole
-    updatedAt: Date
+  AND: [FilterCountUserAdminInput!]
+  OR: [FilterCountUserAdminInput!]
+  _id: MongoID
+  "List of *indexed* fields that can be filtered via operators."
+  _operators: FilterCountUserAdminOperatorsInput
+  createdAt: Date
+  email: String
+  favouriteColor: String
+  name: String
+  nameNormalized: String
+  password: String
+  role: EnumUserAdminRole
+  updatedAt: Date
 }
 
 input FilterCountUserAdminNameNormalizedOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 input FilterCountUserAdminNameOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 "For performance reason this type contains only *indexed* fields."
 input FilterCountUserAdminOperatorsInput {
-    _id: FilterCountUserAdmin_idOperatorsInput
-    email: FilterCountUserAdminEmailOperatorsInput
-    name: FilterCountUserAdminNameOperatorsInput
-    nameNormalized: FilterCountUserAdminNameNormalizedOperatorsInput
+  _id: FilterCountUserAdmin_idOperatorsInput
+  email: FilterCountUserAdminEmailOperatorsInput
+  name: FilterCountUserAdminNameOperatorsInput
+  nameNormalized: FilterCountUserAdminNameNormalizedOperatorsInput
 }
 
 input FilterCountUserAdmin_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
+  exists: Boolean
+  gt: MongoID
+  gte: MongoID
+  in: [MongoID]
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  nin: [MongoID]
 }
 
 input FilterFindManyUserAdminEmailOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 input FilterFindManyUserAdminInput {
-    AND: [FilterFindManyUserAdminInput!]
-    OR: [FilterFindManyUserAdminInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterFindManyUserAdminOperatorsInput
-    createdAt: Date
-    email: String
-    favouriteColor: String
-    name: String
-    nameNormalized: String
-    password: String
-    role: EnumUserAdminRole
-    updatedAt: Date
+  AND: [FilterFindManyUserAdminInput!]
+  OR: [FilterFindManyUserAdminInput!]
+  _id: MongoID
+  "List of *indexed* fields that can be filtered via operators."
+  _operators: FilterFindManyUserAdminOperatorsInput
+  createdAt: Date
+  email: String
+  favouriteColor: String
+  name: String
+  nameNormalized: String
+  password: String
+  role: EnumUserAdminRole
+  updatedAt: Date
 }
 
 input FilterFindManyUserAdminNameNormalizedOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 input FilterFindManyUserAdminNameOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 "For performance reason this type contains only *indexed* fields."
 input FilterFindManyUserAdminOperatorsInput {
-    _id: FilterFindManyUserAdmin_idOperatorsInput
-    email: FilterFindManyUserAdminEmailOperatorsInput
-    name: FilterFindManyUserAdminNameOperatorsInput
-    nameNormalized: FilterFindManyUserAdminNameNormalizedOperatorsInput
+  _id: FilterFindManyUserAdmin_idOperatorsInput
+  email: FilterFindManyUserAdminEmailOperatorsInput
+  name: FilterFindManyUserAdminNameOperatorsInput
+  nameNormalized: FilterFindManyUserAdminNameNormalizedOperatorsInput
 }
 
 input FilterFindManyUserAdmin_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
+  exists: Boolean
+  gt: MongoID
+  gte: MongoID
+  in: [MongoID]
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  nin: [MongoID]
 }
 
 input FilterFindOneUserAdminEmailOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 input FilterFindOneUserAdminInput {
-    AND: [FilterFindOneUserAdminInput!]
-    OR: [FilterFindOneUserAdminInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterFindOneUserAdminOperatorsInput
-    createdAt: Date
-    email: String
-    favouriteColor: String
-    name: String
-    nameNormalized: String
-    password: String
-    role: EnumUserAdminRole
-    updatedAt: Date
+  AND: [FilterFindOneUserAdminInput!]
+  OR: [FilterFindOneUserAdminInput!]
+  _id: MongoID
+  "List of *indexed* fields that can be filtered via operators."
+  _operators: FilterFindOneUserAdminOperatorsInput
+  createdAt: Date
+  email: String
+  favouriteColor: String
+  name: String
+  nameNormalized: String
+  password: String
+  role: EnumUserAdminRole
+  updatedAt: Date
 }
 
 input FilterFindOneUserAdminNameNormalizedOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 input FilterFindOneUserAdminNameOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 "For performance reason this type contains only *indexed* fields."
 input FilterFindOneUserAdminOperatorsInput {
-    _id: FilterFindOneUserAdmin_idOperatorsInput
-    email: FilterFindOneUserAdminEmailOperatorsInput
-    name: FilterFindOneUserAdminNameOperatorsInput
-    nameNormalized: FilterFindOneUserAdminNameNormalizedOperatorsInput
+  _id: FilterFindOneUserAdmin_idOperatorsInput
+  email: FilterFindOneUserAdminEmailOperatorsInput
+  name: FilterFindOneUserAdminNameOperatorsInput
+  nameNormalized: FilterFindOneUserAdminNameNormalizedOperatorsInput
 }
 
 input FilterFindOneUserAdmin_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
+  exists: Boolean
+  gt: MongoID
+  gte: MongoID
+  in: [MongoID]
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  nin: [MongoID]
 }
 
 input FilterFindOneUserPublicInput {
-    AND: [FilterFindOneUserPublicInput!]
-    OR: [FilterFindOneUserPublicInput!]
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterFindOneUserPublicOperatorsInput
-    favouriteColor: String
-    name: String
+  AND: [FilterFindOneUserPublicInput!]
+  OR: [FilterFindOneUserPublicInput!]
+  "List of *indexed* fields that can be filtered via operators."
+  _operators: FilterFindOneUserPublicOperatorsInput
+  favouriteColor: String
+  name: String
 }
 
 input FilterFindOneUserPublicNameOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 "For performance reason this type contains only *indexed* fields."
 input FilterFindOneUserPublicOperatorsInput {
-    name: FilterFindOneUserPublicNameOperatorsInput
+  name: FilterFindOneUserPublicNameOperatorsInput
 }
 
 input FilterRemoveManyUserAdminEmailOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 input FilterRemoveManyUserAdminInput {
-    AND: [FilterRemoveManyUserAdminInput!]
-    OR: [FilterRemoveManyUserAdminInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterRemoveManyUserAdminOperatorsInput
-    createdAt: Date
-    email: String
-    favouriteColor: String
-    name: String
-    nameNormalized: String
-    password: String
-    role: EnumUserAdminRole
-    updatedAt: Date
+  AND: [FilterRemoveManyUserAdminInput!]
+  OR: [FilterRemoveManyUserAdminInput!]
+  _id: MongoID
+  "List of *indexed* fields that can be filtered via operators."
+  _operators: FilterRemoveManyUserAdminOperatorsInput
+  createdAt: Date
+  email: String
+  favouriteColor: String
+  name: String
+  nameNormalized: String
+  password: String
+  role: EnumUserAdminRole
+  updatedAt: Date
 }
 
 input FilterRemoveManyUserAdminNameNormalizedOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 input FilterRemoveManyUserAdminNameOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 "For performance reason this type contains only *indexed* fields."
 input FilterRemoveManyUserAdminOperatorsInput {
-    _id: FilterRemoveManyUserAdmin_idOperatorsInput
-    email: FilterRemoveManyUserAdminEmailOperatorsInput
-    name: FilterRemoveManyUserAdminNameOperatorsInput
-    nameNormalized: FilterRemoveManyUserAdminNameNormalizedOperatorsInput
+  _id: FilterRemoveManyUserAdmin_idOperatorsInput
+  email: FilterRemoveManyUserAdminEmailOperatorsInput
+  name: FilterRemoveManyUserAdminNameOperatorsInput
+  nameNormalized: FilterRemoveManyUserAdminNameNormalizedOperatorsInput
 }
 
 input FilterRemoveManyUserAdmin_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
+  exists: Boolean
+  gt: MongoID
+  gte: MongoID
+  in: [MongoID]
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  nin: [MongoID]
 }
 
 input FilterRemoveOneUserAdminEmailOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 input FilterRemoveOneUserAdminInput {
-    AND: [FilterRemoveOneUserAdminInput!]
-    OR: [FilterRemoveOneUserAdminInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterRemoveOneUserAdminOperatorsInput
-    createdAt: Date
-    email: String
-    favouriteColor: String
-    name: String
-    nameNormalized: String
-    password: String
-    role: EnumUserAdminRole
-    updatedAt: Date
+  AND: [FilterRemoveOneUserAdminInput!]
+  OR: [FilterRemoveOneUserAdminInput!]
+  _id: MongoID
+  "List of *indexed* fields that can be filtered via operators."
+  _operators: FilterRemoveOneUserAdminOperatorsInput
+  createdAt: Date
+  email: String
+  favouriteColor: String
+  name: String
+  nameNormalized: String
+  password: String
+  role: EnumUserAdminRole
+  updatedAt: Date
 }
 
 input FilterRemoveOneUserAdminNameNormalizedOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 input FilterRemoveOneUserAdminNameOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 "For performance reason this type contains only *indexed* fields."
 input FilterRemoveOneUserAdminOperatorsInput {
-    _id: FilterRemoveOneUserAdmin_idOperatorsInput
-    email: FilterRemoveOneUserAdminEmailOperatorsInput
-    name: FilterRemoveOneUserAdminNameOperatorsInput
-    nameNormalized: FilterRemoveOneUserAdminNameNormalizedOperatorsInput
+  _id: FilterRemoveOneUserAdmin_idOperatorsInput
+  email: FilterRemoveOneUserAdminEmailOperatorsInput
+  name: FilterRemoveOneUserAdminNameOperatorsInput
+  nameNormalized: FilterRemoveOneUserAdminNameNormalizedOperatorsInput
 }
 
 input FilterRemoveOneUserAdmin_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
+  exists: Boolean
+  gt: MongoID
+  gte: MongoID
+  in: [MongoID]
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  nin: [MongoID]
 }
 
 input FilterUpdateManyUserAdminEmailOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 input FilterUpdateManyUserAdminInput {
-    AND: [FilterUpdateManyUserAdminInput!]
-    OR: [FilterUpdateManyUserAdminInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterUpdateManyUserAdminOperatorsInput
-    createdAt: Date
-    email: String
-    favouriteColor: String
-    name: String
-    nameNormalized: String
-    password: String
-    role: EnumUserAdminRole
-    updatedAt: Date
+  AND: [FilterUpdateManyUserAdminInput!]
+  OR: [FilterUpdateManyUserAdminInput!]
+  _id: MongoID
+  "List of *indexed* fields that can be filtered via operators."
+  _operators: FilterUpdateManyUserAdminOperatorsInput
+  createdAt: Date
+  email: String
+  favouriteColor: String
+  name: String
+  nameNormalized: String
+  password: String
+  role: EnumUserAdminRole
+  updatedAt: Date
 }
 
 input FilterUpdateManyUserAdminNameNormalizedOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 input FilterUpdateManyUserAdminNameOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 "For performance reason this type contains only *indexed* fields."
 input FilterUpdateManyUserAdminOperatorsInput {
-    _id: FilterUpdateManyUserAdmin_idOperatorsInput
-    email: FilterUpdateManyUserAdminEmailOperatorsInput
-    name: FilterUpdateManyUserAdminNameOperatorsInput
-    nameNormalized: FilterUpdateManyUserAdminNameNormalizedOperatorsInput
+  _id: FilterUpdateManyUserAdmin_idOperatorsInput
+  email: FilterUpdateManyUserAdminEmailOperatorsInput
+  name: FilterUpdateManyUserAdminNameOperatorsInput
+  nameNormalized: FilterUpdateManyUserAdminNameNormalizedOperatorsInput
 }
 
 input FilterUpdateManyUserAdmin_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
+  exists: Boolean
+  gt: MongoID
+  gte: MongoID
+  in: [MongoID]
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  nin: [MongoID]
 }
 
 input FilterUpdateOneUserAdminEmailOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 input FilterUpdateOneUserAdminInput {
-    AND: [FilterUpdateOneUserAdminInput!]
-    OR: [FilterUpdateOneUserAdminInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterUpdateOneUserAdminOperatorsInput
-    createdAt: Date
-    email: String
-    favouriteColor: String
-    name: String
-    nameNormalized: String
-    password: String
-    role: EnumUserAdminRole
-    updatedAt: Date
+  AND: [FilterUpdateOneUserAdminInput!]
+  OR: [FilterUpdateOneUserAdminInput!]
+  _id: MongoID
+  "List of *indexed* fields that can be filtered via operators."
+  _operators: FilterUpdateOneUserAdminOperatorsInput
+  createdAt: Date
+  email: String
+  favouriteColor: String
+  name: String
+  nameNormalized: String
+  password: String
+  role: EnumUserAdminRole
+  updatedAt: Date
 }
 
 input FilterUpdateOneUserAdminNameNormalizedOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 input FilterUpdateOneUserAdminNameOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
+  exists: Boolean
+  gt: String
+  gte: String
+  in: [String]
+  lt: String
+  lte: String
+  ne: String
+  nin: [String]
+  regex: RegExpAsString
 }
 
 "For performance reason this type contains only *indexed* fields."
 input FilterUpdateOneUserAdminOperatorsInput {
-    _id: FilterUpdateOneUserAdmin_idOperatorsInput
-    email: FilterUpdateOneUserAdminEmailOperatorsInput
-    name: FilterUpdateOneUserAdminNameOperatorsInput
-    nameNormalized: FilterUpdateOneUserAdminNameNormalizedOperatorsInput
+  _id: FilterUpdateOneUserAdmin_idOperatorsInput
+  email: FilterUpdateOneUserAdminEmailOperatorsInput
+  name: FilterUpdateOneUserAdminNameOperatorsInput
+  nameNormalized: FilterUpdateOneUserAdminNameNormalizedOperatorsInput
 }
 
 input FilterUpdateOneUserAdmin_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
+  exists: Boolean
+  gt: MongoID
+  gte: MongoID
+  in: [MongoID]
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  nin: [MongoID]
 }
 
 input UpdateByIdUserAdminInput {
-    createdAt: Date
-    email: String
-    favouriteColor: String
-    name: String
-    nameNormalized: String
-    password: String
-    role: EnumUserAdminRole
-    updatedAt: Date
+  createdAt: Date
+  email: String
+  favouriteColor: String
+  name: String
+  nameNormalized: String
+  password: String
+  role: EnumUserAdminRole
+  updatedAt: Date
+}
+
+input UpdateByIdUserPublicInput {
+  aboutMe: String
+  avatar: String
+  gender: EnumUserPublicGender
+  ingameRole: [EnumUserPublicIngameRole]
+  languages: [String]
+  name: String
 }
 
 input UpdateManyUserAdminInput {
-    createdAt: Date
-    email: String
-    favouriteColor: String
-    name: String
-    nameNormalized: String
-    password: String
-    role: EnumUserAdminRole
-    updatedAt: Date
+  createdAt: Date
+  email: String
+  favouriteColor: String
+  name: String
+  nameNormalized: String
+  password: String
+  role: EnumUserAdminRole
+  updatedAt: Date
 }
 
 input UpdateOneUserAdminInput {
-    createdAt: Date
-    email: String
-    favouriteColor: String
-    name: String
-    nameNormalized: String
-    password: String
-    role: EnumUserAdminRole
-    updatedAt: Date
+  createdAt: Date
+  email: String
+  favouriteColor: String
+  name: String
+  nameNormalized: String
+  password: String
+  role: EnumUserAdminRole
+  updatedAt: Date
 }
-
 
 "The string representation of JavaScript regexp. You may provide it with flags \"/^abc.*/i\" or without flags like \"^abc.*\". More info about RegExp characters and flags: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions"
 scalar RegExpAsString
