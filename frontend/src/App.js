@@ -4,26 +4,28 @@ import {
     Route
 } from 'react-router-dom';
 
-import Navbar from './components/Navbar';
+import MyNavbar from './components/MyNavbar';
 import Home from './components/Home';
 import Login from './components/Login';
 import SignUp from './components/Signup';
 import Users from './components/Users';
-//import NavbarT from './components/NavbarT';
-
-
+import Profile from './components/Profile';
+import Logout from './components/Logout';
 
 export default function App() {
     return (
-        <div>
-            <Navbar/>
+        <div >
+            <MyNavbar/>
             
-
             <Switch>
                 <Route exact path="/"  component={Home}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/signup" component={SignUp}/>
-                <Route exact path="/users" component={ () => <Users authorized={true}/>} />
+                <Route path="/logout" component={Logout}/>
+         
+                <Route exact path="/users" component={ () => <Users/>} />
+                <Route exact path="/profile" component={ () => <Profile authorized={true}/>} />
+
             </Switch>
         </div>
     );

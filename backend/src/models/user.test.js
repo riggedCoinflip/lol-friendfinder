@@ -1,70 +1,55 @@
-const {User} = require("./user")
-const {createLanguages} = require("../../utils/createLanguages")
-const validators = require("./user.test.validators")
-const {dbConnect, dbDisconnectAndWipe} = require("../../utils/test-utils/db-handler")
+const {User} = require("./user.js");
+const validators = require("./user.test.validators");
+const {dbConnect, dbClean, dbDisconnectAndWipe} = require("../utils/test-utils/db-handler");
 const testUsers = require("./user.test.data")
 
 describe("User Model Test Suite", () => {
-    beforeAll(async () => await dbConnect())
-    afterEach(async () => await User.deleteMany())
-    afterAll(async () => await dbDisconnectAndWipe())
+    beforeAll(async () => dbConnect());
+    afterEach(async () => {
+        await User.deleteMany()
+    });
+    afterAll(async () => dbDisconnectAndWipe());
 
     it("saves a user successfully with hashed password", async () => {
-        const user = new User(testUsers.validNoDefaults)
-        await user.save()
+        const user = new User(testUsers.validNoDefaults);
+        await user.save();
 
-        validators.validateNotEmptyAndTruthy(user)
+        validators.validateNotEmptyAndTruthy(user);
 
-        validators.validateStringEquality(user.name, testUsers.validNoDefaults.name)
-        validators.validateStringEquality(user.email, testUsers.validNoDefaults.email)
+        validators.validateStringEquality(user.name, testUsers.validNoDefaults.name);
+        validators.validateStringEquality(user.email, testUsers.validNoDefaults.email);
         //use bcrypt compare to validate password
-        expect(await user.comparePassword(testUsers.validNoDefaults.password)).toBe(true)
-        validators.validateStringEquality(user.role, testUsers.validNoDefaults.role)
-        validators.validateStringEquality(user.aboutMe, testUsers.validNoDefaults.aboutMe)
-        validators.validateStringEquality(user.gender, testUsers.validNoDefaults.gender)
-        validators.validateStringEquality(user.avatar, testUsers.validNoDefaults.avatar)
-        //expected is of type: CoreMongooseArray and needs to be transformed
-        expect(Array.from([...user.ingameRole])).toStrictEqual(testUsers.validNoDefaults.ingameRole)
-        expect(user.dateOfBirth).toBe(testUsers.validNoDefaults.dateOfBirth)
-        expect(user.age).toBe(0) //diff between current and current should be 0
-    })
-
-    it("calculates Age somewhat correctly", async () => {
-        const user = new User(testUsers.minDateOfBirthInYear)
-        await user.save()
-        expect(user.age).toBe(21)
-
-        const user2 = new User(testUsers.maxDateOfBirthInYear)
-        await user2.save()
-        expect(user2.age).toBe(20)
+        expect(await user.comparePassword(testUsers.validNoDefaults.password)).toBe(true);
+        validators.validateStringEquality(user.role, testUsers.validNoDefaults.role);
+        validators.validateStringEquality(user.favouriteColor, testUsers.validNoDefaults.favouriteColor)
     })
 
     it("throws MongoDB duplicate error with code 11000", async () => {
-        const user = new User(testUsers.validNoDefaults)
-        const user2 = new User(testUsers.validNoDefaults) //clone user
+        const user = new User(testUsers.validNoDefaults);
+        const user2 = new User(testUsers.validNoDefaults); //clone user
 
-        await user.save()
+        await user.save();
 
         try {
-            await user2.save()
-            fail("Should throw error")
+            await user2.save();
+            fail("Should throw error");
         } catch (err) {
-            const {name, code} = err
-            validators.validateMongoDuplicationError(name, code)
+            const {name, code} = err;
+            validators.validateMongoDuplicationError(name, code);
         }
     })
 
     it("creates new hash on password change", async () => {
-        const user = new User(testUsers.validNoDefaults)
+        const user = new User(testUsers.validNoDefaults);
 
         //save the cleartextPassword as it gets overridden by a hash on save
-        const cleartextPassword = user.password
-        await user.save()
+        const cleartextPassword = user.password;
+        await user.save();
 
-        const oldHashedPassword = user.password
+        const oldHashedPassword = user.password;
         //login with password possible
-        expect(await user.comparePassword(cleartextPassword)).toBe(true)
-        expect(user.password).toBe(oldHashedPassword)
+        expect(await user.comparePassword(cleartextPassword)).toBe(true);
+        expect(user.password).toBe(oldHashedPassword);
 
         /**
          * we need to change the password as our middleware only creates a new hash if the password is changed. ¹
@@ -74,105 +59,109 @@ describe("User Model Test Suite", () => {
          * ¹ See: UserSchema.pre("save",...)
          */
         user.password = "pwTemp12"
-        await user.save()
+        await user.save();
         user.password = cleartextPassword
-        await user.save()
+        await user.save();
 
         //login with same password still possible, but due to a different salt we should have a different hash
-        expect(await user.comparePassword(cleartextPassword)).toBe(true)
-        expect(user.password).not.toBe(oldHashedPassword)
+        expect(await user.comparePassword(cleartextPassword)).toBe(true);
+        expect(user.password).not.toBe(oldHashedPassword);
     })
 
     it("trims fields on save", async () => {
-        const user = new User(testUsers.trim)
-        await user.save()
+        const user = new User(testUsers.trim);
+        await user.save();
 
-        validators.validateStringEquality(user.name, "trimName")
-        validators.validateStringEquality(user.email, "trim@email.com")
+        validators.validateStringEquality(user.name, "trimName");
+        validators.validateStringEquality(user.email, "trim@email.com");
     })
 
     it("only allows valid email addresses", async () => {
         const user = new User(testUsers.emailInvalid)
         try {
-            await user.save()
-            fail("Should throw error")
-        } catch (err) {
+            await user.save();
+            fail("Should throw error");
+        } catch(err) {
             validators.validateMongoValidationError(err, "email", "regexp")
         }
     })
 
     it("lowers the email on save", async () => {
         const user = new User(testUsers.lowerEmail)
-        await user.save()
+        await user.save();
 
-        validators.validateStringEquality(user.email, "lower_this@email.com")
+        validators.validateStringEquality(user.email, "lower_this@email.com");
+    })
+
+    it("lowers the favouriteColor on save", async () => {
+        const user = new User(testUsers.lowerFavouriteColor)
+        await user.save();
+
+        validators.validateStringEquality(user.favouriteColor, "red");
     })
 
     it("throws MongoDB ValidationError on String shorter than minlength", async () => {
-        const user = new User(testUsers.nameTooShort)
+        const user = new User(testUsers.nameTooShort);
         try {
-            await user.save()
-            fail("Should throw error")
+            await user.save();
+            fail("Should throw error");
         } catch (err) {
             validators.validateMongoValidationError(err, "name", "minlength")
         }
     })
 
     it("throws MongoDB ValidationError on String longer than maxlength", async () => {
-        const user = new User(testUsers.nameTooLong)
+        const user = new User(testUsers.nameTooLong);
         try {
-            await user.save()
-            fail("Should throw error")
+            await user.save();
+            fail("Should throw error");
         } catch (err) {
             validators.validateMongoValidationError(err, "name", "maxlength")
         }
     })
 
     it("errors on invalid value in enum", async () => {
-        const user = new User(testUsers.roleDoesNotExist)
+        const user = new User(testUsers.roleDoesNotExist);
 
         try {
-            await user.save()
-            fail("Should throw error")
+            await user.save();
+            fail("Should throw error");
         } catch (err) {
             validators.validateMongoValidationError(err, "role", "enum")
         }
     })
 
-    /*
     test("Validate color default", async () => {
-        const user = new User(testUsers.useDefaultColor)
-        await user.save()
+        const user = new User(testUsers.useDefaultColor);
+        await user.save();
 
-        validators.validateNotEmptyAndTruthy(user)
+        validators.validateNotEmptyAndTruthy(user);
 
         validators.validateStringEquality(user.favouriteColor, "blue")
     })
 
-     */
-
     it("errors on missing fields", async () => {
         //OPTIMIZE code duplication
-        const user = new User(testUsers.requiredFieldNameMissing)
+        const user = new User(testUsers.requiredFieldNameMissing);
         try {
-            await user.save()
-            fail("Should throw error")
+            await user.save();
+            fail("Should throw error");
         } catch (err) {
             validators.validateMongoValidationError(err, "name", "required")
         }
 
-        const user2 = new User(testUsers.requiredFieldEmailMissing)
+        const user2 = new User(testUsers.requiredFieldEmailMissing);
         try {
-            await user2.save()
-            fail("Should throw error")
+            await user2.save();
+            fail("Should throw error");
         } catch (err) {
             validators.validateMongoValidationError(err, "email", "required")
         }
 
-        const user3 = new User(testUsers.requiredFieldPasswordMissing)
+        const user3 = new User(testUsers.requiredFieldPasswordMissing);
         try {
-            await user3.save()
-            fail("Should throw error")
+            await user3.save();
+            fail("Should throw error");
         } catch (err) {
             validators.validateMongoValidationError(err, "password", "required")
         }
@@ -186,8 +175,8 @@ describe("User Model Test Suite", () => {
         for (const e of Object.keys(toTest)) {
             const user = new User(toTest[e])
             try {
-                await user.save()
-                fail("Should throw error")
+                await user.save();
+                fail("Should throw error");
             } catch (err) {
                 validators.validateMongoValidationError(err, "name", "user defined")
                 //console.error(err)
@@ -202,24 +191,24 @@ describe("User Model Test Suite", () => {
 
         const user = new User(pwInvalid.tooShort)
         try {
-            await user.save()
-            fail("Should throw error")
+            await user.save();
+            fail("Should throw error");
         } catch (err) {
             validators.validateMongoValidationError(err, "password", "minlength")
         }
 
         const user2 = new User(pwInvalid.tooLong)
         try {
-            await user2.save()
-            fail("Should throw error")
+            await user2.save();
+            fail("Should throw error");
         } catch (err) {
             validators.validateMongoValidationError(err, "password", "maxlength")
         }
 
         const user3 = new User(pwInvalid.noUppercase)
         try {
-            await user3.save()
-            fail("Should throw error")
+            await user3.save();
+            fail("Should throw error");
         } catch (err) {
             validators.validateMongoValidationError(err, "password", "user defined")
             expect(err.errors.password.properties.message).toBe("Password must contain uppercase letter")
@@ -227,8 +216,8 @@ describe("User Model Test Suite", () => {
 
         const user4 = new User(pwInvalid.noLowercase)
         try {
-            await user4.save()
-            fail("Should throw error")
+            await user4.save();
+            fail("Should throw error");
         } catch (err) {
             validators.validateMongoValidationError(err, "password", "user defined")
             expect(err.errors.password.properties.message).toBe("Password must contain lowercase letter")
@@ -236,8 +225,8 @@ describe("User Model Test Suite", () => {
 
         const user5 = new User(pwInvalid.noDigit)
         try {
-            await user5.save()
-            fail("Should throw error")
+            await user5.save();
+            fail("Should throw error");
         } catch (err) {
             validators.validateMongoValidationError(err, "password", "user defined")
             expect(err.errors.password.properties.message).toBe("Password must contain a digit")
@@ -245,8 +234,8 @@ describe("User Model Test Suite", () => {
 
         const user6 = new User(pwInvalid.invalidChar)
         try {
-            await user6.save()
-            fail("Should throw error")
+            await user6.save();
+            fail("Should throw error");
         } catch (err) {
             validators.validateMongoValidationError(err, "password", "user defined")
             expect(err.errors.password.properties.message).toBe("Password may only contain certain special chars")
@@ -259,11 +248,11 @@ describe("User Model Test Suite", () => {
 
         await userLower.save()
         try {
-            await userUpper.save()
-            fail("Should throw error")
+            await userUpper.save();
+            fail("Should throw error");
         } catch (err) {
-            const {name, code} = err
-            validators.validateMongoDuplicationError(name, code)
+            const {name, code} = err;
+            validators.validateMongoDuplicationError(name, code);
         }
     })
 
@@ -273,13 +262,12 @@ describe("User Model Test Suite", () => {
 
         try {
             await user.save()
-            fail("Should throw error")
+            fail("Should throw error");
         } catch (err) {
             expect(err.message).toBe("nameNormalized is read only!")
         }
     })
 
-    /*
     it("doesnt bcrypt the password if another field is updated", async () => {
         //BUG this randomly errors sometimes - on a rerun it then works again...
         const user = new User(testUsers.validNoDefaults)
@@ -288,28 +276,10 @@ describe("User Model Test Suite", () => {
         const oldHashedPassword = user.password
 
         //change other field
-        user.aboutMe = "foobar"
+        user.favouriteColor = "black"
         await user.save()
         const newHashedPassword = user.password
 
         expect(newHashedPassword).toBe(oldHashedPassword)
     })
-     */
-
-    it("populates language successfully", async () => {
-        await createLanguages()
-        const user = new User(testUsers.validNoDefaults)
-        await user.save()
-
-        const doc = await User
-            .findOne({nameNormalized: user.nameNormalized})
-            .populate("languages")
-
-        expect(doc.populated("languages")).toBeTruthy()
-
-        //unfortunately comparing MongooseCoreArray to Array does not really work
-        expect(doc.languages[0].nativeName).toBe("Deutsch")
-        expect(doc.languages[1].name).toBe("English")
-    })
-
-})
+});

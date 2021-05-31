@@ -7,6 +7,7 @@ import * as validateSignup from "../shared/util/validateSignup"
 
 
 //TODO create check for email (missing GQL endpoint for that)
+/*
 const USER_EXISTS = gql`
     query user_exists($name: String!) {
         nameExists: user(filter: {
@@ -16,7 +17,7 @@ const USER_EXISTS = gql`
         }
     }
 `
-
+*/
 
 const USER_CREATE = gql`
     mutation signup($name: String!, $email: String!, $password: String!) #TODO hash password server side
@@ -64,20 +65,21 @@ function validateOnChange(email, password, password2, specialChars) {
  * @param {String} response.data.emailExists.email
  * @return {Object} validation
  */
+/*
 function validateOnSubmit(response) {
     return {
         usernameAvailable: response.data?.nameExists?.name == null,
         emailAvailable: true,
     }
     //TODO create user check
-    /*
+    
     return {
         usernameAvailable: response.data?.nameExists?.name == null,
         emailAvailable: response.data?.emailExists?.email == null
     }
-     */
+     
 }
-
+*/
 /**
  * A Signup form that allows the user to create an account
  * Submit Button is disabled while there are errors in the input.
@@ -169,35 +171,22 @@ export default function Signup() {
         event.preventDefault();
 
 
-        // Request if the username/email exists already, if available, create the account
-        client
-            .query({
-                query: USER_EXISTS,
-                variables: {
-                    name: state.username,
-                    //email: state.email,
-                }
-            })
-            .then(response => {
-                const newValidationQuery = validateOnSubmit(response)
-                setValidationQuery(newValidationQuery)
-
-                if (Object.values(newValidationQuery).every(item => item === true)) { //if no errors
+// Request if the username/email exists already, if available, create the account
+        
+        createUser
+            (state.username, state.email, state.password)
+              .then(res => {
+                history.push("/login")
+                alert('Account creation successful 🔥!');
                     console.log("state:", state)
-                    createUser(state.username, state.email, state.password)
-                        .then((res) => {
-                            history.push("/")
-                            alert('Account creation successful!');
-                        })
-                        .catch((err) => {
-                            console.error(`Error in createUser: ${err}`)
-                        })
-                }
-            })
+             })
             .catch(err => {
-                    console.error(err)
+                alert('Error: Name or E-Mail are already given 😓');
+                console.error(`Error in createUser: ${err}`);
+               
                 }
             );
+            
     }
 
 

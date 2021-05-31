@@ -1,2 +1,4 @@
-//export const GC_USER_ID = 'graphcool-user-id'
-export const AUTH_TOKEN = 'auth-token'
+export const AUTH_TOKEN =   localStorage.getItem("SECREToken") || null ;
+export const Var1 =   911;
+
+console.log('from constants: '+ AUTH_TOKEN);

@@ -119,6 +119,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.virtual("age").get(function () {
     //https://stackoverflow.com/a/24181701/12340711
     //good enough
+    if (!this.dateOfBirth) return -1 //default
     const ageDifMs = Date.now() - this.dateOfBirth
     const ageDate = new Date(ageDifMs); // miliseconds from epoch
     return Math.abs(ageDate.getUTCFullYear() - 1970);
@@ -156,6 +157,21 @@ const UserTCAdmin = composeMongoose(User, {
     description: "Full User Model. Exposed only for Admins"
 });
 
+const UserTCPrivate = composeMongoose(User, {
+    name: "UserPrivate",
+    description: "Fields the user can see about himself",
+    onlyFields: [
+        "name",
+        "email",
+        "aboutMe",
+        "languages",
+        "gender",
+        "dateOfBirth",
+        "avatar",
+        "ingameRole",
+    ]
+})
+
 
 const UserTCPublic = composeMongoose(User, {
     name: "UserPublic",
@@ -186,17 +202,19 @@ const UserTCSignup = composeMongoose(User, {
 const ageForTC ={
     age: {
         type: "Int",
-        description: 'Uses the virtual "age" that is calculated from DateOfBirth',
+        description: 'Uses the virtual "age" that is calculated from DateOfBirth. Returns -1 if DateOfBirth is not set.',
     }
 }
 
 UserTCAdmin.addFields(ageForTC)
 UserTCPublic.addFields(ageForTC)
 
+
 module.exports = {
     User,
     UserTCAdmin,
     UserTCPublic,
+    UserTCPrivate,
     UserTCSignup
 }
 
