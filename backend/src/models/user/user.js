@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const {composeMongoose} = require("graphql-compose-mongoose");
 const userValidation = require("../../utils/shared_utils");
-
+const idvalidator = require('mongoose-id-validator');
 
 //save time on testing
 const SALT_ROUNDS = process.env.NODE_ENV === "test" ? 5 : 10;
@@ -115,6 +115,8 @@ const UserSchema = new mongoose.Schema({
 }, {
     timestamps: true,
 });
+
+UserSchema.plugin(idvalidator);
 
 UserSchema.virtual("age").get(function () {
     //https://stackoverflow.com/a/24181701/12340711
