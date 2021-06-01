@@ -9,7 +9,12 @@ import {Button} from 'react-bootstrap';
 const GET_USER = gql`
        { userSelf
         {name
-        favouriteColor
+        aboutMe
+          languages
+          gender
+          avatar
+          age
+
         }         
         }`;
 
@@ -35,7 +40,7 @@ return(
 <div id="user-info">
   
 <p>Welcome {data.userSelf.name}</p>
-<p>Fav color: {data.userSelf.favouriteColor}</p>
+<p>Gender: {data.userSelf.gender}</p>
 <Button  variant="primary"
  onClick={() => {
                   // setProfile('');
