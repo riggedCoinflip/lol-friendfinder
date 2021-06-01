@@ -11,6 +11,7 @@ import SignUp from './components/Signup';
 import Users from './components/Users';
 import Profile from './components/Profile';
 import Logout from './components/Logout';
+import NotFound from './components/NotFound';
 
 export default function App() {
     return (
