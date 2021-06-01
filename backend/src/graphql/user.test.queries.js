@@ -16,15 +16,15 @@ const LOGIN = `
         login(email: $email, password: $password)
     }
 `
-
 const USER_SELF = `
     query {
         userSelf{
         name
+        email
         aboutMe
         languages
         gender
-        age
+        dateOfBirth
         avatar
         ingameRole
         }

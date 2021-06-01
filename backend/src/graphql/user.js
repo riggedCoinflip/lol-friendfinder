@@ -1,38 +1,23 @@
 const jwt = require("jsonwebtoken");
-const {User, UserTCAdmin, UserTCSignup, UserTCPublic} = require("../models/user/user");
+const {User, UserTCAdmin, UserTCSignup, UserTCPublic, UserTCPrivate} = require("../models/user/user");
 const requireAuthentication = require("../middleware/jwt/requireAuthentication");
 const requireAuthorization = require("../middleware/jwt/requireAuthorization");
 
 //**********************
 //*** custom queries ***
 //**********************
-
-UserTCPublic.addResolver({
-    kind: "query",
-    name: "userSelf",
-    description: "get public schema of currently logged in user",
-    type: UserTCPublic.mongooseResolvers.findById().getType(),
-    resolve: async ({context}) => {
-        return User.findById(context.req.user._id);
-    }
-})
+const userSelf = UserTCPrivate.mongooseResolvers
+    .findById()
+    .setDescription("Get information of currently logged in user")
+    .removeArg("_id")
+    .wrapResolve((next) => (rp) => {
+        rp.args._id = rp.context.req.user._id;
+        return next(rp);
+    })
 
 //************************
 //*** custom mutations ***
 //************************
-
-//TODO
-/*
-UserTCPublic.addResolver({
-    kind: 'mutation',
-    name: 'userUpdateSelf',
-    description: "update schema of currently logged in user",
-    type: UserTCPublic.mongooseResolvers.updateById().getType,
-    resolve: async ({args, context}) => {
-        return User.updateOne();
-    }
-})
- */
 
 //login
 UserTCPublic.addResolver({
@@ -46,13 +31,11 @@ UserTCPublic.addResolver({
     resolve: async ({args}) => {
         const user = await User.findOne({email: args.email});
 
-        //OPTIMIZE/FIXME 2 different error messages -> "hacker" can find out which emails exist and which dont
-        // if we want to fix the error, we still need a pseudo-compare password cause else a "hacker" can do
-        // timing attacks -> as a login takes substantially longer if the user is correct due to comparing a password
+        //FIXME
+        // timing attacks -> as a login takes substantially longer if the user is correct due to comparing a password,
         // a "hacker" can use the difference in time-till-response to find out which emails are in use
         // SEVERITY: minor
-        if (!user) throw new Error("User does not exist.")
-        if (!await user.comparePassword(args.password)) throw new Error("Password is not correct.");
+        if (!user || !await user.comparePassword(args.password)) throw new Error("User or Password is not correct.");
 
         //generate token
         return jwt.sign({
@@ -67,13 +50,21 @@ UserTCPublic.addResolver({
 })
 
 
+const userUpdateSelf = UserTCPrivate.mongooseResolvers.updateById()
+    .setDescription("Update information of currently logged in user")
+    .removeArg("_id")
+    .wrapResolve((next) => (rp) => {
+        rp.args._id = rp.context.req.user._id;
+        return next(rp);
+    })
+
 //***************
 //*** EXPORTS ***
 //***************
 
 const UserQuery = {
     ...requireAuthentication({
-        userSelf: UserTCPublic.getResolver("userSelf"),
+        userSelf,
         user: UserTCPublic.mongooseResolvers.findOne(), //TODO restrict filters
     }),
     ...requireAuthorization({
@@ -92,6 +83,9 @@ const UserQuery = {
 const UserMutation = {
     signup: UserTCSignup.mongooseResolvers.createOne(),
     login: UserTCPublic.getResolver("login"),
+    ...requireAuthentication({
+        userUpdateSelf,
+    }),
     ...requireAuthorization({
             userCreateOneAdmin: UserTCAdmin.mongooseResolvers.createOne(),
             userCreateManyAdmin: UserTCAdmin.mongooseResolvers.createMany(),
