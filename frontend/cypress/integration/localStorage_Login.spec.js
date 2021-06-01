@@ -41,8 +41,9 @@ describe('Values localStage', () => {
 
         cy.clearLocalStorage().should((ls) => {
             expect(ls.getItem('SECREToken')) !== 'null'
-            cy.visit('/profile')
             cy.reload()
+            cy.visit('/profile')
+           
 
         })
     })
