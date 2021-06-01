@@ -4,7 +4,8 @@ import { useQuery, gql } from '@apollo/client';
 import * as Constants from '../constants'
 
 //import Button from '@material-ui/core/Button';
-import {Button} from 'react-bootstrap';
+import {Button, Container, Card, Form, Col, Image, Row,
+      Dropdown, InputGroup, FormControl } from 'react-bootstrap';
 
 const GET_USER = gql`
        { userSelf
@@ -20,43 +21,163 @@ const GET_USER = gql`
 
 
 const Profile = () => {
-// const [profile, setProfile] =  useState(null);
+ 
+  // console.log(testDataUsers);
+ 
+   const { loading, error, data } = useQuery(GET_USER, {
+   context: {
+     headers: {
+         "x-auth-token": Constants.AUTH_TOKEN 
+     }
+ }})
+ 
+ if (loading) return <p>Loading...</p>;
+ if (error) return <p>Error!</p>;
+ console.log(data);
+ 
+ const languagesArray = [{language: 'DE'}, {language: 'EN'},{language: 'FR'}, {language: 'EN'} ];
+ 
+ console.log(languagesArray);
+ 
+ 
+ return(
+ 
+ <div id="user-info">
+   
+ <Container>
+ <Card.Title>Personal Info</Card.Title>
+ 
+ <Form>
+ 
+   <Row>
+   <Col>
+     <Image src="https://img.icons8.com/clouds/2x/name.png" rounded />
+   </Col>
+ 
+   <Col>
+   <InputGroup className="mb-3" weight="50px">
+     <InputGroup.Prepend>
+       <InputGroup.Text id="username-input">@</InputGroup.Text>
+     </InputGroup.Prepend>
+     <FormControl
+      value={data.userSelf.name}
+       aria-label="Username"
+       aria-describedby="basic-addon1"
+     />
+   </InputGroup>
+   Gender
+   <FormControl
+      value={data.userSelf.gender}
+       aria-label="Gender"
+       aria-describedby="basic-addon1"
 
+     />
+     Avatar
+       <FormControl
+      value={data.userSelf.avatar}
+       aria-label="Avatar"
+       aria-describedby="basic-addon1"
 
-const { loading, error, data } = useQuery(GET_USER, {
-  context: {
-    headers: {
-        "x-auth-token": Constants.AUTH_TOKEN 
-    }
-}})
-//console.log('from Profile: '+ Constants.AUTH_TOKEN)
+     />
+    Age
+    <FormControl
+      value={data.userSelf.age}
+       aria-label="Age"
+       aria-describedby="basic-addon1"
 
-if (loading) return <p>Loading...</p>;
-if (error) return <p>Error!</p>;
-console.log(data);
+     />
+     Languages
+      <FormControl
+      value={data.userSelf.languages}
+       aria-label="Languages"
+       aria-describedby="basic-addon1"
 
+     />
+     <br />
 
-return(
-<div id="user-info">
-  
-<p>Welcome {data.userSelf.name}</p>
-<p>Gender: {data.userSelf.gender}</p>
-<Button  variant="primary"
- onClick={() => {
-                  // setProfile('');
-                  localStorage.clear();
-                    console.log('This should clean all');
-                }}
-
-> Clear Profile Data </Button>
+  {/*
+   <Dropdown>
+         <Dropdown.Toggle size="sm" variant="success" id="dropdown-languages">
+           Languages
+         </Dropdown.Toggle>
+ 
+         <Dropdown.Menu>
+           <Dropdown.Item  onClick={languagesArray.splice(1, 0, {language: 'DE3'})}>DE</Dropdown.Item>
+           <Dropdown.Item onClick={languagesArray.splice(1, 0, {language: 'EN'})}>EN</Dropdown.Item>
+           <Dropdown.Item onClick={languagesArray.splice(1, 0, {language: 'ES'})}>ES</Dropdown.Item>
+           <option onClick={languagesArray.push({language: "NEW"})}>Volvo </option>
+         </Dropdown.Menu>
       
     
-
-
-</div>
-
-);
-}
+ 
+ 
+ </Dropdown>
+ {console.log('addedElements:'+ languagesArray)
+ }
+ {
+ languagesArray &&
+ languagesArray.map((x, index) => {
+ 
+   return (
+     <row key={index} >
+      
+         <div>{x.language} 
+         <Button size="sm" variant="outline-danger"  onClick={languagesArray.splice(x.index, 1)}> X</Button>
+         </div >
+        
+      </row>
+   );
+ })
+ }
+ 
+ {console.log('deleted:' + languagesArray)
+ }
+ 
+ 
+*/}
+ 
+ </Col>
+ 
+   </Row>
+  
+   <Row>
+   <Form.Text className="text-muted">
+   About me</Form.Text>
+ 
+ <Form.Control as="textarea" rows={3}
+ value={data.userSelf.aboutMe} />
+ 
+   </Row>
+   
+ <br />
+  
+   <div>
+     <Button  variant="primary" size="sm"
+         onClick={() => {
+                   console.log('Data was saved');
+                 }}   > Save changes </Button>{'  '}
+ 
+     <Button variant="danger" size="sm"
+         onClick={() => {
+                   console.log('Data was saved');
+                 }}   > Delete account </Button>{' '}
+ 
+                   <br />
+                   </div>
+      
+   
+ 
+ </Form>
+   </Container>
+ 
+   
+ 
+ 
+ 
+ </div>
+ 
+ );
+ }
 
 
 
