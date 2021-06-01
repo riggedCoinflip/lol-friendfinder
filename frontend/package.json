@@ -13,7 +13,7 @@
     "@testing-library/user-event": "^12.1.10",
     "apollo-boost": "^0.4.9",
     "apollo-client": "^2.6.10",
-    "bootstrap": "^5.0.0-beta3",
+    "bootstrap": "^4.6.0",
     "graphql": "^15.5.0",
     "immer": "^9.0.2",
     "node-sass": "^5.0.0",
@@ -31,7 +31,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "cypress open",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

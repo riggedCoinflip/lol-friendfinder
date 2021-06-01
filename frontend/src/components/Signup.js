@@ -326,6 +326,7 @@ export default function Signup() {
             </div>
 
             <button
+            id= "btn-submit"
                 type="submit"
                 className="btn btn-primary btn-block"
                 disabled={!Object.values({...validation, ...validationQuery}).every(v => v === true)}
