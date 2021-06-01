@@ -25,6 +25,7 @@ export default function App() {
          
                 <Route exact path="/users" component={ () => <Users/>} />
                 <Route exact path="/profile" component={ () => <Profile authorized={true}/>} />
+                <Route component={NotFound}/>
 
             </Switch>
         </div>
