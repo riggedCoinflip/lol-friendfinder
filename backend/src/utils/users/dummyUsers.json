@@ -1,0 +1,318 @@
+[
+  {
+    "name": "Admin",
+    "email": "admin@email.com",
+    "password": "AdminPW1",
+    "role": "admin",
+    "aboutMe": "Hey me Admin me really authorized haha",
+    "languages": [
+      "en"
+    ],
+    "gender": "other",
+    "dateOfBirth": "1982-10-05",
+    "ingameRole": []
+  },
+  {
+    "name": "riggedCoinflip",
+    "email": "riggedCoinflip@email.com",
+    "password": "superSecret123",
+    "role": "admin",
+    "aboutMe": "I made this website! I maintain the Backend and DB.",
+    "languages": [
+      "de",
+      "en"
+    ],
+    "gender": "male",
+    "dateOfBirth": "1989-12-02",
+    "ingameRole": [
+      "Mid",
+      "Support"
+    ]
+  },
+  {
+    "name": "gilo2754",
+    "email": "Carlo@in_da_house",
+    "password": "",
+    "role": "admin",
+    "aboutMe": "I made this website! I maintain the Frontend",
+    "languages": [
+      "es",
+      "en",
+      "de"
+    ],
+    "gender": "male",
+    "dateOfBirth": "1999-02-09",
+    "ingameRole": []
+  },
+  {
+    "name": "SKT T1 Faker",
+    "email": "faker@skt-t1.gg",
+    "password": "BetterNerfBr0cc0li",
+    "aboutMe": "Oh, Faker mabe in trouble in trouble here. Death Mark ☠️, tries to clean it up for Ryu, OH LOOK AT THE CLEANSE, LOOK AT THE MOVES! FAKER! WHAT WAS THAT⁉ 🔥🔥🔥",
+    "languages": [
+      "ko",
+      "en"
+    ],
+    "gender": "male",
+    "dateOfBirth": "1996-05-07",
+    "ingameRole": [
+      "Mid"
+    ]
+  },
+  {
+    "name": "Neeko",
+    "email": "",
+    "password": "",
+    "aboutMe": "Don't make me break your Neeko-Neeko-kneecaps",
+    "languages": [],
+    "gender": "non-binary",
+    "dateOfBirth": "1982-04-15",
+    "ingameRole": [
+      "Mid",
+      "Top"
+    ]
+  },
+  {
+    "name": "Alfredo",
+    "email": "fookin@awesome.com",
+    "password": "fu8gc825rWSRF",
+    "aboutMe": "",
+    "languages": [
+      "es",
+      "pt"
+    ],
+    "gender": "transgender",
+    "dateOfBirth": "1985-07-14",
+    "ingameRole": [
+      "Jungle",
+      "Top"
+    ]
+  },
+  {
+    "name": "Jeff",
+    "email": "jeff@yaboo.com",
+    "password": "",
+    "aboutMe": "My Name Jeff",
+    "languages": [
+      "en"
+    ],
+    "gender": "male",
+    "dateOfBirth": "1990-09-27",
+    "ingameRole": [
+      "Fill"
+    ]
+  },
+  {
+    "name": "MaxMustermann",
+    "email": "MaxMustermann@muster.de",
+    "password": "MusterMust3r",
+    "aboutMe": "Ich war Musterschüler, wurde dann jedoch ausgemustert.",
+    "languages": [
+      "de"
+    ],
+    "gender": "male",
+    "dateOfBirth": "1990-01-01",
+    "ingameRole": [
+      "Bot",
+      "Support"
+    ]
+  },
+  {
+    "name": "JohnDoe",
+    "email": "so@generous.uk",
+    "password": "1GenericPassword",
+    "aboutMe": "I am the founding father of dough",
+    "languages": [
+      "en"
+    ],
+    "gender": "",
+    "dateOfBirth": "2004-03-16",
+    "ingameRole": []
+  },
+  {
+    "name": "Wukong",
+    "email": "MonkeyKing@",
+    "password": "",
+    "aboutMe": "Best known from a 16th centure Chinese Novel, I make appearances in many different games. One of them is LoL - but LoL didn't invent me.",
+    "languages": [
+      "zh"
+    ],
+    "gender": "",
+    "dateOfBirth": "1980-12-29",
+    "ingameRole": [
+      "Top",
+      "Jungle"
+    ]
+  },
+  {
+    "name": "ElPolyglottian",
+    "email": "IunderstandYou@language.web",
+    "password": "ashzum88z3Eefw",
+    "aboutMe": "I speak many Languages.",
+    "languages": [
+      "zh",
+      "es",
+      "en",
+      "hi",
+      "ar",
+      "pt",
+      "bn",
+      "ru",
+      "ja",
+      "pa",
+      "ko",
+      "de",
+      "fr",
+      "it",
+      "pl",
+      "ro",
+      "el",
+      "pt",
+      "hu",
+      "tr",
+      "cs"
+    ],
+    "gender": "other",
+    "dateOfBirth": "1993-11-14",
+    "ingameRole": [
+      "fill"
+    ]
+  },
+  {
+    "name": "QuantumComputing",
+    "email": "fizzicsBitch@",
+    "password": "vq5t7zGZ378whwuhr",
+    "aboutMe": "I am literally a machine",
+    "languages": [
+      "en"
+    ],
+    "gender": "non-binary",
+    "dateOfBirth": "1970-01-01",
+    "ingameRole": [
+      "Top",
+      "Bot"
+    ]
+  },
+  {
+    "name": "G2Claps",
+    "email": "crown@g2.gg",
+    "password": "Perhaps1GOAT",
+    "aboutMe": "Call an ambulance! Call an ambulance! But not for me!",
+    "languages": [
+      "da",
+      "en"
+    ],
+    "gender": "male",
+    "dateOfBirth": "1999-11-17",
+    "ingameRole": [
+      "mid"
+    ]
+  },
+  {
+    "name": "G2Craps",
+    "email": "clown@g2.gg",
+    "password": "0_10_1aintThatBad",
+    "aboutMe": "Limit Testing",
+    "languages": [
+      "da",
+      "en"
+    ],
+    "gender": "male",
+    "dateOfBirth": "1999-11-17",
+    "ingameRole": [
+      "mid"
+    ]
+  },
+  {
+    "name": "C9Sneaky",
+    "email": "SexyGF@cloud9.com",
+    "password": "fhUHFRUh4iw2",
+    "aboutMe": "You have no Balls. And you can't beat my Cosplays.",
+    "languages": [
+      "en"
+    ],
+    "gender": "male",
+    "dateOfBirth": "1986-08-16",
+    "ingameRole": [
+      "Bot"
+    ]
+  },
+  {
+    "name": "KatarinaKreiselfick",
+    "email": "spinToWin@smashHeadOnKeyboard.xd",
+    "password": "qRWEqw2qEwqr",
+    "aboutMe": "G̸̡̃̔̕â̷̙͈͍͓̍͒̆͌r̸͙̈́́̕͜ẹ̴͇͉̺̭̀n̴̢͇͕̻̿̊͛͒͝ ̸̺̦̪̮̪̊̒̍i̷̞͓̱̪̻͒͑͗̉s̷̪͚̠͕̩̑̐̔ ̸̖͈̪̼͎̉n̵̡̬͔͕͂͋o̵̧̟̜̯̤̭̒̓́̔̚t̵̫̥̗̙̜̒͛h̴̟̏͗ǐ̸̞ń̵̜̟g̸͎̱̾̊̊̾ ̷̤͕̙̞͓̤̇͝a̸̡̜͔̗̣̽͂͆g̵̩͎̺̒̏̆͒̒͘ȧ̵̧̟̩͎̅i̴̯̥̝͌n̴̞̭̭͍̮̅́̀̾s̴̺͂̀͌̂̒t̵̹͕́̍͜ ̸̭̋͌͊̉̕͝ṃ̵̧̛̘̔͐͘ë̸̠́",
+    "languages": [
+      "en",
+      "de"
+    ],
+    "gender": "intersex",
+    "dateOfBirth": "1992-01-26",
+    "ingameRole": [
+      "Mid"
+    ]
+  },
+  {
+    "name": "OhDarrrrn",
+    "email": "@void",
+    "password": "SlapSl4p",
+    "aboutMe": "Mess with the Tentacle you get the UwU. OHHHHH DARRRN",
+    "languages": [
+      "ja",
+      "kr"
+    ],
+    "gender": "",
+    "dateOfBirth": "1994-08-24",
+    "ingameRole": [
+      "Mid",
+      "Support"
+    ]
+  },
+  {
+    "name": "StonksMan",
+    "email": "Mundo@Mundo.corp",
+    "password": "NumbersGo123456789",
+    "aboutMe": "(Slaps Top of About-Me page) This Description can fit so many Characters in it.",
+    "languages": [
+      "pr",
+      "it"
+    ],
+    "dateOfBirth": "2000-02-07",
+    "ingameRole": [
+      "Top",
+      "Jungle"
+    ]
+  },
+  {
+    "name": "ISitOnYou",
+    "email": "okZoomers@protonmail.com",
+    "password": "FVWQGFIUNFoeubh9qrwq2",
+    "aboutMe": "I do the healing while you do the pew pew. Now carry me Slave.",
+    "languages": [
+      "fr",
+      "kr",
+      "ro",
+      "el"
+    ],
+    "gender": "female",
+    "dateOfBirth": "1988-04-27",
+    "ingameRole": [
+      "Support"
+    ]
+  },
+  {
+    "name": "KDAEvelynn",
+    "email": "succ@ubus.xxx",
+    "password": "GZGQGE!§324342",
+    "aboutMe": "Bang bang\nYou can do anything\nNo fear no pain\nListen to your brain go\nGo stupid go dumb go stupid and\nThen we go insane woah\nJust do what I say\nFollow me I'll lead the way",
+    "languages": [
+      "ko",
+      "en"
+    ],
+    "gender": "female",
+    "dateOfBirth": "1984-12-08",
+    "ingameRole": [
+      "Jungle"
+    ]
+  }
+]
