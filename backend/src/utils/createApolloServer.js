@@ -1,6 +1,6 @@
 const {ApolloServer} = require("apollo-server-express");
 const graphqlSchema = require("../graphql/index");
-const app = require("./expressApp")
+const app = require("./createExpressApp")
 
 function createApollo() {
     const apollo = new ApolloServer({

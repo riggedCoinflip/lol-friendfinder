@@ -1,4 +1,4 @@
-const createLanguages = require("./createLanguages");
+const createLanguages = require("./languages/createLanguages");
 const createDummyUsers = require("./users/createDummyUsers");
 
 /**
