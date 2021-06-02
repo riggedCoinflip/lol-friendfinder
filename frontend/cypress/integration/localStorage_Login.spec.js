@@ -29,7 +29,7 @@ describe('Values localStage', () => {
         })
     })
 
-    it('Email ok Pss ok', () => {
+    it('Email ok Pss ok / Token != null', () => {
         cy.visit('/login')
 
         cy.get('[id=email-input]')
@@ -38,12 +38,13 @@ describe('Values localStage', () => {
             .type(password)
 
         cy.get('[id=btn-submit]').click()
-    })
-
-    it('LocalStorage is different than null', () => {
 
         cy.clearLocalStorage().should((ls) => {
             expect(ls.getItem('SECREToken')) !== 'null'
+            cy.reload()
+            cy.visit('/profile')
+           
+
         })
     })
 })
