@@ -16,10 +16,18 @@ const LOGIN = `
         login(email: $email, password: $password)
     }
 `
-
 const USER_SELF = `
     query {
-        userSelf{name, favouriteColor}
+        userSelf{
+        name
+        email
+        aboutMe
+        languages
+        gender
+        dateOfBirth
+        avatar
+        ingameRole
+        }
     }
 `
 
@@ -31,7 +39,14 @@ const USER_ONE_ADMIN = `
             nameNormalized
             email
             password
-            favouriteColor
+            role
+            aboutMe
+            languages
+            gender
+            dateOfBirth
+            avatar
+            ingameRole
+            age
             createdAt
             updatedAt
         }

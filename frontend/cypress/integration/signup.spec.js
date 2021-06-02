@@ -1,28 +1,45 @@
-describe('Signup Fields exist', () => {
+describe('Create new User', () => {
+    const email = "john01@mail.de";
+    const password = "#Pass123";
+    const password2 = "#Pass432";
+    const name = "JohnDoe01"
     it('Enters email', () => {
-        cy.visit('http://localhost:3000/signup')
-
+        cy.visit('/signup')
         cy.get('[id=email-input]')
-            .type('fake@email.com')
-            .should('have.value', 'fake@email.com')
+            .type(email)
+            .should('have.value', email)
 
     })
 
     it('Enters username', () => {
         cy.get('[id=username-input]')
-            .type('JohnDoe')
-            .should('have.value', 'JohnDoe')
+            .type(name)
+            .should('have.value', name)
     })
 
     it('Enters password', () => {
         cy.get('[id=password-input]')
-            .type('Password1')
-            .should('have.value', 'Password1')
+            .type(password)
+            .should('have.value', password)
     })
 
     it('Enters password2', () => {
         cy.get('[id=password2-input]')
-            .type('Password2')
-            .should('have.value', 'Password2')
+            .type(password)
+            .should('have.value', password)
+
+            cy.get('[id=btn-submit]').click()
+
     })
+    it('Email ok Pss ok', () => {
+        cy.visit('/login')
+
+        cy.get('[id=email-input]')
+            .type(email)
+        cy.get('[id=password-input]')
+            .type(password)
+
+        cy.get('[id=btn-submit]').click()
+    })
+
 })
