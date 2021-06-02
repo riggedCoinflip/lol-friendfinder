@@ -11,6 +11,7 @@ import SignUp from './components/Signup';
 import Users from './components/Users';
 import Profile from './components/Profile';
 import Logout from './components/Logout';
+import NotFound from './components/NotFound';
 
 export default function App() {
     return (
@@ -25,6 +26,7 @@ export default function App() {
          
                 <Route exact path="/users" component={ () => <Users/>} />
                 <Route exact path="/profile" component={ () => <Profile authorized={true}/>} />
+                <Route component={NotFound}/>
 
             </Switch>
         </div>
