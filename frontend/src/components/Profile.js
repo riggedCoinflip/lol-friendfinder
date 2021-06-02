@@ -1,7 +1,8 @@
-import { useState, React } from 'react';
+import {  React } from 'react';
 import { useQuery, gql } from '@apollo/client';
 //import { AUTH_TOKEN } from '../constants';
 import * as Constants from '../constants'
+import Languages from './Languages';
 
 //import Button from '@material-ui/core/Button';
 import {Button, Container, Card, Form, Col, Image, Row,
@@ -19,10 +20,15 @@ const GET_USER = gql`
         }         
         }`;
 
+const GET_LANGUAGES = gql`
+{
+  languageMany(filter: {} limit: 10) 
+  {
+    name  
+  }
+}`;
 
 const Profile = () => {
- 
-  // console.log(testDataUsers);
  
    const { loading, error, data } = useQuery(GET_USER, {
    context: {
@@ -31,14 +37,22 @@ const Profile = () => {
      }
  }})
  
- if (loading) return <p>Loading...</p>;
- if (error) return <p>Error!</p>;
- console.log(data);
- 
- const languagesArray = [{language: 'DE'}, {language: 'EN'},{language: 'FR'}, {language: 'EN'} ];
- 
- console.log(languagesArray);
- 
+ const { loading_language, error_language, data_language } = useQuery(GET_LANGUAGES, {
+  context: {
+   
+}})
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error!</p>;
+    console.log(data);
+
+    if (loading_language) return <p>Loading Languages...</p>;
+    if (error_language) return <p>Error Languages!</p>;
+    if (data_language) return <p>Ok Languages!</p>;
+    
+    console.log('LANGUAGES '+data_language);
+
+
+//const languagesArray = [{language: 'DE'}, {language: 'EN'},{language: 'FR'}, {language: 'EN'} ]; 
  
  return(
  
@@ -86,55 +100,10 @@ const Profile = () => {
        aria-describedby="basic-addon1"
 
      />
-     Languages
-      <FormControl
-      value={data.userSelf.languages}
-       aria-label="Languages"
-       aria-describedby="basic-addon1"
-
-     />
+    <br />
+     <Languages />
      <br />
 
-  {/*
-   <Dropdown>
-         <Dropdown.Toggle size="sm" variant="success" id="dropdown-languages">
-           Languages
-         </Dropdown.Toggle>
- 
-         <Dropdown.Menu>
-           <Dropdown.Item  onClick={languagesArray.splice(1, 0, {language: 'DE3'})}>DE</Dropdown.Item>
-           <Dropdown.Item onClick={languagesArray.splice(1, 0, {language: 'EN'})}>EN</Dropdown.Item>
-           <Dropdown.Item onClick={languagesArray.splice(1, 0, {language: 'ES'})}>ES</Dropdown.Item>
-           <option onClick={languagesArray.push({language: "NEW"})}>Volvo </option>
-         </Dropdown.Menu>
-      
-    
- 
- 
- </Dropdown>
- {console.log('addedElements:'+ languagesArray)
- }
- {
- languagesArray &&
- languagesArray.map((x, index) => {
- 
-   return (
-     <row key={index} >
-      
-         <div>{x.language} 
-         <Button size="sm" variant="outline-danger"  onClick={languagesArray.splice(x.index, 1)}> X</Button>
-         </div >
-        
-      </row>
-   );
- })
- }
- 
- {console.log('deleted:' + languagesArray)
- }
- 
- 
-*/}
  
  </Col>
  
@@ -178,8 +147,4 @@ const Profile = () => {
  
  );
  }
-
-
-
-
 export default Profile;
