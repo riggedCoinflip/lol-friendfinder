@@ -14,7 +14,7 @@ const GET_USER = gql`
           languages
           gender
           avatar
-          age
+       
 
         }         
         }`;
