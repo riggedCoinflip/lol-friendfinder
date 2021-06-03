@@ -1,5 +1,5 @@
 const {Language} = require("./language")
-const {mongooseLanguages} = require("../../utils/languages/createLanguages")
+const createLanguages = require("../../utils/languages/createLanguages")
 const {dbConnect, dbDisconnectAndWipe} = require("../../utils/test-utils/db-handler")
 
 describe("Language Model Test Suite", () => {
@@ -7,10 +7,6 @@ describe("Language Model Test Suite", () => {
     afterAll(async () => dbDisconnectAndWipe())
 
     it("saves all languages", async () => {
-        const languages = mongooseLanguages()
-        const numberOfLanguages = languages.length
-        await Language.insertMany(languages)
-
-        expect(await Language.countDocuments()).toBe(numberOfLanguages)
+        await createLanguages()
     })
 })
