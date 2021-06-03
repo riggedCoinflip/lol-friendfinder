@@ -1,6 +1,6 @@
 const {User} = require("./user")
 const createLanguages = require("../../utils/languages/createLanguages")
-const validators = require("./user.test.validators")
+const validators = require("../../utils/test-utils/validators")
 const {dbConnect, dbDisconnectAndWipe} = require("../../utils/test-utils/db-handler")
 const testUsers = require("./user.test.data")
 
