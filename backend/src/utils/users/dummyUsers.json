@@ -32,7 +32,7 @@
   {
     "name": "gilo2754",
     "email": "Carlo@in_da_house",
-    "password": "",
+    "password": "Secret!1",
     "role": "admin",
     "aboutMe": "I made this website! I maintain the Frontend",
     "languages": [
@@ -45,7 +45,7 @@
     "ingameRole": []
   },
   {
-    "name": "SKT T1 Faker",
+    "name": "SKTT1Faker",
     "email": "faker@skt-t1.gg",
     "password": "BetterNerfBr0cc0li",
     "aboutMe": "Oh, Faker mabe in trouble in trouble here. Death Mark ☠️, tries to clean it up for Ryu, OH LOOK AT THE CLEANSE, LOOK AT THE MOVES! FAKER! WHAT WAS THAT⁉ 🔥🔥🔥",
@@ -61,8 +61,8 @@
   },
   {
     "name": "Neeko",
-    "email": "",
-    "password": "",
+    "email": "nikoniko@nii",
+    "password": "LesGo123",
     "aboutMe": "Don't make me break your Neeko-Neeko-kneecaps",
     "languages": [],
     "gender": "non-binary",
@@ -91,7 +91,7 @@
   {
     "name": "Jeff",
     "email": "jeff@yaboo.com",
-    "password": "",
+    "password": "jeffJeff0",
     "aboutMe": "My Name Jeff",
     "languages": [
       "en"
@@ -125,19 +125,18 @@
     "languages": [
       "en"
     ],
-    "gender": "",
     "dateOfBirth": "2004-03-16",
     "ingameRole": []
   },
   {
     "name": "Wukong",
-    "email": "MonkeyKing@",
-    "password": "",
+    "email": "MonkeyKing@wuju",
+    "password": "wululuA1",
     "aboutMe": "Best known from a 16th centure Chinese Novel, I make appearances in many different games. One of them is LoL - but LoL didn't invent me.",
     "languages": [
       "zh"
     ],
-    "gender": "",
+    "gender": "male",
     "dateOfBirth": "1980-12-29",
     "ingameRole": [
       "Top",
@@ -152,35 +151,17 @@
     "languages": [
       "zh",
       "es",
-      "en",
-      "hi",
-      "ar",
-      "pt",
-      "bn",
-      "ru",
-      "ja",
-      "pa",
-      "ko",
-      "de",
-      "fr",
-      "it",
-      "pl",
-      "ro",
-      "el",
-      "pt",
-      "hu",
-      "tr",
-      "cs"
+      "en"
     ],
     "gender": "other",
     "dateOfBirth": "1993-11-14",
     "ingameRole": [
-      "fill"
+      "Fill"
     ]
   },
   {
     "name": "QuantumComputing",
-    "email": "fizzicsBitch@",
+    "email": "fizzicsBitch@qbit",
     "password": "vq5t7zGZ378whwuhr",
     "aboutMe": "I am literally a machine",
     "languages": [
@@ -205,7 +186,7 @@
     "gender": "male",
     "dateOfBirth": "1999-11-17",
     "ingameRole": [
-      "mid"
+      "Mid"
     ]
   },
   {
@@ -220,7 +201,7 @@
     "gender": "male",
     "dateOfBirth": "1999-11-17",
     "ingameRole": [
-      "mid"
+      "Mid"
     ]
   },
   {
@@ -238,7 +219,7 @@
     ]
   },
   {
-    "name": "KatarinaKreiselfick",
+    "name": "KatarinaKreisel",
     "email": "spinToWin@smashHeadOnKeyboard.xd",
     "password": "qRWEqw2qEwqr",
     "aboutMe": "G̸̡̃̔̕â̷̙͈͍͓̍͒̆͌r̸͙̈́́̕͜ẹ̴͇͉̺̭̀n̴̢͇͕̻̿̊͛͒͝ ̸̺̦̪̮̪̊̒̍i̷̞͓̱̪̻͒͑͗̉s̷̪͚̠͕̩̑̐̔ ̸̖͈̪̼͎̉n̵̡̬͔͕͂͋o̵̧̟̜̯̤̭̒̓́̔̚t̵̫̥̗̙̜̒͛h̴̟̏͗ǐ̸̞ń̵̜̟g̸͎̱̾̊̊̾ ̷̤͕̙̞͓̤̇͝a̸̡̜͔̗̣̽͂͆g̵̩͎̺̒̏̆͒̒͘ȧ̵̧̟̩͎̅i̴̯̥̝͌n̴̞̭̭͍̮̅́̀̾s̴̺͂̀͌̂̒t̵̹͕́̍͜ ̸̭̋͌͊̉̕͝ṃ̵̧̛̘̔͐͘ë̸̠́",
@@ -261,7 +242,7 @@
       "ja",
       "kr"
     ],
-    "gender": "",
+    "gender": "other",
     "dateOfBirth": "1994-08-24",
     "ingameRole": [
       "Mid",
@@ -274,7 +255,7 @@
     "password": "NumbersGo123456789",
     "aboutMe": "(Slaps Top of About-Me page) This Description can fit so many Characters in it.",
     "languages": [
-      "pr",
+      "pt",
       "it"
     ],
     "dateOfBirth": "2000-02-07",
@@ -303,7 +284,7 @@
   {
     "name": "KDAEvelynn",
     "email": "succ@ubus.xxx",
-    "password": "GZGQGE!§324342",
+    "password": "GZGqGE!324342",
     "aboutMe": "Bang bang\nYou can do anything\nNo fear no pain\nListen to your brain go\nGo stupid go dumb go stupid and\nThen we go insane woah\nJust do what I say\nFollow me I'll lead the way",
     "languages": [
       "ko",
