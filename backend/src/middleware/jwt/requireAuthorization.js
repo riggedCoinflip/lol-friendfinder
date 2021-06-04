@@ -1,9 +1,5 @@
 const requireAuthentication = require("./requireAuthentication");
 
-//TODO wrap this with graphql-middleware:
-// https://github.com/graphql-compose/graphql-compose-mongoose/issues/158
-// https://github.com/maticzav/graphql-middleware
-
 /**
  * wrap graphql resolvers with an authorization check.
  * If the user is not logged in or does not have a role with enough power, throw error (query will not resolve)

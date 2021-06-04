@@ -1,7 +1,3 @@
-//TODO wrap this with graphql-middleware:
-// https://github.com/graphql-compose/graphql-compose-mongoose/issues/158
-// https://github.com/maticzav/graphql-middleware
-
 /**
  * wrap graphql resolvers with an authentication check.
  * If the user is not logged in, throw error (query will not resolve)

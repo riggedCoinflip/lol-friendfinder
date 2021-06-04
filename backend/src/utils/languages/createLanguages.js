@@ -1,7 +1,6 @@
 const isoLanguages = require("./ISO-639-1_2-languages.json");
 const {Language} = require("../../models/language/language");
 
-//TODO better name
 function mongoosifyLanguages() {
     const languages = []
     Object.keys(isoLanguages).forEach((key) => {
