@@ -19,6 +19,8 @@ const LikeSchema = new mongoose.Schema({
 
 LikeSchema.plugin(idvalidator);
 
+LikeSchema.index({requester: 1, recipient: 1}, {unique: true}) //TODO test
+
 const Like = mongoose.model("Match", LikeSchema)
 const LikeTC = composeMongoose(Like)
 
