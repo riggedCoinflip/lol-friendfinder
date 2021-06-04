@@ -101,6 +101,25 @@ const UserSchema = new mongoose.Schema({
         //max 2 roles
         //Frontend: If Fill is Selected first, don't ask for 2nd role
     },
+    friends: [{
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            unique: true //TODO test
+        },
+        /* TODO implement later
+        chat: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Chat",
+        }
+         */
+    }],
+    blocked: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        unique: true, //TODO test
+    }]
+
     /*
     playstyle: {
         type: String,
@@ -171,6 +190,8 @@ const UserTCPrivate = composeMongoose(User, {
         "gender",
         "avatar",
         "ingameRole",
+        "friends",
+        "blocked",
     ]
 })
 
@@ -201,7 +222,7 @@ const UserTCSignup = composeMongoose(User, {
 
 //virtuals have to be added to TC seperately
 //https://github.com/graphql-compose/graphql-compose-mongoose/issues/135
-const ageForTC ={
+const ageForTC = {
     age: {
         type: "Int",
         description: 'Uses the virtual "age" that is calculated from DateOfBirth. Returns -1 if DateOfBirth is not set.',
