@@ -59,11 +59,12 @@ type Match {
     createdAt: Date
     recipient: MongoID
     requester: MongoID
-    status: String
+    status: String!
     updatedAt: Date
 }
 
 type Mutation {
+    "Use Login Credentials (Email + PW) to get a JWT auth token"
     login(email: String!, password: String!): String!
     "Create one document with mongoose defaults, setters, hooks and validation"
     signup(record: CreateOneUserSignupInput!): CreateOneUserSignupPayload
@@ -178,6 +179,8 @@ type Query {
         skip: Int,
         sort: SortFindManyUserAdminInput
     ): [UserAdmin!]!
+    "Show all users that like logged in user."
+    userManyLikeMe: [UserPublic]
     userOneAdmin(
         "Filter by fields"
         filter: FilterFindOneUserAdminInput,
@@ -525,7 +528,7 @@ input CreateOneMatchInput {
     createdAt: Date
     recipient: MongoID
     requester: MongoID
-    status: String
+    status: String!
     updatedAt: Date
 }
 

@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken");
 const {User, UserTCAdmin, UserTCSignup, UserTCPublic, UserTCPrivate} = require("../models/user/user");
+const {Like} = require("../models/like/like");
 const requireAuthentication = require("../middleware/jwt/requireAuthentication");
 const requireAuthorization = require("../middleware/jwt/requireAuthorization");
 
-//**********************
-//*** custom queries ***
-//**********************
+//***************
+//*** QUERIES ***
+//***************
 const userSelf = UserTCPrivate.mongooseResolvers
     .findById()
     .setDescription("Get information of currently logged in user")
@@ -15,14 +16,37 @@ const userSelf = UserTCPrivate.mongooseResolvers
         return next(rp);
     })
 
-//************************
-//*** custom mutations ***
-//************************
+UserTCPublic.addResolver({
+    kind: "query",
+    name: "userManyLikesMe",
+    description: "Show all users that like logged in user.",
+    type: [UserTCPublic], //UserTCPublic.mongooseResolvers.findMany().getType(),
+    resolve: async ({context}) => {
+        /**
+         * First, find all userIds that like the logged in user
+         * Then, return query of these (populated) users
+         */
+
+        const ids = (
+            await Like.find({
+                recipient: context.req.user._id,
+                status: "liked",
+            }).lean()
+        ).map((doc) => doc.requester)
+
+        return User.find({"_id": {$in: ids}});
+    }
+})
+
+//*****************
+//*** MUTATIONS ***
+//*****************
 
 //login
 UserTCPublic.addResolver({
     kind: "mutation",
     name: "login",
+    description: "Use Login Credentials (Email + PW) to get a JWT auth token",
     args: {
         email: "String!",
         password: "String!",
@@ -66,6 +90,7 @@ const UserQuery = {
     ...requireAuthentication({
         userSelf,
         user: UserTCPublic.mongooseResolvers.findOne(), //TODO restrict filters
+        userManyLikesMe: UserTCPublic.getResolver("userManyLikesMe"),
     }),
     ...requireAuthorization({
             userByIdAdmin: UserTCAdmin.mongooseResolvers.findById(),
