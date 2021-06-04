@@ -11,7 +11,8 @@ const LikeSchema = new mongoose.Schema({
             "liked",
             "disliked",
             //FUTURE: super-liked or something like that
-        ]
+        ],
+        required: true
     }
 }, {
     timestamps: true
