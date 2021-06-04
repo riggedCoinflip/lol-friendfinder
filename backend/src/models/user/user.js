@@ -7,12 +7,6 @@ const idvalidator = require('mongoose-id-validator');
 //save time on testing
 const SALT_ROUNDS = process.env.NODE_ENV === "test" ? 5 : 10;
 
-/*
-dev-admin:
-name: Admin
-email: admin@email.com
-password: Password1
- */
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -119,7 +113,6 @@ const UserSchema = new mongoose.Schema({
         ref: "User",
         unique: true, //TODO test
     }]
-
     /*
     playstyle: {
         type: String,
