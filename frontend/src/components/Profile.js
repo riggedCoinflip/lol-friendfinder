@@ -1,59 +1,40 @@
-import {  React } from 'react';
+import { React } from 'react';
 import { useQuery, gql } from '@apollo/client';
-//import { AUTH_TOKEN } from '../constants';
 import * as Constants from '../constants'
 import Languages from './Languages';
-
-//import Button from '@material-ui/core/Button';
-import {Button, Container, Card, Form, Col, Image, Row,
-      Dropdown, InputGroup, FormControl } from 'react-bootstrap';
+import {
+  Button, Container, Card, Form, Col, Image, Row,
+  InputGroup, FormControl, ListGroup
+} from 'react-bootstrap';
 
 const GET_USER = gql`
        { userSelf
-        {name
-        aboutMe
+        {
+          name
+          aboutMe
           languages
           gender
           avatar
-       
+          ingameRole
 
         }         
         }`;
 
-const GET_LANGUAGES = gql`
-{
-  languageMany(filter: {} limit: 10) 
-  {
-    name  
-  }
-}`;
-
 const Profile = () => {
- 
-   const { loading, error, data } = useQuery(GET_USER, {
-   context: {
-     headers: {
-         "x-auth-token": Constants.AUTH_TOKEN 
-     }
- }})
- 
- const { loading_language, error_language, data_language } = useQuery(GET_LANGUAGES, {
-  context: {
-   
-}})
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error!</p>;
-    console.log(data);
 
-    if (loading_language) return <p>Loading Languages...</p>;
-    if (error_language) return <p>Error Languages!</p>;
-    if (data_language) return <p>Ok Languages!</p>;
-    
-    console.log('LANGUAGES '+data_language);
+  const { loading, error, data } = useQuery(GET_USER, {
+    context: {
+      headers: {
+        "x-auth-token": Constants.AUTH_TOKEN
+      }
+    }
+  })
 
-
-//const languagesArray = [{language: 'DE'}, {language: 'EN'},{language: 'FR'}, {language: 'EN'} ]; 
  
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error!</p>;
+  console.log(data);
+
   return (
 
     <div id="user-info">
@@ -78,73 +59,105 @@ const Profile = () => {
                   aria-label="Username"
                   aria-describedby="basic-addon1"
                 />
-   </InputGroup>
-   Gender
+
+              </InputGroup>
+  Gender
    <FormControl
-      value={data.userSelf.gender}
-       aria-label="Gender"
-       aria-describedby="basic-addon1"
+                value={data.userSelf.gender}
+                aria-label="Gender"
+                aria-describedby="basic-addon1"
+              />
 
-     />
-     Avatar
+  Avatar
        <FormControl
-      value={data.userSelf.avatar}
-       aria-label="Avatar"
-       aria-describedby="basic-addon1"
+                value={data.userSelf.avatar}
+                aria-label="Avatar"
+                aria-describedby="basic-addon1"
+              />
 
-     />
-    Age
+  Age
     <FormControl
-      value={data.userSelf.age}
-       aria-label="Age"
-       aria-describedby="basic-addon1"
+                value={data.userSelf.age}
+                aria-label="Age"
+                aria-describedby="basic-addon1"
+              />
 
-     />
-    <br />
-     <Languages />
-     <br />
+  IngameRole
+  <ListGroup horizontal>
+                {
+                  data.userSelf.ingameRole &&
+                  data.userSelf.ingameRole.map((data, index) => {
+                    return (
+                      <ListGroup.Item variant="dark" key={index + 1} >
+                        {data}
+                      </ListGroup.Item>
+                    );
+                  })
+                }
+              </ListGroup>
 
- 
- </Col>
- 
-   </Row>
-  
-   <Row>
-   <Form.Text className="text-muted">
-   About me</Form.Text>
- 
- <Form.Control as="textarea" rows={3}
- value={data.userSelf.aboutMe} />
- 
-   </Row>
-   
- <br />
-  
-   <div>
-     <Button  variant="primary" size="sm"
-         onClick={() => {
-                   console.log('Data was saved');
-                 }}   > Save changes </Button>{'  '}
- 
-     <Button variant="danger" size="sm"
-         onClick={() => {
-                   console.log('Data was saved');
-                 }}   > Delete account </Button>{' '}
- 
-                   <br />
-                   </div>
+              <br />
+
+             
+      <Languages />
       
-   
- 
- </Form>
-   </Container>
- 
-   
- 
- 
- 
- </div>
- 
- );
- }
+  <ListGroup horizontal>
+            {
+
+              data.userSelf.languages &&
+              data.userSelf.languages.map((data, index) => {
+                return (
+                  <ListGroup.Item variant="success" key={index + 1} >
+                    {data}
+                  </ListGroup.Item>
+                  
+                );
+              })
+            }
+          </ListGroup>
+              <br />
+
+
+            </Col>
+
+          </Row>
+
+          <Row>
+            <Form.Text className="text-muted">
+              About me</Form.Text>
+
+            <Form.Control as="textarea" rows={3}
+              value={data.userSelf.aboutMe} />
+
+          </Row>
+
+          <br />
+
+          <div>
+            <Button variant="primary" size="sm"
+              onClick={() => {
+                console.log('Data was saved');
+              }}   > Save changes </Button>{'  '}
+
+            <Button variant="danger" size="sm"
+              onClick={() => {
+                console.log('Data was saved');
+              }}   > Delete account </Button>{' '}
+
+            <br />
+          </div>
+
+
+
+        </Form>
+      </Container>
+
+
+
+
+
+    </div>
+
+  );
+}
 export default Profile;

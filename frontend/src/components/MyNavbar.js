@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { AUTH_TOKEN } from '../constants';
-import { useHistory } from 'react-router';
 import { useState, useEffect } from 'react';
 import { Navbar } from 'react-bootstrap';
 

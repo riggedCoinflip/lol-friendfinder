@@ -5,20 +5,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons'
 import * as validateSignup from "../shared/util/validateSignup"
 
-
-//TODO create check for email (missing GQL endpoint for that)
-/*
-const USER_EXISTS = gql`
-    query user_exists($name: String!) {
-        nameExists: user(filter: {
-            name: $name
-        }) {
-            name
-        }
-    }
-`
-*/
-
 const USER_CREATE = gql`
     mutation signup($name: String!, $email: String!, $password: String!) #TODO hash password server side
     {

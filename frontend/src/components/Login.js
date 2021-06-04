@@ -100,7 +100,7 @@ export default function Login() {
             <div className="form-group">
             
             <button id="btn-submit" type="submit" className="btn btn-primary">
-                Submit
+                LogIn
             </button>
             </div>
             {/*
