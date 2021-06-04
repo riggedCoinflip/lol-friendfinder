@@ -1,11 +1,14 @@
 const {User} = require("./user")
-const {createLanguages} = require("../../utils/createLanguages")
+const createLanguages = require("../../utils/languages/createLanguages")
 const validators = require("./user.test.validators")
 const {dbConnect, dbDisconnectAndWipe} = require("../../utils/test-utils/db-handler")
 const testUsers = require("./user.test.data")
 
 describe("User Model Test Suite", () => {
-    beforeAll(async () => await dbConnect())
+    beforeAll(async () => {
+        await dbConnect()
+        await createLanguages()
+    })
     afterEach(async () => await User.deleteMany())
     afterAll(async () => await dbDisconnectAndWipe())
 
@@ -297,7 +300,6 @@ describe("User Model Test Suite", () => {
      */
 
     it("populates language successfully", async () => {
-        await createLanguages()
         const user = new User(testUsers.validNoDefaults)
         await user.save()
 
@@ -312,4 +314,14 @@ describe("User Model Test Suite", () => {
         expect(doc.languages[1].name).toBe("English")
     })
 
+    it("errors if language does not exist", async () => {
+        const user = new User(testUsers.languageDoesNotExist)
+
+        try {
+            await user.save()
+            fail("Should throw error")
+        } catch (err) {
+            expect(err.message).toBe("User validation failed: languages: languages references a non existing ID")
+        }
+    })
 })

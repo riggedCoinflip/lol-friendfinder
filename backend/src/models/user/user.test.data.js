@@ -179,6 +179,13 @@ module.exports = {
         role: "ThisRoleDoesNotExist"
     },
 
+    languageDoesNotExist: {
+        name: "languageError",
+        email: "languageIdDoesNotExist@email.com",
+        password: "Password1",
+        languages: ["something false"]
+    },
+
     usernameDifferentCapitalization: {
         lower: {
             name: "name",
