@@ -54,30 +54,30 @@ const Profile = () => {
 
 //const languagesArray = [{language: 'DE'}, {language: 'EN'},{language: 'FR'}, {language: 'EN'} ]; 
  
- return(
- 
- <div id="user-info">
-   
- <Container>
- <Card.Title>Personal Info</Card.Title>
- 
- <Form>
- 
-   <Row>
-   <Col>
-     <Image src="https://img.icons8.com/clouds/2x/name.png" rounded />
-   </Col>
- 
-   <Col>
-   <InputGroup className="mb-3" weight="50px">
-     <InputGroup.Prepend>
-       <InputGroup.Text id="username-input">@</InputGroup.Text>
-     </InputGroup.Prepend>
-     <FormControl
-      value={data.userSelf.name}
-       aria-label="Username"
-       aria-describedby="basic-addon1"
-     />
+  return (
+
+    <div id="user-info">
+
+      <Container>
+        <Card.Title>Personal Info</Card.Title>
+
+        <Form>
+
+          <Row>
+            <Col>
+              <Image src="https://img.icons8.com/clouds/2x/name.png" rounded />
+            </Col>
+
+            <Col>
+              <InputGroup className="mb-3" weight="50px">
+                <InputGroup.Prepend>
+                  <InputGroup.Text id="username-input">@</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl
+                  value={data.userSelf.name}
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                />
    </InputGroup>
    Gender
    <FormControl

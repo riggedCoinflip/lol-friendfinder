@@ -1,7 +1,9 @@
 import {  React } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
+import * as Constants from '../constants'
+//import {selectedLanguages} from './Profile';
 
-import {CardGroup, Container, Card, Dropdown
+import {   Dropdown, ListGroup
       } from 'react-bootstrap';
 
 const GET_LANGUAGES = gql`
@@ -12,6 +14,20 @@ const GET_LANGUAGES = gql`
   }
 }`;
 
+const UPDATE_LANGUAGES = gql`
+mutation userUpdateSelf($language:String){
+userUpdateSelf( 
+  record: { 
+         languages: [ $language]
+       }
+   ) {
+    record {
+      name
+      languages
+    }
+  } 
+}`;
+
 const Languages = () => {
  
    const { loading, error, data } = useQuery(GET_LANGUAGES, {
@@ -19,17 +35,27 @@ const Languages = () => {
      headers: {
      }
  }})
+
+
  
- 
+ const [updateLanguage, { data_Mutation }] = useMutation(UPDATE_LANGUAGES, {
+  context: {
+    headers: {
+      "x-auth-token": Constants.AUTH_TOKEN
+    }
+}})
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error!</p>;
     console.log(data);
-
+    console.log('data_Mutation: '+data_Mutation);
+ 
+    //console.log("SelectedLnags: " + selectedLanguages);
+ 
  return(
  
  <div id="user-info">
    
- <Container>
  <Dropdown>
          <Dropdown.Toggle size="sm" variant="success" id="dropdown-languages">
            Languages
@@ -42,9 +68,14 @@ const Languages = () => {
 
     data.languageMany &&
     data.languageMany.map((data, index) => {
-
               return (
-                <Dropdown.Item    key={index+1} >
+                <Dropdown.Item  
+                onClick={e => {
+                  e.preventDefault();
+                  updateLanguage({ variables: { language: data.language } });
+                 console.log(data.name +' added')
+                }}
+                  key={index+1} >
                      {data.name}
                 </ Dropdown.Item>
                     );
@@ -52,18 +83,25 @@ const Languages = () => {
 
 }
          </Dropdown.Menu>
-      
-    
- 
- 
- </Dropdown>
- 
-      
-          
-   </Container>
- 
+    </Dropdown>
+ {/*
+    <ListGroup horizontal>
+            {
+
+              data.userSelf.languages &&
+              data.userSelf.languages.map((data, index) => {
+                return (
+                  <ListGroup.Item variant="success" key={index + 1} >
+                    {data}
+                  </ListGroup.Item>
+                  
+                );
+              })
+            }
+          </ListGroup>   
+           
    
- 
+          */}
  
  
  </div>
