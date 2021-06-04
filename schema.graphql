@@ -21,6 +21,15 @@ type CreateManyUserAdminPayload {
     records: [UserAdmin!]
 }
 
+type CreateOneMatchPayload {
+    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
+    error: ErrorInterface
+    "Created document"
+    record: Match
+    "Document ID"
+    recordId: MongoID
+}
+
 type CreateOneUserAdminPayload {
     "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
     error: ErrorInterface
@@ -45,10 +54,21 @@ type Language {
     nativeName: String!
 }
 
+type Match {
+    _id: MongoID!
+    createdAt: Date
+    recipient: MongoID
+    requester: MongoID
+    status: String
+    updatedAt: Date
+}
+
 type Mutation {
     login(email: String!, password: String!): String!
     "Create one document with mongoose defaults, setters, hooks and validation"
     signup(record: CreateOneUserSignupInput!): CreateOneUserSignupPayload
+    "Like or Dislike someone. requester gets automatically set and overrides any value"
+    swipe(record: CreateOneMatchInput!): CreateOneMatchPayload
     "Creates Many documents with mongoose defaults, setters, hooks and validation"
     userCreateManyAdmin(records: [CreateManyUserAdminInput!]!): CreateManyUserAdminPayload
     "Create one document with mongoose defaults, setters, hooks and validation"
@@ -86,6 +106,8 @@ type Mutation {
         skip: Int,
         sort: SortUpdateOneUserAdminInput
     ): UpdateOneUserAdminPayload
+    "Update information of currently logged in user"
+    userUpdateSelf(record: UpdateByIdUserPrivateInput!): UpdateByIdUserPrivatePayload
 }
 
 "Information about pagination in a connection."
@@ -170,8 +192,8 @@ type Query {
         perPage: Int = 20,
         sort: SortFindManyUserAdminInput
     ): UserAdminPagination
-    "get public schema of currently logged in user"
-    userSelf: UserPublic
+    "Get information of currently logged in user"
+    userSelf: UserPrivate
 }
 
 type RemoveByIdUserAdminPayload {
@@ -208,6 +230,15 @@ type UpdateByIdUserAdminPayload {
     recordId: MongoID
 }
 
+type UpdateByIdUserPrivatePayload {
+    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
+    error: ErrorInterface
+    "Updated document"
+    record: UserPrivate
+    "Document ID"
+    recordId: MongoID
+}
+
 type UpdateManyUserAdminPayload {
     "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
     error: ErrorInterface
@@ -231,9 +262,11 @@ type UserAdmin {
     "Uses the virtual \"age\" that is calculated from DateOfBirth. Returns -1 if DateOfBirth is not set."
     age: Int
     avatar: String
+    blocked: [MongoID]
     createdAt: Date
     dateOfBirth: Date
     email: String!
+    friends: [UserAdminFriends]
     gender: EnumUserAdminGender!
     ingameRole: [EnumUserAdminIngameRole]
     languages: [String]
@@ -262,6 +295,11 @@ type UserAdminEdge {
     node: UserAdmin!
 }
 
+type UserAdminFriends {
+    _id: MongoID
+    user: MongoID
+}
+
 "List of items with pagination."
 type UserAdminPagination {
     "Total object count."
@@ -270,6 +308,20 @@ type UserAdminPagination {
     items: [UserAdmin!]
     "Information to aid in pagination."
     pageInfo: PaginationInfo!
+}
+
+"Fields the user can see about himself"
+type UserPrivate {
+    aboutMe: String
+    avatar: String
+    blocked: [MongoID]
+    dateOfBirth: Date
+    email: String!
+    friends: [UserAdminFriends]
+    gender: EnumUserPrivateGender!
+    ingameRole: [EnumUserPrivateIngameRole]
+    languages: [String]
+    name: String!
 }
 
 "Contains all public fields of users. Use this for filtering as well"
@@ -313,6 +365,25 @@ enum EnumUserAdminIngameRole {
 enum EnumUserAdminRole {
     admin
     user
+}
+
+enum EnumUserPrivateGender {
+    I_prefer_not_to_say
+    female
+    intersex
+    male
+    non_binary
+    other
+    transgender
+}
+
+enum EnumUserPrivateIngameRole {
+    Bot
+    Fill
+    Jungle
+    Mid
+    Support
+    Top
 }
 
 enum EnumUserPublicGender {
@@ -435,9 +506,11 @@ enum SortUpdateOneUserAdminInput {
 input CreateManyUserAdminInput {
     aboutMe: String
     avatar: String
+    blocked: [MongoID]
     createdAt: Date
     dateOfBirth: Date
     email: String!
+    friends: [UserAdminFriendsInput]
     gender: EnumUserAdminGender!
     ingameRole: [EnumUserAdminIngameRole]
     languages: [String]
@@ -448,12 +521,22 @@ input CreateManyUserAdminInput {
     updatedAt: Date
 }
 
+input CreateOneMatchInput {
+    createdAt: Date
+    recipient: MongoID
+    requester: MongoID
+    status: String
+    updatedAt: Date
+}
+
 input CreateOneUserAdminInput {
     aboutMe: String
     avatar: String
+    blocked: [MongoID]
     createdAt: Date
     dateOfBirth: Date
     email: String!
+    friends: [UserAdminFriendsInput]
     gender: EnumUserAdminGender!
     ingameRole: [EnumUserAdminIngameRole]
     languages: [String]
@@ -482,6 +565,11 @@ input FilterCountUserAdminEmailOperatorsInput {
     regex: RegExpAsString
 }
 
+input FilterCountUserAdminFriendsInput {
+    _id: MongoID
+    user: MongoID
+}
+
 input FilterCountUserAdminInput {
     AND: [FilterCountUserAdminInput!]
     OR: [FilterCountUserAdminInput!]
@@ -490,9 +578,11 @@ input FilterCountUserAdminInput {
     _operators: FilterCountUserAdminOperatorsInput
     aboutMe: String
     avatar: String
+    blocked: [MongoID]
     createdAt: Date
     dateOfBirth: Date
     email: String
+    friends: [FilterCountUserAdminFriendsInput]
     gender: EnumUserAdminGender
     ingameRole: [EnumUserAdminIngameRole]
     languages: [String]
@@ -566,6 +656,11 @@ input FilterFindManyUserAdminEmailOperatorsInput {
     regex: RegExpAsString
 }
 
+input FilterFindManyUserAdminFriendsInput {
+    _id: MongoID
+    user: MongoID
+}
+
 input FilterFindManyUserAdminInput {
     AND: [FilterFindManyUserAdminInput!]
     OR: [FilterFindManyUserAdminInput!]
@@ -574,9 +669,11 @@ input FilterFindManyUserAdminInput {
     _operators: FilterFindManyUserAdminOperatorsInput
     aboutMe: String
     avatar: String
+    blocked: [MongoID]
     createdAt: Date
     dateOfBirth: Date
     email: String
+    friends: [FilterFindManyUserAdminFriendsInput]
     gender: EnumUserAdminGender
     ingameRole: [EnumUserAdminIngameRole]
     languages: [String]
@@ -650,6 +747,11 @@ input FilterFindOneUserAdminEmailOperatorsInput {
     regex: RegExpAsString
 }
 
+input FilterFindOneUserAdminFriendsInput {
+    _id: MongoID
+    user: MongoID
+}
+
 input FilterFindOneUserAdminInput {
     AND: [FilterFindOneUserAdminInput!]
     OR: [FilterFindOneUserAdminInput!]
@@ -658,9 +760,11 @@ input FilterFindOneUserAdminInput {
     _operators: FilterFindOneUserAdminOperatorsInput
     aboutMe: String
     avatar: String
+    blocked: [MongoID]
     createdAt: Date
     dateOfBirth: Date
     email: String
+    friends: [FilterFindOneUserAdminFriendsInput]
     gender: EnumUserAdminGender
     ingameRole: [EnumUserAdminIngameRole]
     languages: [String]
@@ -756,6 +860,11 @@ input FilterRemoveManyUserAdminEmailOperatorsInput {
     regex: RegExpAsString
 }
 
+input FilterRemoveManyUserAdminFriendsInput {
+    _id: MongoID
+    user: MongoID
+}
+
 input FilterRemoveManyUserAdminInput {
     AND: [FilterRemoveManyUserAdminInput!]
     OR: [FilterRemoveManyUserAdminInput!]
@@ -764,9 +873,11 @@ input FilterRemoveManyUserAdminInput {
     _operators: FilterRemoveManyUserAdminOperatorsInput
     aboutMe: String
     avatar: String
+    blocked: [MongoID]
     createdAt: Date
     dateOfBirth: Date
     email: String
+    friends: [FilterRemoveManyUserAdminFriendsInput]
     gender: EnumUserAdminGender
     ingameRole: [EnumUserAdminIngameRole]
     languages: [String]
@@ -832,6 +943,11 @@ input FilterRemoveOneUserAdminEmailOperatorsInput {
     regex: RegExpAsString
 }
 
+input FilterRemoveOneUserAdminFriendsInput {
+    _id: MongoID
+    user: MongoID
+}
+
 input FilterRemoveOneUserAdminInput {
     AND: [FilterRemoveOneUserAdminInput!]
     OR: [FilterRemoveOneUserAdminInput!]
@@ -840,9 +956,11 @@ input FilterRemoveOneUserAdminInput {
     _operators: FilterRemoveOneUserAdminOperatorsInput
     aboutMe: String
     avatar: String
+    blocked: [MongoID]
     createdAt: Date
     dateOfBirth: Date
     email: String
+    friends: [FilterRemoveOneUserAdminFriendsInput]
     gender: EnumUserAdminGender
     ingameRole: [EnumUserAdminIngameRole]
     languages: [String]
@@ -908,6 +1026,11 @@ input FilterUpdateManyUserAdminEmailOperatorsInput {
     regex: RegExpAsString
 }
 
+input FilterUpdateManyUserAdminFriendsInput {
+    _id: MongoID
+    user: MongoID
+}
+
 input FilterUpdateManyUserAdminInput {
     AND: [FilterUpdateManyUserAdminInput!]
     OR: [FilterUpdateManyUserAdminInput!]
@@ -916,9 +1039,11 @@ input FilterUpdateManyUserAdminInput {
     _operators: FilterUpdateManyUserAdminOperatorsInput
     aboutMe: String
     avatar: String
+    blocked: [MongoID]
     createdAt: Date
     dateOfBirth: Date
     email: String
+    friends: [FilterUpdateManyUserAdminFriendsInput]
     gender: EnumUserAdminGender
     ingameRole: [EnumUserAdminIngameRole]
     languages: [String]
@@ -984,6 +1109,11 @@ input FilterUpdateOneUserAdminEmailOperatorsInput {
     regex: RegExpAsString
 }
 
+input FilterUpdateOneUserAdminFriendsInput {
+    _id: MongoID
+    user: MongoID
+}
+
 input FilterUpdateOneUserAdminInput {
     AND: [FilterUpdateOneUserAdminInput!]
     OR: [FilterUpdateOneUserAdminInput!]
@@ -992,9 +1122,11 @@ input FilterUpdateOneUserAdminInput {
     _operators: FilterUpdateOneUserAdminOperatorsInput
     aboutMe: String
     avatar: String
+    blocked: [MongoID]
     createdAt: Date
     dateOfBirth: Date
     email: String
+    friends: [FilterUpdateOneUserAdminFriendsInput]
     gender: EnumUserAdminGender
     ingameRole: [EnumUserAdminIngameRole]
     languages: [String]
@@ -1048,12 +1180,19 @@ input FilterUpdateOneUserAdmin_idOperatorsInput {
     nin: [MongoID]
 }
 
+input UpdateByIdUserAdminFriendsInput {
+    _id: MongoID
+    user: MongoID
+}
+
 input UpdateByIdUserAdminInput {
     aboutMe: String
     avatar: String
+    blocked: [MongoID]
     createdAt: Date
     dateOfBirth: Date
     email: String
+    friends: [UpdateByIdUserAdminFriendsInput]
     gender: EnumUserAdminGender
     ingameRole: [EnumUserAdminIngameRole]
     languages: [String]
@@ -1062,14 +1201,34 @@ input UpdateByIdUserAdminInput {
     password: String
     role: EnumUserAdminRole
     updatedAt: Date
+}
+
+input UpdateByIdUserPrivateInput {
+    aboutMe: String
+    avatar: String
+    blocked: [MongoID]
+    dateOfBirth: Date
+    email: String
+    friends: [UpdateByIdUserAdminFriendsInput]
+    gender: EnumUserPrivateGender
+    ingameRole: [EnumUserPrivateIngameRole]
+    languages: [String]
+    name: String
+}
+
+input UpdateManyUserAdminFriendsInput {
+    _id: MongoID
+    user: MongoID
 }
 
 input UpdateManyUserAdminInput {
     aboutMe: String
     avatar: String
+    blocked: [MongoID]
     createdAt: Date
     dateOfBirth: Date
     email: String
+    friends: [UpdateManyUserAdminFriendsInput]
     gender: EnumUserAdminGender
     ingameRole: [EnumUserAdminIngameRole]
     languages: [String]
@@ -1078,14 +1237,21 @@ input UpdateManyUserAdminInput {
     password: String
     role: EnumUserAdminRole
     updatedAt: Date
+}
+
+input UpdateOneUserAdminFriendsInput {
+    _id: MongoID
+    user: MongoID
 }
 
 input UpdateOneUserAdminInput {
     aboutMe: String
     avatar: String
+    blocked: [MongoID]
     createdAt: Date
     dateOfBirth: Date
     email: String
+    friends: [UpdateOneUserAdminFriendsInput]
     gender: EnumUserAdminGender
     ingameRole: [EnumUserAdminIngameRole]
     languages: [String]
@@ -1096,11 +1262,16 @@ input UpdateOneUserAdminInput {
     updatedAt: Date
 }
 
+input UserAdminFriendsInput {
+    _id: MongoID
+    user: MongoID
+}
 
-"The string representation of JavaScript regexp. You may provide it with flags \"/^abc.*/i\" or without flags like \"^abc.*\". More info about RegExp characters and flags: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions"
-scalar RegExpAsString
 
 scalar Date
 
 "The `ID` scalar type represents a unique MongoDB identifier in collection. MongoDB by default use 12-byte ObjectId value (https://docs.mongodb.com/manual/reference/bson-types/#objectid). But MongoDB also may accepts string or integer as correct values for _id field."
 scalar MongoID
+
+"The string representation of JavaScript regexp. You may provide it with flags \"/^abc.*/i\" or without flags like \"^abc.*\". More info about RegExp characters and flags: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions"
+scalar RegExpAsString
