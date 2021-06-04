@@ -1,8 +1,8 @@
-const isoLanguages = require("../models/language/ISO-639-1_2-languages.json")
-const {Language} = require("../models/language/language");
+const isoLanguages = require("./ISO-639-1_2-languages.json");
+const {Language} = require("../../models/language/language");
 
 //TODO better name
-function mongooseLanguages() {
+function mongoosifyLanguages() {
     const languages = []
     Object.keys(isoLanguages).forEach((key) => {
         const current = isoLanguages[key]
@@ -21,15 +21,13 @@ async function createLanguages() {
     //add languages once on new DB
     if (await Language.countDocuments() === 0) {
         console.debug("Language collection is empty.")
-        console.debug("Add ISO-639-1/2 compliant Languages ")
-        await Language.insertMany(mongooseLanguages())
+        console.debug("Add ISO-639-1/2 compliant Languages")
+        await Language.create(mongoosifyLanguages())
         console.debug(`Languages added: ${await Language.countDocuments()}`)
     } else {
         console.debug("Languages exist already; no data added")
     }
 }
 
-module.exports = {
-    mongooseLanguages,
-    createLanguages,
-}
+module.exports = createLanguages
+

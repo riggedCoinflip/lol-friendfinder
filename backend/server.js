@@ -2,7 +2,7 @@ const assert = require("assert");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const createApollo = require("./src/utils/createApolloServer");
-const expressApp = require("./src/utils/expressApp")
+const expressApp = require("./src/utils/createExpressApp")
 
 
 // allow use of dotenv
