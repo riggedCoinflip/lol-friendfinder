@@ -46,6 +46,32 @@ mutation {
 }
 ```
 
+### Get public information about any User
+
+````graphql
+{
+    user(filter: { name: "Admin" }) {
+        name
+        aboutMe
+        languages
+        gender
+        age #currently broken
+        avatar
+        ingameRole
+    }
+}
+````
+
+### Show every user that likes you
+
+````graphql
+{
+    userManyLikeMe {
+        name
+    }
+}
+````
+
 ## require admin role
 
 #### Find a user with name "admin"
@@ -67,11 +93,16 @@ mutation {
         ingameRole
         updatedAt
         createdAt
+        friends {
+            user
+        }
+        blocked
     }
 }
 ```
 
 #### Show all admins
+
 _note: enums should be written without the `""` around the String. Replace whitespace inside the String with `_`_
 
 ```graphql
@@ -118,25 +149,26 @@ mutation {
 }
 ```
 
-#### Update a single user.   
+#### Update a single user.
+
 FIXME this sometimes does not work cause it tries to update the password - same error like in the inconsistent test
 
 ```graphql
 mutation {
-  userUpdateOneAdmin(
-    record: { 
-        ingameRole: [Mid, Fill]
-        avatar: "foobar" 
+    userUpdateOneAdmin(
+        record: {
+            ingameRole: [Mid, Fill]
+            avatar: "foobar"
+        }
+        filter: {
+            name: "Admin"
+        }
+    ) {
+        record {
+            name
+            avatar
+            ingameRole
+        }
     }
-    filter: { 
-        name: "Admin" 
-    }
-  ) {
-    record {
-      name
-      avatar
-      ingameRole
-    }
-  }
 }
 ```
