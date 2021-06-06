@@ -1,5 +1,5 @@
 const {Language} = require("./language")
-const createLanguages = require("../../utils/languages/createLanguages")
+const createLanguages = require("../../utils/language/createLanguages")
 const {dbConnect, dbDisconnectAndWipe} = require("../../utils/test-utils/db-handler")
 
 describe("Language Model Test Suite", () => {
