@@ -21,11 +21,11 @@ type CreateManyUserAdminPayload {
     records: [UserAdmin!]
 }
 
-type CreateOneMatchPayload {
+type CreateOneLikePayload {
     "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
     error: ErrorInterface
     "Created document"
-    record: Match
+    record: Like
     "Document ID"
     recordId: MongoID
 }
@@ -54,7 +54,7 @@ type Language {
     nativeName: String!
 }
 
-type Match {
+type Like {
     _id: MongoID!
     createdAt: Date
     recipient: MongoID
@@ -69,7 +69,7 @@ type Mutation {
     "Create one document with mongoose defaults, setters, hooks and validation"
     signup(record: CreateOneUserSignupInput!): CreateOneUserSignupPayload
     "Like or Dislike someone. requester gets automatically set and overrides any value"
-    swipe(record: CreateOneMatchInput!): CreateOneMatchPayload
+    swipe(record: CreateOneLikeInput!): CreateOneLikePayload
     "Creates Many documents with mongoose defaults, setters, hooks and validation"
     userCreateManyAdmin(records: [CreateManyUserAdminInput!]!): CreateManyUserAdminPayload
     "Create one document with mongoose defaults, setters, hooks and validation"
@@ -180,7 +180,7 @@ type Query {
         sort: SortFindManyUserAdminInput
     ): [UserAdmin!]!
     "Show all users that like logged in user."
-    userManyLikeMe: [UserPublic]
+    userManyLikesMe: [UserPublic]
     userOneAdmin(
         "Filter by fields"
         filter: FilterFindOneUserAdminInput,
@@ -315,6 +315,7 @@ type UserAdminPagination {
 
 "Fields the user can see about himself"
 type UserPrivate {
+    _id: MongoID!
     aboutMe: String
     avatar: String
     blocked: [MongoID]
@@ -329,6 +330,7 @@ type UserPrivate {
 
 "Contains all public fields of users. Use this for filtering as well"
 type UserPublic {
+    _id: MongoID!
     aboutMe: String
     "Uses the virtual \"age\" that is calculated from DateOfBirth. Returns -1 if DateOfBirth is not set."
     age: Int
@@ -524,7 +526,7 @@ input CreateManyUserAdminInput {
     updatedAt: Date
 }
 
-input CreateOneMatchInput {
+input CreateOneLikeInput {
     createdAt: Date
     recipient: MongoID
     requester: MongoID
@@ -824,6 +826,7 @@ input FilterFindOneUserAdmin_idOperatorsInput {
 input FilterFindOneUserPublicInput {
     AND: [FilterFindOneUserPublicInput!]
     OR: [FilterFindOneUserPublicInput!]
+    _id: MongoID
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterFindOneUserPublicOperatorsInput
     aboutMe: String
@@ -848,7 +851,19 @@ input FilterFindOneUserPublicNameOperatorsInput {
 
 "For performance reason this type contains only *indexed* fields."
 input FilterFindOneUserPublicOperatorsInput {
+    _id: FilterFindOneUserPublic_idOperatorsInput
     name: FilterFindOneUserPublicNameOperatorsInput
+}
+
+input FilterFindOneUserPublic_idOperatorsInput {
+    exists: Boolean
+    gt: MongoID
+    gte: MongoID
+    in: [MongoID]
+    lt: MongoID
+    lte: MongoID
+    ne: MongoID
+    nin: [MongoID]
 }
 
 input FilterRemoveManyUserAdminEmailOperatorsInput {
