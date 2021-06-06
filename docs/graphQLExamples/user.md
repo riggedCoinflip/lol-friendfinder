@@ -34,6 +34,7 @@ mutation {
 ```graphql
 {
     userSelf {
+        _id
         name
         email
         aboutMe
@@ -51,6 +52,7 @@ mutation {
 ````graphql
 {
     user(filter: { name: "Admin" }) {
+        _id
         name
         aboutMe
         languages
@@ -66,7 +68,7 @@ mutation {
 
 ````graphql
 {
-    userManyLikeMe {
+    userManyLikesMe {
         name
     }
 }
@@ -79,6 +81,7 @@ mutation {
 ```graphql
 {
     userOneAdmin(filter: { name: "Admin" }) {
+        _id
         name
         nameNormalized
         email
