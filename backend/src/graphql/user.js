@@ -3,6 +3,7 @@ const {User, UserTCAdmin, UserTCSignup, UserTCPublic, UserTCPrivate} = require("
 const {Like} = require("../models/like/like");
 const requireAuthentication = require("../middleware/jwt/requireAuthentication");
 const requireAuthorization = require("../middleware/jwt/requireAuthorization");
+const {performance} = require("perf_hooks")
 
 //***************
 //*** QUERIES ***
@@ -55,11 +56,20 @@ UserTCPublic.addResolver({
     resolve: async ({args}) => {
         const user = await User.findOne({email: args.email});
 
-        //FIXME
-        // timing attacks -> as a login takes substantially longer if the user is correct due to comparing a password,
-        // a "hacker" can use the difference in time-till-response to find out which emails are in use
-        // SEVERITY: minor
-        if (!user || !await user.comparePassword(args.password)) throw new Error("User or Password is not correct.");
+        const start = performance.now()
+        const errorToThrow = (!user || !await user.comparePassword(args.password))
+        const timeElapsed = performance.now() - start
+
+        //console.log(`time elapsed: ${timeElapsed}`)
+        //wait constant time to protect against timing attacks
+        // OPTIMIZE still able to go for timing attack if `comparePassword` takes >1000ms (around 70ms on @riggedCoinflips local dev machine)
+        // perhaps this helps: https://nodejs.org/api/perf_hooks.html#perf_hooks_performance_measurement_apis
+        await new Promise((resolve) => {
+            setTimeout(resolve, 1000 - timeElapsed);
+        });
+        //console.log(`Constant wait time: ${performance.now() - start}`)
+
+        if (errorToThrow) throw new Error("User or Password is not correct.")
 
         //generate token
         return jwt.sign({
