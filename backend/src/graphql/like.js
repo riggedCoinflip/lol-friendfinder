@@ -1,5 +1,5 @@
 const {LikeTC} = require("../models/like/like")
-const requireAuthentication = require("../middleware/jwt/requireAuthorization");
+const requireAuthentication = require("../middleware/jwt/requireAuthentication");
 
 //***************
 //*** QUERIES ***
