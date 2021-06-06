@@ -159,6 +159,7 @@ UserSchema.pre("save", function (next) {
     next();
 })
 
+//TODO rate limitation - else a DOSser can just try to login 100times/s
 UserSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
@@ -176,6 +177,7 @@ const UserTCPrivate = composeMongoose(User, {
     name: "UserPrivate",
     description: "Fields the user can see about himself",
     onlyFields: [
+        "_id",
         "name",
         "email",
         "aboutMe",
@@ -194,6 +196,7 @@ const UserTCPublic = composeMongoose(User, {
     name: "UserPublic",
     description: "Contains all public fields of users. Use this for filtering as well",
     onlyFields: [
+        "_id",
         "name",
         "aboutMe",
         "languages",
