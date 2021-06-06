@@ -133,6 +133,7 @@ UserSchema.plugin(idvalidator);
 UserSchema.virtual("age").get(function () {
     //https://stackoverflow.com/a/24181701/12340711
     //good enough
+    //FIXME no dateOfBirth on UserTCPublic
     if (!this.dateOfBirth) return -1 //default
     const ageDifMs = Date.now() - this.dateOfBirth
     const ageDate = new Date(ageDifMs); // miliseconds from epoch
