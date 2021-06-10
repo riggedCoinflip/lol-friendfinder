@@ -4,8 +4,8 @@ const {User} = require("../user/user");
 const {composeMongoose} = require("graphql-compose-mongoose");
 
 const LikeSchema = new mongoose.Schema({
-    requester: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    recipient: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    requester: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+    recipient: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
     status: {
         type: String,
         enums: [
@@ -21,18 +21,15 @@ const LikeSchema = new mongoose.Schema({
 
 LikeSchema.plugin(idvalidator);
 
-LikeSchema.index({requester: 1, recipient: 1}, {unique: true}) //TODO test
+LikeSchema.index({requester: 1, recipient: 1}, {unique: true})
 
-//Recipient has to differ from Requester
-//TODO test
 LikeSchema.pre("validate", function (next) {
     if (this.requester.equals(this.recipient)) {
-        this.invalidate("recipient", `Recipient has to differ from Requester "${this.requester}"`, this.recipient)
+        this.invalidate("recipient", `Recipient has to differ from Requester "${this.requester._id}"`, this.recipient)
     }
     next()
 })
 
-//TODO test
 LikeSchema.post("save", async function (doc, next) {
     // if status==="liked" is saved, see if recipient already liked requester.
     // In this case, add users to each others friends list ♥
