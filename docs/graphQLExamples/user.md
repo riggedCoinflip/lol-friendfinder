@@ -57,7 +57,7 @@ mutation {
         aboutMe
         languages
         gender
-        age #currently broken
+        age
         avatar
         ingameRole
     }
