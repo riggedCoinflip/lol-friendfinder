@@ -18,7 +18,7 @@ async function createDummyUsers() {
         console.debug("User collection is empty.")
         console.debug("Add Dummy Users")
         await User.create(mongoosifyUsers())
-            .catch(err => console.log(err))
+            .catch(err => console.error(err))
         console.debug(`Users added: ${await User.countDocuments()}`)
     } else {
         console.debug("Users exist already; no data added")
