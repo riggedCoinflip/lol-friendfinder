@@ -1,10 +1,10 @@
 import { React } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useEffect, useState, useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
 import * as Constants from '../constants'
 import Languages from './Languages';
 import {
   Button, Container, Card, Form, Col, Image, Row,
-  InputGroup, FormControl, ListGroup
+  InputGroup, FormControl, ListGroup, Badge
 } from 'react-bootstrap';
 
 const GET_USER = gql`
@@ -20,8 +20,49 @@ const GET_USER = gql`
         }         
         }`;
 
-const Profile = () => {
+const UPDATE_USER = gql`
+mutation userUpdateSelf($language:String){
+userUpdateSelf( 
+  record: { 
+         languages: [ $language]
+         
+       }
+   ) {
+    record {
+      name
+      languages
+    }
+  } 
+}`;
 
+export default function Profile () {
+  const client = useApolloClient();
+
+  const [state, setState] = useState({
+    aboutMe: "",
+    gender: "",
+    })
+
+   
+  //console.log('Data for State' + data);
+
+useEffect(() => {
+  console.log(state)
+}, [state])
+
+/*
+useEffect(() => {
+  if (data) {
+    return;
+  }
+  // Do something only when `someCondition` is falsey
+}, [state]);
+*/
+ 
+
+const changeHandler = e => {
+  setState({ [e.target.name]: e.target.value})
+}
   const { loading, error, data } = useQuery(GET_USER, {
     context: {
       headers: {
@@ -30,13 +71,29 @@ const Profile = () => {
     }
   })
 
- 
+ const [update_User] = useMutation(UPDATE_USER, {
+    context: {
+      headers: {
+        "x-auth-token": Constants.AUTH_TOKEN
+      }
+  }})
+  
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
   console.log(data);
+ 
+
+
+/*ToDo:
+1-get UserInfo from DB and set in State
+2-add onChangeHandler for each field
+3-Send the actual State to the DB, if "save" is pressed
+*/
+
+//setState({ ...state, aboutMe: data.userSelf.aboutMe})
+
 
   return (
-
     <div id="user-info">
 
       <Container>
@@ -56,6 +113,7 @@ const Profile = () => {
                 </InputGroup.Prepend>
                 <FormControl
                   value={data.userSelf.name}
+                  /* OP2 value=state.name*/
                   aria-label="Username"
                   aria-describedby="basic-addon1"
                 />
@@ -63,7 +121,7 @@ const Profile = () => {
               </InputGroup>
   Gender
    <FormControl
-                value={data.userSelf.gender}
+                placeholder="a"
                 aria-label="Gender"
                 aria-describedby="basic-addon1"
               />
@@ -109,6 +167,9 @@ const Profile = () => {
                 return (
                   <ListGroup.Item variant="success" key={index + 1} >
                     {data}
+                    <Badge pill variant="danger">
+                      x
+                    </Badge>
                   </ListGroup.Item>
                   
                 );
@@ -127,7 +188,11 @@ const Profile = () => {
               About me</Form.Text>
 
             <Form.Control as="textarea" rows={3}
-              value={data.userSelf.aboutMe} />
+              value= {data.userSelf.aboutMe}
+              id="aboutMe"
+              onChange = {changeHandler}
+
+              />
 
           </Row>
 
@@ -135,9 +200,15 @@ const Profile = () => {
 
           <div>
             <Button variant="primary" size="sm"
-              onClick={() => {
-                console.log('Data was saved');
-              }}   > Save changes </Button>{'  '}
+              onClick={e => {
+
+                  e.preventDefault();
+                  update_User({ variables: { 
+                                            aboutMe: data.aboutMe
+                                           
+                                          } });
+
+                }} > Save changes </Button>{'  '}
 
             <Button variant="danger" size="sm"
               onClick={() => {
@@ -160,4 +231,3 @@ const Profile = () => {
 
   );
 }
-export default Profile;

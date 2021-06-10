@@ -1,4 +1,4 @@
-import {  React } from 'react';
+import {  React, useState } from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import * as Constants from '../constants'
 //import {selectedLanguages} from './Profile';
@@ -10,7 +10,8 @@ const GET_LANGUAGES = gql`
 {
   languageMany(filter: {} limit: 100) 
   {
-    name  
+    name 
+    alpha2 
   }
 }`;
 
@@ -28,8 +29,12 @@ userUpdateSelf(
   } 
 }`;
 
+
+
 const Languages = () => {
  
+  const [local_Languages, setLocal_Languages] = useState([]);
+
    const { loading, error, data } = useQuery(GET_LANGUAGES, {
    context: {
      headers: {
@@ -51,7 +56,8 @@ const Languages = () => {
     console.log('data_Mutation: '+data_Mutation);
  
     //console.log("SelectedLnags: " + selectedLanguages);
- 
+   // const l =  "spanish";
+
  return(
  
  <div id="user-info">
@@ -65,15 +71,16 @@ const Languages = () => {
          <input type="text" placeholder="English" id= "language-search"/>
                    
          {
-
     data.languageMany &&
     data.languageMany.map((data, index) => {
               return (
-                <Dropdown.Item  
+                <Dropdown.Item 
                 onClick={e => {
                   e.preventDefault();
-                  updateLanguage({ variables: { language: data.language } });
-                 console.log(data.name +' added')
+                  updateLanguage({ variables: { language: data.name } });
+                  setLocal_Languages(data.name);
+
+                 console.log('L: ' + local_Languages)
                 }}
                   key={index+1} >
                      {data.name}

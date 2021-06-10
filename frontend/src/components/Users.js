@@ -3,9 +3,10 @@ import { useQuery, gql } from '@apollo/client';
 import { AUTH_TOKEN } from '../constants';
 import { Card, CardGroup} from 'react-bootstrap';
 
-const howManyUsers = 8; //for the request
+const howManyUsers = 12; //for the request
 const GET_USER = gql`
-        { userManyAdmin(limit: ${howManyUsers})
+        { 
+          userManyAdmin(limit: ${howManyUsers})
 
 {
         name

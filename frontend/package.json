@@ -65,5 +65,18 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.2.0"
+  },
+
+
+  
+    "plugins": [
+    
+      "react-hooks"
+    ],
+    "rules": {
+    
+      "react-hooks/rules-of-hooks": "error", 
+      "react-hooks/exhaustive-deps": "warn" 
+    }
   }
-}
+
