@@ -99,7 +99,11 @@ const UserSchema = new mongoose.Schema({
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
-            unique: true //TODO test
+            //unique: true //TODO doesnt work this way - pre validate hook?
+            // https://groups.google.com/g/mongoose-orm/c/QSpr_7rtEYY
+            // https://stackoverflow.com/questions/15921700/mongoose-unique-values-in-nested-array-of-objects
+            // https://stackoverflow.com/a/41791495/12340711
+            // https://www.npmjs.com/package/mongoose-unique-array
         },
         /* TODO implement later
         chat: {
@@ -111,7 +115,7 @@ const UserSchema = new mongoose.Schema({
     blocked: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        unique: true, //TODO test
+        //unique: true, //TODO see above
     }]
     /*
     playstyle: {
