@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const {User, UserTCAdmin, UserTCSignup, UserTCPublic, UserTCPrivate} = require("../models/user/user");
+const {User, UserTCAdmin, UserTCSignup, UserTCPublic, UserTCPrivate, normalizeName} = require("../models/user/user");
 const {Like} = require("../models/like/like");
 const requireAuthentication = require("../middleware/jwt/requireAuthentication");
 const requireAuthorization = require("../middleware/jwt/requireAuthorization");
@@ -8,6 +8,20 @@ const {performance} = require("perf_hooks")
 //***************
 //*** QUERIES ***
 //***************
+
+UserTCPublic.addResolver({
+    kind: "query",
+    name: "userOneByName",
+    description: "Show public information of user by name",
+    args: {
+        nameNormalized: "String!",
+    },
+    type: UserTCPublic,
+    resolve: async ({args}) => {
+        return User.findOne({nameNormalized: normalizeName(args.nameNormalized)});
+    }
+})
+
 const userSelf = UserTCPrivate.mongooseResolvers
     .findById()
     .setDescription("Get information of currently logged in user")
@@ -21,7 +35,7 @@ UserTCPublic.addResolver({
     kind: "query",
     name: "userManyLikesMe",
     description: "Show all users that like logged in user.",
-    type: [UserTCPublic], //UserTCPublic.mongooseResolvers.findMany().getType(),
+    type: [UserTCPublic],
     resolve: async ({context}) => {
         /**
          * First, find all userIds that like the logged in user
@@ -38,6 +52,33 @@ UserTCPublic.addResolver({
         return User.find({"_id": {$in: ids}});
     }
 })
+
+const userMany = UserTCPublic.mongooseResolvers.findMany({
+    lean: false,
+    limit: {defaultValue: 10},
+    sort: false,
+    filter: {
+        // https://github.com/graphql-compose/graphql-compose-mongoose#filterhelperargsopts
+        // only allow to filter with operators
+        removeFields: [
+            "_id",
+            "name",
+            "aboutMe",
+            "avatar",
+        ],
+        operators: {
+            "_id": false,
+            "name": false,
+            "aboutMe": false,
+            "languages": ["in"],
+            "gender": ["in"],
+            "age": ["gte", "lte"],
+            "avatar": false,
+            "ingameRole": ["in"]
+        }
+    }
+})
+    .setDescription("Get the public information of userMany with restricted filters")
 
 //*****************
 //*** MUTATIONS ***
@@ -97,9 +138,11 @@ const userUpdateSelf = UserTCPrivate.mongooseResolvers.updateById()
 //***************
 
 const UserQuery = {
+    userOneById: UserTCPublic.mongooseResolvers.findById(),
+    userOneByName: UserTCPublic.getResolver("userOneByName"),
+    userMany,
     ...requireAuthentication({
         userSelf,
-        user: UserTCPublic.mongooseResolvers.findOne(), //TODO restrict filters
         userManyLikesMe: UserTCPublic.getResolver("userManyLikesMe"),
     }),
     ...requireAuthorization({
