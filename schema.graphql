@@ -146,12 +146,6 @@ type Query {
         skip: Int,
         sort: SortFindOneLanguageInput
     ): Language
-    user(
-        "Filter by fields"
-        filter: FilterFindOneUserPublicInput,
-        skip: Int,
-        sort: SortFindOneUserPublicInput
-    ): UserPublic
     userByIdAdmin(_id: MongoID!): UserAdmin
     userByIdsAdmin(_ids: [MongoID!]!, limit: Int = 100, sort: SortFindByIdsUserAdminInput): [UserAdmin!]!
     userConnectionAdmin(
@@ -172,6 +166,14 @@ type Query {
         "Filter by fields"
         filter: FilterCountUserAdminInput
     ): Int
+    "Get the public information of userMany with restricted filters"
+    userMany(
+        "Filter by fields"
+        filter: FilterFindManyUserPublicInput,
+        limit: Int = 10,
+        skip: Int,
+        sort: SortFindManyUserPublicInput
+    ): [UserPublic!]!
     userManyAdmin(
         "Filter by fields"
         filter: FilterFindManyUserAdminInput,
@@ -187,6 +189,9 @@ type Query {
         skip: Int,
         sort: SortFindOneUserAdminInput
     ): UserAdmin
+    userOneById(_id: MongoID!): UserPublic
+    "Show public information of user by name"
+    userOneByName(nameNormalized: String!): UserPublic
     userPaginationAdmin(
         "Filter by fields"
         filter: FilterFindManyUserAdminInput,
@@ -262,8 +267,7 @@ type UpdateOneUserAdminPayload {
 type UserAdmin {
     _id: MongoID!
     aboutMe: String
-    "Uses the virtual \"age\" that is calculated from DateOfBirth. Returns -1 if DateOfBirth is not set."
-    age: Int
+    age: Float
     avatar: String
     blocked: [MongoID]
     createdAt: Date
@@ -332,8 +336,7 @@ type UserPrivate {
 type UserPublic {
     _id: MongoID!
     aboutMe: String
-    "Uses the virtual \"age\" that is calculated from DateOfBirth. Returns -1 if DateOfBirth is not set."
-    age: Int
+    age: Float
     avatar: String
     gender: EnumUserPublicGender!
     ingameRole: [EnumUserPublicIngameRole]
@@ -448,12 +451,7 @@ enum SortFindManyUserAdminInput {
     _ID_DESC
 }
 
-enum SortFindOneLanguageInput {
-    _ID_ASC
-    _ID_DESC
-}
-
-enum SortFindOneUserAdminInput {
+enum SortFindManyUserPublicInput {
     EMAIL_ASC
     EMAIL_DESC
     NAMENORMALIZED_ASC
@@ -464,7 +462,12 @@ enum SortFindOneUserAdminInput {
     _ID_DESC
 }
 
-enum SortFindOneUserPublicInput {
+enum SortFindOneLanguageInput {
+    _ID_ASC
+    _ID_DESC
+}
+
+enum SortFindOneUserAdminInput {
     EMAIL_ASC
     EMAIL_DESC
     NAMENORMALIZED_ASC
@@ -510,6 +513,7 @@ enum SortUpdateOneUserAdminInput {
 
 input CreateManyUserAdminInput {
     aboutMe: String
+    age: Float
     avatar: String
     blocked: [MongoID]
     createdAt: Date
@@ -536,6 +540,7 @@ input CreateOneLikeInput {
 
 input CreateOneUserAdminInput {
     aboutMe: String
+    age: Float
     avatar: String
     blocked: [MongoID]
     createdAt: Date
@@ -582,6 +587,7 @@ input FilterCountUserAdminInput {
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterCountUserAdminOperatorsInput
     aboutMe: String
+    age: Float
     avatar: String
     blocked: [MongoID]
     createdAt: Date
@@ -673,6 +679,7 @@ input FilterFindManyUserAdminInput {
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterFindManyUserAdminOperatorsInput
     aboutMe: String
+    age: Float
     avatar: String
     blocked: [MongoID]
     createdAt: Date
@@ -732,6 +739,42 @@ input FilterFindManyUserAdmin_idOperatorsInput {
     nin: [MongoID]
 }
 
+input FilterFindManyUserPublicAgeOperatorsInput {
+    gte: Float
+    lte: Float
+}
+
+input FilterFindManyUserPublicGenderOperatorsInput {
+    in: [EnumUserPublicGender]
+}
+
+input FilterFindManyUserPublicIngameRoleOperatorsInput {
+    in: [EnumUserPublicIngameRole]
+}
+
+input FilterFindManyUserPublicInput {
+    AND: [FilterFindManyUserPublicInput!]
+    OR: [FilterFindManyUserPublicInput!]
+    "List of *indexed* fields that can be filtered via operators."
+    _operators: FilterFindManyUserPublicOperatorsInput
+    age: Float
+    gender: EnumUserPublicGender
+    ingameRole: [EnumUserPublicIngameRole]
+    languages: [String]
+}
+
+input FilterFindManyUserPublicLanguagesOperatorsInput {
+    in: [String]
+}
+
+"For performance reason this type contains only *indexed* fields."
+input FilterFindManyUserPublicOperatorsInput {
+    age: FilterFindManyUserPublicAgeOperatorsInput
+    gender: FilterFindManyUserPublicGenderOperatorsInput
+    ingameRole: FilterFindManyUserPublicIngameRoleOperatorsInput
+    languages: FilterFindManyUserPublicLanguagesOperatorsInput
+}
+
 input FilterFindOneLanguageInput {
     AND: [FilterFindOneLanguageInput!]
     OR: [FilterFindOneLanguageInput!]
@@ -764,6 +807,7 @@ input FilterFindOneUserAdminInput {
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterFindOneUserAdminOperatorsInput
     aboutMe: String
+    age: Float
     avatar: String
     blocked: [MongoID]
     createdAt: Date
@@ -823,49 +867,6 @@ input FilterFindOneUserAdmin_idOperatorsInput {
     nin: [MongoID]
 }
 
-input FilterFindOneUserPublicInput {
-    AND: [FilterFindOneUserPublicInput!]
-    OR: [FilterFindOneUserPublicInput!]
-    _id: MongoID
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: FilterFindOneUserPublicOperatorsInput
-    aboutMe: String
-    avatar: String
-    gender: EnumUserPublicGender
-    ingameRole: [EnumUserPublicIngameRole]
-    languages: [String]
-    name: String
-}
-
-input FilterFindOneUserPublicNameOperatorsInput {
-    exists: Boolean
-    gt: String
-    gte: String
-    in: [String]
-    lt: String
-    lte: String
-    ne: String
-    nin: [String]
-    regex: RegExpAsString
-}
-
-"For performance reason this type contains only *indexed* fields."
-input FilterFindOneUserPublicOperatorsInput {
-    _id: FilterFindOneUserPublic_idOperatorsInput
-    name: FilterFindOneUserPublicNameOperatorsInput
-}
-
-input FilterFindOneUserPublic_idOperatorsInput {
-    exists: Boolean
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
-}
-
 input FilterRemoveManyUserAdminEmailOperatorsInput {
     exists: Boolean
     gt: String
@@ -890,6 +891,7 @@ input FilterRemoveManyUserAdminInput {
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterRemoveManyUserAdminOperatorsInput
     aboutMe: String
+    age: Float
     avatar: String
     blocked: [MongoID]
     createdAt: Date
@@ -973,6 +975,7 @@ input FilterRemoveOneUserAdminInput {
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterRemoveOneUserAdminOperatorsInput
     aboutMe: String
+    age: Float
     avatar: String
     blocked: [MongoID]
     createdAt: Date
@@ -1056,6 +1059,7 @@ input FilterUpdateManyUserAdminInput {
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterUpdateManyUserAdminOperatorsInput
     aboutMe: String
+    age: Float
     avatar: String
     blocked: [MongoID]
     createdAt: Date
@@ -1139,6 +1143,7 @@ input FilterUpdateOneUserAdminInput {
     "List of *indexed* fields that can be filtered via operators."
     _operators: FilterUpdateOneUserAdminOperatorsInput
     aboutMe: String
+    age: Float
     avatar: String
     blocked: [MongoID]
     createdAt: Date
@@ -1205,6 +1210,7 @@ input UpdateByIdUserAdminFriendsInput {
 
 input UpdateByIdUserAdminInput {
     aboutMe: String
+    age: Float
     avatar: String
     blocked: [MongoID]
     createdAt: Date
@@ -1241,6 +1247,7 @@ input UpdateManyUserAdminFriendsInput {
 
 input UpdateManyUserAdminInput {
     aboutMe: String
+    age: Float
     avatar: String
     blocked: [MongoID]
     createdAt: Date
@@ -1264,6 +1271,7 @@ input UpdateOneUserAdminFriendsInput {
 
 input UpdateOneUserAdminInput {
     aboutMe: String
+    age: Float
     avatar: String
     blocked: [MongoID]
     createdAt: Date
@@ -1286,10 +1294,10 @@ input UserAdminFriendsInput {
 }
 
 
-scalar Date
-
 "The `ID` scalar type represents a unique MongoDB identifier in collection. MongoDB by default use 12-byte ObjectId value (https://docs.mongodb.com/manual/reference/bson-types/#objectid). But MongoDB also may accepts string or integer as correct values for _id field."
 scalar MongoID
+
+scalar Date
 
 "The string representation of JavaScript regexp. You may provide it with flags \"/^abc.*/i\" or without flags like \"^abc.*\". More info about RegExp characters and flags: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions"
 scalar RegExpAsString
