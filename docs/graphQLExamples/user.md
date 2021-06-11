@@ -1,13 +1,60 @@
 # User
 
-#### Create a user
+### Get public information about any User by ID/Name
+
+````graphql
+{
+    userOneByName(nameNormalized: "admin")
+    {
+        _id
+        name
+        languages
+    }
+}
+````
+
+````graphql
+{
+    userOneById(_id: "60c3854f707d802c1c7e92d9")
+    {
+        _id
+        name
+        languages
+    }
+}
+````
+
+### Show all users that fall into a certain filter
+
+````graphql
+{
+    userMany(filter: {_operators: {languages: {in: "de"}}}) {
+        name
+        age
+        languages
+    }
+}
+````
+
+````graphql
+{
+    userMany(filter: {_operators: {age: {gte: 20 lte: 25}}}) {
+        name
+        age
+        languages
+    }
+}
+
+````
+
+### Create a user
 
 ```graphql
 mutation {
     signup(
         record: {
-            name: "someValidName",
-            email: "someValid@mail",
+            name: "someValidName"
+            email: "someValid@mail"
             password: "Password1"
         }) {
         record {
@@ -19,7 +66,7 @@ mutation {
 }
 ```
 
-#### Get a JWT by logging in
+### Get a JWT by logging in
 
 ```graphql
 mutation {
@@ -46,23 +93,6 @@ mutation {
     }
 }
 ```
-
-### Get public information about any User
-
-````graphql
-{
-    user(filter: { name: "Admin" }) {
-        _id
-        name
-        aboutMe
-        languages
-        gender
-        age
-        avatar
-        ingameRole
-    }
-}
-````
 
 ### Show every user that likes you
 
