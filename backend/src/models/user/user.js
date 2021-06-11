@@ -7,6 +7,8 @@ const idvalidator = require('mongoose-id-validator');
 //save time on testing
 const SALT_ROUNDS = process.env.NODE_ENV === "test" ? 5 : 10;
 
+const normalizeName = name => name.toLowerCase()
+
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -50,7 +52,6 @@ const UserSchema = new mongoose.Schema({
                 if (!userValidation.containsLower(v)) throw new Error("Password must contain lowercase letter");
                 if (!userValidation.containsDigit(v)) throw new Error("Password must contain a digit");
                 if (!userValidation.containsOnlyAllowedCharacters(v)) throw new Error("Password may only contain certain special chars");
-
                 return true
             }
         }
@@ -83,8 +84,10 @@ const UserSchema = new mongoose.Schema({
     },
      */
     dateOfBirth: {
-        //is set with a Date - but returns an Integer of the Age as getter
         type: Date,
+    },
+    age: {
+        type: Number,
     },
     avatar: {
         type: String //URI to image
@@ -134,13 +137,18 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.plugin(idvalidator);
 
-UserSchema.virtual("age").get(function () {
-    //https://stackoverflow.com/a/24181701/12340711
-    //good enough
-    if (!this.dateOfBirth) return -1 //default
-    const ageDifMs = Date.now() - this.dateOfBirth
-    const ageDate = new Date(ageDifMs); // miliseconds from epoch
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
+UserSchema.pre("save", function (next) {
+    if (this.isModified("dateOfBirth") || this.isModified("age")) {
+        this.age = (() => {
+            //https://stackoverflow.com/a/24181701/12340711
+            //good enough
+            if (!this.dateOfBirth) return -1 //default
+            const ageDifMs = Date.now() - this.dateOfBirth
+            const ageDate = new Date(ageDifMs); // miliseconds from epoch
+            return Math.abs(ageDate.getUTCFullYear() - 1970);
+        })()
+    }
+    next()
 })
 
 //Save a hashed and salted password to the DB using bcrypt
@@ -157,9 +165,9 @@ UserSchema.pre("save", function (next) {
     if (this.isModified("nameNormalized")) {
         throw new Error("nameNormalized is read only!")
     } else if (this.isModified("name")) {
-        this.nameNormalized = this.name.toLowerCase()
+        this.nameNormalized = normalizeName(this.name)
     }
-    next();
+    next()
 })
 
 //TODO rate limitation - else a DOSser can just try to login 100times/s
@@ -206,7 +214,7 @@ const UserTCPublic = composeMongoose(User, {
         "gender",
         "avatar",
         "ingameRole",
-        //age - is added seperately due to being a virtual
+        "age",
     ]
 })
 
@@ -220,25 +228,12 @@ const UserTCSignup = composeMongoose(User, {
     ]
 })
 
-//virtuals have to be added to TC seperately
-//https://github.com/graphql-compose/graphql-compose-mongoose/issues/135
-const ageForTC = {
-    age: {
-        type: "Int",
-        description: 'Uses the virtual "age" that is calculated from DateOfBirth. Returns -1 if DateOfBirth is not set.',
-        projection: { dateOfBirth: 1 }
-    }
-}
-
-UserTCAdmin.addFields(ageForTC)
-UserTCPublic.addFields(ageForTC)
-
-
 module.exports = {
     User,
     UserTCAdmin,
     UserTCPublic,
     UserTCPrivate,
-    UserTCSignup
+    UserTCSignup,
+    normalizeName
 }
 
