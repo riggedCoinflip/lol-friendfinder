@@ -6,8 +6,8 @@ module.exports = {
     },
 
     admin: {
-        name: "Admin",
-        email: "admin@email.com",
+        name: "someAdmin",
+        email: "someAdmin@email.com",
         password: "Password1",
         role: "admin",
     },
