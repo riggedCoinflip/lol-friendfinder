@@ -89,7 +89,6 @@ describe("Like Model Test Suite", () => {
             await like.save()
             fail("Should throw error")
         } catch (err) {
-            console.log(err)
             validators.validateMongoValidationError(err, "recipient", "user defined")
         }
     })

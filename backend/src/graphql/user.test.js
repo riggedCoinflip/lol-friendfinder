@@ -7,6 +7,7 @@ const {createTestClient} = require("apollo-server-integration-testing");
 
 const createApollo = require("../utils/createApolloServer")
 const jwt = require("jsonwebtoken");
+const createMongoData = require("../utils/createMongoData");
 const {query, mutate, setOptions} = createTestClient({apolloServer: createApollo()});
 
 /**
@@ -62,7 +63,10 @@ function resetOptions() {
 }
 
 describe("User GraphQL Test Suite", () => {
-    beforeAll(async () => dbConnect());
+    beforeAll(async () => {
+        await dbConnect()
+        await createMongoData()
+    });
     beforeEach(async () => {
         resetOptions()
         //create test users to have a user and admin login possible at all times
