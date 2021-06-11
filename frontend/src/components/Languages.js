@@ -30,25 +30,20 @@ userUpdateSelf(
 }`;
 
 
-
-const Languages = () => {
+//ToDo: pass the functions from this component with props
+const Languages = (props) => {
  
   const [local_Languages, setLocal_Languages] = useState([]);
 
    const { loading, error, data } = useQuery(GET_LANGUAGES, {
-   context: {
-     headers: {
-     }
- }})
-
-
+    context: {
+      headers: {
+        "x-auth-token": Constants.AUTH_TOKEN
+      }
+  }})
  
  const [updateLanguage, { data_Mutation }] = useMutation(UPDATE_LANGUAGES, {
-  context: {
-    headers: {
-      "x-auth-token": Constants.AUTH_TOKEN
-    }
-}})
+ })
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error!</p>;

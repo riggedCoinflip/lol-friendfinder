@@ -1,5 +1,5 @@
-import { React } from 'react';
-import { useEffect, useState, useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
+import { useEffect, useState, React } from 'react';
+import {  useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
 import * as Constants from '../constants'
 import Languages from './Languages';
 import {
@@ -21,16 +21,19 @@ const GET_USER = gql`
         }`;
 
 const UPDATE_USER = gql`
-mutation userUpdateSelf($language:String){
+mutation userUpdateSelf($aboutMe: String){
 userUpdateSelf( 
   record: { 
-         languages: [ $language]
-         
+    aboutMe: $aboutMe
+    
        }
    ) {
     record {
+      aboutMe
       name
       languages
+      gender
+      avatar
     }
   } 
 }`;
@@ -38,32 +41,24 @@ userUpdateSelf(
 export default function Profile () {
   const client = useApolloClient();
 
-  const [state, setState] = useState({
-    aboutMe: "",
-    gender: "",
-    })
+  const [state, setState] = useState({  }  )
 
-   
-  //console.log('Data for State' + data);
-
+//getting data from db and saving on state
 useEffect(() => {
-  console.log(state)
-}, [state])
-
-/*
-useEffect(() => {
-  if (data) {
-    return;
+  if (data){
+    // alert("dataUpdate exist");
+    setState(data.userSelf)
   }
-  // Do something only when `someCondition` is falsey
-}, [state]);
-*/
- 
+
+}, []);
 
 const changeHandler = e => {
-  setState({ [e.target.name]: e.target.value})
+  e.persist(); //important
+  setState(state => ({ ...state,  [e.target.name]: e.target.value }));
 }
-  const { loading, error, data } = useQuery(GET_USER, {
+
+  const { loading, error, data, refetch } = useQuery(GET_USER, 
+     {
     context: {
       headers: {
         "x-auth-token": Constants.AUTH_TOKEN
@@ -71,17 +66,33 @@ const changeHandler = e => {
     }
   })
 
- const [update_User] = useMutation(UPDATE_USER, {
+
+ const [updateUser, {data: dataUpdate}] = useMutation(UPDATE_USER, {
     context: {
       headers: {
         "x-auth-token": Constants.AUTH_TOKEN
       }
   }})
-  
+   
+  //Get users data
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
+
+
+  /*Update users data 
+  if (dataUpdate){
+    // alert("dataUpdate exist");
+    setState(dataUpdate.userUpdateSelf.record)
+  }
+  */
+  console.log('Data Mu:');
+  console.log(dataUpdate);
+
+  console.log('Data Query:');
   console.log(data);
- 
+
+  console.log('State');
+  console.log(state);
 
 
 /*ToDo:
@@ -90,13 +101,51 @@ const changeHandler = e => {
 3-Send the actual State to the DB, if "save" is pressed
 */
 
-//setState({ ...state, aboutMe: data.userSelf.aboutMe})
-
-
   return (
     <div id="user-info">
 
       <Container>
+
+      <Row>
+            <Form.Text className="text-muted">
+              About me</Form.Text>
+
+            <input  rows={3}
+              value= {state.aboutMe}
+              id="aboutMe"
+              onChange = { changeHandler}
+              name="aboutMe"
+              type="text"
+              />
+          <div>{state.aboutMe}</div> 
+          </Row>
+
+          <br />
+
+          <div>
+            <Button variant="primary" size="sm"
+              onClick={e => {
+
+                  e.preventDefault();
+                  updateUser({ variables: { 
+                                 aboutMe: state.aboutMe
+                                 //,gender: state.gender    
+                                          }
+                                          //,refetchQueries: [{query: GET_USER}]  
+                                      });
+                alert('Data was updated');
+
+                }
+              }
+                 > Save changes </Button>{'  '}
+
+           
+
+            <br />
+          </div>
+
+
+
         <Card.Title>Personal Info</Card.Title>
 
         <Form>
@@ -112,8 +161,9 @@ const changeHandler = e => {
                   <InputGroup.Text id="username-input">@</InputGroup.Text>
                 </InputGroup.Prepend>
                 <FormControl
-                  value={data.userSelf.name}
-                  /* OP2 value=state.name*/
+                  name="name"
+                  value={state.name}
+                  onChange = { changeHandler}
                   aria-label="Username"
                   aria-describedby="basic-addon1"
                 />
@@ -121,21 +171,25 @@ const changeHandler = e => {
               </InputGroup>
   Gender
    <FormControl
-                placeholder="a"
+                value={state.gender}
+                onChange = { changeHandler}
+                name="gender"
                 aria-label="Gender"
                 aria-describedby="basic-addon1"
+                
+              
               />
 
   Avatar
        <FormControl
-                value={data.userSelf.avatar}
+                value={state.avatar}
                 aria-label="Avatar"
                 aria-describedby="basic-addon1"
               />
 
   Age
     <FormControl
-                value={data.userSelf.age}
+                value={state.age}
                 aria-label="Age"
                 aria-describedby="basic-addon1"
               />
@@ -143,8 +197,8 @@ const changeHandler = e => {
   IngameRole
   <ListGroup horizontal>
                 {
-                  data.userSelf.ingameRole &&
-                  data.userSelf.ingameRole.map((data, index) => {
+                  state.ingameRole &&
+                  state.ingameRole.map((data, index) => {
                     return (
                       <ListGroup.Item variant="dark" key={index + 1} >
                         {data}
@@ -157,16 +211,16 @@ const changeHandler = e => {
               <br />
 
              
-      <Languages />
-      
+    {/**/}  
+    <Languages />
   <ListGroup horizontal>
             {
 
-              data.userSelf.languages &&
-              data.userSelf.languages.map((data, index) => {
+              state.languages &&
+              state.languages.map((language, index) => {
                 return (
                   <ListGroup.Item variant="success" key={index + 1} >
-                    {data}
+                    {language}
                     <Badge pill variant="danger">
                       x
                     </Badge>
@@ -183,43 +237,7 @@ const changeHandler = e => {
 
           </Row>
 
-          <Row>
-            <Form.Text className="text-muted">
-              About me</Form.Text>
-
-            <Form.Control as="textarea" rows={3}
-              value= {data.userSelf.aboutMe}
-              id="aboutMe"
-              onChange = {changeHandler}
-
-              />
-
-          </Row>
-
-          <br />
-
-          <div>
-            <Button variant="primary" size="sm"
-              onClick={e => {
-
-                  e.preventDefault();
-                  update_User({ variables: { 
-                                            aboutMe: data.aboutMe
-                                           
-                                          } });
-
-                }} > Save changes </Button>{'  '}
-
-            <Button variant="danger" size="sm"
-              onClick={() => {
-                console.log('Data was saved');
-              }}   > Delete account </Button>{' '}
-
-            <br />
-          </div>
-
-
-
+         
         </Form>
       </Container>
 
