@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
-const {User, UserTCAdmin, UserTCSignup, UserTCPublic, UserTCPrivate, normalizeName} = require("../models/user/user");
-const {Like} = require("../models/like/like");
-const requireAuthentication = require("../middleware/jwt/requireAuthentication");
-const requireAuthorization = require("../middleware/jwt/requireAuthorization");
+const {User, UserTCAdmin, UserTCSignup, UserTCPublic, UserTCPrivate, normalizeName} = require("../../models/user/user");
+const {Like} = require("../../models/like/like");
+const requireAuthentication = require("../../middleware/jwt/requireAuthentication");
+const requireAuthorization = require("../../middleware/jwt/requireAuthorization");
 const {performance} = require("perf_hooks")
 
 //***************
