@@ -114,7 +114,5 @@ describe("Like Model Test Suite", () => {
 
         expect(user1AfterLike.friends[0].user).toStrictEqual(user2._id)
         expect(user2AfterLike.friends[0].user).toStrictEqual(user1._id)
-        console.log(user1AfterLike.friends.user)
-        console.log(user2AfterLike.friends.user)
     })
 })
