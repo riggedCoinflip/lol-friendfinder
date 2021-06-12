@@ -17,14 +17,13 @@ function mongoosifyLanguages() {
 }
 
 async function createLanguages() {
-    //add languages once on new DB
     if (await Language.countDocuments() === 0) {
-        console.debug("Language collection is empty.")
-        console.debug("Add ISO-639-1/2 compliant Languages")
+        //console.debug("Language collection is empty.")
+        //console.debug("Add ISO-639-1/2 compliant Languages")
         await Language.create(mongoosifyLanguages())
-        console.debug(`Languages added: ${await Language.countDocuments()}`)
+        //console.debug(`Languages added: ${await Language.countDocuments()}`)
     } else {
-        console.debug("Languages exist already; no data added")
+        //console.debug("Languages exist already; no data added")
     }
 }
 

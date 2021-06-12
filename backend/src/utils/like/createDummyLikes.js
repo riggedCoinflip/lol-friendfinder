@@ -4,8 +4,8 @@ const {Like} = require("../../models/like/like");
 async function createDummyLikes () {
 
     if (await Like.countDocuments() === 0) {
-        console.debug("Like collection is empty.")
-        console.debug("Add Dummy Likes")
+        //console.debug("Like collection is empty.")
+        //console.debug("Add Dummy Likes")
 
         const allUsers = await User.find().lean()
 
@@ -37,11 +37,11 @@ async function createDummyLikes () {
             }
         }
         await Like.insertMany([...neekoLikes, ...wukongDislikes])
-        console.debug("♥ Neeko likes everyone! ♥")
-        console.debug("Wukong dislikes everyone... ☹")
-        console.debug(`Likes added: ${await Like.countDocuments()}`)
+        //console.debug("♥ Neeko likes everyone! ♥")
+        //console.debug("Wukong dislikes everyone... ☹")
+        //console.debug(`Likes added: ${await Like.countDocuments()}`)
     } else {
-        console.debug("Likes exist already; no data added")
+        //console.debug("Likes exist already; no data added")
     }
 }
 

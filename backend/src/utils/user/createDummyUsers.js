@@ -13,15 +13,13 @@ function mongoosifyUsers() {
 }
 
 async function createDummyUsers() {
-    //add languages once on new DB
     if (await User.countDocuments() === 0) {
-        console.debug("User collection is empty.")
-        console.debug("Add Dummy Users")
+        //console.debug("User collection is empty.")
+        //console.debug("Add Dummy Users")
         await User.create(mongoosifyUsers())
-            .catch(err => console.error(err))
-        console.debug(`Users added: ${await User.countDocuments()}`)
+        //console.debug(`Users added: ${await User.countDocuments()}`)
     } else {
-        console.debug("Users exist already; no data added")
+        //console.debug("Users exist already; no data added")
     }
 }
 
