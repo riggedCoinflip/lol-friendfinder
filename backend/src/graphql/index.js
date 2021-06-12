@@ -1,7 +1,7 @@
 const {SchemaComposer} = require("graphql-compose")
-const {UserMutation, UserQuery} = require("./user")
+const {UserMutation, UserQuery} = require("./user/user")
 const {LanguageQuery} =  require("./language")
-const {LikeMutation}  = require("./like")
+const {LikeMutation}  = require("./like/like")
 
 const schemaComposer = new SchemaComposer();
 
