@@ -8,11 +8,12 @@ const requireAuthentication = require("./requireAuthentication");
  * @param {String} role Required role
  * @return resolvers
  */
+//TODO test with nondefault role once this role exists
 module.exports = (resolvers, role="admin") => {
     resolvers = requireAuthentication(resolvers)
     Object.keys(resolvers).forEach((k) => {
         resolvers[k] = resolvers[k].wrapResolve(next => async rp => {
-            if (rp.context.req.user.role !== role) {
+            if (rp.context.req.user?.role !== role) {
                 throw new Error('You do not have the required permissions to view this');
             }
             return next(rp)
