@@ -3,7 +3,7 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import * as Constants from '../constants'
 //import {selectedLanguages} from './Profile';
 
-import {   Dropdown, ListGroup
+import {   Dropdown, ListGroup, Badge
       } from 'react-bootstrap';
 
 const GET_LANGUAGES = gql`
@@ -19,10 +19,11 @@ const GET_LANGUAGES = gql`
 //ToDo: pass the functions from this component with props
 const Languages = (props) => {
  
-  const [local_Languages, setLocal_Languages] = useState([]);
+  const [local_Languages, setLocal_Languages] = useState([props.state.languages]);
   
   useEffect(() => {
     props.getValuesFromChild(local_Languages)
+
 }, [local_Languages])
 
    const { loading, error, data } = useQuery(GET_LANGUAGES, {
@@ -55,10 +56,12 @@ const Languages = (props) => {
                 <Dropdown.Item 
                 onClick={e => {
                   e.preventDefault();
-          //  props.setState.languages(data.name)
              
               console.log(data.name)
-              setLocal_Languages(data.name)
+             // setLocal_Languages(data.name)
+  // ToDo: Add the selected element to the state, wich shows the languages
+            // setLocal_Languages(e.target.push)
+
                  console.log('Language selected: ', local_Languages)
                 }}
                   key={index+1} >
@@ -70,24 +73,27 @@ const Languages = (props) => {
 }
          </Dropdown.Menu>
     </Dropdown>
- {/*
-    <ListGroup horizontal>
-            {
+ {/*  */}
+   <ListGroup horizontal>
+                {
 
-              data.userSelf.languages &&
-              data.userSelf.languages.map((data, index) => {
-                return (
-                  <ListGroup.Item variant="success" key={index + 1} >
-                    {data}
-                  </ListGroup.Item>
-                  
-                );
-              })
-            }
-          </ListGroup>   
+                  props.state.languages &&
+                  props.state.languages.map((language, index) => {
+                    return (
+                      <ListGroup.Item variant="success" key={index + 1} >
+                        {language}
+                        <Badge pill variant="danger">
+                          x
+                    </Badge>
+                      </ListGroup.Item>
+
+                    );
+                  })
+                }
+              </ListGroup> 
            
    
-          */}
+        
  
  
  </div>

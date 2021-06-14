@@ -88,12 +88,18 @@ export default function Profile() {
 
   const getValuesFromChild = (values) => {
     console.log("value from child", values)
-    // setState(state => ({ ...state,  "languages": values}));
+    console.log('State', state);
+
+     setState(state => ({ ...state,  "languages": values}));
 
   }
   return (
     <div id="user-info">
+   {/**/}
+   <Languages getValuesFromChild={getValuesFromChild}
+                state={state} setState={setState}
 
+              />
       <Container>
         <Card.Title>Personal Info</Card.Title>
 
@@ -125,8 +131,6 @@ export default function Profile() {
                 name="gender"
                 aria-label="Gender"
                 aria-describedby="basic-addon1"
-
-
               />
 
   Avatar
@@ -160,28 +164,8 @@ export default function Profile() {
               <br />
 
 
-              {/**/}
-              <Languages getValuesFromChild={getValuesFromChild}
-                state={state}
-
-              />
-              <ListGroup horizontal>
-                {
-
-                  state.languages &&
-                  state.languages.map((language, index) => {
-                    return (
-                      <ListGroup.Item variant="success" key={index + 1} >
-                        {language}
-                        <Badge pill variant="danger">
-                          x
-                    </Badge>
-                      </ListGroup.Item>
-
-                    );
-                  })
-                }
-              </ListGroup>
+           
+             
               <br />
 
 
@@ -219,24 +203,16 @@ export default function Profile() {
                 });
                 alert('Data was updated');
 
-                //get new data
+                //get new data after mutation
                 refetch();
 
               }
               }
             > Save changes </Button>{'  '}
-
-
-
             <br />
           </div>
         </Form>
       </Container>
-
-
-
-
-
     </div>
 
   );
