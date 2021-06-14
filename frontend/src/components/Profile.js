@@ -1,5 +1,5 @@
 import { useEffect, useState, React } from 'react';
-import {  useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
+import { useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
 import * as Constants from '../constants'
 import Languages from './Languages';
 import {
@@ -38,27 +38,31 @@ userUpdateSelf(
   } 
 }`;
 
-export default function Profile () {
+export default function Profile() {
   const client = useApolloClient();
 
-  const [state, setState] = useState({  }  )
+  const [state, setState] = useState({})
 
-//getting data from db and saving on state
-useEffect(() => {
-  if (data){
-    // alert("dataUpdate exist");
-    setState(data.userSelf)
-  }
 
-}, []);
+  //getting data from db and saving on state
+  useEffect(() => {
+    if (data) {
+      // alert("dataUpdate exist");
+      setState(data.userSelf)
+    }
+  }, []);
 
-const changeHandler = e => {
-  e.persist(); //important
-  setState(state => ({ ...state,  [e.target.name]: e.target.value }));
-}
 
-  const { loading, error, data, refetch } = useQuery(GET_USER, 
-     {
+  const { loading, error, data, refetch } = useQuery(GET_USER,
+    {
+      context: {
+        headers: {
+          "x-auth-token": Constants.AUTH_TOKEN
+        }
+      }
+    })
+
+  const [updateUser, { data: dataUpdate }] = useMutation(UPDATE_USER, {
     context: {
       headers: {
         "x-auth-token": Constants.AUTH_TOKEN
@@ -67,85 +71,30 @@ const changeHandler = e => {
   })
 
 
- const [updateUser, {data: dataUpdate}] = useMutation(UPDATE_USER, {
-    context: {
-      headers: {
-        "x-auth-token": Constants.AUTH_TOKEN
-      }
-  }})
-   
+
   //Get users data
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
 
 
-  /*Update users data 
-  if (dataUpdate){
-    // alert("dataUpdate exist");
-    setState(dataUpdate.userUpdateSelf.record)
+  console.log('Data Mutation:', dataUpdate);
+  console.log('Data Query:', data);
+  console.log('State', state);
+
+  const changeHandler = e => {
+    e.persist(); //important
+    setState(state => ({ ...state, [e.target.name]: e.target.value }));
   }
-  */
-  console.log('Data Mu:');
-  console.log(dataUpdate);
 
-  console.log('Data Query:');
-  console.log(data);
+  const getValuesFromChild = (values) => {
+    console.log("value from child", values)
+    // setState(state => ({ ...state,  "languages": values}));
 
-  console.log('State');
-  console.log(state);
-
-
-/*ToDo:
-1-get UserInfo from DB and set in State
-2-add onChangeHandler for each field
-3-Send the actual State to the DB, if "save" is pressed
-*/
-
+  }
   return (
     <div id="user-info">
 
       <Container>
-
-      <Row>
-            <Form.Text className="text-muted">
-              About me</Form.Text>
-
-            <input  rows={3}
-              value= {state.aboutMe}
-              id="aboutMe"
-              onChange = { changeHandler}
-              name="aboutMe"
-              type="text"
-              />
-          <div>{state.aboutMe}</div> 
-          </Row>
-
-          <br />
-
-          <div>
-            <Button variant="primary" size="sm"
-              onClick={e => {
-
-                  e.preventDefault();
-                  updateUser({ variables: { 
-                                 aboutMe: state.aboutMe
-                                 //,gender: state.gender    
-                                          }
-                                          //,refetchQueries: [{query: GET_USER}]  
-                                      });
-                alert('Data was updated');
-
-                }
-              }
-                 > Save changes </Button>{'  '}
-
-           
-
-            <br />
-          </div>
-
-
-
         <Card.Title>Personal Info</Card.Title>
 
         <Form>
@@ -163,7 +112,7 @@ const changeHandler = e => {
                 <FormControl
                   name="name"
                   value={state.name}
-                  onChange = { changeHandler}
+                  onChange={changeHandler}
                   aria-label="Username"
                   aria-describedby="basic-addon1"
                 />
@@ -172,12 +121,12 @@ const changeHandler = e => {
   Gender
    <FormControl
                 value={state.gender}
-                onChange = { changeHandler}
+                onChange={changeHandler}
                 name="gender"
                 aria-label="Gender"
                 aria-describedby="basic-addon1"
-                
-              
+
+
               />
 
   Avatar
@@ -210,26 +159,29 @@ const changeHandler = e => {
 
               <br />
 
-             
-    {/**/}  
-    <Languages />
-  <ListGroup horizontal>
-            {
 
-              state.languages &&
-              state.languages.map((language, index) => {
-                return (
-                  <ListGroup.Item variant="success" key={index + 1} >
-                    {language}
-                    <Badge pill variant="danger">
-                      x
+              {/**/}
+              <Languages getValuesFromChild={getValuesFromChild}
+                state={state}
+
+              />
+              <ListGroup horizontal>
+                {
+
+                  state.languages &&
+                  state.languages.map((language, index) => {
+                    return (
+                      <ListGroup.Item variant="success" key={index + 1} >
+                        {language}
+                        <Badge pill variant="danger">
+                          x
                     </Badge>
-                  </ListGroup.Item>
-                  
-                );
-              })
-            }
-          </ListGroup>
+                      </ListGroup.Item>
+
+                    );
+                  })
+                }
+              </ListGroup>
               <br />
 
 
@@ -237,7 +189,49 @@ const changeHandler = e => {
 
           </Row>
 
-         
+          <Row>
+            <Form.Text className="text-muted">
+              About me</Form.Text>
+
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={state.aboutMe}
+              id="aboutMe"
+              onChange={changeHandler}
+              name="aboutMe"
+              type="text"
+            />
+
+          </Row>
+
+          <br />
+
+          <div>
+            <Button variant="primary" size="sm"
+              onClick={e => {
+
+                e.preventDefault();
+                updateUser({
+                  variables: {
+                    aboutMe: state.aboutMe
+                    //,gender: state.gender    
+                  }
+                  //,refetchQueries: [{query: GET_USER}]  
+                });
+                alert('Data was updated');
+
+                //get new data
+                refetch();
+
+              }
+              }
+            > Save changes </Button>{'  '}
+
+
+
+            <br />
+          </div>
         </Form>
       </Container>
 
