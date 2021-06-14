@@ -215,9 +215,7 @@ export default function Profile() {
                 updateUser({
                   variables: {
                     aboutMe: state.aboutMe
-                    //,gender: state.gender    
                   }
-                  //,refetchQueries: [{query: GET_USER}]  
                 });
                 alert('Data was updated');
 
