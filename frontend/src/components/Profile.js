@@ -95,11 +95,7 @@ export default function Profile() {
   }
   return (
     <div id="user-info">
-   {/**/}
-   <Languages getValuesFromChild={getValuesFromChild}
-                state={state} setState={setState}
-
-              />
+   
       <Container>
         <Card.Title>Personal Info</Card.Title>
 
@@ -162,7 +158,11 @@ export default function Profile() {
               </ListGroup>
 
               <br />
+{/**/}
+<Languages getValuesFromChild={getValuesFromChild}
+                state={state} setState={setState}
 
+              />
 
            
              
@@ -172,6 +172,7 @@ export default function Profile() {
             </Col>
 
           </Row>
+
 
           <Row>
             <Form.Text className="text-muted">
