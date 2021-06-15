@@ -56,6 +56,7 @@ const USER_ONE_ADMIN = `
 const USER_ONE_BY_NAME = `
     query userOneByName($nameNormalized: String!) {
         userOneByName(nameNormalized: $nameNormalized) {
+            _id
             name
             aboutMe
             languages
@@ -66,7 +67,7 @@ const USER_ONE_BY_NAME = `
     }
 `
 
-const USER_MANY_LIKES_ME= `
+const USER_MANY_LIKES_ME = `
     query userManyLikesMe {
         userManyLikesMe {
             name
@@ -90,6 +91,13 @@ const USER_UPDATE_SELF = `
     }
 `
 
+const USER_UPDATE_SELF_BLOCK = `
+    mutation userUpdateSelfBlock($_id: MongoID){
+        userUpdateSelfBlock(_id: $_id) {
+            blocked
+        }
+    }
+`
 
 
 module.exports = {
@@ -100,4 +108,5 @@ module.exports = {
     USER_ONE_BY_NAME,
     USER_MANY_LIKES_ME,
     USER_UPDATE_SELF,
+    USER_UPDATE_SELF_BLOCK,
 }

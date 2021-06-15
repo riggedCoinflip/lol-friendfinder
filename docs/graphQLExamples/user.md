@@ -104,6 +104,16 @@ mutation {
 }
 ````
 
+### Block a user
+````graphql
+mutation {
+  userUpdateSelfBlock(_id: "MongoID") {
+    name
+    blocked
+  }
+}
+````
+
 ## require admin role
 
 #### Find a user with name "admin"
