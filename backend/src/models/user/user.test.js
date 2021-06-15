@@ -48,7 +48,7 @@ describe("User Model Test Suite", () => {
         const user = new User(testUsers.minDateOfBirthInYear)
         await user.save()
 
-        let userFromDB = (await User.findOne({name: user.name}))
+        let userFromDB = await User.findOne({name: user.name})
         userFromDB.dateOfBirth = new Date("2010-01-01")
         await userFromDB.save()
         expect(userFromDB.age).toBe(11)
