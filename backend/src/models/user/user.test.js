@@ -1,6 +1,6 @@
 const {User} = require("./user")
-const createLanguages = require("../../utils/languages/createLanguages")
-const validators = require("./user.test.validators")
+const createLanguages = require("../../utils/language/createLanguages")
+const validators = require("../../utils/test-utils/validators")
 const {dbConnect, dbDisconnectAndWipe} = require("../../utils/test-utils/db-handler")
 const testUsers = require("./user.test.data")
 
@@ -41,6 +41,25 @@ describe("User Model Test Suite", () => {
         await user2.save()
         expect(user2.age).toBe(20)
     })
+
+    //´TODO fix password
+    // https://github.com/Automattic/mongoose/issues/9396
+    it("updates age if dateOfBirth/age isModified", async () => {
+        const user = new User(testUsers.minDateOfBirthInYear)
+        await user.save()
+
+        let userFromDB = (await User.findOne({name: user.name}))
+        userFromDB.dateOfBirth = new Date("2010-01-01")
+        await userFromDB.save()
+        expect(userFromDB.age).toBe(11)
+
+        userFromDB = await User.findOne({name: user.name})
+        //a manual change of age gets fixed
+        userFromDB.age = -1
+        await userFromDB.save()
+        expect(userFromDB.age).toBe(11)
+    })
+
 
     it("throws MongoDB duplicate error with code 11000", async () => {
         const user = new User(testUsers.validNoDefaults)
@@ -141,18 +160,6 @@ describe("User Model Test Suite", () => {
             validators.validateMongoValidationError(err, "role", "enum")
         }
     })
-
-    /*
-    test("Validate color default", async () => {
-        const user = new User(testUsers.useDefaultColor)
-        await user.save()
-
-        validators.validateNotEmptyAndTruthy(user)
-
-        validators.validateStringEquality(user.favouriteColor, "blue")
-    })
-
-     */
 
     it("errors on missing fields", async () => {
         //OPTIMIZE code duplication
@@ -282,22 +289,20 @@ describe("User Model Test Suite", () => {
         }
     })
 
-    /*
+    //TODO fix see aboves TODO
     it("doesnt bcrypt the password if another field is updated", async () => {
-        //BUG this randomly errors sometimes - on a rerun it then works again...
         const user = new User(testUsers.validNoDefaults)
 
-        await user.save()
-        const oldHashedPassword = user.password
+        const oldHashedPassword = (await user.save()).password
 
         //change other field
-        user.aboutMe = "foobar"
-        await user.save()
-        const newHashedPassword = user.password
+        const userFromDB = await User.findOne({name: user.name})
+        userFromDB.aboutMe = "foobar"
+        await userFromDB.save()
 
-        expect(newHashedPassword).toBe(oldHashedPassword)
+        expect(userFromDB.password).toBe(oldHashedPassword)
     })
-     */
+
 
     it("populates language successfully", async () => {
         const user = new User(testUsers.validNoDefaults)

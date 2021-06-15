@@ -7,12 +7,8 @@ const idvalidator = require('mongoose-id-validator');
 //save time on testing
 const SALT_ROUNDS = process.env.NODE_ENV === "test" ? 5 : 10;
 
-/*
-dev-admin:
-name: Admin
-email: admin@email.com
-password: Password1
- */
+const normalizeName = name => name.toLowerCase()
+
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -56,7 +52,6 @@ const UserSchema = new mongoose.Schema({
                 if (!userValidation.containsLower(v)) throw new Error("Password must contain lowercase letter");
                 if (!userValidation.containsDigit(v)) throw new Error("Password must contain a digit");
                 if (!userValidation.containsOnlyAllowedCharacters(v)) throw new Error("Password may only contain certain special chars");
-
                 return true
             }
         }
@@ -89,8 +84,10 @@ const UserSchema = new mongoose.Schema({
     },
      */
     dateOfBirth: {
-        //is set with a Date - but returns an Integer of the Age as getter
         type: Date,
+    },
+    age: {
+        type: Number,
     },
     avatar: {
         type: String //URI to image
@@ -101,6 +98,28 @@ const UserSchema = new mongoose.Schema({
         //max 2 roles
         //Frontend: If Fill is Selected first, don't ask for 2nd role
     },
+    friends: [{
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            //unique: true //TODO doesnt work this way - pre validate hook?
+            // https://groups.google.com/g/mongoose-orm/c/QSpr_7rtEYY
+            // https://stackoverflow.com/questions/15921700/mongoose-unique-values-in-nested-array-of-objects
+            // https://stackoverflow.com/a/41791495/12340711
+            // https://www.npmjs.com/package/mongoose-unique-array
+        },
+        /* TODO implement later
+        chat: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Chat",
+        }
+         */
+    }],
+    blocked: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        //unique: true, //TODO see above
+    }]
     /*
     playstyle: {
         type: String,
@@ -118,13 +137,18 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.plugin(idvalidator);
 
-UserSchema.virtual("age").get(function () {
-    //https://stackoverflow.com/a/24181701/12340711
-    //good enough
-    if (!this.dateOfBirth) return -1 //default
-    const ageDifMs = Date.now() - this.dateOfBirth
-    const ageDate = new Date(ageDifMs); // miliseconds from epoch
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
+UserSchema.pre("save", function (next) {
+    if (this.isModified("dateOfBirth") || this.isModified("age")) {
+        this.age = (() => {
+            //https://stackoverflow.com/a/24181701/12340711
+            //good enough
+            if (!this.dateOfBirth) return -1 //default
+            const ageDifMs = Date.now() - this.dateOfBirth
+            const ageDate = new Date(ageDifMs); // miliseconds from epoch
+            return Math.abs(ageDate.getUTCFullYear() - 1970);
+        })()
+    }
+    next()
 })
 
 //Save a hashed and salted password to the DB using bcrypt
@@ -141,11 +165,12 @@ UserSchema.pre("save", function (next) {
     if (this.isModified("nameNormalized")) {
         throw new Error("nameNormalized is read only!")
     } else if (this.isModified("name")) {
-        this.nameNormalized = this.name.toLowerCase()
+        this.nameNormalized = normalizeName(this.name)
     }
-    next();
+    next()
 })
 
+//TODO rate limitation - else a DOSser can just try to login 100times/s
 UserSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
@@ -163,6 +188,7 @@ const UserTCPrivate = composeMongoose(User, {
     name: "UserPrivate",
     description: "Fields the user can see about himself",
     onlyFields: [
+        "_id",
         "name",
         "email",
         "aboutMe",
@@ -171,6 +197,8 @@ const UserTCPrivate = composeMongoose(User, {
         "gender",
         "avatar",
         "ingameRole",
+        "friends",
+        "blocked",
     ]
 })
 
@@ -179,13 +207,14 @@ const UserTCPublic = composeMongoose(User, {
     name: "UserPublic",
     description: "Contains all public fields of users. Use this for filtering as well",
     onlyFields: [
+        "_id",
         "name",
         "aboutMe",
         "languages",
         "gender",
         "avatar",
         "ingameRole",
-        //age - is added seperately due to being a virtual
+        "age",
     ]
 })
 
@@ -199,24 +228,12 @@ const UserTCSignup = composeMongoose(User, {
     ]
 })
 
-//virtuals have to be added to TC seperately
-//https://github.com/graphql-compose/graphql-compose-mongoose/issues/135
-const ageForTC ={
-    age: {
-        type: "Int",
-        description: 'Uses the virtual "age" that is calculated from DateOfBirth. Returns -1 if DateOfBirth is not set.',
-    }
-}
-
-UserTCAdmin.addFields(ageForTC)
-UserTCPublic.addFields(ageForTC)
-
-
 module.exports = {
     User,
     UserTCAdmin,
     UserTCPublic,
     UserTCPrivate,
-    UserTCSignup
+    UserTCSignup,
+    normalizeName
 }
 

@@ -1,82 +1,24 @@
-const {dbConnect, dbDisconnectAndWipe} = require("../utils/test-utils/db-handler");
-const {User} = require("../models/user/user.js");
-const testUsers = require("../models/user/user.test.data")
+const {dbConnect, dbDisconnectAndWipe} = require("../../utils/test-utils/db-handler")
+const createMongoData = require("../../utils/createMongoData")
+const {User} = require("../../models/user/user")
+const testUsers = require("../../models/user/user.test.data")
+const queries = require("./user.test.queries")
+const {query, mutate, loginAdmin, loginUser, failLogin, resetOptions} = require("../../utils/test-utils/graphqlTestClient")
 
-const util = require("./user.test.queries")
-const {createTestClient} = require("apollo-server-integration-testing");
-
-const createApollo = require("../utils/createApolloServer")
-const jwt = require("jsonwebtoken");
-const {query, mutate, setOptions} = createTestClient({apolloServer: createApollo()});
-
-/**
- * Unfortunately we cannot use the *isAuth* middleware to properly authorize ourself
- * This function mimics *isAuth* and uses *setOptions* to mimic a valid JWT auth token
- * @param {String} email
- * @param {String} password
- */
-async function login(email, password) {
-    const loginResult = await mutate(
-        util.LOGIN, {
-            variables: {
-                email,
-                password
-            }
-        }
-    )
-    const token = loginResult.data.login
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
-
-    setOptions({
-        request: {
-            user: {
-                isAuth: true,
-                _id: decodedToken._id,
-                name: decodedToken.username,
-                role: decodedToken.role,
-            }
-        }
-    });
-}
-
-async function loginUser() {
-    const {email, password} = testUsers.validNoDefaults
-    return login(email, password)
-}
-
-async function loginAdmin() {
-    const {email, password} = testUsers.admin
-    return login(email, password)
-}
-
-/**
- * reset req and res to an empty object to keep tests atomic
- * if we dont do this we might carry over a valid login to the next test if
- * we don't define other *setOptions* in that specific test case
- */
-function resetOptions() {
-    setOptions({
-        request: {},
-        response: {},
-    })
-}
 
 describe("User GraphQL Test Suite", () => {
-    beforeAll(async () => dbConnect());
+    beforeAll(async () => {
+        await dbConnect()
+        await createMongoData()
+    });
     beforeEach(async () => {
         resetOptions()
-        //create test users to have a user and admin login possible at all times
-        await new User(testUsers.validNoDefaults).save();
-        await new User(testUsers.admin).save();
     })
-    afterEach(async () => {
-        await User.deleteMany()
-    });
     afterAll(async () => dbDisconnectAndWipe());
 
     it("creates a user on signup", async () => {
         const signupResult = await mutate(
-            util.SIGNUP, {
+            queries.SIGNUP, {
                 variables: testUsers.valid
             });
 
@@ -94,14 +36,14 @@ describe("User GraphQL Test Suite", () => {
 
     it("errors on signup if the mutation is faulty", async () => {
         const nameTooShort = await mutate(
-            util.SIGNUP, {
+            queries.SIGNUP, {
                 variables: testUsers.nameTooShort
             });
         expect(nameTooShort.data.signup).toBeNull()
         expect(nameTooShort.errors[0].message).toBe("User validation failed: name: Path `name` (`ab`) is shorter than the minimum allowed length (3).")
 
         const nameTooLong = await mutate(
-            util.SIGNUP, {
+            queries.SIGNUP, {
                 variables: testUsers.nameTooLong
             });
         expect(nameTooLong.data.signup).toBeNull()
@@ -110,7 +52,7 @@ describe("User GraphQL Test Suite", () => {
         const nameNotAlphanumeric = testUsers.nameNotAlphanumeric
         for (const e of Object.keys(nameNotAlphanumeric)) {
             const invalidName = await mutate(
-                util.SIGNUP, {
+                queries.SIGNUP, {
                     variables: nameNotAlphanumeric[e]
                 });
             expect(invalidName.data.signup).toBeNull()
@@ -118,49 +60,49 @@ describe("User GraphQL Test Suite", () => {
         }
 
         const emailInvalid = await mutate(
-            util.SIGNUP, {
+            queries.SIGNUP, {
                 variables: testUsers.emailInvalid
             });
         expect(emailInvalid.data.signup).toBeNull()
         expect(emailInvalid.errors[0].message).toBe("User validation failed: email: Not a valid Email")
 
         const pwTooShort = await mutate(
-            util.SIGNUP, {
+            queries.SIGNUP, {
                 variables: testUsers.invalidPassword.tooShort
             });
         expect(pwTooShort.data.signup).toBeNull()
         expect(pwTooShort.errors[0].message).toBe("User validation failed: password: Path `password` (`Pw12345`) is shorter than the minimum allowed length (8).")
 
         const pwTooLong = await mutate(
-            util.SIGNUP, {
+            queries.SIGNUP, {
                 variables: testUsers.invalidPassword.tooLong
             });
         expect(pwTooLong.data.signup).toBeNull()
         expect(pwTooLong.errors[0].message).toBe("User validation failed: password: Path `password` (`Password91123456789212345678931234567894123456789512345678961234567897123`) is longer than the maximum allowed length (72).")
 
         const pwNoUppercase = await mutate(
-            util.SIGNUP, {
+            queries.SIGNUP, {
                 variables: testUsers.invalidPassword.noUppercase
             });
         expect(pwNoUppercase.data.signup).toBeNull()
         expect(pwNoUppercase.errors[0].message).toBe("User validation failed: password: Password must contain uppercase letter")
 
         const pwNoLowercase = await mutate(
-            util.SIGNUP, {
+            queries.SIGNUP, {
                 variables: testUsers.invalidPassword.noLowercase
             });
         expect(pwNoLowercase.data.signup).toBeNull()
         expect(pwNoLowercase.errors[0].message).toBe("User validation failed: password: Password must contain lowercase letter")
 
         const pwNoDigit = await mutate(
-            util.SIGNUP, {
+            queries.SIGNUP, {
                 variables: testUsers.invalidPassword.noDigit
             });
         expect(pwNoDigit.data.signup).toBeNull()
         expect(pwNoDigit.errors[0].message).toBe("User validation failed: password: Password must contain a digit")
 
         const pwInvalidChar = await mutate(
-            util.SIGNUP, {
+            queries.SIGNUP, {
                 variables: testUsers.invalidPassword.invalidChar
             });
         expect(pwInvalidChar.data.signup).toBeNull()
@@ -168,12 +110,12 @@ describe("User GraphQL Test Suite", () => {
     })
 
     it("returns a JWT on successful login", async () => {
-        const {email, password} = testUsers.validNoDefaults
+        const admin = await User.findOne({nameNormalized: "admin"})
         const loginResult = await mutate(
-            util.LOGIN, {
+            queries.LOGIN, {
                 variables: {
-                    email,
-                    password
+                    email:admin.email,
+                    password: "AdminPW1",
                 }
             }
         )
@@ -183,23 +125,22 @@ describe("User GraphQL Test Suite", () => {
     })
 
     it("errors on wrong login credentials", async () => {
-        const {email, password} = testUsers.validNoDefaults
+        const admin = await User.findOne({nameNormalized: "admin"})
         const loginFalseEmailResult = await mutate(
-            util.LOGIN, {
+            queries.LOGIN, {
                 variables: {
-                    email: email + "a",
-                    password
+                    email: admin.email + "a",
+                    password: "AdminPW1"
                 }
             }
         )
         expect(loginFalseEmailResult.errors[0].message).toBe("User or Password is not correct.")
 
-        const {email: email2, password: password2} = testUsers.validNoDefaults
         const loginFalsePasswordResult = await mutate(
-            util.LOGIN, {
+            queries.LOGIN, {
                 variables: {
-                    email: email2,
-                    password: password2 + "a"
+                    email: admin.email,
+                    password: "AdminPW1" + "a"
                 }
             }
         )
@@ -211,32 +152,27 @@ describe("User GraphQL Test Suite", () => {
         //We use it as an example for other authorization queries.
         await loginUser()
 
-        const resultUserSelf = await query(util.USER_SELF)
+        const resultUserSelf = await query(queries.USER_SELF)
         expect(resultUserSelf.errors).toBeUndefined()
         expect(resultUserSelf.data.userSelf).toBeTruthy()
     })
 
     it("errors if authentication is missing/false on requireAuthentication queries", async () => {
         //missing req.user completely
-        const resultUserSelf = await query(util.USER_SELF)
-        expect(resultUserSelf.errors[0].message).toBe("Cannot read property 'isAuth' of undefined")
+        const resultUserSelf = await query(queries.USER_SELF)
+        expect(resultUserSelf.errors[0].message).toBe("You must login to view this.")
 
         //JWT not correct
-        setOptions({
-            request: {
-                user: {
-                    isAuth: false,
-                }
-            }
-        });
-        const resultUserSelf2 = await query(util.USER_SELF)
+        failLogin()
+
+        const resultUserSelf2 = await query(queries.USER_SELF)
         expect(resultUserSelf2.errors[0].message).toBe("You must login to view this.")
     })
 
     it("executes requireAuthorization queries", async () => {
         await loginAdmin()
 
-        const resultUserOneAdmin = await query(util.USER_ONE_ADMIN)
+        const resultUserOneAdmin = await query(queries.USER_ONE_ADMIN)
         //console.log(resultUserOneAdmin)
         expect(resultUserOneAdmin.errors).toBeUndefined()
         expect(resultUserOneAdmin.data.userOneAdmin).toBeDefined()
@@ -246,7 +182,46 @@ describe("User GraphQL Test Suite", () => {
         //do log in with role:user for admin query so user is not authorized for query
         await loginUser()
 
-        const resultUserOneAdmin = await query(util.USER_ONE_ADMIN)
+        const resultUserOneAdmin = await query(queries.USER_ONE_ADMIN)
         expect(resultUserOneAdmin.errors[0].message).toBe("You do not have the required permissions to view this")
+    })
+
+    test("UserOneByName", async () => {
+        const userOneByNameResult = await mutate(
+            queries.USER_ONE_BY_NAME, {
+                variables: {
+                    nameNormalized: "admin"
+                }
+            }
+        )
+
+        expect(userOneByNameResult.errors).toBeUndefined()
+        expect(userOneByNameResult.data.userOneByName.name).toStrictEqual("Admin")
+    })
+
+    test("UserManyLikesMe", async () => {
+        await loginUser()
+
+        const userManyLikesMeResult = await mutate(queries.USER_MANY_LIKES_ME)
+
+        expect(userManyLikesMeResult.errors).toBeUndefined()
+        expect(userManyLikesMeResult.data.userManyLikesMe[0].name).toStrictEqual("Neeko")
+    })
+
+    test("UserUpdateSelf", async () => {
+        await loginUser()
+
+        const userUpdateSelfResult = await mutate(
+            queries.USER_UPDATE_SELF, {
+                variables: {
+                    record: {
+                        aboutMe: "foofoo"
+                    }
+                }
+            }
+        )
+
+        expect(userUpdateSelfResult.errors).toBeUndefined()
+        expect(userUpdateSelfResult.data.userUpdateSelf.record.aboutMe).toStrictEqual("foofoo")
     })
 });

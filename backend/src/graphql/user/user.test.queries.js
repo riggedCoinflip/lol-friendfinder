@@ -53,9 +53,51 @@ const USER_ONE_ADMIN = `
     }
 `
 
+const USER_ONE_BY_NAME = `
+    query userOneByName($nameNormalized: String!) {
+        userOneByName(nameNormalized: $nameNormalized) {
+            name
+            aboutMe
+            languages
+            gender
+            avatar
+            ingameRole
+        }
+    }
+`
+
+const USER_MANY_LIKES_ME= `
+    query userManyLikesMe {
+        userManyLikesMe {
+            name
+            aboutMe
+            languages
+            gender
+            avatar
+            ingameRole
+        }
+    }
+`
+
+const USER_UPDATE_SELF = `
+    mutation userUpdateSelf($record: UpdateByIdUserPrivateInput!) {
+        userUpdateSelf(record: $record) {
+            record {
+                name
+                aboutMe
+            }
+        }
+    }
+`
+
+
+
 module.exports = {
     SIGNUP,
     LOGIN,
     USER_SELF,
     USER_ONE_ADMIN,
+    USER_ONE_BY_NAME,
+    USER_MANY_LIKES_ME,
+    USER_UPDATE_SELF,
 }

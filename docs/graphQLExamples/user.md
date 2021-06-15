@@ -1,13 +1,60 @@
 # User
 
-#### Create a user
+### Get public information about any User by ID/Name
+
+````graphql
+{
+    userOneByName(nameNormalized: "admin")
+    {
+        _id
+        name
+        languages
+    }
+}
+````
+
+````graphql
+{
+    userOneById(_id: "60c3854f707d802c1c7e92d9")
+    {
+        _id
+        name
+        languages
+    }
+}
+````
+
+### Show all users that fall into a certain filter
+
+````graphql
+{
+    userMany(filter: {_operators: {languages: {in: "de"}}}) {
+        name
+        age
+        languages
+    }
+}
+````
+
+````graphql
+{
+    userMany(filter: {_operators: {age: {gte: 20 lte: 25}}}) {
+        name
+        age
+        languages
+    }
+}
+
+````
+
+### Create a user
 
 ```graphql
 mutation {
     signup(
         record: {
-            name: "someValidName",
-            email: "someValid@mail",
+            name: "someValidName"
+            email: "someValid@mail"
             password: "Password1"
         }) {
         record {
@@ -19,7 +66,7 @@ mutation {
 }
 ```
 
-#### Get a JWT by logging in
+### Get a JWT by logging in
 
 ```graphql
 mutation {
@@ -34,6 +81,7 @@ mutation {
 ```graphql
 {
     userSelf {
+        _id
         name
         email
         aboutMe
@@ -46,6 +94,16 @@ mutation {
 }
 ```
 
+### Show every user that likes you
+
+````graphql
+{
+    userManyLikesMe {
+        name
+    }
+}
+````
+
 ## require admin role
 
 #### Find a user with name "admin"
@@ -53,6 +111,7 @@ mutation {
 ```graphql
 {
     userOneAdmin(filter: { name: "Admin" }) {
+        _id
         name
         nameNormalized
         email
@@ -67,11 +126,16 @@ mutation {
         ingameRole
         updatedAt
         createdAt
+        friends {
+            user
+        }
+        blocked
     }
 }
 ```
 
 #### Show all admins
+
 _note: enums should be written without the `""` around the String. Replace whitespace inside the String with `_`_
 
 ```graphql
@@ -118,25 +182,26 @@ mutation {
 }
 ```
 
-#### Update a single user.   
+#### Update a single user.
+
 FIXME this sometimes does not work cause it tries to update the password - same error like in the inconsistent test
 
 ```graphql
 mutation {
-  userUpdateOneAdmin(
-    record: { 
-        ingameRole: [Mid, Fill]
-        avatar: "foobar" 
+    userUpdateOneAdmin(
+        record: {
+            ingameRole: [Mid, Fill]
+            avatar: "foobar"
+        }
+        filter: {
+            name: "Admin"
+        }
+    ) {
+        record {
+            name
+            avatar
+            ingameRole
+        }
     }
-    filter: { 
-        name: "Admin" 
-    }
-  ) {
-    record {
-      name
-      avatar
-      ingameRole
-    }
-  }
 }
 ```
