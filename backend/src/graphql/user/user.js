@@ -124,6 +124,23 @@ UserTCPublic.addResolver({
     }
 })
 
+UserTCPrivate.addResolver({
+    kind: "mutation",
+    name: "userUpdateSelfBlock",
+    description: "Add a user to the block list",
+    args: {
+        _id: "MongoID"
+    },
+    type: UserTCPrivate,
+    resolve: async ({args, context}) => {
+        const userSelf = await User.findOne({_id: context.req.user._id})
+        userSelf.blocked.push(args._id)
+        await userSelf.save()
+
+        return userSelf
+    }
+})
+
 
 const userUpdateSelf = UserTCPrivate.mongooseResolvers.updateById()
     .setDescription("Update information of currently logged in user")
@@ -163,6 +180,7 @@ const UserMutation = {
     login: UserTCPublic.getResolver("login"),
     ...requireAuthentication({
         userUpdateSelf,
+        userUpdateSelfBlock: UserTCPrivate.getResolver("userUpdateSelfBlock"),
     }),
     ...requireAuthorization({
             userCreateOneAdmin: UserTCAdmin.mongooseResolvers.createOne(),

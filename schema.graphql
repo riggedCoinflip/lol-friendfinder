@@ -109,6 +109,8 @@ type Mutation {
     ): UpdateOneUserAdminPayload
     "Update information of currently logged in user"
     userUpdateSelf(record: UpdateByIdUserPrivateInput!): UpdateByIdUserPrivatePayload
+    "Add a user to the block list"
+    userUpdateSelfBlock(_id: MongoID): UserPrivate
 }
 
 "Information about pagination in a connection."

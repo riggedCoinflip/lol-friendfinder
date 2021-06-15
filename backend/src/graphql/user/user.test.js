@@ -187,7 +187,7 @@ describe("User GraphQL Test Suite", () => {
     })
 
     test("UserOneByName", async () => {
-        const userOneByNameResult = await mutate(
+        const userOneByNameResult = await query(
             queries.USER_ONE_BY_NAME, {
                 variables: {
                     nameNormalized: "admin"
@@ -223,5 +223,42 @@ describe("User GraphQL Test Suite", () => {
 
         expect(userUpdateSelfResult.errors).toBeUndefined()
         expect(userUpdateSelfResult.data.userUpdateSelf.record.aboutMe).toStrictEqual("foofoo")
+    })
+
+    test("userUpdateSelfBlock", async () => {
+        await loginUser()
+
+        //get ids of other users
+        const adminId = (await mutate(
+            queries.USER_ONE_BY_NAME, {
+                variables: {
+                    nameNormalized: "admin"
+                }
+            }
+        )).data.userOneByName._id
+
+        const userUpdateSelfBlockResult = await mutate(
+            queries.USER_UPDATE_SELF_BLOCK, {
+                variables: {
+                    _id: adminId
+                }
+            }
+        )
+
+        expect(userUpdateSelfBlockResult.errors).toBeUndefined()
+        expect(userUpdateSelfBlockResult.data.userUpdateSelfBlock.blocked).toStrictEqual([adminId])
+
+
+        console.log(userUpdateSelfBlockResult)
+
+        const userUpdateSelfBlockWithFalseIdResult = await mutate(
+            queries.USER_UPDATE_SELF_BLOCK, {
+                variables: {
+                    _id: "000000000000000000000000" //is a MongoID, but doesnt exist on DB
+                }
+            }
+        )
+
+        expect(userUpdateSelfBlockWithFalseIdResult.errors[0].message).toBe("User validation failed: blocked: blocked references a non existing ID")
     })
 });
