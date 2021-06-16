@@ -2,7 +2,6 @@
   {
     "name": "Admin",
     "email": "admin@email.com",
-    "password": "AdminPW1",
     "role": "admin",
     "aboutMe": "Hey me Admin me really authorized haha",
     "languages": [
@@ -15,7 +14,6 @@
   {
     "name": "riggedCoinflip",
     "email": "riggedCoinflip@email.com",
-    "password": "superSecret123",
     "role": "admin",
     "aboutMe": "I made this website! I maintain the Backend and DB.",
     "languages": [
@@ -32,7 +30,6 @@
   {
     "name": "gilo2754",
     "email": "Carlo@in_da_house",
-    "password": "Secret!1",
     "role": "admin",
     "aboutMe": "I made this website! I maintain the Frontend",
     "languages": [
@@ -47,7 +44,6 @@
   {
     "name": "SKTT1Faker",
     "email": "faker@skt-t1.gg",
-    "password": "BetterNerfBr0cc0li",
     "aboutMe": "Oh, Faker maybe in trouble in trouble here. Death Mark ☠️, tries to clean it up for Ryu, OH LOOK AT THE CLEANSE, LOOK AT THE MOVES! FAKER! WHAT WAS THAT⁉ 🔥🔥🔥",
     "languages": [
       "ko",
@@ -62,7 +58,6 @@
   {
     "name": "Neeko",
     "email": "nikoniko@nii",
-    "password": "LesGo123",
     "aboutMe": "Don't make me break your Neeko-Neeko-kneecaps",
     "languages": [],
     "gender": "non-binary",
@@ -75,7 +70,6 @@
   {
     "name": "Alfredo",
     "email": "fookin@awesome.com",
-    "password": "fu8gc825rWSRF",
     "aboutMe": "",
     "languages": [
       "es",
@@ -91,7 +85,6 @@
   {
     "name": "Jeff",
     "email": "jeff@yaboo.com",
-    "password": "jeffJeff0",
     "aboutMe": "My Name Jeff",
     "languages": [
       "en"
@@ -105,7 +98,6 @@
   {
     "name": "MaxMustermann",
     "email": "MaxMustermann@muster.de",
-    "password": "MusterMust3r",
     "aboutMe": "Ich war Musterschüler, wurde dann jedoch ausgemustert.",
     "languages": [
       "de"
@@ -120,7 +112,6 @@
   {
     "name": "JohnDoe",
     "email": "so@generous.uk",
-    "password": "1GenericPassword",
     "aboutMe": "I am the founding father of dough",
     "languages": [
       "en"
@@ -131,7 +122,6 @@
   {
     "name": "Wukong",
     "email": "MonkeyKing@wuju",
-    "password": "wululuA1",
     "aboutMe": "Best known from a 16th centure Chinese Novel, I make appearances in many different games. One of them is LoL - but LoL didn't invent me.",
     "languages": [
       "zh"
@@ -146,7 +136,6 @@
   {
     "name": "ElPolyglottian",
     "email": "IunderstandYou@language.web",
-    "password": "ashzum88z3Eefw",
     "aboutMe": "I speak many Languages.",
     "languages": [
       "zh",
@@ -162,7 +151,6 @@
   {
     "name": "QuantumComputing",
     "email": "fizzicsBitch@qbit",
-    "password": "vq5t7zGZ378whwuhr",
     "aboutMe": "I am literally a machine",
     "languages": [
       "en"
@@ -177,7 +165,6 @@
   {
     "name": "G2Claps",
     "email": "crown@g2.gg",
-    "password": "Perhaps1GOAT",
     "aboutMe": "Call an ambulance! Call an ambulance! But not for me!",
     "languages": [
       "da",
@@ -192,7 +179,6 @@
   {
     "name": "G2Craps",
     "email": "clown@g2.gg",
-    "password": "0_10_1aintThatBad",
     "aboutMe": "Limit Testing",
     "languages": [
       "da",
@@ -207,7 +193,6 @@
   {
     "name": "C9Sneaky",
     "email": "SexyGF@cloud9.com",
-    "password": "fhUHFRUh4iw2",
     "aboutMe": "You have no Balls. And you can't beat my Cosplays.",
     "languages": [
       "en"
@@ -221,7 +206,6 @@
   {
     "name": "KatarinaKreisel",
     "email": "spinToWin@smashHeadOnKeyboard.xd",
-    "password": "qRWEqw2qEwqr",
     "aboutMe": "G̸̡̃̔̕â̷̙͈͍͓̍͒̆͌r̸͙̈́́̕͜ẹ̴͇͉̺̭̀n̴̢͇͕̻̿̊͛͒͝ ̸̺̦̪̮̪̊̒̍i̷̞͓̱̪̻͒͑͗̉s̷̪͚̠͕̩̑̐̔ ̸̖͈̪̼͎̉n̵̡̬͔͕͂͋o̵̧̟̜̯̤̭̒̓́̔̚t̵̫̥̗̙̜̒͛h̴̟̏͗ǐ̸̞ń̵̜̟g̸͎̱̾̊̊̾ ̷̤͕̙̞͓̤̇͝a̸̡̜͔̗̣̽͂͆g̵̩͎̺̒̏̆͒̒͘ȧ̵̧̟̩͎̅i̴̯̥̝͌n̴̞̭̭͍̮̅́̀̾s̴̺͂̀͌̂̒t̵̹͕́̍͜ ̸̭̋͌͊̉̕͝ṃ̵̧̛̘̔͐͘ë̸̠́",
     "languages": [
       "en",
@@ -236,7 +220,6 @@
   {
     "name": "OhDarrrrn",
     "email": "rift@void",
-    "password": "SlapSl4p",
     "aboutMe": "Mess with the Tentacle you get the UwU. OHHHHH DARRRN",
     "languages": [
       "ja",
@@ -252,7 +235,6 @@
   {
     "name": "StonksMan",
     "email": "Mundo@Mundo.corp",
-    "password": "NumbersGo123456789",
     "aboutMe": "(Slaps Top of About-Me page) This Description can fit so many Characters in it.",
     "languages": [
       "pt",
@@ -267,7 +249,6 @@
   {
     "name": "ISitOnYou",
     "email": "okZoomers@protonmail.com",
-    "password": "FVWQGFIUNFoeubh9qrwq2",
     "aboutMe": "I do the healing while you do the pew pew. Now carry me Slave.",
     "languages": [
       "fr",
@@ -284,7 +265,6 @@
   {
     "name": "KDAEvelynn",
     "email": "succ@ubus.xxx",
-    "password": "GZGqGE!324342",
     "aboutMe": "Bang bang\nYou can do anything\nNo fear no pain\nListen to your brain go\nGo stupid go dumb go stupid and\nThen we go insane woah\nJust do what I say\nFollow me I'll lead the way",
     "languages": [
       "ko",
