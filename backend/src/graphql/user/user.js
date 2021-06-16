@@ -1,13 +1,56 @@
 const jwt = require("jsonwebtoken");
-const {User, UserTCAdmin, UserTCSignup, UserTCPublic, UserTCPrivate, normalizeName} = require("../../models/user/user");
+const {User, UserTCAdmin, UserTCPublic, UserTCPrivate, normalizeName} = require("../../models/user/user");
 const {Like} = require("../../models/like/like");
 const requireAuthentication = require("../../middleware/jwt/requireAuthentication");
 const requireAuthorization = require("../../middleware/jwt/requireAuthorization");
+const {Password} = require("../../models/password/password");
+const {schemaComposer} = require("graphql-compose");
 const {performance} = require("perf_hooks")
 
 //***************
 //*** QUERIES ***
 //***************
+
+//login
+const login = schemaComposer.createResolver({
+    kind: "query",
+    name: "login",
+    description: "Use Login Credentials (Email + PW) to get a JWT auth token",
+    args: {
+        email: "String!",
+        password: "String!",
+    },
+    type: "String!",
+    resolve: async ({args}) => {
+        const user = await User.findOne({email: args.email});
+
+        const start = performance.now()
+        const errorToThrow = (
+            !user ||
+            !await (await Password.findOne({userId: user._id})).comparePassword(args.password)
+        )
+        const timeElapsed = performance.now() - start
+
+        // wait constant time to protect against timing attacks that would allow attacker
+        // to find out which emails have acc on our website
+        // OPTIMIZE still able to go for timing attack if `comparePassword` takes >1000ms (around 70ms on @riggedCoinflip's local dev machine)
+        // perhaps this helps: https://nodejs.org/api/perf_hooks.html#perf_hooks_performance_measurement_apis
+        await new Promise((resolve) => {
+            setTimeout(resolve, 1000 - timeElapsed);
+        });
+        if (errorToThrow) throw new Error("User or Password is not correct.")
+
+        //generate token
+        return jwt.sign({
+                _id: user._id,
+                username: user.name,
+                role: user.role
+            },
+            process.env.JWT_SECRET, {
+                expiresIn: "24h"
+            });
+    }
+})
 
 UserTCPublic.addResolver({
     kind: "query",
@@ -84,45 +127,31 @@ const userMany = UserTCPublic.mongooseResolvers.findMany({
 //*** MUTATIONS ***
 //*****************
 
-//login
-UserTCPublic.addResolver({
+UserTCPrivate.addResolver({
     kind: "mutation",
-    name: "login",
-    description: "Use Login Credentials (Email + PW) to get a JWT auth token",
+    name: "signup",
+    description: "Create an account",
     args: {
+        name: "String!",
         email: "String!",
         password: "String!",
     },
-    type: "String!",
+    type: UserTCPrivate,
     resolve: async ({args}) => {
-        const user = await User.findOne({email: args.email});
+        const user = await new User({name: args.name, email: args.email}).save()
+        await new Password({password: args.password, userId: user._id}).save()
 
-        const start = performance.now()
-        const errorToThrow = (!user || !await user.comparePassword(args.password))
-        const timeElapsed = performance.now() - start
-
-        //console.log(`time elapsed: ${timeElapsed}`)
-        //wait constant time to protect against timing attacks
-        // OPTIMIZE still able to go for timing attack if `comparePassword` takes >1000ms (around 70ms on @riggedCoinflips local dev machine)
-        // perhaps this helps: https://nodejs.org/api/perf_hooks.html#perf_hooks_performance_measurement_apis
-        await new Promise((resolve) => {
-            setTimeout(resolve, 1000 - timeElapsed);
-        });
-        //console.log(`Constant wait time: ${performance.now() - start}`)
-
-        if (errorToThrow) throw new Error("User or Password is not correct.")
-
-        //generate token
-        return jwt.sign({
-                _id: user._id,
-                username: user.name,
-                role: user.role
-            },
-            process.env.JWT_SECRET, {
-                expiresIn: "24h"
-            });
+        return user
     }
 })
+
+const userUpdateSelf = UserTCPrivate.mongooseResolvers.updateById()
+    .setDescription("Update information of currently logged in user")
+    .removeArg("_id")
+    .wrapResolve((next) => (rp) => {
+        rp.args._id = rp.context.req.user._id;
+        return next(rp);
+    })
 
 UserTCPrivate.addResolver({
     kind: "mutation",
@@ -142,19 +171,14 @@ UserTCPrivate.addResolver({
 })
 
 
-const userUpdateSelf = UserTCPrivate.mongooseResolvers.updateById()
-    .setDescription("Update information of currently logged in user")
-    .removeArg("_id")
-    .wrapResolve((next) => (rp) => {
-        rp.args._id = rp.context.req.user._id;
-        return next(rp);
-    })
+
 
 //***************
 //*** EXPORTS ***
 //***************
 
 const UserQuery = {
+    login,
     userOneById: UserTCPublic.mongooseResolvers.findById(),
     userOneByName: UserTCPublic.getResolver("userOneByName"),
     userMany,
@@ -176,8 +200,7 @@ const UserQuery = {
 };
 
 const UserMutation = {
-    signup: UserTCSignup.mongooseResolvers.createOne(),
-    login: UserTCPublic.getResolver("login"),
+    signup: UserTCPrivate.getResolver("signup"),
     ...requireAuthentication({
         userUpdateSelf,
         userUpdateSelfBlock: UserTCPrivate.getResolver("userUpdateSelfBlock"),
