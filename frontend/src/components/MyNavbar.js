@@ -3,13 +3,18 @@ import { Link } from 'react-router-dom';
 import { AUTH_TOKEN } from '../constants';
 import { useState, useEffect } from 'react';
 import { Navbar } from 'react-bootstrap';
+import Login from './Login';
 
 function MyNavbar() {
 
     const [TOKEN, setTOKEN] = useState(localStorage.getItem("SECREToken"));
 
 
-
+    useEffect(() => {
+       
+          setTOKEN(localStorage.getItem("SECREToken"))
+       
+      }, [AUTH_TOKEN]);
  
 
     return (
