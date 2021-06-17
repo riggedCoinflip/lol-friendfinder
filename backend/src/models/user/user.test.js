@@ -20,8 +20,6 @@ describe("User Model Test Suite", () => {
 
         validators.validateStringEquality(user.name, testUsers.validNoDefaults.name)
         validators.validateStringEquality(user.email, testUsers.validNoDefaults.email)
-        //use bcrypt compare to validate password
-        expect(await user.comparePassword(testUsers.validNoDefaults.password)).toBe(true)
         validators.validateStringEquality(user.role, testUsers.validNoDefaults.role)
         validators.validateStringEquality(user.aboutMe, testUsers.validNoDefaults.aboutMe)
         validators.validateStringEquality(user.gender, testUsers.validNoDefaults.gender)
@@ -42,8 +40,6 @@ describe("User Model Test Suite", () => {
         expect(user2.age).toBe(20)
     })
 
-    //´TODO fix password
-    // https://github.com/Automattic/mongoose/issues/9396
     it("updates age if dateOfBirth/age isModified", async () => {
         const user = new User(testUsers.minDateOfBirthInYear)
         await user.save()
@@ -74,35 +70,6 @@ describe("User Model Test Suite", () => {
             const {name, code} = err
             validators.validateMongoDuplicationError(name, code)
         }
-    })
-
-    it("creates new hash on password change", async () => {
-        const user = new User(testUsers.validNoDefaults)
-
-        //save the cleartextPassword as it gets overridden by a hash on save
-        const cleartextPassword = user.password
-        await user.save()
-
-        const oldHashedPassword = user.password
-        //login with password possible
-        expect(await user.comparePassword(cleartextPassword)).toBe(true)
-        expect(user.password).toBe(oldHashedPassword)
-
-        /**
-         * we need to change the password as our middleware only creates a new hash if the password is changed. ¹
-         * we then change the password back and save AGAIN to make sure bcrypt works properly -
-         * due to a different salt, the hash should be different as well.
-         *
-         * ¹ See: UserSchema.pre("save",...)
-         */
-        user.password = "pwTemp12"
-        await user.save()
-        user.password = cleartextPassword
-        await user.save()
-
-        //login with same password still possible, but due to a different salt we should have a different hash
-        expect(await user.comparePassword(cleartextPassword)).toBe(true)
-        expect(user.password).not.toBe(oldHashedPassword)
     })
 
     it("trims fields on save", async () => {
@@ -178,14 +145,6 @@ describe("User Model Test Suite", () => {
         } catch (err) {
             validators.validateMongoValidationError(err, "email", "required")
         }
-
-        const user3 = new User(testUsers.requiredFieldPasswordMissing)
-        try {
-            await user3.save()
-            fail("Should throw error")
-        } catch (err) {
-            validators.validateMongoValidationError(err, "password", "required")
-        }
     })
 
     it("allows only ascii names", async () => {
@@ -202,64 +161,6 @@ describe("User Model Test Suite", () => {
                 validators.validateMongoValidationError(err, "name", "user defined")
                 //console.error(err)
             }
-        }
-    })
-
-
-    it("errors on invalid passwords", async () => {
-        //OPTIMIZE code duplication
-        const pwInvalid = testUsers.invalidPassword
-
-        const user = new User(pwInvalid.tooShort)
-        try {
-            await user.save()
-            fail("Should throw error")
-        } catch (err) {
-            validators.validateMongoValidationError(err, "password", "minlength")
-        }
-
-        const user2 = new User(pwInvalid.tooLong)
-        try {
-            await user2.save()
-            fail("Should throw error")
-        } catch (err) {
-            validators.validateMongoValidationError(err, "password", "maxlength")
-        }
-
-        const user3 = new User(pwInvalid.noUppercase)
-        try {
-            await user3.save()
-            fail("Should throw error")
-        } catch (err) {
-            validators.validateMongoValidationError(err, "password", "user defined")
-            expect(err.errors.password.properties.message).toBe("Password must contain uppercase letter")
-        }
-
-        const user4 = new User(pwInvalid.noLowercase)
-        try {
-            await user4.save()
-            fail("Should throw error")
-        } catch (err) {
-            validators.validateMongoValidationError(err, "password", "user defined")
-            expect(err.errors.password.properties.message).toBe("Password must contain lowercase letter")
-        }
-
-        const user5 = new User(pwInvalid.noDigit)
-        try {
-            await user5.save()
-            fail("Should throw error")
-        } catch (err) {
-            validators.validateMongoValidationError(err, "password", "user defined")
-            expect(err.errors.password.properties.message).toBe("Password must contain a digit")
-        }
-
-        const user6 = new User(pwInvalid.invalidChar)
-        try {
-            await user6.save()
-            fail("Should throw error")
-        } catch (err) {
-            validators.validateMongoValidationError(err, "password", "user defined")
-            expect(err.errors.password.properties.message).toBe("Password may only contain certain special chars")
         }
     })
 
@@ -287,20 +188,6 @@ describe("User Model Test Suite", () => {
         } catch (err) {
             expect(err.message).toBe("nameNormalized is read only!")
         }
-    })
-
-    //TODO fix see aboves TODO
-    it("doesnt bcrypt the password if another field is updated", async () => {
-        const user = new User(testUsers.validNoDefaults)
-
-        const oldHashedPassword = (await user.save()).password
-
-        //change other field
-        const userFromDB = await User.findOne({name: user.name})
-        userFromDB.aboutMe = "foobar"
-        await userFromDB.save()
-
-        expect(userFromDB.password).toBe(oldHashedPassword)
     })
 
 

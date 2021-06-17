@@ -52,16 +52,12 @@
 ```graphql
 mutation {
     signup(
-        record: {
             name: "someValidName"
             email: "someValid@mail"
             password: "Password1"
-        }) {
-        record {
+        ) {
             name
             email
-            password
-        }
     }
 }
 ```
@@ -69,7 +65,7 @@ mutation {
 ### Get a JWT by logging in
 
 ```graphql
-mutation {
+{
     login(email: "some@email", password: "yourPassword")
 }
 ```
@@ -125,7 +121,6 @@ mutation {
         name
         nameNormalized
         email
-        password
         role
         aboutMe
         languages
@@ -165,7 +160,6 @@ mutation {
         record: {
             name: "JohnDoe5"
             email: "JohnDoe5@gmail.com"
-            password: "Password1"
             role: user
             aboutMe: "Some Lorem Ipsum Text"
             dateOfBirth: "01.10.00"
@@ -178,7 +172,6 @@ mutation {
         record {
             name
             email
-            password
             dateOfBirth
             age
             role
