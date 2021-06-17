@@ -1,10 +1,10 @@
-import { React } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useEffect, useState, React } from 'react';
+import { useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
 import * as Constants from '../constants'
 import Languages from './Languages';
 import {
   Button, Container, Card, Form, Col, Image, Row,
-  InputGroup, FormControl, ListGroup
+  InputGroup, FormControl, ListGroup, Badge, Dropdown, DropdownButton
 } from 'react-bootstrap';
 
 const GET_USER = gql`
@@ -20,9 +20,55 @@ const GET_USER = gql`
         }         
         }`;
 
-const Profile = () => {
+const UPDATE_USER = gql`
+mutation userUpdateSelf(
+$aboutMe: String, 
+$gender: EnumUserPrivateGender  
+ ){
+userUpdateSelf( 
+  record: { 
+    aboutMe: $aboutMe
+    gender: $gender
+       }
+   ) {
+    record {
+      aboutMe
+      name
+      languages
+      gender
+      avatar
+    }
+  } 
+}`;
 
-  const { loading, error, data } = useQuery(GET_USER, {
+export default function Profile() {
+  const client = useApolloClient();
+
+  const [state, setState] = useState({})
+  const genderOptions = ["non-binary", "male", "female", "intersex", "transgender", "other", "intersex", "I prefer not to say"]
+
+
+  //getting data from db and saving on state
+  useEffect(() => {
+    if (data) {
+      // alert("dataUpdate exist");
+      setState(data.userSelf)
+    }
+  }, []);
+
+  
+
+
+  const { loading, error, data, refetch } = useQuery(GET_USER,
+    {
+      context: {
+        headers: {
+          "x-auth-token": Constants.AUTH_TOKEN
+        }
+      }
+    })
+
+  const [updateUser, { data: dataUpdate }] = useMutation(UPDATE_USER, {
     context: {
       headers: {
         "x-auth-token": Constants.AUTH_TOKEN
@@ -30,13 +76,30 @@ const Profile = () => {
     }
   })
 
- 
+
+
+  //Get users data
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
-  console.log(data);
 
+
+  console.log('Data Mutation:', dataUpdate);
+  console.log('Data Query:', data);
+  console.log('State', state);
+
+  const changeHandler = e => {
+    e.persist(); //important
+    setState(state => ({ ...state, [e.target.name]: e.target.value }));
+  }
+
+  const getValuesFromChild = (values) => {
+    console.log("value from child", values)
+    console.log('State: ', state);
+
+    setState(state => ({ ...state, "languages": values }));
+
+  }
   return (
-
     <div id="user-info">
 
       <Container>
@@ -55,29 +118,58 @@ const Profile = () => {
                   <InputGroup.Text id="username-input">@</InputGroup.Text>
                 </InputGroup.Prepend>
                 <FormControl
-                  value={data.userSelf.name}
+                  name="name"
+                  value={state.name}
+                  onChange={changeHandler}
                   aria-label="Username"
                   aria-describedby="basic-addon1"
                 />
 
               </InputGroup>
-  Gender
-   <FormControl
-                value={data.userSelf.gender}
-                aria-label="Gender"
-                aria-describedby="basic-addon1"
-              />
+
+              <Dropdown>
+                <Dropdown.Toggle
+                  size="sm" variant="success" id="dropdown-gender">
+                  {state.gender}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu
+                >
+
+                  {
+                    genderOptions &&
+                    genderOptions.map((selectedGender, index) => {
+                      return (
+                        <Dropdown.Item
+                          name="gender"
+                          onClick={e => {
+                            e.preventDefault();
+
+                            console.log('Gender selected: ', selectedGender)
+                            setState(state => ({ ...state, "gender": selectedGender }));
+                          }}
+                          key={index + 1} >
+                          {selectedGender}
+                        </ Dropdown.Item>
+                      );
+
+                    })
+
+                  }
+
+                </Dropdown.Menu>
+              </Dropdown>
 
   Avatar
        <FormControl
-                value={data.userSelf.avatar}
+                value={state.avatar}
                 aria-label="Avatar"
                 aria-describedby="basic-addon1"
               />
 
   Age
     <FormControl
-                value={data.userSelf.age}
+                value={state.age}
                 aria-label="Age"
                 aria-describedby="basic-addon1"
               />
@@ -85,8 +177,8 @@ const Profile = () => {
   IngameRole
   <ListGroup horizontal>
                 {
-                  data.userSelf.ingameRole &&
-                  data.userSelf.ingameRole.map((data, index) => {
+                  state.ingameRole &&
+                  state.ingameRole.map((data, index) => {
                     return (
                       <ListGroup.Item variant="dark" key={index + 1} >
                         {data}
@@ -97,24 +189,14 @@ const Profile = () => {
               </ListGroup>
 
               <br />
+              {/**/}
+              <Languages getValuesFromChild={getValuesFromChild}
+                state={state} setState={setState}
 
-             
-      <Languages />
-      
-  <ListGroup horizontal>
-            {
+              />
 
-              data.userSelf.languages &&
-              data.userSelf.languages.map((data, index) => {
-                return (
-                  <ListGroup.Item variant="success" key={index + 1} >
-                    {data}
-                  </ListGroup.Item>
-                  
-                );
-              })
-            }
-          </ListGroup>
+
+
               <br />
 
 
@@ -122,12 +204,20 @@ const Profile = () => {
 
           </Row>
 
+
           <Row>
             <Form.Text className="text-muted">
               About me</Form.Text>
 
-            <Form.Control as="textarea" rows={3}
-              value={data.userSelf.aboutMe} />
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={state.aboutMe}
+              id="aboutMe"
+              onChange={changeHandler}
+              name="aboutMe"
+              type="text"
+            />
 
           </Row>
 
@@ -135,29 +225,28 @@ const Profile = () => {
 
           <div>
             <Button variant="primary" size="sm"
-              onClick={() => {
-                console.log('Data was saved');
-              }}   > Save changes </Button>{'  '}
+              onClick={e => {
 
-            <Button variant="danger" size="sm"
-              onClick={() => {
-                console.log('Data was saved');
-              }}   > Delete account </Button>{' '}
+                e.preventDefault();
+                updateUser({
+                  variables: {
+                    aboutMe: state.aboutMe,
+                    gender: state.gender
+                  }
+                });
+                alert('Data was updated');
 
+                //get new data after mutation
+                refetch();
+
+              }
+              }
+            > Save changes </Button>{'  '}
             <br />
           </div>
-
-
-
         </Form>
       </Container>
-
-
-
-
-
     </div>
 
   );
 }
-export default Profile;

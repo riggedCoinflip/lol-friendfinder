@@ -1,60 +1,52 @@
-import {  React } from 'react';
+import {  React, useState, useEffect } from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import * as Constants from '../constants'
 //import {selectedLanguages} from './Profile';
 
-import {   Dropdown, ListGroup
+import {   Dropdown, ListGroup, Badge
       } from 'react-bootstrap';
 
 const GET_LANGUAGES = gql`
 {
-  languageMany(filter: {} limit: 100) 
+  languageMany(filter: {} limit: 30) 
   {
-    name  
+    name 
+    alpha2 
   }
 }`;
 
-const UPDATE_LANGUAGES = gql`
-mutation userUpdateSelf($language:String){
-userUpdateSelf( 
-  record: { 
-         languages: [ $language]
-       }
-   ) {
-    record {
-      name
-      languages
-    }
-  } 
-}`;
 
-const Languages = () => {
+//ToDo: pass the functions from this component with props
+const Languages = (props) => {
  
+ // const [local_Languages, setLocal_Languages] = useState(props.state.languages);
+  var local_Languages = [] ;//props.state.languages
+ 
+  useEffect(() => {
+
+    local_Languages= local_Languages.concat(props.state.languages);
+  console.log('A2: ', local_Languages)
+}, [])
+
+  useEffect(() => {
+ //props.getValuesFromChild(local_Languages)
+   console.log('localL: ', local_Languages)
+
+}, [local_Languages])
+
    const { loading, error, data } = useQuery(GET_LANGUAGES, {
-   context: {
-     headers: {
-     }
- }})
-
-
- 
- const [updateLanguage, { data_Mutation }] = useMutation(UPDATE_LANGUAGES, {
-  context: {
-    headers: {
-      "x-auth-token": Constants.AUTH_TOKEN
-    }
-}})
+    context: {
+      headers: {
+        "x-auth-token": Constants.AUTH_TOKEN
+      }
+  }})
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error!</p>;
-    console.log(data);
-    console.log('data_Mutation: '+data_Mutation);
- 
-    //console.log("SelectedLnags: " + selectedLanguages);
- 
+
  return(
  
- <div id="user-info">
+ <div id="avaliableLanguages">
    
  <Dropdown>
          <Dropdown.Toggle size="sm" variant="success" id="dropdown-languages">
@@ -62,19 +54,19 @@ const Languages = () => {
          </Dropdown.Toggle>
  
          <Dropdown.Menu>   
-         <input type="text" placeholder="English" id= "language-search"/>
+         <input type="text" placeholder="English" id= "language-search" name="langs"/>
                    
          {
-
     data.languageMany &&
     data.languageMany.map((data, index) => {
               return (
-                <Dropdown.Item  
+                <Dropdown.Item 
                 onClick={e => {
                   e.preventDefault();
-                  updateLanguage({ variables: { language: data.language } });
-                 console.log(data.name +' added')
-                }}
+              
+                local_Languages.splice(index, 0, data.name);
+                console.log('local_Languages: ', local_Languages)
+                  }}
                   key={index+1} >
                      {data.name}
                 </ Dropdown.Item>
@@ -84,24 +76,27 @@ const Languages = () => {
 }
          </Dropdown.Menu>
     </Dropdown>
- {/*
-    <ListGroup horizontal>
-            {
+ {/*  */}
+   <ListGroup horizontal>
+                {
 
-              data.userSelf.languages &&
-              data.userSelf.languages.map((data, index) => {
-                return (
-                  <ListGroup.Item variant="success" key={index + 1} >
-                    {data}
-                  </ListGroup.Item>
-                  
-                );
-              })
-            }
-          </ListGroup>   
+local_Languages &&
+local_Languages.map((language, index) => {
+                    return (
+                      <ListGroup.Item variant="success" key={index + 1} >
+                        {language}
+                        <Badge pill variant="danger">
+                          x
+                    </Badge>
+                      </ListGroup.Item>
+
+                    );
+                  })
+                }
+              </ListGroup> 
            
    
-          */}
+        
  
  
  </div>
