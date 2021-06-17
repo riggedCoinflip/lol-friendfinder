@@ -144,54 +144,66 @@ describe("User GraphQL Test Suite", () => {
     test("UserUpdateSelf", async () => {
         await loginUser()
 
+        const userSelf = await User.findOne({nameNormalized: "sktt1faker"})
+
+        const {_id: user1ID} = await User.findOne({nameNormalized: "admin"})
+        const {_id: user2ID} = await User.findOne({nameNormalized: "neeko"})
+        const {_id: user3ID} = await User.findOne({nameNormalized: "riggedcoinflip"})
+        const {_id: user4ID} = await User.findOne({nameNormalized: "alfredo"})
+        const {_id: user5ID} = await User.findOne({nameNormalized: "jeff"})
+
+        // add users to friends/block list so we can test properly
+        userSelf.friends.push({user: user1ID}, {user: user2ID}, {user: user3ID})
+        userSelf.blocked.push(user4ID)
+        await userSelf.save()
+
         const userUpdateSelfResult = await mutate(
             queries.USER_UPDATE_SELF, {
                 variables: {
-                    record: {
-                        aboutMe: "foofoo"
-                    }
+                    name: "foo",
+                    aboutMe: "Lorem Ipsum",
+                    gender: "female",
+                    dateOfBirth: "2010-01-01",
+                    languages: ["de", "en"],
+                    ingameRole: ["Mid", "Top"],
+                    friends: {
+                        toPop: [user1ID]
+                    },
+                    blocked: {
+                        toPush: [
+                            user5ID, //standard push
+                            user2ID //should delete from friendlist as well
+                        ],
+                        toPop: [user4ID]
+                    },
                 }
             }
         )
-
         expect(userUpdateSelfResult.errors).toBeUndefined()
-        expect(userUpdateSelfResult.data.userUpdateSelf.record.aboutMe).toStrictEqual("foofoo")
-    })
+        expect(userUpdateSelfResult.data.userUpdateSelf.name).toStrictEqual("foo")
+        expect(userUpdateSelfResult.data.userUpdateSelf.aboutMe).toStrictEqual("Lorem Ipsum")
+        expect(userUpdateSelfResult.data.userUpdateSelf.gender).toStrictEqual("female")
+        expect(userUpdateSelfResult.data.userUpdateSelf.dateOfBirth).toStrictEqual("2010-01-01T00:00:00.000Z")
+        expect(userUpdateSelfResult.data.userUpdateSelf.languages).toStrictEqual(["de", "en"])
+        expect(userUpdateSelfResult.data.userUpdateSelf.ingameRole).toStrictEqual(["Mid", "Top"])
+        // we started with friends 1, 2, 3
+        // popped friend 1 and added friend 2 to the block list which should automatically pop it as well
+        // leaving us with friend 3
+        expect(userUpdateSelfResult.data.userUpdateSelf.friends).toStrictEqual([{user: user3ID.toString()}])
+        // we started with blocked 4
+        // added blocked 5 and 2 and popped blocked 4
+        // leaving us with blocked 5 and 2
+        expect(userUpdateSelfResult.data.userUpdateSelf.blocked).toStrictEqual([user5ID.toString(), user2ID.toString()])
 
-    test("userUpdateSelfBlock", async () => {
-        await loginUser()
-
-        //get ids of other users
-        const adminId = (await mutate(
-            queries.USER_ONE_BY_NAME, {
-                variables: {
-                    nameNormalized: "admin"
-                }
-            }
-        )).data.userOneByName._id
-
-        const userUpdateSelfBlockResult = await mutate(
-            queries.USER_UPDATE_SELF_BLOCK, {
-                variables: {
-                    _id: adminId
-                }
-            }
-        )
-
-        expect(userUpdateSelfBlockResult.errors).toBeUndefined()
-        expect(userUpdateSelfBlockResult.data.userUpdateSelfBlock.blocked).toStrictEqual([adminId])
-
-
-        console.log(userUpdateSelfBlockResult)
-
-        const userUpdateSelfBlockWithFalseIdResult = await mutate(
-            queries.USER_UPDATE_SELF_BLOCK, {
-                variables: {
-                    _id: "000000000000000000000000" //is a MongoID, but doesnt exist on DB
-                }
+        //can null languages/ingame role
+        const userUpdateSelfResultWithoutUpdate= await mutate(
+            queries.USER_UPDATE_SELF, {
+                variables: {}
             }
         )
+        expect(userUpdateSelfResultWithoutUpdate.errors).toBeUndefined()
+        //no changes so should be same response
+        expect(userUpdateSelfResultWithoutUpdate).toStrictEqual(userUpdateSelfResult)
 
-        expect(userUpdateSelfBlockWithFalseIdResult.errors[0].message).toBe("User validation failed: blocked: blocked references a non existing ID")
     })
 });

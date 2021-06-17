@@ -78,23 +78,38 @@ const USER_MANY_LIKES_ME = `
 `
 
 const USER_UPDATE_SELF = `
-    mutation userUpdateSelf($record: UpdateByIdUserPrivateInput!) {
-        userUpdateSelf(record: $record) {
-            record {
-                name
-                aboutMe
-            }
-        }
-    }
-`
-
-const USER_UPDATE_SELF_BLOCK = `
-    mutation userUpdateSelfBlock($_id: MongoID){
-        userUpdateSelfBlock(_id: $_id) {
+    mutation userUpdateSelf(
+        $name: String
+        $aboutMe: String
+        $gender: EnumUserPrivateGender
+        $languages: [String]
+        $dateOfBirth: Date
+        $ingameRole: [EnumUserPrivateIngameRole]
+        $friends: UserPrivateFriendsMutation
+        $blocked: UserPrivateBlockedMutation
+    ) {
+        userUpdateSelf(
+            name: $name
+            aboutMe: $aboutMe
+            gender: $gender
+            languages: $languages
+            dateOfBirth: $dateOfBirth
+            ingameRole: $ingameRole
+            friends: $friends
+            blocked: $blocked
+        ) {
+            name
+            aboutMe
+            gender
+            languages
+            dateOfBirth
+            ingameRole
+            friends {user}
             blocked
         }
     }
 `
+
 
 
 module.exports = {
@@ -105,5 +120,4 @@ module.exports = {
     USER_ONE_BY_NAME,
     USER_MANY_LIKES_ME,
     USER_UPDATE_SELF,
-    USER_UPDATE_SELF_BLOCK,
 }
