@@ -52,12 +52,12 @@
 ```graphql
 mutation {
     signup(
-            name: "someValidName"
-            email: "someValid@mail"
-            password: "Password1"
-        ) {
-            name
-            email
+        name: "someValidName"
+        email: "someValid@mail"
+        password: "Password1"
+    ) {
+        name
+        email
     }
 }
 ```
@@ -100,15 +100,71 @@ mutation {
 }
 ````
 
-### Block a user
-````graphql
-mutation {
-  userUpdateSelfBlock(_id: "MongoID") {
-    name
-    blocked
-  }
+### Update Self
+
+```graphql
+#Template Query
+mutation userUpdateSelf(
+    $name: String
+    $aboutMe: String
+    $gender: EnumUserPrivateGender
+    $languages: [String]
+    $dateOfBirth: Date
+    $ingameRole: [EnumUserPrivateIngameRole]
+    $friends: UserPrivateFriendsMutation
+    $blocked: UserPrivateBlockedMutation
+) {
+    userUpdateSelf(
+        name: $name
+        aboutMe: $aboutMe
+        gender: $gender
+        languages: $languages
+        dateOfBirth: $dateOfBirth
+        ingameRole: $ingameRole
+        friends: $friends
+        blocked: $blocked
+    ) {
+        name
+        aboutMe
+        gender
+        languages
+        dateOfBirth
+        ingameRole
+        friends {user}
+        blocked
+    }
 }
-````
+```
+
+```graphql
+#Example
+mutation {
+    userUpdateSelf(
+        name: "MyNewName"
+        aboutMe: "If life were predictable it would cease to be life, and be without flavor. -Eleanor Roosevelt"
+        languages: ["de", "en"]
+        gender: female
+        dateOfBirth: "1990-01-01"
+        ingameRole: [Mid, Top]
+        friends: {
+            toPop: ["MongoIDsOfUsersInYourFriendsList"]
+        }
+        blocked: {
+            toPush: ["MongoIDsOfUsersYouWishToBlock"]
+            toPop: ["MongoIDsOfUsersInYourBlocklist"]
+        }
+    ) {
+        name
+        aboutMe
+        gender
+        languages
+        dateOfBirth
+        ingameRole
+        friends {user}
+        blocked
+    }
+}
+```
 
 ## require admin role
 
