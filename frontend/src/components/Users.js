@@ -11,12 +11,13 @@ const howManyUsers = 12; //for the request
 const GET_USER_MANY = gql`
         { 
           userManyAdmin(filter: { role:user }, limit: 20)
-
 {
         name
         email
         avatar
         age
+        aboutMe
+        languages
 
         
 }

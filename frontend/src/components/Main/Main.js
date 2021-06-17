@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Main.css";
-import dummyUsers from "../../util/dummyUsers.json"
+//import dummyUsers from "../../util/dummyUsers.json"
 import icon from "../../assets/icon.png";
 import like from "../../assets/like.svg";
 import dislike from "../../assets/dislike.svg";
@@ -9,19 +9,21 @@ import itsamatch from "../../assets/itsamatch.png";
 
 import { useQuery, gql } from '@apollo/client';
 import * as Constants from '../../constants'
+import { Badge } from 'react-bootstrap';
+
+
 
 const howManyUsers = 12; //for the request
 const GET_USER_MANY = gql`
         { 
           userManyAdmin(filter: { role:user }, limit: 20)
-
 {
         name
         email
         avatar
         age
-
-        
+        aboutMe
+        languages       
 }
 }`;
 
@@ -35,56 +37,22 @@ export default function Main({ match }) {
 
 
   useEffect(() => {
-   //  function loadUsers() {
-     /* const response = await api.get("/devs", {
-        headers: {
-          user: match.params.id
-        }
-      });*/
-      setUsers(dummyUsers);
-      console.log('LoadUsers', users)
-    //}
-    //loadUsers();
+    setUsers(data.userManyAdmin);
+    console.log('LoadUsers', users)
+
   }, []);
-/*
-  useEffect(() => {
-   // const socket = io("http://localhost:3333", {
-     // query: { user: match.params.id }
-    });
 
-    //socket.on("match", dev => {
-     // setMatchDev(dev);
-    });
-  }, [match.params.id]);
-  async function handleLike(id) {
-    await api.post(`/devs/${id}/Likes`, null, {
-      headers: { user: match.params.id }
-    });
-
-    setUsers(users.filter(user => user._id !== id));
-  }
-*/
-/*  
-async function handleDislike(id) {
-    await api.post(`/devs/${id}/dislikes`, null, {
-      headers: { user: match.params.id }
-    });
-
-    setUsers(users.filter(user => user._id !== id));
-  }
-*/
-
-const { loading, error, data } = useQuery(GET_USER_MANY,
-  {
-    context: {
-      headers: {
-        "x-auth-token": Constants.AUTH_TOKEN
+  const { loading, error, data } = useQuery(GET_USER_MANY,
+    {
+      context: {
+        headers: {
+          "x-auth-token": Constants.AUTH_TOKEN
+        }
       }
-    }
-  })
+    })
 
-if (loading) return <p>Loading...</p>;
-if (error) return <p>Error  </p>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error  </p>;
 
   return (
     <div className="main-container">
@@ -98,40 +66,37 @@ if (error) return <p>Error  </p>;
             <li key={user._id}>
               <img src="https://placekitten.com/640/392" alt={user.name} />
               <footer>
-                <strong>{user.name}</strong>
-                <p>{user.bio}</p>
+                <strong>{user.name}  </strong>
+                <strong>{user.age}</strong>
+                <p>{user.aboutMe}</p>
+
+
+          {user.languages.map((languages, index) => {
+            return (
+              <Badge pill variant="danger">{languages}</Badge>
+
+            )
+          })}
+
               </footer>
 
               <div className="buttons">
-                <button type="button"  onClick={e => {
-            e.preventDefault();            
-            console.log('user was DIS-liked')
-          
-            }
-          }>
+                <button type="button" onClick={e => {
+                  e.preventDefault();
+                  console.log('user was DIS-liked')
+
+                }
+                }>
                   <img src={dislike} alt="Dislike" />
                 </button>
 
                 <button type="button" onClick={e => {
 
-e.preventDefault();
-setUsers(...users, dummyUsers);
-
-console.log('user was liked')
-/*dummyUsers.map( e=>{
-  //delete e[e.name]
-   dummyUsers.splice(0, 1);
-
-})*/
-dummyUsers.splice(0, 1);
-console.log('dummy',dummyUsers)
-
-//delete dummyUsers[0];
-setUsers(dummyUsers);
-console.log('state users',users)
-}
-} >
-                  <img src={like} alt="Like"  />
+                  e.preventDefault();
+                  console.log('user was liked')
+                }
+                } >
+                  <img src={like} alt="Like" />
                 </button>
               </div>
             </li>
@@ -146,12 +111,12 @@ console.log('state users',users)
       {matchDev && (
         <div className="match-container">
           <img src={itsamatch} alt="it's a match" />
-          <img className="userImage"  alt="" />
+          <img className="userImage" alt="" />
           <strong>Name</strong>
           <p>bio</p>
           <button type="button"
-         
-            >
+
+          >
             Fechar
           </button>
         </div>
