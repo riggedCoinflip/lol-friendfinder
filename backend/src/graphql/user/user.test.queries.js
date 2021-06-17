@@ -1,18 +1,16 @@
 const SIGNUP = `
-    mutation signUp($name: String!, $email: String!, $password: String!){
+    mutation signup($name: String!, $email: String!, $password: String!){
         signup(
-            record: {name: $name, email:  $email, password: $password}
+            name: $name, email:  $email, password: $password
         ) {
-            record {
-                name
-                email
-            }
+            name
+            email
         }
     }
 `
 
 const LOGIN = `
-    mutation login($email: String!, $password: String!){
+    query login($email: String!, $password: String!) {
         login(email: $email, password: $password)
     }
 `
@@ -38,7 +36,6 @@ const USER_ONE_ADMIN = `
             name
             nameNormalized
             email
-            password
             role
             aboutMe
             languages

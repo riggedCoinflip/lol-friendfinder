@@ -2,10 +2,8 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const {composeMongoose} = require("graphql-compose-mongoose");
 const userValidation = require("../../utils/shared_utils");
-const idvalidator = require('mongoose-id-validator');
+const idvalidator = require("mongoose-id-validator");
 
-//save time on testing
-const SALT_ROUNDS = process.env.NODE_ENV === "test" ? 5 : 10;
 
 const normalizeName = name => name.toLowerCase()
 
@@ -40,21 +38,6 @@ const UserSchema = new mongoose.Schema({
         trim: true,
         lowercase: true, //do not allow users to have 2 accounts with same email (foo@email.com and FOO@email.com)
         match: [/^.+[@].+$/, "Not a valid Email"], //one to unlimited chars, then @, then one to unlimited chars
-    },
-    password: { //hashed and salted using bcrypt
-        type: String,
-        required: true,
-        minlength: userValidation.passwordMinLength,
-        maxlength: userValidation.passwordMaxLength,
-        validate: {
-            validator: v => {
-                if (!userValidation.containsUpper(v)) throw new Error("Password must contain uppercase letter");
-                if (!userValidation.containsLower(v)) throw new Error("Password must contain lowercase letter");
-                if (!userValidation.containsDigit(v)) throw new Error("Password must contain a digit");
-                if (!userValidation.containsOnlyAllowedCharacters(v)) throw new Error("Password may only contain certain special chars");
-                return true
-            }
-        }
     },
     role: {
         type: String,
@@ -140,25 +123,15 @@ UserSchema.plugin(idvalidator);
 UserSchema.pre("save", function (next) {
     if (this.isModified("dateOfBirth") || this.isModified("age")) {
         this.age = (() => {
-            //https://stackoverflow.com/a/24181701/12340711
-            //good enough
+            //https://stackoverflow.com/a/24181701/12340711  - good enough
             if (!this.dateOfBirth) return -1 //default
             const ageDifMs = Date.now() - this.dateOfBirth
-            const ageDate = new Date(ageDifMs); // miliseconds from epoch
+            const ageDate = new Date(ageDifMs); // milliseconds from epoch
             return Math.abs(ageDate.getUTCFullYear() - 1970);
         })()
     }
     next()
 })
-
-//Save a hashed and salted password to the DB using bcrypt
-UserSchema.pre("save", async function (next) {
-    // only hash password if it has been modified (or is new)
-    if (this.isModified("password")) {
-        this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
-    }
-    next()
-});
 
 //Set a normalized name for unique name check
 UserSchema.pre("save", function (next) {
@@ -170,10 +143,11 @@ UserSchema.pre("save", function (next) {
     next()
 })
 
-//TODO rate limitation - else a DOSser can just try to login 100times/s
-UserSchema.methods.comparePassword = async function (candidatePassword) {
-    return await bcrypt.compare(candidatePassword, this.password);
-};
+UserSchema.virtual("password", {
+    ref: "password",
+    localField: "_id",
+    foreignField: "userId",
+});
 
 const User = mongoose.model("User", UserSchema)
 
@@ -181,7 +155,10 @@ const User = mongoose.model("User", UserSchema)
 //see opts: https://graphql-compose.github.io/docs/plugins/plugin-mongoose.html#customization-options
 const UserTCAdmin = composeMongoose(User, {
     name: "UserAdmin",
-    description: "Full User Model. Exposed only for Admins"
+    description: "Full User Model. Exposed only for Admins",
+    removeFields: [
+        "passwordId"
+    ]
 });
 
 const UserTCPrivate = composeMongoose(User, {
@@ -218,22 +195,11 @@ const UserTCPublic = composeMongoose(User, {
     ]
 })
 
-const UserTCSignup = composeMongoose(User, {
-    name: "UserSignup",
-    description: "Login a user or create a new user",
-    onlyFields: [
-        "name",
-        "email",
-        "password"
-    ]
-})
-
 module.exports = {
     User,
     UserTCAdmin,
     UserTCPublic,
     UserTCPrivate,
-    UserTCSignup,
     normalizeName
 }
 
