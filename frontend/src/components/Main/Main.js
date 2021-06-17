@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Main.css";
 import dummyUsers from "../../util/dummyUsers.json"
-import logo from "../../assets/logo.png";
 import icon from "../../assets/icon.png";
 import like from "../../assets/like.svg";
 import dislike from "../../assets/dislike.svg";
@@ -36,16 +35,16 @@ export default function Main({ match }) {
 
 
   useEffect(() => {
-    async function loadUsers() {
+   //  function loadUsers() {
      /* const response = await api.get("/devs", {
         headers: {
           user: match.params.id
         }
       });*/
       setUsers(dummyUsers);
-      console.log('LoadUsers')
-    }
-    loadUsers();
+      console.log('LoadUsers', users)
+    //}
+    //loadUsers();
   }, []);
 /*
   useEffect(() => {
@@ -104,12 +103,35 @@ if (error) return <p>Error  </p>;
               </footer>
 
               <div className="buttons">
-                <button type="button" >
+                <button type="button"  onClick={e => {
+            e.preventDefault();            
+            console.log('user was DIS-liked')
+          
+            }
+          }>
                   <img src={dislike} alt="Dislike" />
                 </button>
 
-                <button type="button" >
-                  <img src={like} alt="Like" />
+                <button type="button" onClick={e => {
+
+e.preventDefault();
+setUsers(...users, dummyUsers);
+
+console.log('user was liked')
+/*dummyUsers.map( e=>{
+  //delete e[e.name]
+   dummyUsers.splice(0, 1);
+
+})*/
+dummyUsers.splice(0, 1);
+console.log('dummy',dummyUsers)
+
+//delete dummyUsers[0];
+setUsers(dummyUsers);
+console.log('state users',users)
+}
+} >
+                  <img src={like} alt="Like"  />
                 </button>
               </div>
             </li>
@@ -127,7 +149,9 @@ if (error) return <p>Error  </p>;
           <img className="userImage"  alt="" />
           <strong>Name</strong>
           <p>bio</p>
-          <button type="button">
+          <button type="button"
+         
+            >
             Fechar
           </button>
         </div>

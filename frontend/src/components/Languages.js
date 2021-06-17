@@ -19,10 +19,18 @@ const GET_LANGUAGES = gql`
 //ToDo: pass the functions from this component with props
 const Languages = (props) => {
  
-  const [local_Languages, setLocal_Languages] = useState([props.state.languages]);
-  
+ // const [local_Languages, setLocal_Languages] = useState(props.state.languages);
+  var local_Languages = [] ;//props.state.languages
+ 
   useEffect(() => {
-    props.getValuesFromChild(local_Languages)
+
+    local_Languages= local_Languages.concat(props.state.languages);
+  console.log('A2: ', local_Languages)
+}, [])
+
+  useEffect(() => {
+ //props.getValuesFromChild(local_Languages)
+   console.log('localL: ', local_Languages)
 
 }, [local_Languages])
 
@@ -32,7 +40,6 @@ const Languages = (props) => {
         "x-auth-token": Constants.AUTH_TOKEN
       }
   }})
- 
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error!</p>;
@@ -47,7 +54,7 @@ const Languages = (props) => {
          </Dropdown.Toggle>
  
          <Dropdown.Menu>   
-         <input type="text" placeholder="English" id= "language-search"/>
+         <input type="text" placeholder="English" id= "language-search" name="langs"/>
                    
          {
     data.languageMany &&
@@ -56,14 +63,10 @@ const Languages = (props) => {
                 <Dropdown.Item 
                 onClick={e => {
                   e.preventDefault();
-             
-              console.log(data.name)
-             // setLocal_Languages(data.name)
-  // ToDo: Add the selected element to the state, wich shows the languages
-            // setLocal_Languages(e.target.push)
-
-                 console.log('Language selected: ', local_Languages)
-                }}
+              
+                local_Languages.splice(index, 0, data.name);
+                console.log('local_Languages: ', local_Languages)
+                  }}
                   key={index+1} >
                      {data.name}
                 </ Dropdown.Item>
@@ -77,8 +80,8 @@ const Languages = (props) => {
    <ListGroup horizontal>
                 {
 
-                  props.state.languages &&
-                  props.state.languages.map((language, index) => {
+local_Languages &&
+local_Languages.map((language, index) => {
                     return (
                       <ListGroup.Item variant="success" key={index + 1} >
                         {language}

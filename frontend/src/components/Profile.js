@@ -4,7 +4,7 @@ import * as Constants from '../constants'
 import Languages from './Languages';
 import {
   Button, Container, Card, Form, Col, Image, Row,
-  InputGroup, FormControl, ListGroup, Badge
+  InputGroup, FormControl, ListGroup, Badge, Dropdown, DropdownButton
 } from 'react-bootstrap';
 
 const GET_USER = gql`
@@ -21,11 +21,14 @@ const GET_USER = gql`
         }`;
 
 const UPDATE_USER = gql`
-mutation userUpdateSelf($aboutMe: String){
+mutation userUpdateSelf(
+$aboutMe: String, 
+$gender: EnumUserPrivateGender  
+ ){
 userUpdateSelf( 
   record: { 
     aboutMe: $aboutMe
-    
+    gender: $gender
        }
    ) {
     record {
@@ -42,6 +45,7 @@ export default function Profile() {
   const client = useApolloClient();
 
   const [state, setState] = useState({})
+  const genderOptions = ["non-binary", "male", "female", "intersex", "transgender", "other", "intersex", "I prefer not to say"]
 
 
   //getting data from db and saving on state
@@ -51,6 +55,8 @@ export default function Profile() {
       setState(data.userSelf)
     }
   }, []);
+
+  
 
 
   const { loading, error, data, refetch } = useQuery(GET_USER,
@@ -88,14 +94,14 @@ export default function Profile() {
 
   const getValuesFromChild = (values) => {
     console.log("value from child", values)
-    console.log('State', state);
+    console.log('State: ', state);
 
-     setState(state => ({ ...state,  "languages": values}));
+    setState(state => ({ ...state, "languages": values }));
 
   }
   return (
     <div id="user-info">
-   
+
       <Container>
         <Card.Title>Personal Info</Card.Title>
 
@@ -120,14 +126,39 @@ export default function Profile() {
                 />
 
               </InputGroup>
-  Gender
-   <FormControl
-                value={state.gender}
-                onChange={changeHandler}
-                name="gender"
-                aria-label="Gender"
-                aria-describedby="basic-addon1"
-              />
+
+              <Dropdown>
+                <Dropdown.Toggle
+                  size="sm" variant="success" id="dropdown-gender">
+                  {state.gender}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu
+                >
+
+                  {
+                    genderOptions &&
+                    genderOptions.map((selectedGender, index) => {
+                      return (
+                        <Dropdown.Item
+                          name="gender"
+                          onClick={e => {
+                            e.preventDefault();
+
+                            console.log('Gender selected: ', selectedGender)
+                            setState(state => ({ ...state, "gender": selectedGender }));
+                          }}
+                          key={index + 1} >
+                          {selectedGender}
+                        </ Dropdown.Item>
+                      );
+
+                    })
+
+                  }
+
+                </Dropdown.Menu>
+              </Dropdown>
 
   Avatar
        <FormControl
@@ -158,14 +189,14 @@ export default function Profile() {
               </ListGroup>
 
               <br />
-{/**/}
-<Languages getValuesFromChild={getValuesFromChild}
+              {/**/}
+              <Languages getValuesFromChild={getValuesFromChild}
                 state={state} setState={setState}
 
               />
 
-           
-             
+
+
               <br />
 
 
@@ -199,7 +230,8 @@ export default function Profile() {
                 e.preventDefault();
                 updateUser({
                   variables: {
-                    aboutMe: state.aboutMe
+                    aboutMe: state.aboutMe,
+                    gender: state.gender
                   }
                 });
                 alert('Data was updated');
