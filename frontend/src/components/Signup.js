@@ -9,18 +9,13 @@ const USER_CREATE = gql`
     mutation signup($name: String!, $email: String!, $password: String!) #TODO hash password server side
     {
         signup(
-            record: {
                 name: $name
                 email: $email
                 password: $password
-            })
+            )
         {
-            record
-            {
                 name
-                email
-                password
-            }
+                email           
         }
     }
 `;
