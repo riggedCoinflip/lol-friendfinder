@@ -96,10 +96,8 @@ type Mutation {
         skip: Int,
         sort: SortUpdateOneUserAdminInput
     ): UpdateOneUserAdminPayload
-    "Update information of currently logged in user"
-    userUpdateSelf(record: UpdateByIdUserPrivateInput!): UpdateByIdUserPrivatePayload
-    "Add a user to the block list"
-    userUpdateSelfBlock(_id: MongoID): UserPrivate
+    "Update currently logged in user"
+    userUpdateSelf(aboutMe: String, blocked: UserPrivateBlockedMutation, dateOfBirth: Date, friends: UserPrivateFriendsMutation, gender: EnumUserPrivateGender, ingameRole: [EnumUserPrivateIngameRole], languages: [String], name: String): UserPrivate
 }
 
 "Information about pagination in a connection."
@@ -227,15 +225,6 @@ type UpdateByIdUserAdminPayload {
     error: ErrorInterface
     "Updated document"
     record: UserAdmin
-    "Document ID"
-    recordId: MongoID
-}
-
-type UpdateByIdUserPrivatePayload {
-    "Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response."
-    error: ErrorInterface
-    "Updated document"
-    record: UserPrivate
     "Document ID"
     recordId: MongoID
 }
@@ -1196,19 +1185,6 @@ input UpdateByIdUserAdminInput {
     updatedAt: Date
 }
 
-input UpdateByIdUserPrivateInput {
-    aboutMe: String
-    avatar: String
-    blocked: [MongoID]
-    dateOfBirth: Date
-    email: String
-    friends: [UpdateByIdUserAdminFriendsInput]
-    gender: EnumUserPrivateGender
-    ingameRole: [EnumUserPrivateIngameRole]
-    languages: [String]
-    name: String
-}
-
 input UpdateManyUserAdminFriendsInput {
     _id: MongoID
     user: MongoID
@@ -1258,6 +1234,15 @@ input UpdateOneUserAdminInput {
 input UserAdminFriendsInput {
     _id: MongoID
     user: MongoID
+}
+
+input UserPrivateBlockedMutation {
+    toPop: [MongoID]
+    toPush: [MongoID]
+}
+
+input UserPrivateFriendsMutation {
+    toPop: [MongoID]
 }
 
 

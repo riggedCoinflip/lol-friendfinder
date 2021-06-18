@@ -37,8 +37,14 @@ LikeSchema.post("save", async function (doc, next) {
         doc.status === "liked" &&
         await Like.findOne({requester: doc.recipient, recipient: doc.requester, status: doc.status})
     ) {
-        await User.updateOne({_id: doc.recipient}, {$push: {friends: {user: doc.requester} }})
-        await User.updateOne({_id: doc.requester}, {$push: {friends: {user: doc.recipient} }})
+        const requester = await User.findOne({_id: doc.requester})
+        const recipient = await User.findOne({_id: doc.recipient})
+
+        requester.friends.push({user: doc.recipient})
+        recipient.friends.push({user: doc.requester})
+
+        await requester.save()
+        await recipient.save()
     }
     next()
 });
