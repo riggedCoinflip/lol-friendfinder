@@ -143,22 +143,13 @@ UserTCPublic.addResolver({
         },
     type: [UserTCPublic],
     resolve: async ({args, context}) => {
-        //console.log(args)
         const userSelf = await User.findOne({_id: context.req.user._id})
 
         //exclude
         const excludeBlocked = userSelf.blocked
         const excludeFriends = userSelf.friends.map(item => item.user)
-        const excludeRated = await Like.find({requester: userSelf._id})
+        const excludeRated = (await Like.find({requester: userSelf._id})).map(item => item.recipient)
         const excluded = [userSelf._id, ...excludeFriends, ...excludeBlocked, ...excludeRated]
-        /*
-        console.log("self:", userSelf._id)
-        console.log("blocked:", excludeBlocked)
-        console.log("friends:", excludeFriends)
-        console.log("liked:", excludeLiked)
-        */
-        //console.log("excluded:", excluded)
-
 
         //likes
         const likedClientIds = (await Like.find({recipient: userSelf._id, status: "liked"}).select({requester: 1, _id: 0}))
@@ -193,22 +184,19 @@ UserTCPublic.addResolver({
                 filter.age = age
             }
         }
-        //console.log("filter:", filter)
 
-        // TODO
+        //OPTIMIZE (good enough for now)
         // Depending on different reasons, a user should be more likely to appear in the next X swipes:
         // - the other user liked the client already - meaning if the client likes that user, it results in a match. high weight.
         // - the time since the other user was online - the lower the better
         // - how much personal information the over user gives of himself - users without a profile picture, without an about me text should be less likely to appear
         // - a high like-to-match-ratio
         // etc.
-        //
         // All of these things feed a score algorithm.
         // The weight is then calculated (logarithmically?) from the score.
-        //
         // But I dont want to sort by score/weight directly. Because then, all users that liked the client will show on top -> the user will generate all matches at the beginning and none later on. The "match quality" will also gradually decrease.
         // With a weighted shuffle, these effects still exist - but are lessened
-        //TODO generate a weighted shuffle
+        //OPTIMIZE generate a weighted shuffle
         // 1.map weight to object
         // 2.map weight to random * weight
         // 3.sort after weight
