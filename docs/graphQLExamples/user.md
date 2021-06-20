@@ -100,6 +100,22 @@ mutation {
 }
 ````
 
+### Load users for swiping
+Uses same filters like `userMany`.  
+Shows both users that match the filter and users that liked you.
+````graphql
+{
+    userManyToSwipe(filter: {_operators: {ingameRole: {in: [Bot]}}})
+    {
+        name
+        age
+        languages
+        ingameRole
+    }
+}
+````
+With standard fake data, this should show ``Neeko`` with ``"ingameRole": ["Mid", "Top"]`` because Neeko likes you ♥
+
 ### Update Self
 
 ```graphql

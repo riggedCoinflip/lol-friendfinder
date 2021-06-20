@@ -6,6 +6,7 @@ const requireAuthorization = require("../../middleware/jwt/requireAuthorization"
 const {Password} = require("../../models/password/password");
 const {schemaComposer} = require("graphql-compose");
 const {performance} = require("perf_hooks")
+const _ = require("lodash")
 
 //***************
 //*** QUERIES ***
@@ -52,6 +53,7 @@ const login = schemaComposer.createResolver({
     }
 })
 
+
 UserTCPublic.addResolver({
     kind: "query",
     name: "userOneByName",
@@ -64,6 +66,7 @@ UserTCPublic.addResolver({
         return User.findOne({nameNormalized: normalizeName(args.nameNormalized)});
     }
 })
+
 
 const userSelf = UserTCPrivate.mongooseResolvers
     .findById()
@@ -101,6 +104,7 @@ const userMany = UserTCPublic.mongooseResolvers.findMany({
     limit: {defaultValue: 10},
     sort: false,
     filter: {
+        //IF YOU CHANGE THIS, CHANGE userManyToSwipe AS WELL!
         // https://github.com/graphql-compose/graphql-compose-mongoose#filterhelperargsopts
         // only allow to filter with operators
         removeFields: [
@@ -122,6 +126,109 @@ const userMany = UserTCPublic.mongooseResolvers.findMany({
     }
 })
     .setDescription("Get the public information of userMany with restricted filters")
+
+//TODO test
+UserTCPublic.addResolver({
+    name: "userManyToSwipe",
+    description: `
+    Show users the client may be interested in swiping. This includes:
+    1. All users that liked the client
+    2. All users that match the filters used
+    
+    Excludes the following users: The client itself, friends, blocked users and users the client already liked.
+    Limit: 10
+    `,
+    args:
+        {
+            filter: userMany.getArgs().filter,
+        },
+    type: [UserTCPublic],
+    resolve: async ({args, context}) => {
+        //console.log(args)
+        const userSelf = await User.findOne({_id: context.req.user._id})
+
+        //exclude
+        const excludeBlocked = userSelf.blocked
+        const excludeFriends = userSelf.friends.map(item => item.user)
+        const excludeRated = await Like.find({requester: userSelf._id})
+        const excluded = [userSelf._id, ...excludeFriends, ...excludeBlocked, ...excludeRated]
+        /*
+        console.log("self:", userSelf._id)
+        console.log("blocked:", excludeBlocked)
+        console.log("friends:", excludeFriends)
+        console.log("liked:", excludeLiked)
+        */
+        //console.log("excluded:", excluded)
+
+
+        //likes
+        const likedClientIds = (await Like.find({recipient: userSelf._id, status: "liked"}).select({requester: 1, _id: 0}))
+            .map(item => item.requester)
+        //console.log("likedClientIds:", likedClientIds)
+
+        const usersLikedClient = await User.find({
+            _id: {
+                $nin: excluded,
+                $in: likedClientIds
+            }
+        })
+            .limit(3)
+        //console.log("usersLikedClient:", usersLikedClient)
+
+        //filter
+        const filter = {}
+        /**
+         * //OPTIMIZE not sure if annotation is right
+         * @param {Object} [args.filter._operators] Operators used for filtering
+         */
+        if (args?.filter?._operators) {
+            const operators = args?.filter?._operators
+            if (operators?.languages?.in) filter.languages = {$in: operators.languages.in}
+            if (operators?.gender?.in) filter.gender = {$in: operators.gender.in}
+            if (operators?.ingameRole?.in) filter.ingameRole = {$in: operators.ingameRole.in}
+            if (operators?.age) {
+                const age = {}
+                //does not work if gte/lte are 0
+                if (operators?.age?.gte) age.$gte = operators.age.gte
+                if (operators?.age?.lte) age.$lte = operators.age.lte
+                filter.age = age
+            }
+        }
+        //console.log("filter:", filter)
+
+        // TODO
+        // Depending on different reasons, a user should be more likely to appear in the next X swipes:
+        // - the other user liked the client already - meaning if the client likes that user, it results in a match. high weight.
+        // - the time since the other user was online - the lower the better
+        // - how much personal information the over user gives of himself - users without a profile picture, without an about me text should be less likely to appear
+        // - a high like-to-match-ratio
+        // etc.
+        //
+        // All of these things feed a score algorithm.
+        // The weight is then calculated (logarithmically?) from the score.
+        //
+        // But I dont want to sort by score/weight directly. Because then, all users that liked the client will show on top -> the user will generate all matches at the beginning and none later on. The "match quality" will also gradually decrease.
+        // With a weighted shuffle, these effects still exist - but are lessened
+        //TODO generate a weighted shuffle
+        // 1.map weight to object
+        // 2.map weight to random * weight
+        // 3.sort after weight
+        // https://softwareengineering.stackexchange.com/questions/233541/how-to-implement-a-weighted-shuffle
+        // https://utopia.duth.gr/~pefraimi/research/data/2007EncOfAlg.pdf
+        //current: show up to 3 users that liked the client per request. Fill up to 10 with other users. Shuffle order.
+
+        //filter
+        const usersFiltered = await User.find({
+            _id: {$nin: [...excluded, ...likedClientIds]},
+            ...filter
+        })
+            .limit(10 - usersLikedClient.length) //fill up to 10
+        //console.log("usersFiltered:", usersFiltered.map(item => {return {_id: item._id, name: item.name}}))
+
+        return  _.shuffle([...usersLikedClient, ...usersFiltered])
+    }
+})
+
 
 //*****************
 //*** MUTATIONS ***
@@ -223,6 +330,7 @@ const UserQuery = {
     ...requireAuthentication({
         userSelf,
         userManyLikesMe: UserTCPublic.getResolver("userManyLikesMe"),
+        userManyToSwipe: UserTCPublic.getResolver("userManyToSwipe"),
     }),
     ...requireAuthorization({
             userByIdAdmin: UserTCAdmin.mongooseResolvers.findById(),

@@ -1,7 +1,11 @@
 const {dbConnect, dbDisconnectAndWipe} = require("../../utils/test-utils/db-handler")
-const createMongoData = require("../../utils/createMongoData")
 const {User} = require("../../models/user/user")
 const queries = require("./user.test.queries")
+const createDummyLikes = require("../../utils/like/createDummyLikes");
+const createDummyUsers = require("../../utils/user/createDummyUsers");
+const createLanguages = require("../../utils/language/createLanguages");
+const _ = require("lodash");
+const {Like} = require("../../models/like/like");
 const {
     query,
     mutate,
@@ -15,12 +19,18 @@ const {
 describe("User GraphQL Test Suite", () => {
     beforeAll(async () => {
         await dbConnect()
-        await createMongoData()
-    });
+        await createLanguages()
+    })
     beforeEach(async () => {
+        await createDummyLikes()
+        await createDummyUsers()
         resetOptions()
     })
-    afterAll(async () => dbDisconnectAndWipe());
+    afterEach(async () => {
+        await Like.deleteMany()
+        await User.deleteMany()
+    })
+    afterAll(async () => dbDisconnectAndWipe())
 
     it("creates a user on signup", async () => {
         const signupResult = await mutate(
@@ -146,15 +156,19 @@ describe("User GraphQL Test Suite", () => {
 
         const userSelf = await User.findOne({nameNormalized: "sktt1faker"})
 
-        const {_id: user1ID} = await User.findOne({nameNormalized: "admin"})
-        const {_id: user2ID} = await User.findOne({nameNormalized: "neeko"})
-        const {_id: user3ID} = await User.findOne({nameNormalized: "riggedcoinflip"})
-        const {_id: user4ID} = await User.findOne({nameNormalized: "alfredo"})
-        const {_id: user5ID} = await User.findOne({nameNormalized: "jeff"})
+        const userIDs = (await User.find({
+            nameNormalized: [
+                "admin",
+                "neeko",
+                "riggedcoinflip",
+                "alfredo",
+                "jeff",
+            ]
+        })).map(item => item._id)
 
         // add users to friends/block list so we can test properly
-        userSelf.friends.push({user: user1ID}, {user: user2ID}, {user: user3ID})
-        userSelf.blocked.push(user4ID)
+        userSelf.friends.push({user: userIDs[0]}, {user: userIDs[1]}, {user: userIDs[2]})
+        userSelf.blocked.push(userIDs[3])
         await userSelf.save()
 
         const userUpdateSelfResult = await mutate(
@@ -167,14 +181,14 @@ describe("User GraphQL Test Suite", () => {
                     languages: ["de", "en"],
                     ingameRole: ["Mid", "Top"],
                     friends: {
-                        toPop: [user1ID]
+                        toPop: [userIDs[0]]
                     },
                     blocked: {
                         toPush: [
-                            user5ID, //standard push
-                            user2ID //should delete from friendlist as well
+                            userIDs[4], //standard push
+                            userIDs[1] //should delete from friendlist as well
                         ],
-                        toPop: [user4ID]
+                        toPop: [userIDs[3]]
                     },
                 }
             }
@@ -186,17 +200,17 @@ describe("User GraphQL Test Suite", () => {
         expect(userUpdateSelfResult.data.userUpdateSelf.dateOfBirth).toStrictEqual("2010-01-01T00:00:00.000Z")
         expect(userUpdateSelfResult.data.userUpdateSelf.languages).toStrictEqual(["de", "en"])
         expect(userUpdateSelfResult.data.userUpdateSelf.ingameRole).toStrictEqual(["Mid", "Top"])
-        // we started with friends 1, 2, 3
-        // popped friend 1 and added friend 2 to the block list which should automatically pop it as well
-        // leaving us with friend 3
-        expect(userUpdateSelfResult.data.userUpdateSelf.friends).toStrictEqual([{user: user3ID.toString()}])
-        // we started with blocked 4
-        // added blocked 5 and 2 and popped blocked 4
-        // leaving us with blocked 5 and 2
-        expect(userUpdateSelfResult.data.userUpdateSelf.blocked).toStrictEqual([user5ID.toString(), user2ID.toString()])
+        // we started with friends 0, 1, 2
+        // popped friend 0 and added friend 1 to the block list which should automatically pop it as well
+        // leaving us with friend 2
+        expect(userUpdateSelfResult.data.userUpdateSelf.friends).toStrictEqual([{user: userIDs[2].toString()}])
+        // we started with blocked 3
+        // added blocked 4 and 1 and popped blocked 3
+        // leaving us with blocked 4 and 1
+        expect(userUpdateSelfResult.data.userUpdateSelf.blocked).toStrictEqual([userIDs[4].toString(), userIDs[1].toString()])
 
         //can null languages/ingame role
-        const userUpdateSelfResultWithoutUpdate= await mutate(
+        const userUpdateSelfResultWithoutUpdate = await mutate(
             queries.USER_UPDATE_SELF, {
                 variables: {}
             }
@@ -205,5 +219,98 @@ describe("User GraphQL Test Suite", () => {
         //no changes so should be same response
         expect(userUpdateSelfResultWithoutUpdate).toStrictEqual(userUpdateSelfResult)
 
+    })
+
+    test("userManyToSwipe", async () => {
+        await loginUser()
+
+        const userSelf = await User.findOne({nameNormalized: "sktt1faker"})
+
+
+        // add 4 users that like client
+        const usersLikeClientIds = (await User.find({
+            nameNormalized: [
+                "alfredo",
+                "jeff",
+                "maxmustermann",
+                "johndoe",
+            ]
+        })).map(item => item._id)
+        const likesClientToCreate = usersLikeClientIds.map(_id => {
+            return {
+                requester: _id,
+                recipient: userSelf._id,
+                status: "liked"
+            }
+        })
+        await Like.create(likesClientToCreate)
+
+        //exclude:
+        // add 1 user to friend list
+        const userToBefriendId = (await User.findOne({nameNormalized: "wukong"}))._id
+        userSelf.friends.push({user: userToBefriendId})
+
+        // add 1 user to block list
+        const userToBlockId = (await User.findOne({nameNormalized: "elpolyglottian"}))._id
+        userSelf.blocked.push(userToBlockId)
+
+        // add 1 like and 1 dislike of the client
+        const userToLikeId = (await User.findOne({nameNormalized: "g2claps"}))._id
+        const userToDislikeId = (await User.findOne({nameNormalized: "g2craps"}))._id
+        await Like.create([
+            {
+                requester: userSelf._id,
+                recipient: userToLikeId,
+                status: "liked"
+            },
+            {
+                requester: userSelf._id,
+                recipient: userToDislikeId,
+                status: "disliked"
+            }
+        ])
+
+        const excludedUsers = [userSelf._id, userToBefriendId, userToBlockId, userToLikeId, userToDislikeId] //TODO different queries where these shall never show up
+
+        const showsLikedClientUpTo3 = await query(
+            queries.USER_MANY_TO_SWIPE, {
+                variables: {
+                    filter: {
+                        _operators: {
+                            age: {
+                                //impossible to be in these filters; so only likes should be shown
+                                lte: -1, //operators checks truthy, 0 isnt truthy, so -1
+                                gte: 100
+                            }
+                        }
+                    }
+                }
+            }
+        )
+        expect(showsLikedClientUpTo3.data.userManyToSwipe.length).toBe(3)
+
+        //with 20 users - 5 excluded, 15 possible users. Only show 10
+        const limitsTo10 = await query(
+            queries.USER_MANY_TO_SWIPE, {
+                variables: {
+                    filter: {}
+                }
+            }
+        )
+        expect(limitsTo10.data.userManyToSwipe.length).toBe(10)
+
+        //randomizes order
+        //order of 2 shuffled orders can be the same with a chance of 1:10!; but not 4 times in a row (1:10!^4 / 10^26)
+        const doQueryMultipleTimes = await Promise.all(Array(5).fill(null).map(async () => query(
+            queries.USER_MANY_TO_SWIPE, {
+                variables: {
+                    filter: {}
+                }
+            }
+        )))
+        const [first, ...other] = doQueryMultipleTimes
+        const notAllEqual = other.some((elem) => !_.isEqual(elem, first))
+
+        expect(notAllEqual).toBe(true)
     })
 });
