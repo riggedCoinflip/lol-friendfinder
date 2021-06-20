@@ -269,6 +269,7 @@ describe("User GraphQL Test Suite", () => {
                 status: "disliked"
             }
         ])
+        await userSelf.save()
 
         const excludedUsers = [userSelf._id, userToBefriendId, userToBlockId, userToLikeId, userToDislikeId] //TODO different queries where these shall never show up
 
