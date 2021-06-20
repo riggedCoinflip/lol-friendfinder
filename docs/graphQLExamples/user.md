@@ -91,7 +91,7 @@ mutation {
 ```
 
 ### Show every user that likes you
-
+<span style="color:red">⚠️ Currently disabled</span>
 ````graphql
 {
     userManyLikesMe {

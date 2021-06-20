@@ -77,17 +77,14 @@ const userSelf = UserTCPrivate.mongooseResolvers
         return next(rp);
     })
 
+/*
+FUTURE: premium feature
 UserTCPublic.addResolver({
     kind: "query",
     name: "userManyLikesMe",
     description: "Show all users that like logged in user.",
     type: [UserTCPublic],
     resolve: async ({context}) => {
-        /**
-         * First, find all userIds that like the logged in user
-         * Then, return query of these (populated) users
-         */
-
         const ids = (
             await Like.find({
                 recipient: context.req.user._id,
@@ -98,6 +95,8 @@ UserTCPublic.addResolver({
         return User.find({"_id": {$in: ids}});
     }
 })
+*/
+
 
 const userMany = UserTCPublic.mongooseResolvers.findMany({
     lean: false,
@@ -329,7 +328,7 @@ const UserQuery = {
     userMany,
     ...requireAuthentication({
         userSelf,
-        userManyLikesMe: UserTCPublic.getResolver("userManyLikesMe"),
+        // userManyLikesMe: UserTCPublic.getResolver("userManyLikesMe"),
         userManyToSwipe: UserTCPublic.getResolver("userManyToSwipe"),
     }),
     ...requireAuthorization({
