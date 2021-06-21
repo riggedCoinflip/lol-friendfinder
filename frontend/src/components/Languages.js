@@ -94,7 +94,14 @@ const Languages = (props) => {
             return (
               <ListGroup.Item variant="success" key={index + 1} >
                 {language}
-                <Badge pill variant="danger">
+                <Badge pill variant="danger"
+                /*
+                onClick={e => {
+                  e.preventDefault();
+
+                console.log('you want to delete', e.parentElement.)
+                }}*/
+                >
                   x
                     </Badge>
               </ListGroup.Item>
