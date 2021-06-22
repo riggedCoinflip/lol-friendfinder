@@ -110,6 +110,20 @@ const USER_UPDATE_SELF = `
     }
 `
 
+const USER_MANY_TO_SWIPE = `
+    query userManyToSwipe($filter: FilterFindManyUserPublicInput){
+        userManyToSwipe(filter: $filter)
+        {
+        _id
+            name
+            aboutMe
+            languages
+            gender
+            avatar
+            ingameRole
+        }
+    }
+`
 
 
 module.exports = {
@@ -120,4 +134,5 @@ module.exports = {
     USER_ONE_BY_NAME,
     USER_MANY_LIKES_ME,
     USER_UPDATE_SELF,
+    USER_MANY_TO_SWIPE,
 }

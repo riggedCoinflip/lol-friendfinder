@@ -34,12 +34,18 @@ async function login(email, password) {
     });
 }
 
+/**
+ * Log in as SKTT1Faker
+ */
 async function loginUser() {
-    return login("faker@skt-t1.gg", "BetterNerfBr0cc0li")
+    await login("faker@skt-t1.gg", "BetterNerfBr0cc0li")
 }
 
+/**
+ * Log in as Admin
+ */
 async function loginAdmin() {
-    return login("admin@email.com", "AdminPW1")
+    await login("admin@email.com", "AdminPW1")
 }
 
 function failLogin() {

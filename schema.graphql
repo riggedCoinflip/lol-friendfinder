@@ -172,8 +172,18 @@ type Query {
         skip: Int,
         sort: SortFindManyUserAdminInput
     ): [UserAdmin!]!
-    "Show all users that like logged in user."
-    userManyLikesMe: [UserPublic]
+    """
+
+    Show users the client may be interested in swiping. This includes:
+    1. All users that liked the client
+    2. All users that match the filters used
+
+    Excludes the following users: The client itself, friends, blocked users and users the client already liked.
+    """
+    userManyToSwipe(
+        "Filter by fields"
+        filter: FilterFindManyUserPublicInput
+    ): [UserPublic]
     userOneAdmin(
         "Filter by fields"
         filter: FilterFindOneUserAdminInput,
