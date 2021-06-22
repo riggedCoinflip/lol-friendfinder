@@ -148,7 +148,7 @@ const Languages = (props) => {
 
               }}
                 >
-                  #
+                  X
                     </Badge>
               </ListGroup.Item>
 
