@@ -9,18 +9,32 @@ import {
 
 const GET_LANGUAGES = gql`
 {
-  languageMany(filter: {} limit: 30) 
+  languageMany(filter: {} ) 
   {
     name 
     alpha2 
+    nativeName
+
   }
 }`;
 
+const input_alpha2 = "de";
+
+const GET_LANGUAGES_NAME = gql`
+{
+
+  languageOne(filter: {alpha2: "de" }) {
+    name
+  }
+
+}`;
 
 //ToDo: pass the functions from this component with props
 const Languages = (props) => {
 
   const [local_Languages, setLocal_Languages] = useState([]);
+
+  const [searchTerm, setSearchTerm] = useState("");
 
   //var local_Languages = [] ;//props.state.languages
 
@@ -31,16 +45,16 @@ const Languages = (props) => {
 
   useEffect(() => {
     // props.state.languages=local_Languages;
-     console.log('useEffect [local_Languages]: ', local_Languages)
- 
-     props.setState(state => ({ ...state, "languages": local_Languages }));
-    
-    
-     console.log('props.state.languages: ', props.state.languages)
-   }, [local_Languages])
+    console.log('useEffect [local_Languages]: ', local_Languages)
+
+    props.setState(state => ({ ...state, "languages": local_Languages }));
 
 
- 
+    console.log('props.state.languages: ', props.state.languages)
+  }, [local_Languages])
+
+
+
   const { loading, error, data } = useQuery(GET_LANGUAGES, {
     context: {
       headers: {
@@ -49,12 +63,23 @@ const Languages = (props) => {
     }
   })
 
-  if (loading) return <p>Loading...</p>;
+
+
+  const { loadingLanguageName, errorLanguageName, dataLanguageName } =
+    useQuery(GET_LANGUAGES_NAME)
+
+  if (loading) return <p>Loading languages...</p>;
+  if (loadingLanguageName) return <p>{console.log('loadingLanguageName:')}</p>;
+
   if (error) return <p>Error!</p>;
+  if (errorLanguageName) return <p>Error errorLanguageName! {console.log('errorLanguageName:')}</p>;
+
+  if (dataLanguageName) return <p>Data {console.log('dataLanguageName:')}...</p>;
 
   return (
 
     <div id="avaliableLanguages">
+
 
       <Dropdown>
         <Dropdown.Toggle size="sm" variant="success" id="dropdown-languages">
@@ -62,11 +87,24 @@ const Languages = (props) => {
          </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          <input type="text" placeholder="English" id="language-search" name="langs" />
+          <input autoFocus type="text" placeholder="Type a language...🔍" id="language-search" name="langs"
+            onChange={(e) => { setSearchTerm(e.target.value); }}
+          />
 
           {
             data.languageMany &&
-            data.languageMany.map((data, index) => {
+            data.languageMany.filter((data) => {
+              if (searchTerm === "") {
+                return data
+              } else if (data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                (data.nativeName.toLowerCase().includes(searchTerm.toLowerCase()))
+              ) {
+                return data
+
+              }
+
+            }).map((data, index) => {
+
               return (
                 <Dropdown.Item
                   onClick={e => {
@@ -75,11 +113,13 @@ const Languages = (props) => {
                     //adding another language
                     setLocal_Languages(local_Languages => [...local_Languages, data.alpha2]);
                     console.log('local_Languages, selected: ', data.name)
+                    console.log('###Name')
                   }}
                   key={index + 1} >
                   {data.name}
                 </ Dropdown.Item>
               );
+
             })
 
           }
@@ -92,17 +132,23 @@ const Languages = (props) => {
           local_Languages &&
           local_Languages.map((language, index) => {
             return (
-              <ListGroup.Item variant="success" key={index + 1} >
+              <ListGroup.Item name="spoken-language" value={language} variant="success" key={index + 1} >
                 {language}
+
                 <Badge pill variant="danger"
-                /*
+                
                 onClick={e => {
                   e.preventDefault();
+                  const languageToDelete = e.target.parentElement.getAttribute('value');
+                  //console.log('you want to delete', LanguageToDelete )
+                  //Excluding the language we want to delete
+                  setLocal_Languages(local_Languages.filter(item => item !== languageToDelete));
+                 // console.log('Deleting Language: ', local_Languages)
 
-                console.log('you want to delete', e.parentElement.)
-                }}*/
+
+              }}
                 >
-                  x
+                  #
                     </Badge>
               </ListGroup.Item>
 
@@ -111,6 +157,13 @@ const Languages = (props) => {
         }
       </ListGroup>
 
+
+      <p>ToDo: Name of the languages  using languageOne?
+{
+  /*
+  dataLanguageName.languageOne
+*/}
+      </p>
     </div>
 
   );
