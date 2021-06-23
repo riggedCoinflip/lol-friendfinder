@@ -4,6 +4,16 @@ module.exports = {
         email: "valid@email.com",
     },
 
+    valid2: {
+        name: "validUser2",
+        email: "valid2@email.com",
+    },
+
+    valid3: {
+        name: "validUser3",
+        email: "valid3@email.com",
+    },
+
     admin: {
         name: "someAdmin",
         email: "someAdmin@email.com",

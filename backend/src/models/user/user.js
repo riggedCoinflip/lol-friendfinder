@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
 const {composeMongoose} = require("graphql-compose-mongoose");
 const userValidation = require("../../utils/shared_utils");
 const idvalidator = require("mongoose-id-validator");
+const _ = require("lodash/array");
 
 
 const normalizeName = name => name.toLowerCase()
@@ -120,6 +120,7 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.plugin(idvalidator);
 
+//update dateOfBirth
 UserSchema.pre("save", function (next) {
     if (this.isModified("dateOfBirth") || this.isModified("age")) {
         this.age = (() => {
@@ -130,6 +131,12 @@ UserSchema.pre("save", function (next) {
             return Math.abs(ageDate.getUTCFullYear() - 1970);
         })()
     }
+    next()
+})
+
+//validate uniqueness of friends
+UserSchema.pre("save", function (next) {
+    this.friends.user = _.uniqBy(this.friends.user, i => i._id.toString())
     next()
 })
 
