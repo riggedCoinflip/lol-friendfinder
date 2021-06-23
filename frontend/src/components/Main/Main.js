@@ -70,14 +70,21 @@ export default function Main({ match }) {
                 <strong>{user.age}</strong>
                 <p>{user.aboutMe}</p>
 
-
+            {/*spoken languages*/}
           {user.languages.map((languages, index) => {
             return (
               <Badge pill variant="danger">{languages}</Badge>
+              )
+            })}
+          <div className="right-element">
+         <button  id="block-button"
+           onClick={e => {
 
-            )
-          })}
-
+            e.preventDefault();
+            console.log('user was liked')
+          }}
+          >Block user</button>
+          </div>
               </footer>
 
               <div className="buttons">

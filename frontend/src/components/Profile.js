@@ -155,14 +155,6 @@ export default function Profile() {
 
                 </Dropdown.Menu>
               </Dropdown>
-
-  Avatar
-       <FormControl
-                value={state.avatar}
-                aria-label="Avatar"
-                aria-describedby="basic-addon1"
-              />
-
   Age
     <FormControl
                 value={state.age}

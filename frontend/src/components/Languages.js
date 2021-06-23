@@ -18,11 +18,12 @@ const GET_LANGUAGES = gql`
   }
 }`;
 
+
+
 const input_alpha2 = "de";
 
 const GET_LANGUAGES_NAME = gql`
 {
-
   languageOne(filter: {alpha2: "de" }) {
     name
   }
@@ -76,6 +77,17 @@ const Languages = (props) => {
 
   if (dataLanguageName) return <p>Data {console.log('dataLanguageName:')}...</p>;
 
+  /*
+    var LNames = data.languageMany
+    
+    .filter(item => {
+      return item.alpha2 === "es" })
+    .map(item => {
+      return item.name
+    });
+    console.log('These are the spoken Languages', LNames);
+    */
+    
   return (
 
     <div id="avaliableLanguages">
@@ -91,32 +103,25 @@ const Languages = (props) => {
             onChange={(e) => { setSearchTerm(e.target.value); }}
           />
 
-          {
+          {//data to item/element
             data.languageMany &&
-            data.languageMany.filter((data) => {
-              if (searchTerm === "") {
-                return data
-              } else if (data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                (data.nativeName.toLowerCase().includes(searchTerm.toLowerCase()))
-              ) {
-                return data
-
-              }
-
-            }).map((data, index) => {
-
+            data.languageMany.filter(item => {
+              if (item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.nativeName.toLowerCase().includes(searchTerm.toLowerCase())
+              ) return item
+            }).map((item, index) => {
               return (
                 <Dropdown.Item
                   onClick={e => {
                     e.preventDefault();
 
                     //adding another language
-                    setLocal_Languages(local_Languages => [...local_Languages, data.alpha2]);
-                    console.log('local_Languages, selected: ', data.name)
+                    setLocal_Languages(local_Languages => [...local_Languages, item.alpha2]);
+                    console.log('local_Languages, selected: ', item.name)
                     console.log('###Name')
                   }}
                   key={index + 1} >
-                  {data.name}
+                  {item.nativeName}
                 </ Dropdown.Item>
               );
 
@@ -126,14 +131,30 @@ const Languages = (props) => {
         </Dropdown.Menu>
       </Dropdown>
       {/*  */}
+      <br />
       <ListGroup horizontal>
         {
-
-          local_Languages &&
+local_Languages &&
+local_Languages
+/*
+.filter(item => {
+  return item.map((item, local_Languages) => 
+    {return item.alpha2 === local_Languages} ) 
+})
+*/
+.map((item, index) => {
+  return (
+          /*local_Languages &&
           local_Languages.map((language, index) => {
             return (
-              <ListGroup.Item name="spoken-language" value={language} variant="success" key={index + 1} >
-                {language}
+              
+              displayedLanguage = displayedLanguage.filter(item => {
+                //find index in language Many
+                // languageMany.name.map
+              })
+              */
+              <ListGroup.Item name="spoken-language" value={item} variant="success" key={index + 1} >
+                {item}
 
                 <Badge pill variant="danger"
                 
@@ -144,7 +165,6 @@ const Languages = (props) => {
                   //Excluding the language we want to delete
                   setLocal_Languages(local_Languages.filter(item => item !== languageToDelete));
                  // console.log('Deleting Language: ', local_Languages)
-
 
               }}
                 >
@@ -158,7 +178,7 @@ const Languages = (props) => {
       </ListGroup>
 
 
-      <p>ToDo: Name of the languages  using languageOne?
+      <p>ToDo: Name of the languages  using localLanguages?
 {
   /*
   dataLanguageName.languageOne
