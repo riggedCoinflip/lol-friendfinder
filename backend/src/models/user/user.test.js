@@ -216,4 +216,29 @@ describe("User Model Test Suite", () => {
             expect(err.message).toBe("User validation failed: languages: languages references a non existing ID")
         }
     })
+
+    it("only allows unique users on friends/blocked list", async () => {
+        const user = new User(testUsers.valid)
+        const userToBefriend = new User(testUsers.valid2)
+        const userToBlock = new User(testUsers.valid3)
+
+        await Promise.all([user.save(), userToBefriend.save(), userToBlock.save()])
+
+        //for some reason, this triggers the `idvalidator` plugin, saying the 2nd id is non existing.
+        //But it works as it does not validate a user 2 times on block list.
+        user.blocked = [userToBlock._id, userToBlock._id]
+        try {
+            await user.save()
+            fail("Should throw error")
+        } catch (err) {
+            expect(err.message).toBe("User validation failed: blocked: blocked references a non existing ID")
+        }
+
+        //friends
+        //this works as intended, calling the pre save hook to unique-ify the friends array
+        user.blocked = [] //reset
+        user.friends.user = [userToBefriend._id, userToBefriend._id]
+        await user.save()
+        expect(user.friends.user).toStrictEqual([userToBefriend._id])
+    })
 })
