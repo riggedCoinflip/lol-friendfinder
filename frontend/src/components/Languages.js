@@ -77,7 +77,18 @@ const Languages = (props) => {
 
   if (dataLanguageName) return <p>Data {console.log('dataLanguageName:')}...</p>;
 
-  /*
+
+function alpha2ToName(input)  {
+return data.languageMany.filter(language => {
+  return language.alpha2 === input })
+.map(language => {
+  return language.name
+});
+}
+
+console.log('alpha2ToName:', alpha2ToName("en"));
+
+/*
     var LNames = data.languageMany
     
     .filter(item => {
@@ -88,6 +99,7 @@ const Languages = (props) => {
     console.log('These are the spoken Languages', LNames);
     */
     
+
   return (
 
     <div id="avaliableLanguages">
@@ -103,7 +115,7 @@ const Languages = (props) => {
             onChange={(e) => { setSearchTerm(e.target.value); }}
           />
 
-          {//data to item/element
+          {
             data.languageMany &&
             data.languageMany.filter(item => {
               if (item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -137,11 +149,12 @@ const Languages = (props) => {
 local_Languages &&
 local_Languages
 /*
-.filter(item => {
+.find(item => {
   return item.map((item, local_Languages) => 
     {return item.alpha2 === local_Languages} ) 
 })
 */
+
 .map((item, index) => {
   return (
           /*local_Languages &&
@@ -153,8 +166,9 @@ local_Languages
                 // languageMany.name.map
               })
               */
+
               <ListGroup.Item name="spoken-language" value={item} variant="success" key={index + 1} >
-                {item}
+                {alpha2ToName(item)}
 
                 <Badge pill variant="danger"
                 
