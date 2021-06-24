@@ -32,6 +32,9 @@ const GET_USER_MANY = gql`
 export default function Main({ match }) {
 
   const [users, setUsers] = useState([]);
+  const [userIndex, setUserIndex] = useState(0);
+
+
   const [matchDev, setMatchDev] = useState(null);
 
 
@@ -41,6 +44,12 @@ export default function Main({ match }) {
     console.log('LoadUsers', users)
 
   }, []);
+
+  useEffect(() => {
+    
+    console.log('Somebody was dis/liked', users)
+
+  }, [userIndex]);
 
   const { loading, error, data } = useQuery(GET_USER_MANY,
     {
@@ -56,22 +65,21 @@ export default function Main({ match }) {
 
   return (
     <div className="main-container">
-      <Link to="/">
-        <img src={like} alt="Tinder" />
-      </Link>
+
 
       {users.length > 0 ? (
         <ul>
-          {users.map(user => (
-            <li key={user._id}>
-              <img src="https://placekitten.com/640/392" alt={user.name} />
+          {
+         // users.map(user => (   // For img alt={users.name[0]}
+            <li key={users[userIndex]._id}>
+              <img src="https://placekitten.com/640/392"  />
               <footer>
-                <strong>{user.name}  </strong>
-                <strong>{user.age}</strong>
-                <p>{user.aboutMe}</p>
+                <strong>{users[userIndex].name}  </strong>
+                <strong>{users[userIndex].age}</strong>
+                <p>{users[userIndex].aboutMe}</p>
 
             {/*spoken languages*/}
-          {user.languages.map((languages, index) => {
+          {users[userIndex].languages.map((languages, index) => {
             return (
               <Badge pill variant="danger">{languages}</Badge>
               )
@@ -81,7 +89,7 @@ export default function Main({ match }) {
            onClick={e => {
 
             e.preventDefault();
-            console.log('user was liked')
+            console.log('user was blocked: ')
           }}
           >Block user</button>
           </div>
@@ -90,7 +98,8 @@ export default function Main({ match }) {
               <div className="buttons">
                 <button type="button" onClick={e => {
                   e.preventDefault();
-                  console.log('user was DIS-liked')
+                  console.log('user was DIS-liked ', userIndex)
+                  setUserIndex(userIndex-1);
 
                 }
                 }>
@@ -100,14 +109,16 @@ export default function Main({ match }) {
                 <button type="button" onClick={e => {
 
                   e.preventDefault();
-                  console.log('user was liked')
+                  console.log('user was liked ', userIndex)
+                  setUserIndex(userIndex+1);
                 }
                 } >
                   <img src={like} alt="Like" />
                 </button>
               </div>
             </li>
-          ))}
+      //    ))
+          }
         </ul>
       ) : (
         <div className="empty">
