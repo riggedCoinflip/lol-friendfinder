@@ -22,26 +22,24 @@ const GET_USER = gql`
 
 const UPDATE_USER = gql`
 mutation userUpdateSelf(
-$aboutMe: String, 
-$gender: EnumUserPrivateGender,
-$languages: [String]   
- ){
-userUpdateSelf( 
-  record: { 
-    aboutMe: $aboutMe
-    gender: $gender
-    languages: $languages
-       }
+   $aboutMe: String
+   $languages: [String]
+) {
+   userUpdateSelf(
+       aboutMe: $aboutMe
+       languages: $languages
    ) {
-    record {
-      aboutMe
-      name
-      languages
-      gender
-      avatar
-    }
-  } 
-}`;
+       name
+       aboutMe
+       gender
+       languages
+       dateOfBirth
+       ingameRole
+       friends {user}
+       blocked
+   }
+}
+`;
 
 export default function Profile() {
   const client = useApolloClient();
