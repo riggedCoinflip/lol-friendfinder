@@ -1,16 +1,27 @@
+.right-element {
+  float:right;
+  margin-top: 10px;
+ 
+  
+}
+
 .main-container {
-  max-width: 920px;
-  margin: 0 auto;
-  padding: 50px 0;
+  max-width: 620px;
+  margin:  auto;
+  padding: 25px 25px 25px 25px;
   text-align: center;
+  
 }
 
 .main-container ul {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   grid-gap: 30px;
-  margin-top: 50px;
+  margin-top: 10px;
+
+  
+
 }
 
 .main-container ul li {

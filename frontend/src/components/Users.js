@@ -7,16 +7,17 @@ import Main from './Main/Main';
 
 import { Card, CardGroup} from 'react-bootstrap';
 
-const howManyUsers = 12; //for the request
+const howManyUsers = 22; //for the request
 const GET_USER_MANY = gql`
         { 
           userManyAdmin(filter: { role:user }, limit: 20)
-
 {
         name
         email
         avatar
         age
+        aboutMe
+        languages
 
         
 }
@@ -36,7 +37,7 @@ function Users () {
     })
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error  </p>;
+  if (error) return <p>Error or maybe you arent admin  </p>;
 
   console.log(data)
   let imgURL = `https://placekitten.com/640/392`;

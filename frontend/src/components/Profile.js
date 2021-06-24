@@ -23,12 +23,14 @@ const GET_USER = gql`
 const UPDATE_USER = gql`
 mutation userUpdateSelf(
 $aboutMe: String, 
-$gender: EnumUserPrivateGender  
+$gender: EnumUserPrivateGender,
+$languages: [String]   
  ){
 userUpdateSelf( 
   record: { 
     aboutMe: $aboutMe
     gender: $gender
+    languages: $languages
        }
    ) {
     record {
@@ -45,7 +47,7 @@ export default function Profile() {
   const client = useApolloClient();
 
   const [state, setState] = useState({})
-  const genderOptions = ["non-binary", "male", "female", "intersex", "transgender", "other", "intersex", "I prefer not to say"]
+  const genderOptions = ["non_binary", "male", "female", "intersex", "transgender", "other", "intersex", "I prefer not to say"]
 
 
   //getting data from db and saving on state
@@ -55,9 +57,6 @@ export default function Profile() {
       setState(data.userSelf)
     }
   }, []);
-
-  
-
 
   const { loading, error, data, refetch } = useQuery(GET_USER,
     {
@@ -94,10 +93,7 @@ export default function Profile() {
 
   const getValuesFromChild = (values) => {
     console.log("value from child", values)
-    console.log('State: ', state);
-
-    setState(state => ({ ...state, "languages": values }));
-
+ //   console.log('State getValuesFromChild: ', state.languages);
   }
   return (
     <div id="user-info">
@@ -159,14 +155,6 @@ export default function Profile() {
 
                 </Dropdown.Menu>
               </Dropdown>
-
-  Avatar
-       <FormControl
-                value={state.avatar}
-                aria-label="Avatar"
-                aria-describedby="basic-addon1"
-              />
-
   Age
     <FormControl
                 value={state.age}
@@ -231,7 +219,9 @@ export default function Profile() {
                 updateUser({
                   variables: {
                     aboutMe: state.aboutMe,
-                    gender: state.gender
+                    gender: state.gender,
+                    languages: state.languages
+
                   }
                 });
                 alert('Data was updated');
