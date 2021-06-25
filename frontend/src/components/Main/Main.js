@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMutation } from "react";
 import { Link } from "react-router-dom";
 import "./Main.css";
 //import dummyUsers from "../../util/dummyUsers.json"
@@ -11,47 +11,61 @@ import { useQuery, gql } from '@apollo/client';
 import * as Constants from '../../constants'
 import { Badge } from 'react-bootstrap';
 
-
-
-const howManyUsers = 12; //for the request
-const GET_USER_MANY = gql`
+const howManyUsers = 12;
+//(filter: {_operators: {ingameRole: {in: [Bot]}}})
+const GET_USER_TO_SWIPE = gql`
         { 
-          userManyAdmin(filter: { role:user }, limit: 20)
+          userManyToSwipe
 {
         name
-        email
-        avatar
         age
-        aboutMe
-        languages       
+        languages
+        ingameRole
+        _id
+        gender  
+        aboutMe     
 }
 }`;
 
+const SWIPE_USER = gql`
+mutation 
+    swipe (
+			$recipient: MongoID
+        $status: String!
+    )
+  {
+    swipe
+  (    record: {
+            recipient:  $recipient
+            status:  $status
+        }) {
+        record{
+            requester
+            recipient
+            status
+        }
+    }
+}
+     
 
+`;
 
 export default function Main({ match }) {
 
   const [users, setUsers] = useState([]);
-  const [userIndex, setUserIndex] = useState(0);
-
-
+  const [userIndex, setUserIndex] = useState(1);
   const [matchDev, setMatchDev] = useState(null);
 
-
-
   useEffect(() => {
-    setUsers(data.userManyAdmin);
-    console.log('LoadUsers', users)
-
+    if (dataQuery) setUsers(dataQuery.userManyToSwipe);
+    console.log('useEffect[]', users)
   }, []);
 
   useEffect(() => {
-    
-    console.log('Somebody was dis/liked', users)
-
+    console.log('Somebody was dis/liked')
   }, [userIndex]);
 
-  const { loading, error, data } = useQuery(GET_USER_MANY,
+  const { loading, error, data: dataQuery } = useQuery(GET_USER_TO_SWIPE,
     {
       context: {
         headers: {
@@ -59,6 +73,15 @@ export default function Main({ match }) {
         }
       }
     })
+/*
+    const [swipeUser, { data: dataSwipeUser }] = useMutation(SWIPE_USER, {
+      context: {
+        headers: {
+          "x-auth-token": Constants.AUTH_TOKEN
+        }
+      }
+    })
+    */
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error  </p>;
@@ -67,39 +90,49 @@ export default function Main({ match }) {
     <div className="main-container">
 
 
-      {users.length > 0 ? (
+      {users.length >= 0 &&
+     userIndex <= users.length ? (
         <ul>
           {
-         // users.map(user => (   // For img alt={users.name[0]}
+            // users.map(user => (   // For img alt={users.name[0]}
             <li key={users[userIndex]._id}>
-              <img src="https://placekitten.com/640/392"  />
+              <img src="https://placekitten.com/640/392" />
               <footer>
-                <strong>{users[userIndex].name}  </strong>
-                <strong>{users[userIndex].age}</strong>
+                <strong>Name: {users.[userIndex].name}  </strong>
+                <br/>
+                <strong>Age:{users[userIndex].age}</strong>
                 <p>{users[userIndex].aboutMe}</p>
 
-            {/*spoken languages*/}
-          {users[userIndex].languages.map((languages, index) => {
-            return (
-              <Badge pill variant="danger">{languages}</Badge>
-              )
-            })}
-          <div className="right-element">
-         <button  id="block-button"
-           onClick={e => {
+                {/*spoken languages*/}
+                {users[userIndex].languages.map((languages, index) => {
+                  return (
+                    <Badge pill variant="danger">{languages}</Badge>
+                  )
+                })}
+                <div className="right-element">
+                  <button id="block-button"
+                    onClick={e => {
 
-            e.preventDefault();
-            console.log('user was blocked: ')
-          }}
-          >Block user</button>
-          </div>
+                      e.preventDefault();
+                      console.log('user was blocked: ')
+                    }}
+                  >Block user</button>
+                </div>
               </footer>
 
               <div className="buttons">
                 <button type="button" onClick={e => {
                   e.preventDefault();
-                  console.log('user was DIS-liked ', userIndex)
-                  setUserIndex(userIndex-1);
+                /*
+                  swipeUser({
+                    variables: {
+                      recipient: users[userIndex]._id
+                      status: "disliked"
+                    }
+                  });
+*/
+                  console.log('user was DIS-liked, _id/Name', users[userIndex]._id, users[userIndex].name)
+                  setUserIndex(userIndex + 1);
 
                 }
                 }>
@@ -109,15 +142,15 @@ export default function Main({ match }) {
                 <button type="button" onClick={e => {
 
                   e.preventDefault();
-                  console.log('user was liked ', userIndex)
-                  setUserIndex(userIndex+1);
+                  console.log('user was liked, _id/Name ', users[userIndex]._id, users[userIndex].name)
+                  setUserIndex(userIndex + 1);
                 }
                 } >
                   <img src={like} alt="Like" />
                 </button>
               </div>
             </li>
-      //    ))
+            //    ))
           }
         </ul>
       ) : (

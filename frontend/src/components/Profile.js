@@ -43,7 +43,6 @@ mutation userUpdateSelf(
 
 export default function Profile() {
   const client = useApolloClient();
-
   const [state, setState] = useState({})
   const genderOptions = ["non_binary", "male", "female", "intersex", "transgender", "other", "intersex", "I prefer not to say"]
 
@@ -153,9 +152,10 @@ export default function Profile() {
 
                 </Dropdown.Menu>
               </Dropdown>
-  Age
+Date of birth
     <FormControl
-                value={state.age}
+    placeholder="day/month/year"
+                value={state.dateOfBirth}
                 aria-label="Age"
                 aria-describedby="basic-addon1"
               />

@@ -6,7 +6,7 @@ import Main from './Main/Main';
 
 
 import { Card, CardGroup} from 'react-bootstrap';
-
+/*
 const howManyUsers = 22; //for the request
 const GET_USER_MANY = gql`
         { 
@@ -23,10 +23,10 @@ const GET_USER_MANY = gql`
 }
 }`;
 
-
+*/
 function Users () {
 
-
+/*
   const { loading, error, data } = useQuery(GET_USER_MANY,
     {
       context: {
@@ -42,7 +42,7 @@ function Users () {
   console.log(data)
   let imgURL = `https://placekitten.com/640/392`;
   console.log(imgURL)
-
+*/
   return (
     <div className="user">
 
