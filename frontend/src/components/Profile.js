@@ -16,7 +16,7 @@ const GET_USER = gql`
           gender
           avatar
           ingameRole
-
+          dateOfBirth
         }         
         }`;
 
@@ -52,6 +52,7 @@ export default function Profile() {
     if (data) {
       // alert("dataUpdate exist");
       setState(data.userSelf)
+
     }
   }, []);
 
@@ -92,6 +93,8 @@ export default function Profile() {
     console.log("value from child", values)
  //   console.log('State getValuesFromChild: ', state.languages);
   }
+  console.log('STATE.dateOfBirth', state.dateOfBirth);
+
   return (
     <div id="user-info">
 
@@ -154,13 +157,15 @@ export default function Profile() {
               </Dropdown>
 Date of birth
     <FormControl
-    placeholder="day/month/year"
-                value={state.dateOfBirth}
-                aria-label="Age"
+                placeholder="day/month/year"
+                /*type="date"*/
+                aria-label="dateOfBith"
                 aria-describedby="basic-addon1"
+                value={state.dateOfBirth}
+
               />
 
-  IngameRole
+  IngameRole (broken!)
   <ListGroup horizontal>
                 {
                   state.ingameRole &&
