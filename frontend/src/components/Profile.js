@@ -67,7 +67,7 @@ export default function Profile() {
       // alert("dataUpdate exist");
       refetch();
       setState(data.userSelf)
-      console.log('State from useEffect', state);
+      console.log('State  from useEffect', state);
     }
   }, []);
 
