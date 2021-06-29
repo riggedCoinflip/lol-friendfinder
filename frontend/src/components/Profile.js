@@ -108,18 +108,12 @@ export default function Profile() {
  //   console.log('State getValuesFromChild: ', state.languages);
   }
   console.log('STATE.dateOfBirth', state?.dateOfBirth);
-  /*
-  function limitDate(input) {
-    if(input === "undefined" )
-    {   return input
-   
-  }
-  else  {  
- const  output = input.substring(0, 10);
+  
+  function limitDate(input) {  
+ const  output = input?.substring(0, 10) ?? "Dateis unknown";
     return output
   }
-  }
-  */
+   
 
   return (
     <div id="user-info">
@@ -187,7 +181,7 @@ Date of birth
                 /*type="date"*/
                 aria-label="dateOfBith"
                 aria-describedby="basic-addon1"
-                value={state?.dateOfBirth}
+                value={limitDate(state?.dateOfBirth)}
 
               />
 
