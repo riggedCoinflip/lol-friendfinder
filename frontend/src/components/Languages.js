@@ -16,7 +16,7 @@ const GET_LANGUAGES = gql`
 
   }
 }`;
-//ToDo: pass the functions from this component with props
+
 const Languages = (props) => {
 
   const [local_Languages, setLocal_Languages] = useState([]);

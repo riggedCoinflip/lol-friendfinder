@@ -2,14 +2,17 @@ import { useEffect, useState, React } from 'react';
 import { useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
 import * as Constants from '../constants'
 import Languages from './Languages';
+import Friends from './Friends';
+
 import {
   Button, Container, Card, Form, Col, Image, Row,
-  InputGroup, FormControl, ListGroup, Badge, Dropdown, DropdownButton
+  InputGroup, FormControl, ListGroup, Dropdown
 } from 'react-bootstrap';
 
 const GET_USER = gql`
        { userSelf
         {
+          _id
           name
           aboutMe
           languages
@@ -17,6 +20,8 @@ const GET_USER = gql`
           avatar
           ingameRole
           dateOfBirth
+          friends{user}
+
         }         
         }`;
 
@@ -29,6 +34,7 @@ mutation userUpdateSelf(
        aboutMe: $aboutMe
        languages: $languages
    ) {
+     
        name
        aboutMe
        gender
@@ -94,6 +100,18 @@ export default function Profile() {
  //   console.log('State getValuesFromChild: ', state.languages);
   }
   console.log('STATE.dateOfBirth', state.dateOfBirth);
+  /*
+  function limitDate(input) {
+    if(input === "undefined" )
+    {   return input
+   
+  }
+  else  {  
+ const  output = input.substring(0, 10);
+    return output
+  }
+  }
+  */
 
   return (
     <div id="user-info">
@@ -183,18 +201,10 @@ Date of birth
               {/**/}
               <Languages getValuesFromChild={getValuesFromChild}
                 state={state} setState={setState}
-
               />
-
-
-
               <br />
-
-
             </Col>
-
           </Row>
-
 
           <Row>
             <Form.Text className="text-muted">
@@ -238,6 +248,10 @@ Date of birth
             <br />
           </div>
         </Form>
+        <br />
+        Id from your actual friends: (id):
+        <Friends data={data} />
+              
       </Container>
     </div>
 

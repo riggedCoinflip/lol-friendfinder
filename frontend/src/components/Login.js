@@ -1,5 +1,5 @@
-import React, {useState,useEffect} from "react";
-import {gql, useQuery,  useApolloClient} from "@apollo/client";
+import React, {useState } from "react";
+import {gql, useApolloClient} from "@apollo/client";
 import {useHistory} from "react-router-dom";
 import * as Constants from '../constants'
 

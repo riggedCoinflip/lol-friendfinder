@@ -23,6 +23,7 @@ function MyNavbar() {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Link to="/profile" className="nav-link">Profile</Link>
+
                     <Link to="/Users" className="nav-link">Users</Link>
 
                     <Navbar.Brand className="mx-auto order-0 justify-content-md-center">
