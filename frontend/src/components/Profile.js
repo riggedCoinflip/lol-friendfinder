@@ -52,13 +52,22 @@ export default function Profile() {
   const [state, setState] = useState({})
   const genderOptions = ["non_binary", "male", "female", "intersex", "transgender", "other", "intersex", "I prefer not to say"]
 
+/*
+  useEffect(() => {   
+    refetch();
+    setState(data?.userSelf)
+    console.log('State', state);
 
+}, [data.userSelf]);
+*/
   //getting data from db and saving on state
+  
   useEffect(() => {
     if (data) {
       // alert("dataUpdate exist");
+      refetch();
       setState(data.userSelf)
-
+      console.log('State from useEffect', state);
     }
   }, []);
 
@@ -88,7 +97,6 @@ export default function Profile() {
 
   console.log('Data Mutation:', dataUpdate);
   console.log('Data Query:', data);
-  console.log('State', state);
 
   const changeHandler = e => {
     e.persist(); //important
@@ -99,7 +107,7 @@ export default function Profile() {
     console.log("value from child", values)
  //   console.log('State getValuesFromChild: ', state.languages);
   }
-  console.log('STATE.dateOfBirth', state.dateOfBirth);
+  console.log('STATE.dateOfBirth', state?.dateOfBirth);
   /*
   function limitDate(input) {
     if(input === "undefined" )
@@ -133,7 +141,7 @@ export default function Profile() {
                 </InputGroup.Prepend>
                 <FormControl
                   name="name"
-                  value={state.name}
+                  value={state?.name}
                   onChange={changeHandler}
                   aria-label="Username"
                   aria-describedby="basic-addon1"
@@ -144,7 +152,7 @@ export default function Profile() {
               <Dropdown>
                 <Dropdown.Toggle
                   size="sm" variant="success" id="dropdown-gender">
-                  {state.gender}
+                  {state?.gender}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu
@@ -179,15 +187,15 @@ Date of birth
                 /*type="date"*/
                 aria-label="dateOfBith"
                 aria-describedby="basic-addon1"
-                value={state.dateOfBirth}
+                value={state?.dateOfBirth}
 
               />
 
-  IngameRole (broken!)
+  IngameRole 
   <ListGroup horizontal>
                 {
-                  state.ingameRole &&
-                  state.ingameRole.map((data, index) => {
+                  state?.ingameRole &&
+                  state?.ingameRole.map((data, index) => {
                     return (
                       <ListGroup.Item variant="dark" key={index + 1} >
                         {data}
@@ -213,7 +221,7 @@ Date of birth
             <Form.Control
               as="textarea"
               rows={3}
-              value={state.aboutMe}
+              value={state?.aboutMe}
               id="aboutMe"
               onChange={changeHandler}
               name="aboutMe"

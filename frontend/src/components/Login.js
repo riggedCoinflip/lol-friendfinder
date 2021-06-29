@@ -42,6 +42,7 @@ export default function Login() {
                         console.log(DATA_AUTH_TOKEN) //for now, log token //TODO find a way to store token
                         localStorage.setItem("SECREToken", DATA_AUTH_TOKEN);
                         history.push("/profile")
+                
                     }).catch(() => {
                         setErrored(true)
                     });

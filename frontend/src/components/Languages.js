@@ -56,7 +56,7 @@ const Languages = (props) => {
   }
 
 //Test
-console.log('This is a test for the function alpha2ToName("en"):', alpha2ToName("en"));
+//console.log('This is a test for the function alpha2ToName("en"):', alpha2ToName("en"));
 
   return (
 
