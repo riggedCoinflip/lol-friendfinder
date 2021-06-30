@@ -1,13 +1,12 @@
-import {  React } from 'react';
-import Main from './Main/Main';
+import { React } from "react"
+import Main from "./Main/Main"
 
-function Users () {
-
+function Users() {
   return (
     <div className="user">
-<Main />
+      <Main />
     </div>
-    );
-        }
+  )
+}
 
-export default Users;
+export default Users

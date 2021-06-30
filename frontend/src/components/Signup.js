@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { gql, useApolloClient } from "@apollo/client";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import * as validateSignup from "../shared/util/validateSignup";
+import React, { useEffect, useState } from "react"
+import { Link, useHistory } from "react-router-dom"
+import { gql, useApolloClient } from "@apollo/client"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons"
+import * as validateSignup from "../shared/util/validateSignup"
 
 const USER_CREATE = gql`
   mutation signup(
@@ -16,7 +16,7 @@ const USER_CREATE = gql`
       email
     }
   }
-`;
+`
 
 /**
  * validate if form fits the business policies
@@ -37,7 +37,7 @@ function validateOnChange(email, password, password2, specialChars) {
       specialChars
     ),
     passwordIsSame: password === password2,
-  };
+  }
 }
 
 /**
@@ -73,15 +73,15 @@ function validateOnSubmit(response) {
  */
 export default function Signup() {
   //OPTIMIZE write function that blocks the user from writing not allowed characters in the first place (currently only checking against)
-  const client = useApolloClient();
-  const history = useHistory();
+  const client = useApolloClient()
+  const history = useHistory()
   const [state, setState] = useState({
     email: "",
     username: "",
     password: "",
     password2: "",
     passwordInvisible: true,
-  });
+  })
   const [validation, setValidation] = useState({
     emailIsValid: false,
 
@@ -90,14 +90,14 @@ export default function Signup() {
     passwordHasDigit: false,
     passwordCharactersAllowed: false,
     passwordIsSame: false,
-  });
+  })
   const [validationQuery, setValidationQuery] = useState({
     emailAvailable: null,
     usernameAvailable: null,
-  });
+  })
 
   useEffect(() => {
-    console.table(state);
+    console.table(state)
     setValidation(
       validateOnChange(
         state.email,
@@ -105,23 +105,23 @@ export default function Signup() {
         state.password2,
         validateSignup.passwordAllowedSpecialCharacters
       )
-    );
-  }, [state]);
+    )
+  }, [state])
 
   useEffect(() => {
-    console.log(validation);
-  }, [validation]);
+    console.log(validation)
+  }, [validation])
 
   useEffect(() => {
-    console.log(validationQuery);
-  }, [validationQuery]);
+    console.log(validationQuery)
+  }, [validationQuery])
 
   /**
    * update the corresponding state field
    * @param event
    */
   function handleChange(event) {
-    setState({ ...state, [event.target.name]: event.target.value });
+    setState({ ...state, [event.target.name]: event.target.value })
   }
 
   /**
@@ -130,10 +130,10 @@ export default function Signup() {
    * @param event
    */
   function handleUsernameChange(event) {
-    handleChange(event);
+    handleChange(event)
 
-    const { usernameAvailable, ...newValidationQuery } = validationQuery; //use destructuring to remove key
-    setValidationQuery(newValidationQuery);
+    const { usernameAvailable, ...newValidationQuery } = validationQuery //use destructuring to remove key
+    setValidationQuery(newValidationQuery)
   }
 
   /**
@@ -142,10 +142,10 @@ export default function Signup() {
    * @param event
    */
   function handleEmailChange(event) {
-    handleChange(event);
+    handleChange(event)
 
-    const { emailAvailable, ...newValidationQuery } = validationQuery; //use destructuring to remove key
-    setValidationQuery(newValidationQuery);
+    const { emailAvailable, ...newValidationQuery } = validationQuery //use destructuring to remove key
+    setValidationQuery(newValidationQuery)
   }
 
   /**
@@ -155,21 +155,21 @@ export default function Signup() {
    * @param event
    */
   function handleSubmit(event) {
-    console.table(state);
-    event.preventDefault();
+    console.table(state)
+    event.preventDefault()
 
     // Request if the username/email exists already, if available, create the account
 
     createUser(state.username, state.email, state.password)
       .then((res) => {
-        history.push("/login");
-        alert("Account creation successful 🔥!");
-        console.log("state:", state);
+        history.push("/login")
+        alert("Account creation successful 🔥!")
+        console.log("state:", state)
       })
       .catch((err) => {
-        alert("Error: Name or E-Mail are already given 😓");
-        console.error(`Error in createUser: ${err}`);
-      });
+        alert("Error: Name or E-Mail are already given 😓")
+        console.error(`Error in createUser: ${err}`)
+      })
   }
 
   /**
@@ -189,11 +189,11 @@ export default function Signup() {
         email: email,
         password: password,
       },
-    });
+    })
   }
 
   function changePasswordVisibility() {
-    setState({ ...state, passwordInvisible: !state.passwordInvisible });
+    setState({ ...state, passwordInvisible: !state.passwordInvisible })
   }
 
   return (
@@ -368,5 +368,5 @@ export default function Signup() {
         Already registered? <Link to="/login">Log in</Link>
       </p>
     </form>
-  );
+  )
 }

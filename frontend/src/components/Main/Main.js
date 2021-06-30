@@ -69,9 +69,7 @@ export default function Main({ match }) {
 
   return (
     <div className="main-container">
-      {users.length >= 0 &&
-      users?.[0] &&
-      userIndex <= users.length ? (
+      {users.length >= 0 && users?.[0] && userIndex <= users.length ? (
         <ul>
           {
             <li key={users[userIndex]?._id}>
