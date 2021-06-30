@@ -188,6 +188,9 @@ Date of birth
   IngameRole 
   <ListGroup horizontal>
                 {
+ state?.ingameRole ? 
+                  
+
                   state?.ingameRole &&
                   state?.ingameRole.map((data, index) => {
                     return (
@@ -196,7 +199,9 @@ Date of birth
                       </ListGroup.Item>
                     );
                   })
-                }
+                  :
+                  <p>There're not IngameRole selected</p>
+                   }
               </ListGroup>
 
               <br />
@@ -205,6 +210,7 @@ Date of birth
                 state={state} setState={setState}
               />
               <br />
+              
             </Col>
           </Row>
 
