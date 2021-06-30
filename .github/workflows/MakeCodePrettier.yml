@@ -1,5 +1,5 @@
-#This format our code with pretier and eslint
-name: Lint
+#This format our code with prettier and eslint
+name: Code prettier with prettier and eslint
 
 on:
   # Trigger the workflow on push or pull request,
