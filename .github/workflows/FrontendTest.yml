@@ -15,5 +15,5 @@ jobs:
            spec: cypress/integration/lolTests/home.spec.js
          
         #  headless: true
-        wait-on: 'http://localhost:3000'
+        #wait-on: 'http://localhost:3000'
 
