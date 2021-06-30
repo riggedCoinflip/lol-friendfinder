@@ -52,16 +52,16 @@ export default function Profile() {
   const [state, setState] = useState({})
   const genderOptions = ["non_binary", "male", "female", "intersex", "transgender", "other", "intersex", "I prefer not to say"]
 
-/*
-  useEffect(() => {   
-    refetch();
-    setState(data?.userSelf)
-    console.log('State', state);
-
-}, [data.userSelf]);
-*/
-  //getting data from db and saving on state
+  /*
+    useEffect(() => {   
+      refetch();
+      setState(data?.userSelf)
+      console.log('State', state);
   
+  }, [data.userSelf]);
+  */
+  //getting data from db and saving on state
+
   useEffect(() => {
     if (data) {
       // alert("dataUpdate exist");
@@ -105,15 +105,15 @@ export default function Profile() {
 
   const getValuesFromChild = (values) => {
     console.log("value from child", values)
- //   console.log('State getValuesFromChild: ', state.languages);
+    //   console.log('State getValuesFromChild: ', state.languages);
   }
   console.log('STATE.dateOfBirth', state?.dateOfBirth);
-  
-  function limitDate(input) {  
- const  output = input?.substring(0, 10) ?? "Dateis unknown";
+
+  function limitDate(input) {
+    const output = input?.substring(0, 10) ?? "Dateis unknown";
     return output
   }
-   
+
 
   return (
     <div id="user-info">
@@ -185,23 +185,23 @@ Date of birth
 
               />
 
-  IngameRole 
+  IngameRole
   <ListGroup horizontal>
                 {
- state?.ingameRole ? 
-                  
+                  state?.ingameRole ?
 
-                  state?.ingameRole &&
-                  state?.ingameRole.map((data, index) => {
-                    return (
-                      <ListGroup.Item variant="dark" key={index + 1} >
-                        {data}
-                      </ListGroup.Item>
-                    );
-                  })
-                  :
-                  <p>There're not IngameRole selected</p>
-                   }
+
+                    state?.ingameRole &&
+                    state?.ingameRole.map((data, index) => {
+                      return (
+                        <ListGroup.Item variant="dark" key={index + 1} >
+                          {data}
+                        </ListGroup.Item>
+                      );
+                    })
+                    :
+                    <p>There're not IngameRole selected</p>
+                }
               </ListGroup>
 
               <br />
@@ -210,7 +210,7 @@ Date of birth
                 state={state} setState={setState}
               />
               <br />
-              
+
             </Col>
           </Row>
 
@@ -259,7 +259,7 @@ Date of birth
         <br />
         Id from your actual friends: (id):
         <Friends data={data} />
-              
+
       </Container>
     </div>
 
