@@ -10,7 +10,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2        
          with:
-          # browser: chrome
-           spec: cypress/integration/lolTests/home.spec.js
+           browser: chrome
+          # spec: cypress/integration/lolTests/home.spec.js
          
     
