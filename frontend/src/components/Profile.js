@@ -1,8 +1,8 @@
-import { useEffect, useState, React } from "react";
-import { useQuery, gql, useMutation, useApolloClient } from "@apollo/client";
-import * as Constants from "../constants";
-import Languages from "./Languages";
-import Friends from "./Friends";
+import { useEffect, useState, React } from "react"
+import { useQuery, gql, useMutation } from "@apollo/client"
+import * as Constants from "../constants"
+import Languages from "./Languages"
+import Friends from "./Friends"
 
 import {
   Button,
@@ -16,7 +16,7 @@ import {
   FormControl,
   ListGroup,
   Dropdown,
-} from "react-bootstrap";
+} from "react-bootstrap"
 
 const GET_USER = gql`
   {
@@ -34,7 +34,7 @@ const GET_USER = gql`
       }
     }
   }
-`;
+`
 
 const UPDATE_USER = gql`
   mutation userUpdateSelf($aboutMe: String, $languages: [String]) {
@@ -51,11 +51,10 @@ const UPDATE_USER = gql`
       blocked
     }
   }
-`;
+`
 
 export default function Profile() {
-  const client = useApolloClient();
-  const [state, setState] = useState({});
+  const [state, setState] = useState({})
   const genderOptions = [
     "non_binary",
     "male",
@@ -65,26 +64,15 @@ export default function Profile() {
     "other",
     "intersex",
     "I prefer not to say",
-  ];
-
-  /*
-    useEffect(() => {   
-      refetch();
-      setState(data?.userSelf)
-      console.log('State', state);
-  
-  }, [data.userSelf]);
-  */
-  //getting data from db and saving on state
+  ]
 
   useEffect(() => {
     if (data) {
-      // alert("dataUpdate exist");
-      refetch();
-      setState(data.userSelf);
-      console.log("State from useEffect", state);
+      refetch()
+      setState(data.userSelf)
+      console.log("State from useEffect", state)
     }
-  }, []);
+  }, [])
 
   const { loading, error, data, refetch } = useQuery(GET_USER, {
     context: {
@@ -92,7 +80,7 @@ export default function Profile() {
         "x-auth-token": Constants.AUTH_TOKEN,
       },
     },
-  });
+  })
 
   const [updateUser, { data: dataUpdate }] = useMutation(UPDATE_USER, {
     context: {
@@ -100,29 +88,29 @@ export default function Profile() {
         "x-auth-token": Constants.AUTH_TOKEN,
       },
     },
-  });
+  })
 
   //Get users data
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error!</p>;
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error!</p>
 
-  console.log("Data Mutation:", dataUpdate);
-  console.log("Data Query:", data);
+  console.log("Data Mutation:", dataUpdate)
+  console.log("Data Query:", data)
 
   const changeHandler = (e) => {
-    e.persist(); //important
-    setState((state) => ({ ...state, [e.target.name]: e.target.value }));
-  };
+    e.persist() //important
+    setState((state) => ({ ...state, [e.target.name]: e.target.value }))
+  }
 
   const getValuesFromChild = (values) => {
-    console.log("value from child", values);
+    console.log("value from child", values)
     //   console.log('State getValuesFromChild: ', state.languages);
-  };
-  console.log("STATE.dateOfBirth", state?.dateOfBirth);
+  }
+  console.log("STATE.dateOfBirth", state?.dateOfBirth)
 
   function limitDate(input) {
-    const output = input?.substring(0, 10) ?? "Dateis unknown";
-    return output;
+    const output = input?.substring(0, 10) ?? "Dateis unknown"
+    return output
   }
 
   return (
@@ -163,19 +151,19 @@ export default function Profile() {
                         <Dropdown.Item
                           name="gender"
                           onClick={(e) => {
-                            e.preventDefault();
+                            e.preventDefault()
 
-                            console.log("Gender selected: ", selectedGender);
+                            console.log("Gender selected: ", selectedGender)
                             setState((state) => ({
                               ...state,
                               gender: selectedGender,
-                            }));
+                            }))
                           }}
                           key={index + 1}
                         >
                           {selectedGender}
                         </Dropdown.Item>
-                      );
+                      )
                     })}
                 </Dropdown.Menu>
               </Dropdown>
@@ -196,7 +184,7 @@ export default function Profile() {
                       <ListGroup.Item variant="dark" key={index + 1}>
                         {data}
                       </ListGroup.Item>
-                    );
+                    )
                   })
                 ) : (
                   <p>There're not IngameRole selected</p>
@@ -234,18 +222,18 @@ export default function Profile() {
               variant="primary"
               size="sm"
               onClick={(e) => {
-                e.preventDefault();
+                e.preventDefault()
                 updateUser({
                   variables: {
                     aboutMe: state.aboutMe,
                     gender: state.gender,
                     languages: state.languages,
                   },
-                });
-                alert("Data was updated");
+                })
+                alert("Data was updated")
 
                 //get new data after mutation
-                refetch();
+                refetch()
               }}
             >
               {" "}
@@ -260,5 +248,5 @@ export default function Profile() {
         <Friends data={data} />
       </Container>
     </div>
-  );
+  )
 }

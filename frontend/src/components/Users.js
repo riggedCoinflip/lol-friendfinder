@@ -5,14 +5,9 @@ function Users () {
 
   return (
     <div className="user">
-
 <Main />
-
     </div>
     );
         }
-
-
-
 
 export default Users;

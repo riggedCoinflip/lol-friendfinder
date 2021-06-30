@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react";
-import "./Main.css";
-//import dummyUsers from "../../util/dummyUsers.json"
-import icon from "../../assets/icon.png";
-import like from "../../assets/like.svg";
-import dislike from "../../assets/dislike.svg";
-import itsamatch from "../../assets/itsamatch.png";
+import React, { useEffect, useState } from "react"
+import "./Main.css"
+import icon from "../../assets/icon.png"
+import like from "../../assets/like.svg"
+import dislike from "../../assets/dislike.svg"
+import itsamatch from "../../assets/itsamatch.png"
+import { useQuery, gql, useMutation } from "@apollo/client"
+import * as Constants from "../../constants"
+import { Badge } from "react-bootstrap"
 
-import { useQuery, gql, useMutation } from "@apollo/client";
-import * as Constants from "../../constants";
-import { Badge } from "react-bootstrap";
-
-//(filter: {_operators: {ingameRole: {in: [Bot]}}})
 const GET_USER_TO_SWIPE = gql`
   {
     userManyToSwipe {
@@ -23,7 +20,7 @@ const GET_USER_TO_SWIPE = gql`
       aboutMe
     }
   }
-`;
+`
 
 const SWIPE_USER = gql`
   mutation swipe($recipient: MongoID, $status: String!) {
@@ -35,21 +32,17 @@ const SWIPE_USER = gql`
       }
     }
   }
-`;
+`
 
 export default function Main({ match }) {
-  const [users, setUsers] = useState([]);
-  const [userIndex, setUserIndex] = useState(0);
-  const [matchDev, setMatchDev] = useState(null);
+  const [users, setUsers] = useState([])
+  const [userIndex, setUserIndex] = useState(0)
+  const [matchDev, setMatchDev] = useState(null)
 
   useEffect(() => {
-    if (dataQuery) setUsers(dataQuery.userManyToSwipe);
-    console.log("useEffect[]", users);
-  }, []);
-
-  useEffect(() => {
-    // console.log('Somebody was dis/liked')
-  }, [userIndex]);
+    if (dataQuery) setUsers(dataQuery.userManyToSwipe)
+    console.log("useEffect[]", users)
+  }, [])
 
   const {
     loading,
@@ -61,7 +54,7 @@ export default function Main({ match }) {
         "x-auth-token": Constants.AUTH_TOKEN,
       },
     },
-  });
+  })
 
   const [swipeUser, { data: dataSwipeUser }] = useMutation(SWIPE_USER, {
     context: {
@@ -69,22 +62,20 @@ export default function Main({ match }) {
         "x-auth-token": Constants.AUTH_TOKEN,
       },
     },
-  });
+  })
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error </p>;
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error </p>
 
   return (
     <div className="main-container">
       {users.length >= 0 &&
       users?.[0] &&
-      //users ===  'undefined' &&
       userIndex <= users.length ? (
         <ul>
           {
-            // users.map(user => (   // For img alt={users.name[0]}
             <li key={users[userIndex]?._id}>
-              <img src="https://placekitten.com/640/392" />
+              <img src="https://placekitten.com/640/392" alt="My profile" />
               <footer>
                 <strong>Name: {users?.[userIndex]?.name} </strong>
                 <br />
@@ -97,14 +88,14 @@ export default function Main({ match }) {
                     <Badge pill variant="danger">
                       {languages}
                     </Badge>
-                  );
+                  )
                 })}
                 <div className="right-element">
                   <button
                     id="block-button"
                     onClick={(e) => {
-                      e.preventDefault();
-                      console.log("user was blocked: ", userIndex);
+                      e.preventDefault()
+                      console.log("user was blocked: ", userIndex)
                     }}
                   >
                     Block user
@@ -116,21 +107,21 @@ export default function Main({ match }) {
                 <button
                   type="button"
                   onClick={(e) => {
-                    e.preventDefault();
+                    e.preventDefault()
 
                     swipeUser({
                       variables: {
                         recipient: users[userIndex]?._id,
                         status: "disliked",
                       },
-                    });
+                    })
 
                     console.log(
                       "user was DIS-liked, _id/Name",
                       users[userIndex]._id,
                       users[userIndex].name
-                    );
-                    setUserIndex(userIndex + 1);
+                    )
+                    setUserIndex(userIndex + 1)
                   }}
                 >
                   <img src={dislike} alt="Dislike" />
@@ -139,21 +130,21 @@ export default function Main({ match }) {
                 <button
                   type="button"
                   onClick={(e) => {
-                    e.preventDefault();
+                    e.preventDefault()
                     swipeUser({
                       variables: {
                         recipient: users?.[userIndex]?._id,
                         status: "liked",
                       },
-                    });
+                    })
 
                     console.log(
                       "user was liked, _id/Name ",
                       users[userIndex]?._id,
                       users[userIndex]?.name,
                       userIndex
-                    );
-                    setUserIndex(userIndex + 1);
+                    )
+                    setUserIndex(userIndex + 1)
                   }}
                 >
                   <img src={like} alt="Like" />
@@ -178,5 +169,5 @@ export default function Main({ match }) {
         </div>
       )}
     </div>
-  );
+  )
 }

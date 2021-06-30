@@ -1,7 +1,6 @@
 import React, {useState } from "react";
 import {gql, useApolloClient} from "@apollo/client";
 import {useHistory} from "react-router-dom";
-import * as Constants from '../constants'
 
 const LOGIN = gql`
     query login($email: String!, $password: String!)
@@ -34,8 +33,8 @@ export default function Login() {
         event.preventDefault();
     
         //Calling the function
-        Submit(state.email, state.password). 
-                    then((res) => {
+        Submit(state.email, state.password) 
+                    .then((res) => {
                         alert(`Log in successful! - Token is stored in localStorage. 
                         localStorage.getItem("SECREToken");`);
                         const DATA_AUTH_TOKEN = res.data.login;
