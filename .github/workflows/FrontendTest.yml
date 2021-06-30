@@ -12,7 +12,7 @@ jobs:
         uses: cypress-io/github-action@v2
          with:
           # browser: chrome
-           spec: frontend/cypress/integration/lolTests/**/*
+           spec: cypress/integration/lolTests/**/*
          
           headless: true
         wait-on: 'http://localhost:3000'
