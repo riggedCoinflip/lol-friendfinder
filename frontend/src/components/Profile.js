@@ -205,7 +205,10 @@ Date of birth
                 state={state} setState={setState}
               />
               <br />
-            </Col>  </Row>
+            </Col>  
+            
+            
+            </Row>
          
 
           <Row>
