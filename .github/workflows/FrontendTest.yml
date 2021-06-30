@@ -11,7 +11,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
          with:
-           browser: chrome
+          # browser: chrome
            spec: frontend/cypress/integration/lolTests/**/*
          
           headless: true
