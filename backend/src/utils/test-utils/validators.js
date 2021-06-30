@@ -25,14 +25,14 @@ function validateMongoDuplicationError(errorName, code) {
 /**
  * Test if thrown ValidationError is expected one
  * @param err Error
- * @param {String} expectedErrorField err.errors.path
- * @param {String} violatedValidation err.errors.kind
+ * @param {String} expectedPath err.errors.path
+ * @param {String} expectedKind err.errors.kind
  */
-function validateMongoValidationError(err, expectedErrorField, violatedValidation) {
-    const {path, kind} = err.errors[expectedErrorField];
+function validateMongoValidationError(err, expectedPath, expectedKind) {
+    const {path, kind} = err.errors[expectedPath];
     expect(err.name).toEqual("ValidationError")
-    expect(path).toEqual(expectedErrorField);
-    expect(kind).toEqual(violatedValidation);
+    expect(path).toEqual(expectedPath);
+    expect(kind).toEqual(expectedKind);
 }
 
 module.exports = {

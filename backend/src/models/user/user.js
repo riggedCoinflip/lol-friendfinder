@@ -1,18 +1,12 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
 const {composeMongoose} = require("graphql-compose-mongoose");
 const userValidation = require("../../utils/shared_utils");
-const idvalidator = require('mongoose-id-validator');
+const idvalidator = require("mongoose-id-validator");
+const _ = require("lodash/array");
 
-//save time on testing
-const SALT_ROUNDS = process.env.NODE_ENV === "test" ? 5 : 10;
 
-/*
-dev-admin:
-name: Admin
-email: admin@email.com
-password: Password1
- */
+const normalizeName = name => name.toLowerCase()
+
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -45,22 +39,6 @@ const UserSchema = new mongoose.Schema({
         lowercase: true, //do not allow users to have 2 accounts with same email (foo@email.com and FOO@email.com)
         match: [/^.+[@].+$/, "Not a valid Email"], //one to unlimited chars, then @, then one to unlimited chars
     },
-    password: { //hashed and salted using bcrypt
-        type: String,
-        required: true,
-        minlength: userValidation.passwordMinLength,
-        maxlength: userValidation.passwordMaxLength,
-        validate: {
-            validator: v => {
-                if (!userValidation.containsUpper(v)) throw new Error("Password must contain uppercase letter");
-                if (!userValidation.containsLower(v)) throw new Error("Password must contain lowercase letter");
-                if (!userValidation.containsDigit(v)) throw new Error("Password must contain a digit");
-                if (!userValidation.containsOnlyAllowedCharacters(v)) throw new Error("Password may only contain certain special chars");
-
-                return true
-            }
-        }
-    },
     role: {
         type: String,
         enum: ["user", "admin"],
@@ -89,8 +67,10 @@ const UserSchema = new mongoose.Schema({
     },
      */
     dateOfBirth: {
-        //is set with a Date - but returns an Integer of the Age as getter
         type: Date,
+    },
+    age: {
+        type: Number,
     },
     avatar: {
         type: String //URI to image
@@ -101,6 +81,28 @@ const UserSchema = new mongoose.Schema({
         //max 2 roles
         //Frontend: If Fill is Selected first, don't ask for 2nd role
     },
+    friends: [{
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            //unique: true //TODO doesnt work this way - pre validate hook?
+            // https://groups.google.com/g/mongoose-orm/c/QSpr_7rtEYY
+            // https://stackoverflow.com/questions/15921700/mongoose-unique-values-in-nested-array-of-objects
+            // https://stackoverflow.com/a/41791495/12340711
+            // https://www.npmjs.com/package/mongoose-unique-array
+        },
+        /* TODO implement later
+        chat: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Chat",
+        }
+         */
+    }],
+    blocked: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        //unique: true, //TODO see above
+    }]
     /*
     playstyle: {
         type: String,
@@ -118,37 +120,41 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.plugin(idvalidator);
 
-UserSchema.virtual("age").get(function () {
-    //https://stackoverflow.com/a/24181701/12340711
-    //good enough
-    if (!this.dateOfBirth) return -1 //default
-    const ageDifMs = Date.now() - this.dateOfBirth
-    const ageDate = new Date(ageDifMs); // miliseconds from epoch
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
-})
-
-//Save a hashed and salted password to the DB using bcrypt
-UserSchema.pre("save", async function (next) {
-    // only hash password if it has been modified (or is new)
-    if (this.isModified("password")) {
-        this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
+//update dateOfBirth
+UserSchema.pre("save", function (next) {
+    if (this.isModified("dateOfBirth") || this.isModified("age")) {
+        this.age = (() => {
+            //https://stackoverflow.com/a/24181701/12340711  - good enough
+            if (!this.dateOfBirth) return -1 //default
+            const ageDifMs = Date.now() - this.dateOfBirth
+            const ageDate = new Date(ageDifMs); // milliseconds from epoch
+            return Math.abs(ageDate.getUTCFullYear() - 1970);
+        })()
     }
     next()
-});
+})
+
+//validate uniqueness of friends
+UserSchema.pre("save", function (next) {
+    this.friends.user = _.uniqBy(this.friends.user, i => i._id.toString())
+    next()
+})
 
 //Set a normalized name for unique name check
 UserSchema.pre("save", function (next) {
     if (this.isModified("nameNormalized")) {
         throw new Error("nameNormalized is read only!")
     } else if (this.isModified("name")) {
-        this.nameNormalized = this.name.toLowerCase()
+        this.nameNormalized = normalizeName(this.name)
     }
-    next();
+    next()
 })
 
-UserSchema.methods.comparePassword = async function (candidatePassword) {
-    return await bcrypt.compare(candidatePassword, this.password);
-};
+UserSchema.virtual("password", {
+    ref: "password",
+    localField: "_id",
+    foreignField: "userId",
+});
 
 const User = mongoose.model("User", UserSchema)
 
@@ -156,13 +162,17 @@ const User = mongoose.model("User", UserSchema)
 //see opts: https://graphql-compose.github.io/docs/plugins/plugin-mongoose.html#customization-options
 const UserTCAdmin = composeMongoose(User, {
     name: "UserAdmin",
-    description: "Full User Model. Exposed only for Admins"
+    description: "Full User Model. Exposed only for Admins",
+    removeFields: [
+        "passwordId"
+    ]
 });
 
 const UserTCPrivate = composeMongoose(User, {
     name: "UserPrivate",
     description: "Fields the user can see about himself",
     onlyFields: [
+        "_id",
         "name",
         "email",
         "aboutMe",
@@ -171,6 +181,8 @@ const UserTCPrivate = composeMongoose(User, {
         "gender",
         "avatar",
         "ingameRole",
+        "friends",
+        "blocked",
     ]
 })
 
@@ -179,44 +191,22 @@ const UserTCPublic = composeMongoose(User, {
     name: "UserPublic",
     description: "Contains all public fields of users. Use this for filtering as well",
     onlyFields: [
+        "_id",
         "name",
         "aboutMe",
         "languages",
         "gender",
         "avatar",
         "ingameRole",
-        //age - is added seperately due to being a virtual
+        "age",
     ]
 })
-
-const UserTCSignup = composeMongoose(User, {
-    name: "UserSignup",
-    description: "Login a user or create a new user",
-    onlyFields: [
-        "name",
-        "email",
-        "password"
-    ]
-})
-
-//virtuals have to be added to TC seperately
-//https://github.com/graphql-compose/graphql-compose-mongoose/issues/135
-const ageForTC ={
-    age: {
-        type: "Int",
-        description: 'Uses the virtual "age" that is calculated from DateOfBirth. Returns -1 if DateOfBirth is not set.',
-    }
-}
-
-UserTCAdmin.addFields(ageForTC)
-UserTCPublic.addFields(ageForTC)
-
 
 module.exports = {
     User,
     UserTCAdmin,
     UserTCPublic,
     UserTCPrivate,
-    UserTCSignup
+    normalizeName
 }
 

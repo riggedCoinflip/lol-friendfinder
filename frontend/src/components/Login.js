@@ -1,12 +1,11 @@
-import React, {useState} from "react";
-import {gql, useMutation} from "@apollo/client";
+import React, {useState } from "react";
+import {gql, useApolloClient} from "@apollo/client";
 import {useHistory} from "react-router-dom";
+import * as Constants from '../constants'
 
 const LOGIN = gql`
-    mutation (
-        $email: String!
-        $password: String!
-    ) {
+    query login($email: String!, $password: String!)
+    {
         login(
             email: $email
             password: $password
@@ -14,44 +13,62 @@ const LOGIN = gql`
     }
 `;
 
+
+
 export default function Login() {
+    const client = useApolloClient();
+    const session = localStorage.getItem("SECREToken")
+  
+
+
     const [state, setState] = useState({
         username: "",
         password: "",
     });
 
     const [errored, setErrored] = useState(false);
-    const [submitLogin, {data}] = useMutation(LOGIN);
+   
+
+    function handleSubmit(event) {
+        console.table(state)
+        event.preventDefault();
+    
+        //Calling the function
+        Submit(state.email, state.password). 
+                    then((res) => {
+                        alert(`Log in successful! - Token is stored in localStorage. 
+                        localStorage.getItem("SECREToken");`);
+                        const DATA_AUTH_TOKEN = res.data.login;
+                        console.log(DATA_AUTH_TOKEN) //for now, log token //TODO find a way to store token
+                        localStorage.setItem("SECREToken", DATA_AUTH_TOKEN);
+                        history.push("/profile")
+                
+                    }).catch(() => {
+                        setErrored(true)
+                    });
+    }
+    
+    function Submit( email, password) {
+        return client
+            .query({
+                query: LOGIN,
+                variables: {
+                    email: email,
+                    password: password
+                }
+            })
+    }
+   
     const history = useHistory();
 
     function handleChange(e) {
         setState({...state, [e.target.name]: e.target.value})
     }
+ 
 
-    function handleSubmit(event) {
-        event.preventDefault();
-
-        submitLogin({
-            variables: {
-                email: state.email,
-                password: state.password,
-            }
-        })
-            .then((res) => {
-                alert(`Log in successful! - Token is stored in localStorage. 
-                localStorage.getItem("SECREToken");`);
-                const DATA_AUTH_TOKEN = res.data.login;
-                console.log(DATA_AUTH_TOKEN) //for now, log token //TODO find a way to store token
-                localStorage.setItem("SECREToken", DATA_AUTH_TOKEN);
-                history.push("/users")
-            })
-            .catch(() => {
-                setErrored(true)
-            })
-    }
-   // 
-
-    return (
+ if ( session === null ) 
+ return (
+       
         <form  onSubmit={handleSubmit}>
             <h3>Log In</h3>
 
@@ -100,7 +117,7 @@ export default function Login() {
             <div className="form-group">
             
             <button id="btn-submit" type="submit" className="btn btn-primary">
-                Submit
+                LogIn
             </button>
             </div>
             {/*
@@ -112,4 +129,13 @@ export default function Login() {
 
         </form>
     );
+
+if ( session !== null ) 
+return (
+    <div >
+       You are already logged in
+       {history.push("/profile")}
+    </div>);
+
+
 }

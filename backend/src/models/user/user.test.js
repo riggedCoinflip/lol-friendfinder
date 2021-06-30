@@ -1,6 +1,6 @@
 const {User} = require("./user")
-const {createLanguages} = require("../../utils/createLanguages")
-const validators = require("./user.test.validators")
+const createLanguages = require("../../utils/language/createLanguages")
+const validators = require("../../utils/test-utils/validators")
 const {dbConnect, dbDisconnectAndWipe} = require("../../utils/test-utils/db-handler")
 const testUsers = require("./user.test.data")
 
@@ -20,8 +20,6 @@ describe("User Model Test Suite", () => {
 
         validators.validateStringEquality(user.name, testUsers.validNoDefaults.name)
         validators.validateStringEquality(user.email, testUsers.validNoDefaults.email)
-        //use bcrypt compare to validate password
-        expect(await user.comparePassword(testUsers.validNoDefaults.password)).toBe(true)
         validators.validateStringEquality(user.role, testUsers.validNoDefaults.role)
         validators.validateStringEquality(user.aboutMe, testUsers.validNoDefaults.aboutMe)
         validators.validateStringEquality(user.gender, testUsers.validNoDefaults.gender)
@@ -42,6 +40,23 @@ describe("User Model Test Suite", () => {
         expect(user2.age).toBe(20)
     })
 
+    it("updates age if dateOfBirth/age isModified", async () => {
+        const user = new User(testUsers.minDateOfBirthInYear)
+        await user.save()
+
+        let userFromDB = await User.findOne({name: user.name})
+        userFromDB.dateOfBirth = new Date("2010-01-01")
+        await userFromDB.save()
+        expect(userFromDB.age).toBe(11)
+
+        userFromDB = await User.findOne({name: user.name})
+        //a manual change of age gets fixed
+        userFromDB.age = -1
+        await userFromDB.save()
+        expect(userFromDB.age).toBe(11)
+    })
+
+
     it("throws MongoDB duplicate error with code 11000", async () => {
         const user = new User(testUsers.validNoDefaults)
         const user2 = new User(testUsers.validNoDefaults) //clone user
@@ -55,35 +70,6 @@ describe("User Model Test Suite", () => {
             const {name, code} = err
             validators.validateMongoDuplicationError(name, code)
         }
-    })
-
-    it("creates new hash on password change", async () => {
-        const user = new User(testUsers.validNoDefaults)
-
-        //save the cleartextPassword as it gets overridden by a hash on save
-        const cleartextPassword = user.password
-        await user.save()
-
-        const oldHashedPassword = user.password
-        //login with password possible
-        expect(await user.comparePassword(cleartextPassword)).toBe(true)
-        expect(user.password).toBe(oldHashedPassword)
-
-        /**
-         * we need to change the password as our middleware only creates a new hash if the password is changed. ¹
-         * we then change the password back and save AGAIN to make sure bcrypt works properly -
-         * due to a different salt, the hash should be different as well.
-         *
-         * ¹ See: UserSchema.pre("save",...)
-         */
-        user.password = "pwTemp12"
-        await user.save()
-        user.password = cleartextPassword
-        await user.save()
-
-        //login with same password still possible, but due to a different salt we should have a different hash
-        expect(await user.comparePassword(cleartextPassword)).toBe(true)
-        expect(user.password).not.toBe(oldHashedPassword)
     })
 
     it("trims fields on save", async () => {
@@ -142,18 +128,6 @@ describe("User Model Test Suite", () => {
         }
     })
 
-    /*
-    test("Validate color default", async () => {
-        const user = new User(testUsers.useDefaultColor)
-        await user.save()
-
-        validators.validateNotEmptyAndTruthy(user)
-
-        validators.validateStringEquality(user.favouriteColor, "blue")
-    })
-
-     */
-
     it("errors on missing fields", async () => {
         //OPTIMIZE code duplication
         const user = new User(testUsers.requiredFieldNameMissing)
@@ -171,14 +145,6 @@ describe("User Model Test Suite", () => {
         } catch (err) {
             validators.validateMongoValidationError(err, "email", "required")
         }
-
-        const user3 = new User(testUsers.requiredFieldPasswordMissing)
-        try {
-            await user3.save()
-            fail("Should throw error")
-        } catch (err) {
-            validators.validateMongoValidationError(err, "password", "required")
-        }
     })
 
     it("allows only ascii names", async () => {
@@ -195,64 +161,6 @@ describe("User Model Test Suite", () => {
                 validators.validateMongoValidationError(err, "name", "user defined")
                 //console.error(err)
             }
-        }
-    })
-
-
-    it("errors on invalid passwords", async () => {
-        //OPTIMIZE code duplication
-        const pwInvalid = testUsers.invalidPassword
-
-        const user = new User(pwInvalid.tooShort)
-        try {
-            await user.save()
-            fail("Should throw error")
-        } catch (err) {
-            validators.validateMongoValidationError(err, "password", "minlength")
-        }
-
-        const user2 = new User(pwInvalid.tooLong)
-        try {
-            await user2.save()
-            fail("Should throw error")
-        } catch (err) {
-            validators.validateMongoValidationError(err, "password", "maxlength")
-        }
-
-        const user3 = new User(pwInvalid.noUppercase)
-        try {
-            await user3.save()
-            fail("Should throw error")
-        } catch (err) {
-            validators.validateMongoValidationError(err, "password", "user defined")
-            expect(err.errors.password.properties.message).toBe("Password must contain uppercase letter")
-        }
-
-        const user4 = new User(pwInvalid.noLowercase)
-        try {
-            await user4.save()
-            fail("Should throw error")
-        } catch (err) {
-            validators.validateMongoValidationError(err, "password", "user defined")
-            expect(err.errors.password.properties.message).toBe("Password must contain lowercase letter")
-        }
-
-        const user5 = new User(pwInvalid.noDigit)
-        try {
-            await user5.save()
-            fail("Should throw error")
-        } catch (err) {
-            validators.validateMongoValidationError(err, "password", "user defined")
-            expect(err.errors.password.properties.message).toBe("Password must contain a digit")
-        }
-
-        const user6 = new User(pwInvalid.invalidChar)
-        try {
-            await user6.save()
-            fail("Should throw error")
-        } catch (err) {
-            validators.validateMongoValidationError(err, "password", "user defined")
-            expect(err.errors.password.properties.message).toBe("Password may only contain certain special chars")
         }
     })
 
@@ -282,22 +190,6 @@ describe("User Model Test Suite", () => {
         }
     })
 
-    /*
-    it("doesnt bcrypt the password if another field is updated", async () => {
-        //BUG this randomly errors sometimes - on a rerun it then works again...
-        const user = new User(testUsers.validNoDefaults)
-
-        await user.save()
-        const oldHashedPassword = user.password
-
-        //change other field
-        user.aboutMe = "foobar"
-        await user.save()
-        const newHashedPassword = user.password
-
-        expect(newHashedPassword).toBe(oldHashedPassword)
-    })
-     */
 
     it("populates language successfully", async () => {
         const user = new User(testUsers.validNoDefaults)
@@ -323,5 +215,30 @@ describe("User Model Test Suite", () => {
         } catch (err) {
             expect(err.message).toBe("User validation failed: languages: languages references a non existing ID")
         }
+    })
+
+    it("only allows unique users on friends/blocked list", async () => {
+        const user = new User(testUsers.valid)
+        const userToBefriend = new User(testUsers.valid2)
+        const userToBlock = new User(testUsers.valid3)
+
+        await Promise.all([user.save(), userToBefriend.save(), userToBlock.save()])
+
+        //for some reason, this triggers the `idvalidator` plugin, saying the 2nd id is non existing.
+        //But it works as it does not validate a user 2 times on block list.
+        user.blocked = [userToBlock._id, userToBlock._id]
+        try {
+            await user.save()
+            fail("Should throw error")
+        } catch (err) {
+            expect(err.message).toBe("User validation failed: blocked: blocked references a non existing ID")
+        }
+
+        //friends
+        //this works as intended, calling the pre save hook to unique-ify the friends array
+        user.blocked = [] //reset
+        user.friends.user = [userToBefriend._id, userToBefriend._id]
+        await user.save()
+        expect(user.friends.user).toStrictEqual([userToBefriend._id])
     })
 })
