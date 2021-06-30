@@ -11,8 +11,9 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
          with:
-          spec: /frontend/cypress/integration/lolTests/**/*
-          browser: chrome
+           browser: chrome
+           spec: frontend/cypress/integration/lolTests/**/*
+         
           headless: true
         wait-on: 'http://localhost:3000'
 
