@@ -12,8 +12,8 @@ jobs:
         uses: cypress-io/github-action@v2
          with:
           # browser: chrome
-           spec: cypress/integration/lolTests/**/*
+           spec: cypress/integration/lolTests/home.spec.js
          
-          headless: true
+        #  headless: true
         wait-on: 'http://localhost:3000'
 
