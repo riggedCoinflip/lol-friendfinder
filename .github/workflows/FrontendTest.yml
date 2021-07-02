@@ -1,7 +1,7 @@
 name: End-to-end tests
 on: [push]
-paths: 
-  - 'frontend/**'
+#paths: 
+ # - 'frontend/**'
 jobs:
   cypress-run:
     runs-on: ubuntu-20.04
