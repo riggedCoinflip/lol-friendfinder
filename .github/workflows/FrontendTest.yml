@@ -4,7 +4,7 @@ on: [push]
  # - 'frontend/**'
 jobs:
   cypress-run:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -13,7 +13,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          start: npm test
+          build: npm run build
+          start: npm start
          #  spec: frontend/cypress/integration/lolTests/home.spec.js
        # env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
