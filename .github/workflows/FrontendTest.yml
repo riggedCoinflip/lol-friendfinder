@@ -15,7 +15,7 @@ jobs:
         with:
           build: npm run build
           start: npm start
-         #  spec: frontend/cypress/integration/lolTests/home.spec.js
+          spec: frontend/cypress/integration/lolTests/home.spec.js
         env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
