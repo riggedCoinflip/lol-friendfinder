@@ -11,6 +11,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
+          start: yarn test
            spec: frontend/cypress/integration/lolTests/home.spec.js
-         
+       # env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
