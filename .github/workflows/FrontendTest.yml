@@ -11,6 +11,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
+          go: cd frontend
           start: npm test
          #  spec: frontend/cypress/integration/lolTests/home.spec.js
        # env:
