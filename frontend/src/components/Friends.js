@@ -16,7 +16,7 @@ userOneById ( $id: MongoID! ){
 `;
 */
 export default function Friends(props) {
-  const [friends, setFriends] = useState(props.data.userSelf.friends)
+  const [friends, setFriends] = useState(props?.data?.userSelf.friends)
 
   /*
   const [getUserById, {loading, error, data}] = useQuery(GET_USER_BY_ID,
