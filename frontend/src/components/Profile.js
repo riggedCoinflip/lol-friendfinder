@@ -18,7 +18,7 @@ import {
   Dropdown,
 } from "react-bootstrap"
 
-const GET_USER = gql`
+const GET_MY_INFO = gql`
   {
     userSelf {
       _id
@@ -74,7 +74,7 @@ export default function Profile() {
     }
   }, [])
 
-  const { loading, error, data, refetch } = useQuery(GET_USER, {
+  const { loading, error, data, refetch } = useQuery(GET_MY_INFO, {
     context: {
       headers: {
         "x-auth-token": Constants.AUTH_TOKEN,
