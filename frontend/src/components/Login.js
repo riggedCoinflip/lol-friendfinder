@@ -26,7 +26,7 @@ export default function Login() {
     //Calling the function
     Submit(state.email, state.password)
       .then((res) => {
-        alert(`Log in successful!`)
+        console.log(`Log in successful!`)
         const DATA_AUTH_TOKEN = res.data.login
         console.log(DATA_AUTH_TOKEN) //for now, log token //TODO find a way to store token
         localStorage.setItem("SECREToken", DATA_AUTH_TOKEN)

@@ -37,8 +37,8 @@ const GET_MY_INFO = gql`
 `
 
 const UPDATE_USER = gql`
-  mutation userUpdateSelf($aboutMe: String, $languages: [String]) {
-    userUpdateSelf(aboutMe: $aboutMe, languages: $languages) {
+  mutation userUpdateSelf($aboutMe: String, $languages: [String], $dateOfBirth: Date) {
+    userUpdateSelf(aboutMe: $aboutMe, languages: $languages, dateOfBirth: $dateOfBirth) {
       name
       aboutMe
       gender
@@ -66,13 +66,6 @@ export default function Profile() {
     "I prefer not to say",
   ]
 
-  useEffect(() => {
-    if (data) {
-      refetch()
-      setState(data.userSelf)
-      console.log("State from useEffect", state)
-    }
-  }, [])
 
   const { loading, error, data, refetch } = useQuery(GET_MY_INFO, {
     context: {
@@ -82,6 +75,22 @@ export default function Profile() {
     },
   })
 
+  useEffect(() => {
+    if (data || !state) {
+      //refetch()
+      setState(data.userSelf)
+      console.log("State from useEffect", state)
+    }
+  }, [])
+
+  //If F5
+  /*
+  useEffect(() => {
+    
+      refetch()
+      setState(data?.userSelf) 
+  }, [data.userSelf])
+*/
   const [updateUser, { data: dataUpdate }] = useMutation(UPDATE_USER, {
     context: {
       headers: {
@@ -94,8 +103,9 @@ export default function Profile() {
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error!</p>
 
-  console.log("Data Mutation:", dataUpdate)
-  console.log("Data Query:", data)
+  
+  //console.log("Data Mutation:", dataUpdate)
+  console.log("MyInfo in data:", data.userSelf)
 
   const changeHandler = (e) => {
     e.persist() //important
@@ -169,11 +179,14 @@ export default function Profile() {
               </Dropdown>
               Date of birth
               <FormControl
-                placeholder="day/month/year"
+                id="dateOfBirth"
+                name="dateOfBirth"
+                placeholder="yyyy-mm-dd"
                 /*type="date"*/
-                aria-label="dateOfBith"
-                aria-describedby="basic-addon1"
+                type="text"
                 value={limitDate(state?.dateOfBirth)}
+                onChange={changeHandler}
+
               />
               IngameRole
               <ListGroup horizontal>
@@ -228,6 +241,7 @@ export default function Profile() {
                     aboutMe: state.aboutMe,
                     gender: state.gender,
                     languages: state.languages,
+                    dateOfBirth: state.dateOfBirth,
                   },
                 })
                 alert("Data was updated")

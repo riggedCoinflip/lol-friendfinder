@@ -20,13 +20,13 @@ const Languages = (props) => {
 
   useEffect(() => {
     setLocal_Languages(props.state.languages)
-    console.log("useEffect []: ", local_Languages)
+    //console.log("useEffect []: ", local_Languages)
   }, [props.state.gender])
 
   useEffect(() => {
-    console.log("useEffect [local_Languages]: ", local_Languages)
+    //console.log("useEffect [local_Languages]: ", local_Languages)
     props.setState((state) => ({ ...state, languages: local_Languages }))
-    console.log("props.state.languages: ", props.state.languages)
+   // console.log("props.state.languages: ", props.state.languages)
   }, [local_Languages])
 
   const { loading, error, data } = useQuery(GET_LANGUAGES, {
@@ -96,7 +96,7 @@ const Languages = (props) => {
                         item.alpha2,
                       ])
                       console.log("local_Languages, selected: ", item.name)
-                      console.log("###Name")
+                     
                     }}
                     key={index + 1}
                   >
