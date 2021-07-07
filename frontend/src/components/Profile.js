@@ -37,8 +37,10 @@ const GET_MY_INFO = gql`
 `
 
 const UPDATE_USER = gql`
-  mutation userUpdateSelf($aboutMe: String, $languages: [String], $dateOfBirth: Date) {
-    userUpdateSelf(aboutMe: $aboutMe, languages: $languages, dateOfBirth: $dateOfBirth) {
+  mutation userUpdateSelf($aboutMe: String, $languages: [String], $dateOfBirth: Date,
+                          $gender:EnumUserPrivateGender) {
+    userUpdateSelf(aboutMe: $aboutMe, languages: $languages, dateOfBirth: $dateOfBirth,
+                  gender:$gender) {
       name
       aboutMe
       gender
