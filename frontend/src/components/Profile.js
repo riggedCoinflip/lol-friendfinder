@@ -69,7 +69,7 @@ export default function Profile() {
   ]
 
   const { loading, error, data, refetch } = useQuery(GET_MY_INFO, {
-    pollInterval: 200,
+ //   pollInterval: 200,
     context: {
       headers: {
         "x-auth-token": TOKEN,

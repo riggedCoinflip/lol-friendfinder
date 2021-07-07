@@ -10,13 +10,9 @@ const LOGIN = gql`
 
 export default function Login() {
   const client = useApolloClient()
-  const TOKEN = localStorage.getItem("SECREToken")
+  let TOKEN = localStorage.getItem("SECREToken")
 
-  const [state, setState] = useState({
-    username: "",
-    password: "",
-  })
-
+  const [state, setState] = useState({ username: "",  password: "", })
   const [errored, setErrored] = useState(false)
 
   function handleSubmit(event) {
@@ -26,11 +22,12 @@ export default function Login() {
     //Calling the function
     Submit(state.email, state.password)
       .then((res) => {
-        console.log(`Log in successful!`)
-        const DATA_AUTH_TOKEN = res.data.login
-        console.log(DATA_AUTH_TOKEN) //for now, log token //TODO find a way to store token
-        localStorage.setItem("SECREToken", DATA_AUTH_TOKEN)
+        //console.log(`Log in successful!`)
+        TOKEN = res.data.login
+        console.log(TOKEN) //for now, log token //TODO find a way to store token
+        localStorage.setItem("SECREToken", TOKEN)
         history.push("/profile")
+        alert("Happend?")
       })
       .catch(() => {
         setErrored(true)
@@ -53,8 +50,15 @@ export default function Login() {
     setState({ ...state, [e.target.name]: e.target.value })
   }
 
-  if (!TOKEN)
-    return (
+   return(
+     TOKEN ?
+     <div>
+       You are already logged in
+       {history.push("/profile")}
+     </div>
+
+     :  //if TOKEN does not exist
+ 
       <form onSubmit={handleSubmit}>
         <h3>Log In</h3>
 
@@ -106,13 +110,6 @@ export default function Login() {
             TODO use proper css classes, have link to password forgot
             */}
       </form>
-    )
-
-  if (TOKEN !== null)
-    return (
-      <div>
-        You are already logged in
-        {history.push("/profile")}
-      </div>
+  
     )
 }
