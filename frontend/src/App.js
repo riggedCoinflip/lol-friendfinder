@@ -10,7 +10,6 @@ import Login from './components/Login';
 import SignUp from './components/Signup';
 import Users from './components/Users';
 import Profile from './components/Profile';
-import Logout from './components/Logout';
 import NotFound from './components/NotFound';
 import Friends from './components/Friends';
 
@@ -24,7 +23,6 @@ export default function App() {
                 <Route exact path="/"  component={Home}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/signup" component={SignUp}/>
-                <Route path="/logout" component={Logout}/>
          
                 <Route exact path="/users" component={ () => <Users/>} />
                 <Route exact path="/profile" component={ () => <Profile authorized={true}/>} />

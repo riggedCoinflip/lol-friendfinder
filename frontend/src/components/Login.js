@@ -10,7 +10,7 @@ const LOGIN = gql`
 
 export default function Login() {
   const client = useApolloClient()
-  const session = localStorage.getItem("SECREToken")
+  const TOKEN = localStorage.getItem("SECREToken")
 
   const [state, setState] = useState({
     username: "",
@@ -53,7 +53,7 @@ export default function Login() {
     setState({ ...state, [e.target.name]: e.target.value })
   }
 
-  if (session === null)
+  if (!TOKEN)
     return (
       <form onSubmit={handleSubmit}>
         <h3>Log In</h3>
@@ -108,7 +108,7 @@ export default function Login() {
       </form>
     )
 
-  if (session !== null)
+  if (TOKEN !== null)
     return (
       <div>
         You are already logged in

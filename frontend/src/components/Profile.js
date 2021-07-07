@@ -1,6 +1,5 @@
 import { useEffect, useState, React } from "react"
 import { useQuery, gql, useMutation } from "@apollo/client"
-import * as Constants from "../constants"
 import Languages from "./Languages"
 import Friends from "./Friends"
 
@@ -56,6 +55,7 @@ const UPDATE_USER = gql`
 `
 
 export default function Profile() {
+  let TOKEN= localStorage.getItem("SECREToken");
   const [state, setState] = useState({})
   const genderOptions = [
     "non_binary",
@@ -68,22 +68,22 @@ export default function Profile() {
     "I prefer not to say",
   ]
 
-
   const { loading, error, data, refetch } = useQuery(GET_MY_INFO, {
+    pollInterval: 200,
     context: {
       headers: {
-        "x-auth-token": Constants.AUTH_TOKEN,
+        "x-auth-token": TOKEN,
       },
     },
   })
 
   useEffect(() => {
     if (data || !state) {
-      //refetch()
+      refetch()
       setState(data.userSelf)
       console.log("State from useEffect", state)
     }
-  }, [])
+  }, [data])
 
   //If F5
   /*
@@ -94,16 +94,16 @@ export default function Profile() {
   }, [data.userSelf])
 */
   const [updateUser, { data: dataUpdate }] = useMutation(UPDATE_USER, {
-    context: {
+     context: {
       headers: {
-        "x-auth-token": Constants.AUTH_TOKEN,
+        "x-auth-token": TOKEN,
       },
     },
   })
 
   //Get users data
   if (loading) return <p>Loading...</p>
-  if (error) return <p>Error!</p>
+  if (error) return <p>Error, are you already logged in?!</p>
 
   
   //console.log("Data Mutation:", dataUpdate)
@@ -121,7 +121,7 @@ export default function Profile() {
   console.log("STATE.dateOfBirth", state?.dateOfBirth)
 
   function limitDate(input) {
-    const output = input?.substring(0, 10) ?? "Dateis unknown"
+    const output = input?.substring(0, 10) ?? "Date is unknown"
     return output
   }
 

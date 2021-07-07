@@ -8,7 +8,8 @@ function MyNavbar() {
 
   useEffect(() => {
     setTOKEN(localStorage.getItem("SECREToken"))
-  }, [])
+    alert("Token cambio ", TOKEN)
+  }, [TOKEN])
 
   return (
     <div>
@@ -32,7 +33,7 @@ function MyNavbar() {
             Signup for free!
           </Link>
 
-          {TOKEN === null ? (
+          {!TOKEN ? (
             <div className="nav-item" value="Login">
               <Link
                 to="/Login"
@@ -46,9 +47,14 @@ function MyNavbar() {
             <div className="nav-item">
               <Link
                 value="Logout"
-                to="/Logout"
+                to="/Login"
                 className="nav-link"
-                onClick={() => setTOKEN(null)}
+                onClick={() => 
+                  {
+                  setTOKEN(null);
+                  localStorage.clear();
+                }
+                }
               >
                 Logout
               </Link>
