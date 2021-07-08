@@ -49,6 +49,7 @@
     "jest": "^27.0.3",
     "mongodb-memory-server": "^6.9.6",
     "nodemon": "^2.0.7",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "supertest": "^6.1.3"
   }
 }
