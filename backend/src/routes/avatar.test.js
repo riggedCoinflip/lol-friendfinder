@@ -145,7 +145,6 @@ describe("/avatar Test Suite", () => {
         }).promise()
     })
 
-    //TODO
     // noinspection JSCheckFunctionSignatures
     it("checks max file size", async () => {
         // noinspection JSUnresolvedFunction
