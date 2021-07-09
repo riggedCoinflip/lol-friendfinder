@@ -1,9 +1,9 @@
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken")
 const util = require("../../graphql/user/user.test.queries")
-
-const {createTestClient} = require("apollo-server-integration-testing");
+const {createTestClient} = require("apollo-server-integration-testing")
+const createExpressApp = require("../createExpressApp")
 const createApollo = require("../createApolloServer")
-const {query, mutate, setOptions} = createTestClient({apolloServer: createApollo()});
+const {query, mutate, setOptions} = createTestClient({apolloServer: createApollo(createExpressApp())})
 
 /**
  * Unfortunately we cannot use the *isAuth* middleware to properly authorize ourself
