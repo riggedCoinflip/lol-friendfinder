@@ -16,7 +16,13 @@ export default function Logout() {
 return (
     
     <div>
-        {clearTokenUndOthers()}
+        {
+        clearTokenUndOthers()
+        }
+
+        {    
+        setTimeout(useHistory().push("/login"), 3000)
+        }
         You just loggout, see you soon.    
 </div>
 

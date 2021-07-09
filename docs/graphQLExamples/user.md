@@ -1,28 +1,71 @@
 # User
 
-#### Create a user
+### Get public information about any User by ID/Name
+
+````graphql
+{
+    userOneByName(nameNormalized: "admin")
+    {
+        _id
+        name
+        languages
+    }
+}
+````
+
+````graphql
+{
+    userOneById(_id: "60c3854f707d802c1c7e92d9")
+    {
+        _id
+        name
+        languages
+    }
+}
+````
+
+### Show all users that fall into a certain filter
+
+````graphql
+{
+    userMany(filter: {_operators: {languages: {in: "de"}}}) {
+        name
+        age
+        languages
+    }
+}
+````
+
+````graphql
+{
+    userMany(filter: {_operators: {age: {gte: 20 lte: 25}}}) {
+        name
+        age
+        languages
+    }
+}
+
+````
+
+### Create a user
 
 ```graphql
 mutation {
     signup(
-        record: {
-            name: "someValidName",
-            email: "someValid@mail",
-            password: "Password1"
-        }) {
-        record {
-            name
-            email
-            password
-        }
+        name: "someValidName"
+        email: "someValid@mail"
+        password: "Password1"
+    ) {
+        name
+        email
     }
 }
 ```
 
-#### Get a JWT by logging in
+### Get a JWT by logging in
 
 ```graphql
-mutation {
+{
     login(email: "some@email", password: "yourPassword")
 }
 ```
@@ -34,6 +77,7 @@ mutation {
 ```graphql
 {
     userSelf {
+        _id
         name
         email
         aboutMe
@@ -42,6 +86,98 @@ mutation {
         dateOfBirth
         avatar
         ingameRole
+    }
+}
+```
+
+### Show every user that likes you
+<span style="color:red">⚠️ Currently disabled</span>
+````graphql
+{
+    userManyLikesMe {
+        name
+    }
+}
+````
+
+### Load users for swiping
+Uses same filters like `userMany`.  
+Shows both users that match the filter and users that liked you.
+````graphql
+{
+    userManyToSwipe(filter: {_operators: {ingameRole: {in: [Bot]}}})
+    {
+        name
+        age
+        languages
+        ingameRole
+    }
+}
+````
+With standard fake data, this should show ``Neeko`` with ``"ingameRole": ["Mid", "Top"]`` because Neeko likes you ♥
+
+### Update Self
+
+```graphql
+#Template Query
+mutation userUpdateSelf(
+    $name: String
+    $aboutMe: String
+    $gender: EnumUserPrivateGender
+    $languages: [String]
+    $dateOfBirth: Date
+    $ingameRole: [EnumUserPrivateIngameRole]
+    $friends: UserPrivateFriendsMutation
+    $blocked: UserPrivateBlockedMutation
+) {
+    userUpdateSelf(
+        name: $name
+        aboutMe: $aboutMe
+        gender: $gender
+        languages: $languages
+        dateOfBirth: $dateOfBirth
+        ingameRole: $ingameRole
+        friends: $friends
+        blocked: $blocked
+    ) {
+        name
+        aboutMe
+        gender
+        languages
+        dateOfBirth
+        ingameRole
+        friends {user}
+        blocked
+    }
+}
+```
+
+```graphql
+#Example
+mutation {
+    userUpdateSelf(
+        name: "MyNewName"
+        aboutMe: "If life were predictable it would cease to be life, and be without flavor. -Eleanor Roosevelt"
+        languages: ["de", "en"]
+        gender: female
+        dateOfBirth: "1990-01-01"
+        ingameRole: [Mid, Top]
+        friends: {
+            toPop: ["MongoIDsOfUsersInYourFriendsList"]
+        }
+        blocked: {
+            toPush: ["MongoIDsOfUsersYouWishToBlock"]
+            toPop: ["MongoIDsOfUsersInYourBlocklist"]
+        }
+    ) {
+        name
+        aboutMe
+        gender
+        languages
+        dateOfBirth
+        ingameRole
+        friends {user}
+        blocked
     }
 }
 ```
@@ -53,10 +189,10 @@ mutation {
 ```graphql
 {
     userOneAdmin(filter: { name: "Admin" }) {
+        _id
         name
         nameNormalized
         email
-        password
         role
         aboutMe
         languages
@@ -67,11 +203,16 @@ mutation {
         ingameRole
         updatedAt
         createdAt
+        friends {
+            user
+        }
+        blocked
     }
 }
 ```
 
 #### Show all admins
+
 _note: enums should be written without the `""` around the String. Replace whitespace inside the String with `_`_
 
 ```graphql
@@ -91,7 +232,6 @@ mutation {
         record: {
             name: "JohnDoe5"
             email: "JohnDoe5@gmail.com"
-            password: "Password1"
             role: user
             aboutMe: "Some Lorem Ipsum Text"
             dateOfBirth: "01.10.00"
@@ -104,7 +244,6 @@ mutation {
         record {
             name
             email
-            password
             dateOfBirth
             age
             role
@@ -118,25 +257,26 @@ mutation {
 }
 ```
 
-#### Update a single user.   
+#### Update a single user.
+
 FIXME this sometimes does not work cause it tries to update the password - same error like in the inconsistent test
 
 ```graphql
 mutation {
-  userUpdateOneAdmin(
-    record: { 
-        ingameRole: [Mid, Fill]
-        avatar: "foobar" 
+    userUpdateOneAdmin(
+        record: {
+            ingameRole: [Mid, Fill]
+            avatar: "foobar"
+        }
+        filter: {
+            name: "Admin"
+        }
+    ) {
+        record {
+            name
+            avatar
+            ingameRole
+        }
     }
-    filter: { 
-        name: "Admin" 
-    }
-  ) {
-    record {
-      name
-      avatar
-      ingameRole
-    }
-  }
 }
 ```
