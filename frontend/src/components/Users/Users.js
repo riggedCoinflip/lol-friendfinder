@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Main.css";
-//import dummyUsers from "../../util/dummyUsers.json"
+import "./Users.css";
 import icon from "../../assets/icon.png";
 import like from "../../assets/like.svg";
 import dislike from "../../assets/dislike.svg";
@@ -9,8 +8,7 @@ import itsamatch from "../../assets/itsamatch.png";
 import { useQuery, gql, useMutation } from '@apollo/client';
 import * as Constants from '../../constants'
 import { Badge } from 'react-bootstrap';
-
-//(filter: {_operators: {ingameRole: {in: [Bot]}}})
+//import {limitDate} from "./Profile";
 const GET_USER_TO_SWIPE = gql`
         { 
           userManyToSwipe
@@ -48,7 +46,7 @@ mutation
 
 `;
 
-export default function Main({ match }) {
+export default function Users({ match }) {
 
   const [users, setUsers] = useState([]);
   const [userIndex, setUserIndex] = useState(0);
@@ -115,7 +113,17 @@ export default function Main({ match }) {
                     onClick={e => {
 
                       e.preventDefault();
-                      console.log('user was blocked: ', userIndex)
+                      
+                     // limitDate("some")
+                      /*
+                      updateUser({
+                        variables: {
+                         
+                          blocked: {"toPush": users[userIndex]?._id},
+                        },
+                      })
+
+*/                      console.log('user was blocked: ', userIndex)
                     }}
                   >Block user</button>
                 </div>

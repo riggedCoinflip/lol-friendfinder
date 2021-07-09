@@ -28,18 +28,18 @@ const GET_MY_INFO = gql`
       avatar
       ingameRole
       dateOfBirth
-      friends {
-        user
-      }
+      friends { user }
+      blocked
     }
   }
 `
 
 const UPDATE_USER = gql`
   mutation userUpdateSelf($aboutMe: String, $languages: [String], $dateOfBirth: Date,
-                          $gender:EnumUserPrivateGender) {
+                          $gender:EnumUserPrivateGender,    $blocked: UserPrivateBlockedMutation
+) {
     userUpdateSelf(aboutMe: $aboutMe, languages: $languages, dateOfBirth: $dateOfBirth,
-                  gender:$gender) {
+                  gender: $gender, blocked: $blocked ) {
       name
       aboutMe
       gender
@@ -244,6 +244,7 @@ export default function Profile() {
                     gender: state.gender,
                     languages: state.languages,
                     dateOfBirth: state.dateOfBirth,
+                   // blocked: {"toPush": "60cd2bdc2509e03dc8b1c706"},
                   },
                 })
                 alert("Data was updated")
