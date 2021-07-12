@@ -126,7 +126,7 @@ const userMany = UserTCPublic.mongooseResolvers.findMany({
 })
     .setDescription("Get the public information of userMany with restricted filters")
 
-//TODO test
+
 UserTCPublic.addResolver({
     name: "userManyToSwipe",
     description: `

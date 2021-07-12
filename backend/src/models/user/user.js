@@ -110,7 +110,7 @@ UserSchema.plugin(idvalidator);
 UserSchema.pre("save", function (next) {
     if (this.isModified("dateOfBirth") || this.isModified("age")) {
         this.age = (() => {
-            //https://stackoverflow.com/a/24181701/12340711  - good enough
+            //https://stackoverflow.com/a/24181701/12340711 - good enough
             if (!this.dateOfBirth) return -1 //default
             const ageDifMs = Date.now() - this.dateOfBirth
             const ageDate = new Date(ageDifMs); // milliseconds from epoch
