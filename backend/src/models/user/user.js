@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const {composeMongoose} = require("graphql-compose-mongoose")
 const userValidation = require("../../utils/shared_utils")
 const idvalidator = require("mongoose-id-validator")
-const {LodashModule: _} = require("lodash");
+const _ = require("lodash");
 
 
 const normalizeName = name => name.toLowerCase()
