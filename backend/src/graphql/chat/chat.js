@@ -22,7 +22,11 @@ ChatTC.addResolver({
         const chatIDs = userSelf.friends.map(item => item.chat._id)
         if (!chatIDs.includes(args.chatID)) throw new Error("chatID does not exist or you are not participant of that chat")
 
-        return Chat.findOne({_id: args.chatID}).populate("messages")
+        // if args.page is not defined, only show last message of chat, else, show pages of 20 entries
+        const slice = (!args.page || args.page <= 0) ? 1 : [20 * (args.page - 1), 20]
+        return Chat
+            .findOne({_id: args.chatID})
+            .slice("messages", slice)
     }
 })
 
@@ -46,7 +50,10 @@ ChatTC.addResolver({
         if (!chatIDs.includes(args.chatID)) throw new Error("chatID does not exist or you are not participant of that chat")
 
         const chat = await Chat.findOne({_id: args.chatID})
-        chat.messages.push({content: args.content, author: userSelf._id})
+        //new messages always on top
+        chat.messages.unshift({content: args.content, author: userSelf._id})
+        //limit to 1000 messages
+        chat.messages = chat.messages.slice(0, 1000)
         await chat.save()
 
         return "Message sent successfully!"
@@ -96,14 +103,14 @@ ChatTC.addResolver({
 
 const ChatQuery = {
     ...requireAuthentication({
-        getChat : ChatTC.getResolver("getChat"),
+        getChat: ChatTC.getResolver("getChat"),
     }),
 }
 
 const ChatMutation = {
     ...requireAuthentication({
-        sendMessage : ChatTC.getResolver("sendMessage"),
-        editOrDeleteMessage : ChatTC.getResolver("editOrDeleteMessage"),
+        sendMessage: ChatTC.getResolver("sendMessage"),
+        editOrDeleteMessage: ChatTC.getResolver("editOrDeleteMessage"),
     }),
 }
 
