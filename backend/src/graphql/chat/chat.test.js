@@ -305,7 +305,7 @@ describe("Chat GraphQL Test Suite", () => {
         )
         const page4Contents = page4.data.getChat.messages.map(message => message.content)
         expect(page4Contents).toStrictEqual([])
-    })
+    }, 30_000)
 
     it("only allows queries on chats the user is part of", async () => {
         await login("admin@email.com", "AdminPW1")
