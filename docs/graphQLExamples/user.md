@@ -86,6 +86,10 @@ mutation {
         dateOfBirth
         avatar
         ingameRole
+        friends {
+            user
+            chat
+        }
     }
 }
 ```
