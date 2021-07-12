@@ -313,7 +313,6 @@ describe("Chat GraphQL Test Suite", () => {
         const user = await User.findOne({nameNormalized: "sktt1faker"})
         const chatID = user.friends[0].chat._id
 
-
         const noPagination = await query(
             queries.GET_CHAT, {
                 variables: {
@@ -321,7 +320,25 @@ describe("Chat GraphQL Test Suite", () => {
                 }
             }
         )
-
         expect(noPagination.errors[0].message).toStrictEqual("chatID does not exist or you are not participant of that chat")
+
+        const sendMessage = await mutate(
+            queries.SEND_MESSAGE, {
+                variables: {
+                    chatID,
+                    content: "foo"
+                }
+            })
+        expect(sendMessage.errors[0].message).toStrictEqual("chatID does not exist or you are not participant of that chat")
+
+        const editMessage = await mutate(
+            queries.EDIT_OR_DELETE_MESSAGE, {
+                variables: {
+                    chatID,
+                    messageID: "someFalseID",
+                }
+            }
+        )
+        expect(editMessage.errors[0].message).toStrictEqual("chatID does not exist or you are not participant of that chat")
     })
 })
