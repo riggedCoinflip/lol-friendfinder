@@ -314,4 +314,4 @@ describe("User GraphQL Test Suite", () => {
 
         expect(notAllEqual).toBe(true)
     })
-});
+})

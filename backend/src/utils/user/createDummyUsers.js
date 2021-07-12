@@ -17,7 +17,8 @@ async function createDummyUsers() {
     if (await User.countDocuments() === 0) {
         //console.debug("User collection is empty.")
         //console.debug("Add Dummy Users")
-        await User.create(mongoosifyUsers())
+        const users = mongoosifyUsers()
+        await User.create(users)
         await createPasswords()
         //console.debug(`Users added: ${await User.countDocuments()}`)
     } else {

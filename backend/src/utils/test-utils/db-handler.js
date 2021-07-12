@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const assert = require("assert");
-const os = require("os");
-const {MongoMemoryServer} = require("mongodb-memory-server");
+const mongoose = require("mongoose")
+const os = require("os")
+const {MongoMemoryServer} = require("mongodb-memory-server")
 
 const mongod = new MongoMemoryServer({
     binary: {
@@ -11,24 +10,24 @@ const mongod = new MongoMemoryServer({
 })
 
 async function dbConnect() {
-    const uri = await mongod.getUri();
+    const uri = await mongod.getUri()
 
     const mongooseOpts = {
         useNewUrlParser: true,
         useCreateIndex: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
-    };
+    }
 
-    await mongoose.connect(uri, mongooseOpts);
-};
+    await mongoose.connect(uri, mongooseOpts)
+}
 
 
 async function dbDisconnectAndWipe() {
-    await mongoose.connection.dropDatabase();
-    await mongoose.connection.close();
-    await mongod.stop();
-};
+    await mongoose.connection.dropDatabase()
+    await mongoose.connection.close()
+    await mongod.stop()
+}
 
 module.exports = {
     dbConnect,

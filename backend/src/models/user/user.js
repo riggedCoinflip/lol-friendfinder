@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
-const {composeMongoose} = require("graphql-compose-mongoose");
-const userValidation = require("../../utils/shared_utils");
-const idvalidator = require("mongoose-id-validator");
-const _ = require("lodash/array");
+const mongoose = require("mongoose")
+const {composeMongoose} = require("graphql-compose-mongoose")
+const userValidation = require("../../utils/shared_utils")
+const idvalidator = require("mongoose-id-validator")
+const _ = require("lodash");
 
 
 const normalizeName = name => name.toLowerCase()
@@ -60,12 +60,6 @@ const UserSchema = new mongoose.Schema({
         default: "I prefer not to say",
         required: true
     },
-    /*
-    filter: {
-        //create new model
-        //gender: "I am looking for"
-    },
-     */
     dateOfBirth: {
         type: Date,
     },
@@ -86,12 +80,10 @@ const UserSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },
-        /* TODO implement later
         chat: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Chat",
         }
-         */
     }],
     blocked: [{
         type: mongoose.Schema.Types.ObjectId,
