@@ -8,7 +8,7 @@ import itsamatch from "../../assets/itsamatch.png";
 import { useQuery, gql, useMutation } from '@apollo/client';
 import * as Constants from '../../constants'
 import { Badge } from 'react-bootstrap';
-//import {limitDate} from "./Profile";
+//import {updateUser} from "../Profile";
 const GET_USER_TO_SWIPE = gql`
         { 
           userManyToSwipe
@@ -46,7 +46,7 @@ mutation
 
 `;
 
-export default function Users({ match }) {
+export default function Users(props, { match }) {
 
   const [users, setUsers] = useState([]);
   const [userIndex, setUserIndex] = useState(0);
@@ -79,6 +79,13 @@ export default function Users({ match }) {
       }
     })
     
+  const [updateUser, { data: dataUpdate }] = useMutation(UPDATE_USER, {
+    context: {
+      headers: {
+        "x-auth-token": TOKEN,
+      },
+    },
+  }) 
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error  </p>;
@@ -113,17 +120,18 @@ export default function Users({ match }) {
                     onClick={e => {
 
                       e.preventDefault();
-                      
-                     // limitDate("some")
-                      /*
-                      updateUser({
+                 /*  const a = limitDate("12-12-2000")
+                alert(a);
+                     
+
+                   props.updateUser({
                         variables: {
                          
                           blocked: {"toPush": users[userIndex]?._id},
                         },
                       })
-
-*/                      console.log('user was blocked: ', userIndex)
+*/
+                      console.log('user was blocked: ', userIndex)
                     }}
                   >Block user</button>
                 </div>

@@ -8,7 +8,7 @@ function MyNavbar() {
   
   useEffect(() => {
     setTOKEN(localStorage.getItem("SECREToken"))
-    alert("Token cambio ", TOKEN)
+   // alert("Token cambio ", TOKEN)
   }, [TOKEN])
 
   return (
