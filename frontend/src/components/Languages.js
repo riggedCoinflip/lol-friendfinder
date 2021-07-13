@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react"
-import { useQuery, gql } from "@apollo/client"
+import { useQuery } from "@apollo/client"
 import { Dropdown, ListGroup, Badge } from "react-bootstrap"
 import { ContextHeader} from "../constants"
 import { GET_LANGUAGES } from '../GraphQL/Queries'
