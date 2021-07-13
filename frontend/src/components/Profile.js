@@ -1,62 +1,26 @@
 import { useEffect, useState, React } from "react"
-import { useQuery, gql, useMutation } from "@apollo/client"
+import { GET_MY_INFO } from '../GraphQL/Queries'
+import { UPDATE_USER } from '../GraphQL/Mutations'
+import { useQuery, useMutation } from "@apollo/client"
 import Languages from "./Languages"
 import Friends from "./Friends"
+import { ContextHeader} from "../constants"
+
+import BlockedUsers from "./BlockedUsers"
 
 import {
-  Button,
-  Container,
-  Card,
-  Form,
-  Col,
-  Image,
-  Row,
-  InputGroup,
-  FormControl,
-  ListGroup,
+  Button,Container,
+  Card, Form,
+  Col,Image,
+  Row, InputGroup,
+  FormControl, ListGroup,
   Dropdown,
 } from "react-bootstrap"
 
-const GET_MY_INFO = gql`
-  {
-    userSelf {
-      _id
-      name
-      aboutMe
-      languages
-      gender
-      avatar
-      ingameRole
-      dateOfBirth
-      friends { user }
-      blocked
-    }
-  }
-`
-
-const UPDATE_USER = gql`
-  mutation userUpdateSelf($aboutMe: String, $languages: [String], $dateOfBirth: Date,
-                          $gender:EnumUserPrivateGender,    $blocked: UserPrivateBlockedMutation
-) {
-    userUpdateSelf(aboutMe: $aboutMe, languages: $languages, dateOfBirth: $dateOfBirth,
-                  gender: $gender, blocked: $blocked ) {
-      name
-      aboutMe
-      gender
-      languages
-      dateOfBirth
-      ingameRole
-      friends {
-        user
-      }
-      blocked
-    }
-  }
-`
-
 export default function Profile() {
-  let TOKEN= localStorage.getItem("SECREToken");
-  const [state, setState] = useState({})
+ 
+  const [state, setState] = useState()
+ 
   const genderOptions = [
     "non_binary",
     "male",
@@ -68,44 +32,30 @@ export default function Profile() {
     "I prefer not to say",
   ]
 
-  const { loading, error, data, refetch } = useQuery(GET_MY_INFO, {
- //   pollInterval: 200,
-    context: {
-      headers: {
-        "x-auth-token": TOKEN,
-      },
-    },
-  })
-
+  const { loading, error, data, refetch } = useQuery(GET_MY_INFO, ContextHeader)
+  /*
+  useEffect(() => {
+    setState() 
+    }, [])
+*/
   useEffect(() => {
     if (data || !state) {
       refetch()
-      setState(data.userSelf)
+      setState(data?.userSelf)
       console.log("State from useEffect", state)
     }
   }, [data])
 
   //If F5
-  /*
-  useEffect(() => {
-    
-      refetch()
-      setState(data?.userSelf) 
-  }, [data.userSelf])
-*/
-  const [updateUser, { data: dataUpdate }] = useMutation(UPDATE_USER, {
-     context: {
-      headers: {
-        "x-auth-token": TOKEN,
-      },
-    },
-  })
+  
+
+
+  const [updateUser, { data: dataUpdate }] = useMutation(UPDATE_USER, ContextHeader)
 
   //Get users data
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error, are you already logged in?!</p>
 
-  
   //console.log("Data Mutation:", dataUpdate)
   console.log("MyInfo in data:", data.userSelf)
 
@@ -188,7 +138,6 @@ export default function Profile() {
                 type="text"
                 value={limitDate(state?.dateOfBirth)}
                 onChange={changeHandler}
-
               />
               IngameRole
               <ListGroup horizontal>
@@ -244,7 +193,6 @@ export default function Profile() {
                     gender: state.gender,
                     languages: state.languages,
                     dateOfBirth: state.dateOfBirth,
-                   // blocked: {"toPush": "60cd2bdc2509e03dc8b1c706"},
                   },
                 })
                 alert("Data was updated")
@@ -261,8 +209,8 @@ export default function Profile() {
           </div>
         </Form>
         <br />
-        Id from your actual friends: (id):
         <Friends data={data} />
+        <BlockedUsers data={data} />
       </Container>
     </div>
   )

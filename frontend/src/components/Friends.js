@@ -1,40 +1,20 @@
-import { useState, React } from "react"
+import { useState, useEffect, React } from "react"
 import { ListGroup } from "react-bootstrap"
 
-/*
-const GET_USER_BY_ID = gql`
-{
-userOneById ( $id: MongoID! ){
-    userOneById(_id: $id)
-    {
-        _id
-        name
-        
-    }
-}
-}
-`;
-*/
 export default function Friends(props) {
-  const [friends, setFriends] = useState(props?.data?.userSelf.friends)
+  const [friends, setFriends] = useState()
 
-  /*
-  const [getUserById, {loading, error, data}] = useQuery(GET_USER_BY_ID,
-    {
-      context: {
-        headers: {
-          "x-auth-token": Constants.AUTH_TOKEN
-        }
-      }
-    })
+  useEffect(() => {
+    if (friends) {
+      setFriends(props?.data?.userSelf.friends)
+    }
+  }, [friends])
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error!</p>;
-*/
   console.log("friends/from profile", friends)
 
   return (
     <div className="friends">
+      Id from your actual friends: (id):
       <ListGroup horizontal>
         {friends &&
           friends.map((item, index) => {

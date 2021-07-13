@@ -27,7 +27,7 @@ export default function Login() {
         console.log(TOKEN) //for now, log token //TODO find a way to store token
         localStorage.setItem("SECREToken", TOKEN)
         history.push("/profile")
-        alert("Happend?")
+        //alert("Happend?")
       })
       .catch(() => {
         setErrored(true)

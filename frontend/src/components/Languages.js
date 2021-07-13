@@ -1,27 +1,17 @@
 import { React, useState, useEffect } from "react"
 import { useQuery, gql } from "@apollo/client"
-import * as Constants from "../constants"
-
 import { Dropdown, ListGroup, Badge } from "react-bootstrap"
-
-const GET_LANGUAGES = gql`
-  {
-    languageMany(filter: {}) {
-      name
-      alpha2
-      nativeName
-    }
-  }
-`
+import { ContextHeader} from "../constants"
+import { GET_LANGUAGES } from '../GraphQL/Queries'
 
 const Languages = (props) => {
   const [local_Languages, setLocal_Languages] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
-    setLocal_Languages(props.state.languages)
+    setLocal_Languages(props?.state?.languages)
     //console.log("useEffect []: ", local_Languages)
-  }, [props.state.gender])
+  }, [props?.state?.gender])
 
   useEffect(() => {
     //console.log("useEffect [local_Languages]: ", local_Languages)
@@ -29,14 +19,7 @@ const Languages = (props) => {
    // console.log("props.state.languages: ", props.state.languages)
   }, [local_Languages])
 
-  const { loading, error, data } = useQuery(GET_LANGUAGES, {
-    context: {
-      headers: {
-        "x-auth-token": Constants.AUTH_TOKEN,
-      },
-    },
-  })
-
+  const { loading, error, data } = useQuery(GET_LANGUAGES, ContextHeader)
   if (loading) return <p>Loading languages...</p>
   if (error) return <p>Error!</p>
 
