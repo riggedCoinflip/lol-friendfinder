@@ -29,7 +29,7 @@ export default function Profile() {
     "transgender",
     "other",
     "intersex",
-    "I prefer not to say",
+    "I_prefer_not_to_say",
   ]
 
   const { loading, error, data, refetch } = useQuery(GET_MY_INFO, ContextHeader)
@@ -123,7 +123,9 @@ export default function Profile() {
                           }}
                           key={index + 1}
                         >
-                          {selectedGender}
+                          {selectedGender//?.replace("_", " ")
+                          }
+                          
                         </Dropdown.Item>
                       )
                     })}
