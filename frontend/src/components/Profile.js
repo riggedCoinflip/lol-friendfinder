@@ -43,6 +43,7 @@ export default function Profile() {
       refetch()
       setState(data?.userSelf)
       console.log("State from useEffect", state)
+
     }
   }, [data])
 
@@ -164,6 +165,7 @@ export default function Profile() {
               <br />
             </Col>{" "}
           </Row>
+
 
           <Row>
             <Form.Text className="text-muted">About me</Form.Text>

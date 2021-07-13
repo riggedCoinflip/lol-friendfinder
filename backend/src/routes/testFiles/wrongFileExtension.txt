@@ -1,0 +1,1 @@
+should not work as it is not an image

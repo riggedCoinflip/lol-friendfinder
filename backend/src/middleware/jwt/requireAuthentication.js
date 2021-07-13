@@ -10,7 +10,7 @@ module.exports = (resolvers) => {
     Object.keys(resolvers).forEach((k) => {
         resolvers[k] = resolvers[k].wrapResolve(next => async rp => {
             if (!rp?.context?.req?.user?.isAuth) {
-                throw new Error('You must login to view this.');
+                throw new Error("You must login to view this.")
             }
             return next(rp)
         })

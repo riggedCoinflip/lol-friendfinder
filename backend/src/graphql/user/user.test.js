@@ -142,7 +142,7 @@ describe("User GraphQL Test Suite", () => {
         expect(userOneByNameResult.data.userOneByName.name).toStrictEqual("Admin")
     })
 
-    test("UserManyLikesMe", async () => {
+    test.skip("UserManyLikesMe", async () => {
         await loginUser()
 
         const userManyLikesMeResult = await mutate(queries.USER_MANY_LIKES_ME)
@@ -314,4 +314,4 @@ describe("User GraphQL Test Suite", () => {
 
         expect(notAllEqual).toBe(true)
     })
-});
+})

@@ -1,21 +1,21 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
-    const token = req.headers['x-auth-token'];
+    const token = req.headers['x-auth-token']
     if (!token) {
         req.user = {
             isAuth: false,
         }
-        return next();
+        return next()
     }
-    let decodedToken;
+    let decodedToken
     try {
         decodedToken = jwt.verify(token, process.env.JWT_SECRET)
     } catch (err) {
         req.user = {
             isAuth: false,
         }
-        return next();
+        return next()
     }
 
     req.user = {
@@ -25,5 +25,5 @@ module.exports = (req, res, next) => {
         role: decodedToken.role,
     }
 
-    next();
+    next()
 }
