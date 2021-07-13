@@ -38,7 +38,7 @@ const avatarUpload = multer({
         // TODO resize: https://medium.com/@shamnad.p.s/reduce-image-size-when-uploading-images-to-aws-s3-using-nestjs-and-typescript-e828c347f305
     }),
     fileFilter: function (req, file, cb) {
-        const ext = path.extname(file.originalname);
+        const ext = path.extname(file.originalname).toLowerCase()
         if (ext !== ".png" && ext !== ".jpg" && ext !== ".jpeg") {
             return cb(new Error("Only images are allowed"))
         }
