@@ -10,6 +10,22 @@ interface ErrorInterface {
     message: String
 }
 
+type Chat {
+    _id: MongoID!
+    createdAt: Date
+    messages: [ChatMessages]
+    participants: [MongoID]
+    updatedAt: Date
+}
+
+type ChatMessages {
+    _id: MongoID
+    author: MongoID
+    content: String
+    createdAt: Date
+    updatedAt: Date
+}
+
 type CreateManyUserAdminPayload {
     "Number of created documents"
     createdCount: Int!
@@ -55,6 +71,10 @@ type Like {
 }
 
 type Mutation {
+    "Delete a message of the current user"
+    editOrDeleteMessage(chatID: MongoID!, content: String, messageID: MongoID!): String!
+    "Write a message to a chat the user is participating in."
+    sendMessage(chatID: MongoID!, content: String!): String!
     "Create an account"
     signup(email: String!, name: String!, password: String!): UserPrivate
     "Like or Dislike someone. requester gets automatically set and overrides any value"
@@ -122,6 +142,8 @@ type PaginationInfo {
 }
 
 type Query {
+    "Show the chat a user is participating in"
+    getChat(chatID: MongoID!, page: Int): Chat
     languageMany(
         "Filter by fields"
         filter: FilterFindManyLanguageInput,
@@ -179,6 +201,7 @@ type Query {
     2. All users that match the filters used
 
     Excludes the following users: The client itself, friends, blocked users and users the client already liked.
+    Limit: 10
     """
     userManyToSwipe(
         "Filter by fields"
@@ -295,6 +318,7 @@ type UserAdminEdge {
 
 type UserAdminFriends {
     _id: MongoID
+    chat: MongoID
     user: MongoID
 }
 
@@ -553,6 +577,7 @@ input FilterCountUserAdminEmailOperatorsInput {
 
 input FilterCountUserAdminFriendsInput {
     _id: MongoID
+    chat: MongoID
     user: MongoID
 }
 
@@ -644,6 +669,7 @@ input FilterFindManyUserAdminEmailOperatorsInput {
 
 input FilterFindManyUserAdminFriendsInput {
     _id: MongoID
+    chat: MongoID
     user: MongoID
 }
 
@@ -771,6 +797,7 @@ input FilterFindOneUserAdminEmailOperatorsInput {
 
 input FilterFindOneUserAdminFriendsInput {
     _id: MongoID
+    chat: MongoID
     user: MongoID
 }
 
@@ -854,6 +881,7 @@ input FilterRemoveManyUserAdminEmailOperatorsInput {
 
 input FilterRemoveManyUserAdminFriendsInput {
     _id: MongoID
+    chat: MongoID
     user: MongoID
 }
 
@@ -937,6 +965,7 @@ input FilterRemoveOneUserAdminEmailOperatorsInput {
 
 input FilterRemoveOneUserAdminFriendsInput {
     _id: MongoID
+    chat: MongoID
     user: MongoID
 }
 
@@ -1020,6 +1049,7 @@ input FilterUpdateManyUserAdminEmailOperatorsInput {
 
 input FilterUpdateManyUserAdminFriendsInput {
     _id: MongoID
+    chat: MongoID
     user: MongoID
 }
 
@@ -1103,6 +1133,7 @@ input FilterUpdateOneUserAdminEmailOperatorsInput {
 
 input FilterUpdateOneUserAdminFriendsInput {
     _id: MongoID
+    chat: MongoID
     user: MongoID
 }
 
@@ -1174,6 +1205,7 @@ input FilterUpdateOneUserAdmin_idOperatorsInput {
 
 input UpdateByIdUserAdminFriendsInput {
     _id: MongoID
+    chat: MongoID
     user: MongoID
 }
 
@@ -1197,6 +1229,7 @@ input UpdateByIdUserAdminInput {
 
 input UpdateManyUserAdminFriendsInput {
     _id: MongoID
+    chat: MongoID
     user: MongoID
 }
 
@@ -1220,6 +1253,7 @@ input UpdateManyUserAdminInput {
 
 input UpdateOneUserAdminFriendsInput {
     _id: MongoID
+    chat: MongoID
     user: MongoID
 }
 
@@ -1243,6 +1277,7 @@ input UpdateOneUserAdminInput {
 
 input UserAdminFriendsInput {
     _id: MongoID
+    chat: MongoID
     user: MongoID
 }
 

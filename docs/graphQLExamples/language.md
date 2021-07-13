@@ -1,3 +1,9 @@
+# Language
+
+## Queries
+
+### languageMany
+
 get all (limited to first 100) languages:
 ```graphql
 {
@@ -8,6 +14,8 @@ get all (limited to first 100) languages:
   }
 }
 ```
+
+### languageOne
 
 Get Alpha-2 code of german (not germanY - we have languages not countries):
 ```graphql

@@ -3,6 +3,7 @@ const {User} = require("../user/user")
 const createMongoData = require("../../utils/createMongoData")
 const {dbConnect, dbDisconnectAndWipe} = require("../../utils/test-utils/db-handler")
 const validators = require("../../utils/test-utils/validators")
+const createMatch = require("../../utils/test-utils/createMatch")
 
 describe("Like Model Test Suite", () => {
     beforeAll(async () => {
@@ -93,26 +94,12 @@ describe("Like Model Test Suite", () => {
         }
     })
 
-    it("adds Users to each others friends list after liking each other", async () => {
-        const user1 = await User.findOne({nameNormalized: "sktt1faker"})
-        const user2 = await User.findOne({nameNormalized: "kdaevelynn"})
+    it("creates a Match if2 users like each other", async () => {
+        const match = await createMatch("sktt1faker", "kdaevelynn")
 
-        await new Like({
-            requester: user1,
-            recipient: user2,
-            status: "liked"
-        }).save()
-
-        await new Like({
-            requester: user2,
-            recipient: user1,
-            status: "liked"
-        }).save()
-
-        const user1AfterLike = await User.findOne({nameNormalized: "sktt1faker"})
-        const user2AfterLike = await User.findOne({nameNormalized: "kdaevelynn"})
-
-        expect(user1AfterLike.friends[0].user).toStrictEqual(user2._id)
-        expect(user2AfterLike.friends[0].user).toStrictEqual(user1._id)
+        expect(match.user1AfterLike.friends[0].user).toStrictEqual(match.user2._id)
+        expect(match.user2AfterLike.friends[0].user).toStrictEqual(match.user1._id)
+        expect(match.user1AfterLike.friends[0].chat).toBeDefined()
+        expect(match.user1AfterLike.friends[0].chat).toStrictEqual(match.user2AfterLike.friends[0].chat)
     })
 })

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const idvalidator = require('mongoose-id-validator');
+const {Chat} = require("../chat/chat");
 const {User} = require("../user/user");
 const {composeMongoose} = require("graphql-compose-mongoose");
 
@@ -32,7 +33,7 @@ LikeSchema.pre("validate", function (next) {
 
 LikeSchema.post("save", async function (doc, next) {
     // if status==="liked" is saved, see if recipient already liked requester.
-    // In this case, add users to each others friends list ♥
+    // In this case, add users to each others friends list and create a chat Document ♥
     if (
         doc.status === "liked" &&
         await Like.findOne({requester: doc.recipient, recipient: doc.requester, status: doc.status})
@@ -40,14 +41,17 @@ LikeSchema.post("save", async function (doc, next) {
         const requester = await User.findOne({_id: doc.requester})
         const recipient = await User.findOne({_id: doc.recipient})
 
-        requester.friends.push({user: doc.recipient})
-        recipient.friends.push({user: doc.requester})
+        const chat = new Chat({participants: [requester, recipient]})
+        await chat.save()
+
+        requester.friends.push({user: doc.recipient, chat: chat._id})
+        recipient.friends.push({user: doc.requester, chat: chat._id})
 
         await requester.save()
         await recipient.save()
     }
     next()
-});
+})
 
 const Like = mongoose.model("Like", LikeSchema)
 const LikeTC = composeMongoose(Like)
