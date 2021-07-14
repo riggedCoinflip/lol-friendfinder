@@ -4,7 +4,8 @@
   "description": "root directory",
   "main": "index.js",
   "engines": {
-    "node": "14.x"
+    "node": "14.x",
+    "npm": "7.x"
   },
   "scripts": {
     "test": "cypress run",
