@@ -5,7 +5,9 @@
     "main": "index.js",
     "scripts": {
       "test": "cypress run",
-      "info": "cypress info"
+      "info": "cypress info",
+      "postinstall": "npm install --prefix backend && npm install --prefix frontend",
+      "start": "node backend/server.js"
     },
     "author": "",
     "license": "ISC",
