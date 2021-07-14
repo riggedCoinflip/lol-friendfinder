@@ -10,7 +10,13 @@ import { onError } from 'apollo-link-error';
 
 const client = new ApolloClient({
     uri: "http://localhost:5000/graphql",
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        User: {
+          keyFields: ["email"],
+        }
+      },
+    }),
     onError: ({ networkError, graphQLErrors }) => {
         console.log('graphQLErrors', graphQLErrors)
         console.log('networkError', networkError)

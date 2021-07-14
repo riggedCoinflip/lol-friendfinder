@@ -1,6 +1,7 @@
 #This format our code with prettier and eslint
 name: Make Code prettier
 
+
 on:
   # Trigger the workflow on push or pull request,
   # but only for the main branch
