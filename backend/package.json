@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "amazon-s3-uri": "^0.1.1",
-    "apollo-server-express": "^3.0.0",
+    "apollo-server-express": "^2.25.2",
     "aws-sdk": "^2.945.0",
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
