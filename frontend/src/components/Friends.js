@@ -5,11 +5,17 @@ export default function Friends(props) {
   const [friends, setFriends] = useState()
 
   useEffect(() => {
-    if (friends) {
+      setFriends(props?.data?.userSelf.friends)
+    
+  }, [])
+
+/*
+  useEffect(() => {
+    if (!friends) {
       setFriends(props?.data?.userSelf.friends)
     }
   }, [friends])
-
+*/
   console.log("friends/from profile", friends)
 
   return (

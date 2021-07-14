@@ -25,6 +25,8 @@ export default function App() {
                 <Route path="/signup" component={SignUp}/>
          
                 <Route exact path="/users" component={ () => <Users/>} />
+                <Route exact path="/friends" component={ () => <Friends/>} />
+
                 <Route exact path="/profile" component={ () => <Profile  authorized={true}/>} />
 
                 <Route component={NotFound}/>

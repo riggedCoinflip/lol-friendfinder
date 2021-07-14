@@ -23,7 +23,9 @@ function MyNavbar() {
           <Link to="/Users" className="nav-link">
             Users
           </Link>
-
+          <Link to="/Friends" className="nav-link">
+            Friends
+          </Link>
           <Navbar.Brand className="mx-auto order-0 justify-content-md-center">
             <Link to="/" className="nav-link order-0" type="button">
               Hooked
