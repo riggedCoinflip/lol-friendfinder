@@ -1,26 +1,32 @@
 import { useEffect, useState, React } from "react"
-import { GET_MY_INFO } from '../GraphQL/Queries'
-import { UPDATE_USER } from '../GraphQL/Mutations'
+import { GET_MY_INFO } from "../GraphQL/Queries"
+import { UPDATE_USER } from "../GraphQL/Mutations"
 import { useQuery, useMutation } from "@apollo/client"
 import Languages from "./Languages"
 import Friends from "./Friends"
-import { ContextHeader} from "../constants"
+
+import IngameRoles from "./IngameRoles"
+import { ContextHeader } from "../constants"
 
 import BlockedUsers from "./BlockedUsers"
 
 import {
-  Button,Container,
-  Card, Form,
-  Col,Image,
-  Row, InputGroup,
-  FormControl, ListGroup,
+  Button,
+  Container,
+  Card,
+  Form,
+  Col,
+  Image,
+  Row,
+  InputGroup,
+  FormControl,
+  ListGroup,
   Dropdown,
 } from "react-bootstrap"
 
 export default function Profile() {
- 
   const [state, setState] = useState()
- 
+
   const genderOptions = [
     "non_binary",
     "male",
@@ -39,7 +45,6 @@ export default function Profile() {
     }, [])
 */
   useEffect(() => {
-
     if (data || !state) {
       refetch()
       setState(data?.userSelf)
@@ -48,17 +53,18 @@ export default function Profile() {
   }, [data])
 
   //If F5
-  
 
-
-  const [updateUser, { data: dataUpdate }] = useMutation(UPDATE_USER, ContextHeader)
+  const [updateUser, { data: dataUpdate }] = useMutation(
+    UPDATE_USER,
+    ContextHeader
+  )
 
   //Get users data
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error, are you already logged in?!</p>
 
   //console.log("Data Mutation:", dataUpdate)
-  console.log("MyInfo in data:", data.userSelf)
+  console.table(data.userSelf)
 
   const changeHandler = (e) => {
     e.persist() //important
@@ -69,7 +75,7 @@ export default function Profile() {
     console.log("value from child", values)
     //   console.log('State getValuesFromChild: ', state.languages);
   }
-  console.log("STATE.dateOfBirth", state?.dateOfBirth)
+  //console.log("STATE.dateOfBirth", state?.dateOfBirth)
 
   function limitDate(input) {
     const output = input?.substring(0, 10) ?? "Date is unknown"
@@ -124,9 +130,9 @@ export default function Profile() {
                           }}
                           key={index + 1}
                         >
-                          {selectedGender//?.replace("_", " ")
+                          {
+                            selectedGender //?.replace("_", " ")
                           }
-                          
                         </Dropdown.Item>
                       )
                     })}
@@ -142,21 +148,6 @@ export default function Profile() {
                 value={limitDate(state?.dateOfBirth)}
                 onChange={changeHandler}
               />
-              IngameRole
-              <ListGroup horizontal>
-                {state?.ingameRole ? (
-                  state?.ingameRole &&
-                  state?.ingameRole.map((data, index) => {
-                    return (
-                      <ListGroup.Item variant="dark" key={index + 1}>
-                        {data}
-                      </ListGroup.Item>
-                    )
-                  })
-                ) : (
-                  <p>There're not IngameRole selected</p>
-                )}
-              </ListGroup>
               <br />
               {/**/}
               <Languages
@@ -165,7 +156,11 @@ export default function Profile() {
                 setState={setState}
               />
               <br />
-
+              <IngameRoles
+                getValuesFromChild={getValuesFromChild}
+                state={state}
+                setState={setState}
+              />
             </Col>{" "}
           </Row>
 

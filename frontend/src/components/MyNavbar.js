@@ -1,16 +1,16 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Navbar } from "react-bootstrap"
 
-function MyNavbar() {
-  const [TOKEN, setTOKEN] = useState(localStorage.getItem("SECREToken"))
-  
-  useEffect(() => {
-    setTOKEN(localStorage.getItem("SECREToken"))
-   // alert("Token cambio ", TOKEN)
-  }, [TOKEN])
+function MyNavbar(appProps) {
+  const [log, setLog] = useState(false)
 
+  useEffect(() => {
+    console.log("Token changed ", appProps.token)
+    appProps.token?setLog(true):setLog(false)
+    //  return ( ) =>{    console.log("Token setted(null) ", TOKEN)}
+  }, [ appProps.token ])
   return (
     <div>
       <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
@@ -32,40 +32,35 @@ function MyNavbar() {
             </Link>
           </Navbar.Brand>
 
-          {!TOKEN &&
-          <Link to="/signup" className="nav-link text-warning">
-            Signup for free!
-          </Link>
-          }
-          {TOKEN ? 
-          (
+          {!log && (
+            <Link to="/signup" className="nav-link text-warning">
+              Signup for free!
+            </Link>
+          )}
+          {log ? (
             <div className="nav-item">
               <Link
                 value="Logout"
                 to="/Login"
                 className="nav-link"
-                onClick={() => 
-                  {
-                  setTOKEN(null);
-                  localStorage.clear();
-                }
-                }
+                onClick={() => {
+                  appProps.setToken(null)
+                  localStorage.clear()
+                }}
               >
                 Logout
               </Link>
             </div>
-          )
-          : //if TOKEN === undefined, null...
-          (
+          ) : (
+            //if TOKEN === undefined, null...
             <div className="nav-item" value="Login">
               <Link
                 to="/Login"
                 className="nav-link"
-                onClick={() => 
-                  {
-                setTOKEN(localStorage.getItem("SECREToken"))
-                  }}
-                  >
+                onClick={() => {
+                  appProps.setToken(localStorage.getItem("SECREToken"))
+                }}
+              >
                 Login
               </Link>
             </div>

@@ -3,8 +3,9 @@ import { useApolloClient } from "@apollo/client"
 import { useHistory } from "react-router-dom"
 import { useForm } from '../customHooks/useForm'
 import { LOGIN } from '../GraphQL/Queries'
-
-export default function Login() {
+ 
+export default function Login(appProps) {
+ 
   const client = useApolloClient()
   let TOKEN = localStorage.getItem("SECREToken")
 
@@ -18,10 +19,11 @@ export default function Login() {
     //Calling the function
     Submit(values.email, values.password)
       .then((res) => {
-        //console.log(`Log in successful!`)
+       // console.log(`Log in successful!`)
         TOKEN = res.data.login
         console.log(TOKEN) //for now, log token //TODO find a way to store token
         localStorage.setItem("SECREToken", TOKEN)
+        appProps.setToken(TOKEN)
         history.push("/profile")
         //alert("Happend?")
       })
@@ -43,7 +45,7 @@ export default function Login() {
   const history = useHistory()
 
    return(
-     TOKEN ?
+    TOKEN ?
      <div>
        You are already logged in
        {history.push("/profile")}
@@ -66,7 +68,6 @@ export default function Login() {
             required={true}
             onChange={handleChange}
             id="email-input"
-            value={values.email}
           />
         </div>
 
@@ -82,7 +83,6 @@ export default function Login() {
             required={true}
             onChange={handleChange}
             id="password-input"
-            value={values.password}
           />
         </div>
 
