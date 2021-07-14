@@ -15,6 +15,8 @@ export default function Friends(props) {
       setFriends(props?.data?.userSelf.friends)
     }
   }, [friends])
+
+  TO SHOW THE USERS BY ID; CHECK IN LOGIN HOW THE QUERY WAS CALLED;LINE 33-41
 */
   console.log("friends/from profile", friends)
 
