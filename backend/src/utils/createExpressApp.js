@@ -1,10 +1,11 @@
 const express = require("express");
 const isAuth = require("../middleware/jwt/isAuth");
 const routes = require("../routes/avatar")
+const cors = require("cors")
 
 module.exports = function () {
     const app = express()
-
+    app.use(cors())
     //use auth middleware
     app.use(isAuth)
 
