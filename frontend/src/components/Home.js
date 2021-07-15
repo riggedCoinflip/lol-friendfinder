@@ -5,6 +5,7 @@ export default class Home extends Component {
     return (
       <>
         <h2>Home... </h2>
+        {process.env.REACT_APP_HOST || "no HOST defined"}
       </>
     )
   }
