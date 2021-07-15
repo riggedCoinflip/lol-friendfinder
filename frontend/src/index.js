@@ -7,10 +7,8 @@ import './main.scss';
 import App from './App';
 import { onError } from 'apollo-link-error';
 
-console.log(`Connect Apollo Client with URI: ${process.env.HOST || "http://localhost:5000/graphql"}`)
-
 const client = new ApolloClient({
-    uri: process.env.HOST || "http://localhost:5000/graphql",
+    uri: "https://lol-friendfinder.herokuapp.com/" || "http://localhost:5000/graphql",
     cache: new InMemoryCache({
       typePolicies: {
         User: {
@@ -21,7 +19,7 @@ const client = new ApolloClient({
     onError: ({ networkError, graphQLErrors }) => {
         console.log('graphQLErrors', graphQLErrors)
         console.log('networkError', networkError)
-    
+
 }});
 const link = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
