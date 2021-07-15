@@ -4,6 +4,7 @@ import { UPDATE_USER } from "../GraphQL/Mutations"
 import { useQuery, useMutation } from "@apollo/client"
 import Languages from "./Languages"
 import Friends from "./Friends"
+import ProfileImage from "./ProfileImage"
 
 import IngameRoles from "./IngameRoles"
 import { ContextHeader } from "../constants"
@@ -16,13 +17,11 @@ import {
   Card,
   Form,
   Col,
-  Image,
   Row,
   InputGroup,
   FormControl,
   ListGroup,
   Dropdown,
-  Modal,
 } from "react-bootstrap"
 
 export default function Profile() {
@@ -38,8 +37,7 @@ export default function Profile() {
     "intersex",
     "I_prefer_not_to_say",
   ]
-  const imageMaxSize = 900000
-  const admitedImageFormats = ["png", "jpg", "jpeg"]
+
   const { loading, error, data, refetch } = useQuery(GET_MY_INFO, ContextHeader)
   /*
   useEffect(() => {
@@ -84,32 +82,6 @@ export default function Profile() {
     return output
   }
 
-  function fileSelectedHandler(e) {
-    let imageType = e.target.files[0].type
-    imageType = imageType.toLowerCase().slice(6, 10) //type was
-    const imageSize = e.target.files[0].size
-    const target = e.target.files[0]
-    console.log("type", imageType, "original: ", target.type)
-    console.log("size", imageSize)
-    console.log("target", target)
-
-    if (imageSize >= imageMaxSize) {
-      alert("Max image size is 1Mb")
-      //console.log("img too big")
-    }
-
-    function formatValid() {
-      return admitedImageFormats.some(
-        (admitedImageFormats) => imageType === admitedImageFormats
-      )
-    }
-    alert(formatValid())
-  }
-
-  function fileUploadHandler() {
-    console.log("upload pic")
-  }
-
   return (
     <div id="user-info">
       <Container>
@@ -117,15 +89,7 @@ export default function Profile() {
         <Form>
           <Row>
             <Col>
-              <Image src="https://img.icons8.com/clouds/2x/name.png" rounded />
-
-              <br />
-
-              <input type="file" onChange={fileSelectedHandler} />
-
-              <Button variant="primary" size="sm" onClick={fileUploadHandler}>
-                Upload foto
-              </Button>
+            <ProfileImage />
             </Col>
             <Col>
               <InputGroup className="mb-3" weight="50px">

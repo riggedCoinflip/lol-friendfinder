@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^12.1.10",
     "apollo-boost": "^0.4.9",
     "apollo-client": "^2.6.10",
+    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "graphql": "^15.5.0",
     "immer": "^9.0.2",
