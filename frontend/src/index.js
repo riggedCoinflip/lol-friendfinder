@@ -7,6 +7,7 @@ import './main.scss';
 import App from './App';
 import { onError } from 'apollo-link-error';
 
+console.log(`Connect Apollo Client with URI: ${process.env.HOST || "http://localhost:5000/graphql"}`)
 
 const client = new ApolloClient({
     uri: process.env.HOST || "http://localhost:5000/graphql",
