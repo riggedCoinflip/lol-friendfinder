@@ -1,17 +1,23 @@
 {
-    "name": "example-chrome",
-    "version": "1.0.0",
-    "description": "running Cypress using Chrome",
-    "main": "index.js",
-    "scripts": {
-      "test": "cypress run",
-      "info": "cypress info"
-    },
-    "author": "",
-    "license": "ISC",
-    "private": true,
-    "devDependencies": {
-      "cypress": "4.1.0",
-      "image-size": "0.8.3"
-    }
+  "name": "root",
+  "version": "1.0.0",
+  "description": "root directory",
+  "main": "index.js",
+  "engines": {
+    "node": "14.x",
+    "npm": "7.x"
+  },
+  "scripts": {
+    "test": "cypress run",
+    "info": "cypress info",
+    "postinstall": "npm install --prefix backend",
+    "start": "node backend/server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "cypress": "^4.12.1",
+    "image-size": "0.8.3"
   }
+}
