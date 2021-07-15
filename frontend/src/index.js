@@ -8,8 +8,7 @@ import App from './App';
 import { onError } from 'apollo-link-error';
 
 function getURI () {
-    console.log(process.env.HOST)
-    return "https://lol-friendfinder.herokuapp.com/" //TODO fix
+    return "https://lol-friendfinder.herokuapp.com/graphql" //TODO fix
     //console.log(process.env.HOST || "http://localhost:5000/graphql")
     //return process.env.HOST || "http://localhost:5000/graphql"
 }
