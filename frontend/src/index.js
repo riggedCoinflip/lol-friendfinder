@@ -7,14 +7,8 @@ import './main.scss';
 import App from './App';
 import { onError } from 'apollo-link-error';
 
-function getURI () {
-    return "https://lol-friendfinder.herokuapp.com/graphql" //TODO fix
-    //console.log(process.env.HOST || "http://localhost:5000/graphql")
-    //return process.env.HOST || "http://localhost:5000/graphql"
-}
-
 const client = new ApolloClient({
-    uri: getURI(),
+    uri: process.env.REACT_APP_HOST || "http://localhost:5000/graphql",
     cache: new InMemoryCache({
       typePolicies: {
         User: {
