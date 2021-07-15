@@ -38,7 +38,7 @@ export default function ProfileImage() {
   function fileUploadHandler() {
     console.log("uploading pic...", file.name)
     var fd = new FormData()
-    fd.append("image", file, file.name)
+    fd.append("avatar", file, file.name)
     axios
       .post(
         'http://localhost:5000/api/avatar',
