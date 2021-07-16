@@ -32,7 +32,8 @@ export const GET_USER_TO_SWIPE = gql`
         ingameRole
         _id
         gender  
-        aboutMe     
+        aboutMe  
+        avatar   
 }
 }`;
 

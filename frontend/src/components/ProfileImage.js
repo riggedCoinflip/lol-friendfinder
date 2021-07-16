@@ -9,14 +9,13 @@ import { TOKEN } from "../constants"
 export default function ProfileImage(props) {
   const [file, setFile] = useState()
   
-
-  const imageMaxSize = 1000000 // 1000000=1Mb
-  const admitedImageFormats = ["png", "jpg", "jpeg"]
+  const imageMaxSize = 1_000_000 // 1Mb
+  const admittedImageFormats = ["png", "jpg", "jpeg"]
   const urlAvatar = "http://localhost:5000/api/avatar"
 
   function fileSelectedHandler(e) {
     let imageType = e.target.files[0].type
-    imageType = imageType.toLowerCase().slice(6, 10) //type was
+    imageType = imageType.toLowerCase().slice(6) //from image/png make png jpeg
     const imageSize = e.target.files[0].size
     const target = e.target.files[0]
     console.log("type", imageType, "original: ", target.type)
@@ -28,8 +27,8 @@ export default function ProfileImage(props) {
     }
 
     function formatValid() {
-      return admitedImageFormats.some(
-        (admitedImageFormats) => imageType === admitedImageFormats
+      return admittedImageFormats.some(
+        (admittedImageFormats) => imageType === admittedImageFormats
       )
     }
     setFile(target)
@@ -52,7 +51,6 @@ export default function ProfileImage(props) {
         props.setState((state) => ({ ...state, avatar: res.data.location }))
       })
   }
-  useEffect(() => {}, [])
 
   return (
     <div className="ProfileImage"class="center">

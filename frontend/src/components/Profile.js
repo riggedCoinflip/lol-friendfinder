@@ -169,6 +169,8 @@ export default function Profile() {
 
           <Row>
             <Form.Text className="text-muted">About me</Form.Text>
+          </Row>
+          <Row>
             <Form.Control
               as="textarea"
               rows={3}
