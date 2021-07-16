@@ -3,15 +3,16 @@ import { GET_USER_BY_ID } from "../GraphQL/Queries"
 import { ContextHeader } from "../constants"
 import { useQuery } from "@apollo/client"
 import axios from "axios"
-import { Button, Image } from "react-bootstrap"
+import { Button, Image, Card } from "react-bootstrap"
+import { TOKEN } from "../constants"
 
-export default function ProfileImage() {
+export default function ProfileImage(props) {
   const [file, setFile] = useState()
-  const [fileLink, setFileLink] = useState()
-
+  
 
   const imageMaxSize = 1000000 // 1000000=1Mb
   const admitedImageFormats = ["png", "jpg", "jpeg"]
+  const urlAvatar = "http://localhost:5000/api/avatar"
 
   function fileSelectedHandler(e) {
     let imageType = e.target.files[0].type
@@ -32,32 +33,38 @@ export default function ProfileImage() {
       )
     }
     setFile(target)
-    alert(formatValid())
+    console.log(formatValid())
   }
 
   function fileUploadHandler() {
     console.log("uploading pic...", file.name)
-    var fd = new FormData()
-    fd.append("avatar", file, file.name)
+    const fd = new FormData()
+    fd.append("avatar", file)
+
     axios
-      .post(
-        'http://localhost:5000/api/avatar',
-        {
-          headers: {
-            "x-auth-token": localStorage.getItem("SECREToken"),
-          },
+      .post(urlAvatar, fd, {
+        headers: {
+          "x-auth-token": TOKEN,
         },
-        fd
-      )
+      })
       .then((res) => {
-        console.log(res)
+        console.log(res.data.location)
+        props.setState((state) => ({ ...state, avatar: res.data.location }))
       })
   }
   useEffect(() => {}, [])
 
   return (
-    <div className="ProfileImage">
-      <Image src="https://img.icons8.com/clouds/2x/name.png" rounded />
+    <div className="ProfileImage"class="center">
+      <Image
+        src={props?.state?.avatar}
+        width="300"
+        height="300"
+        alt="That's me"
+        roundedCircle
+        
+      />
+      <br />
 
       <br />
 

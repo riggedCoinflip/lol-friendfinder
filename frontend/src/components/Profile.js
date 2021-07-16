@@ -85,11 +85,12 @@ export default function Profile() {
   return (
     <div id="user-info">
       <Container>
-        <Card.Title>Personal Info</Card.Title>
+        <Card.Title className="text-left">{state?.name}</Card.Title>
         <Form>
           <Row>
             <Col>
-            <ProfileImage />
+
+            <ProfileImage setState={setState} state={state} />
             </Col>
             <Col>
               <InputGroup className="mb-3" weight="50px">
