@@ -89,10 +89,10 @@ export default function Profile() {
         <Form>
           <Row>
             <Col>
-
-            <ProfileImage setState={setState} state={state} />
+              <ProfileImage setState={setState} state={state} />
             </Col>
             <Col>
+              {/*
               <InputGroup className="mb-3" weight="50px">
                 <InputGroup.Prepend>
                   <InputGroup.Text id="username-input">@</InputGroup.Text>
@@ -104,7 +104,19 @@ export default function Profile() {
                   aria-label="Username"
                   aria-describedby="basic-addon1"
                 />
-              </InputGroup>
+              </InputGroup>*/}
+              Date of birth
+              <FormControl
+                id="dateOfBirth"
+                name="dateOfBirth"
+                placeholder="yyyy-mm-dd"
+                /*type="date"*/
+                type="text"
+                value={limitDate(state?.dateOfBirth)}
+                onChange={changeHandler}
+              />
+              <br />
+              {/**/}
               <Dropdown>
                 <Dropdown.Toggle
                   size="sm"
@@ -139,18 +151,7 @@ export default function Profile() {
                     })}
                 </Dropdown.Menu>
               </Dropdown>
-              Date of birth
-              <FormControl
-                id="dateOfBirth"
-                name="dateOfBirth"
-                placeholder="yyyy-mm-dd"
-                /*type="date"*/
-                type="text"
-                value={limitDate(state?.dateOfBirth)}
-                onChange={changeHandler}
-              />
               <br />
-              {/**/}
               <Languages
                 getValuesFromChild={getValuesFromChild}
                 state={state}
