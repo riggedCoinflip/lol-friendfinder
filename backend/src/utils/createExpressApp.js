@@ -15,6 +15,7 @@ module.exports = function () {
         next()
     })
     app.use("/api", routes)
+    app.use(express.static('files')) //TODO delete after riot-verified, only temporary
 
     return app
 }
