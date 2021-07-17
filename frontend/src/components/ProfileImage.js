@@ -8,7 +8,8 @@ import { TOKEN } from "../constants"
 
 export default function ProfileImage(props) {
   const [file, setFile] = useState()
-  
+  const [errored, setErrored] = useState(false)
+
   const imageMaxSize = 1_000_000 // 1Mb
   const admittedImageFormats = ["png", "jpg", "jpeg"]
   const urlAvatar = "http://localhost:5000/api/avatar"
@@ -46,9 +47,14 @@ export default function ProfileImage(props) {
           "x-auth-token": TOKEN,
         },
       })
+      .catch(() => {
+        setErrored(true)
+      })
       .then((res) => {
-        console.log(res.data.location)
-        props.setState((state) => ({ ...state, avatar: res.data.location }))
+       
+       if(errored){ console.log(res?.data?.location)
+        props.setState((state) => ({ ...state, avatar: res?.data?.location }))
+      }
       })
   }
 
@@ -63,6 +69,11 @@ export default function ProfileImage(props) {
         
       />
       <br />
+      {errored && (
+          <small id="loginHelpBlock" className="form-text text-muted">
+            File has to be png, jpg or jpeg
+          </small>
+        )}
 
       <br />
 

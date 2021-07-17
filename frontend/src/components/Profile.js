@@ -26,6 +26,7 @@ import {
 
 export default function Profile() {
   const [state, setState] = useState()
+  const [errored, setErrored] = useState(false)
 
   const genderOptions = [
     "non_binary",
@@ -90,6 +91,11 @@ export default function Profile() {
           <Row>
             <Col>
               <ProfileImage setState={setState} state={state} />
+              {errored && (
+          <small id="fileUploadError" className="form-text text-muted">
+            something went wrong
+          </small>
+        )}
             </Col>
             <Col>
               {/*
@@ -197,6 +203,8 @@ export default function Profile() {
                     languages: state.languages,
                     dateOfBirth: state.dateOfBirth,
                   },
+                }).catch(() => {
+                  setErrored(true)
                 })
                 alert("Data was updated")
 

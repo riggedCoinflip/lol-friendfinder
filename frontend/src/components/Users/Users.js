@@ -14,6 +14,8 @@ export default function Users({ match }) {
   const [users, setUsers] = useState([])
   const [userIndex, setUserIndex] = useState(0)
   const [matchDev, setMatchDev] = useState(null)
+  const [errored, setErrored] = useState(false)
+
   const [avatar, setAvatar] = useState(
     "https://www.w3schools.com/howto/img_avatar.png"
   )
@@ -91,6 +93,8 @@ export default function Users({ match }) {
                         variables: {
                           blocked: { toPush: users[userIndex]?._id },
                         },
+                      }).catch(() => {
+                        setErrored(true)
                       }).then((res) => {
                         refetch()
                       })
