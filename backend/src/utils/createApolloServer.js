@@ -5,6 +5,7 @@ function createApollo(app) {
     const apollo = new ApolloServer({
         schema: graphqlSchema,
         context: ({req, res}) => ({req, res}),
+        playground: true
     })
     apollo.applyMiddleware({app, path: "/graphql"})
 
