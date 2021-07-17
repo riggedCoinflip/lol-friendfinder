@@ -1,22 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { Link, useHistory } from "react-router-dom"
-import { gql, useApolloClient } from "@apollo/client"
+import { useApolloClient } from "@apollo/client"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons"
 import * as validateSignup from "../shared/util/validateSignup"
-
-const USER_CREATE = gql`
-  mutation signup(
-    $name: String!
-    $email: String!
-    $password: String! #TODO hash password server side
-  ) {
-    signup(name: $name, email: $email, password: $password) {
-      name
-      email
-    }
-  }
-`
+import { USER_CREATE } from '../GraphQL/Mutations'
+import { useForm } from '../customHooks/useForm'
 
 /**
  * validate if form fits the business policies
@@ -47,21 +36,7 @@ function validateOnChange(email, password, password2, specialChars) {
  * @param {String} response.data.emailExists.email
  * @return {Object} validation
  */
-/*
-function validateOnSubmit(response) {
-    return {
-        usernameAvailable: response.data?.nameExists?.name == null,
-        emailAvailable: true,
-    }
-    //TODO create user check
-    
-    return {
-        usernameAvailable: response.data?.nameExists?.name == null,
-        emailAvailable: response.data?.emailExists?.email == null
-    }
-     
-}
-*/
+
 /**
  * A Signup form that allows the user to create an account
  * Submit Button is disabled while there are errors in the input.
@@ -75,13 +50,16 @@ export default function Signup() {
   //OPTIMIZE write function that blocks the user from writing not allowed characters in the first place (currently only checking against)
   const client = useApolloClient()
   const history = useHistory()
-  const [state, setState] = useState({
+  //const [state, setState] = useState
+  
+  const [values, handleChange] = useForm({
     email: "",
     username: "",
     password: "",
     password2: "",
     passwordInvisible: true,
   })
+
   const [validation, setValidation] = useState({
     emailIsValid: false,
 
@@ -97,16 +75,16 @@ export default function Signup() {
   })
 
   useEffect(() => {
-    console.table(state)
+    console.table(values)
     setValidation(
       validateOnChange(
-        state.email,
-        state.password,
-        state.password2,
+        values.email,
+        values.password,
+        values.password2,
         validateSignup.passwordAllowedSpecialCharacters
       )
     )
-  }, [state])
+  }, [values])
 
   useEffect(() => {
     console.log(validation)
@@ -120,17 +98,18 @@ export default function Signup() {
    * update the corresponding state field
    * @param event
    */
-  function handleChange(event) {
-    setState({ ...state, [event.target.name]: event.target.value })
+  /*
+  function handleChange(e) {
+    setState({ ...state, [e.target.name]: e.target.value })
   }
-
+*/
   /**
    * call handleChange
    * invalidate the validationQuery for username
    * @param event
    */
-  function handleUsernameChange(event) {
-    handleChange(event)
+  function handleUsernameChange(e) {
+    handleChange(e)
 
     const { usernameAvailable, ...newValidationQuery } = validationQuery //use destructuring to remove key
     setValidationQuery(newValidationQuery)
@@ -155,16 +134,16 @@ export default function Signup() {
    * @param event
    */
   function handleSubmit(event) {
-    console.table(state)
+    console.table(values)
     event.preventDefault()
 
     // Request if the username/email exists already, if available, create the account
 
-    createUser(state.username, state.email, state.password)
+    createUser(values.username, values.email, values.password)
       .then((res) => {
         history.push("/login")
         alert("Account creation successful 🔥!")
-        console.log("state:", state)
+        console.log("values:", values)
       })
       .catch((err) => {
         alert("Error: Name or E-Mail are already given 😓")
@@ -193,7 +172,8 @@ export default function Signup() {
   }
 
   function changePasswordVisibility() {
-    setState({ ...state, passwordInvisible: !state.passwordInvisible })
+    //handleChange({ ...values, passwordInvisible: !values.passwordInvisible })
+    alert("To fix...")
   }
 
   return (
@@ -244,7 +224,7 @@ export default function Signup() {
           <ul>
             <li
               className={
-                state.username.length >= 3 ? "text-success" : "text-danger"
+                values.username.length >= 3 ? "text-success" : "text-danger"
               }
             >
               3-16 Characters
@@ -262,7 +242,7 @@ export default function Signup() {
           <input
             id="password-input"
             name="password"
-            type={state.passwordInvisible ? "password" : "text"}
+            type={values.passwordInvisible ? "password" : "text"}
             className="form-control"
             placeholder="Enter password"
             autoComplete="new-password"
@@ -277,7 +257,7 @@ export default function Signup() {
             onClick={changePasswordVisibility}
           >
             <FontAwesomeIcon
-              icon={state.passwordInvisible ? faEyeSlash : faEye}
+              icon={values.passwordInvisible ? faEyeSlash : faEye}
             />
           </button>
         </div>
@@ -285,7 +265,7 @@ export default function Signup() {
           <ul>
             <li
               className={
-                state.password.length >= 8 ? "text-success" : "text-danger"
+                values.password.length >= 8 ? "text-success" : "text-danger"
               }
             >
               At least 8 characters

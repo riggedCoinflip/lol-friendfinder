@@ -1,31 +1,29 @@
 import React, { useState } from "react"
-import { gql, useApolloClient } from "@apollo/client"
+import { useApolloClient } from "@apollo/client"
 import { useHistory } from "react-router-dom"
-
-const LOGIN = gql`
-  query login($email: String!, $password: String!) {
-    login(email: $email, password: $password)
-  }
-`
-
-export default function Login() {
+import { useForm } from '../customHooks/useForm'
+import { LOGIN } from '../GraphQL/Queries'
+ 
+export default function Login(appProps) {
+ 
   const client = useApolloClient()
   let TOKEN = localStorage.getItem("SECREToken")
 
-  const [state, setState] = useState({ username: "",  password: "", })
+  const [values, handleChange] = useForm({ username: "",  password: "", })
   const [errored, setErrored] = useState(false)
 
   function handleSubmit(event) {
-    console.table(state)
+    console.table(values)
     event.preventDefault()
 
     //Calling the function
-    Submit(state.email, state.password)
+    Submit(values.email, values.password)
       .then((res) => {
-        //console.log(`Log in successful!`)
+       // console.log(`Log in successful!`)
         TOKEN = res.data.login
         console.log(TOKEN) //for now, log token //TODO find a way to store token
         localStorage.setItem("SECREToken", TOKEN)
+        appProps.setToken(TOKEN)
         history.push("/profile")
         //alert("Happend?")
       })
@@ -46,12 +44,8 @@ export default function Login() {
 
   const history = useHistory()
 
-  function handleChange(e) {
-    setState({ ...state, [e.target.name]: e.target.value })
-  }
-
    return(
-     TOKEN ?
+    TOKEN ?
      <div>
        You are already logged in
        {history.push("/profile")}

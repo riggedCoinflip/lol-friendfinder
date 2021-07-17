@@ -5,7 +5,7 @@ import { ContextHeader} from "../constants"
 import { GET_LANGUAGES } from '../GraphQL/Queries'
 
 const Languages = (props) => {
-  const [local_Languages, setLocal_Languages] = useState([])
+  const [local_Languages, setLocal_Languages] = useState()
   const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
