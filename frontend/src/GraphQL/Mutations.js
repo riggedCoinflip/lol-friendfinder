@@ -1,5 +1,18 @@
 import { gql } from "@apollo/client"
 
+export const USER_CREATE = gql`
+mutation signup(
+  $name: String!
+  $email: String!
+  $password: String! 
+) {
+  signup(name: $name, email: $email, password: $password) {
+    name
+    email
+  }
+}
+`
+
 export const UPDATE_USER = gql`
   mutation userUpdateSelf(
     $aboutMe: String
@@ -48,4 +61,4 @@ mutation
         }
     }
 }
-`;
+`

@@ -7,14 +7,18 @@ import itsamatch from "../../assets/itsamatch.png"
 import { GET_USER_TO_SWIPE } from "../../GraphQL/Queries"
 import { UPDATE_USER, SWIPE_USER } from "../../GraphQL/Mutations"
 import { useQuery, useMutation } from "@apollo/client"
-import { ContextHeader} from "../../constants"
-import { Badge } from "react-bootstrap"
+import { ContextHeader } from "../../constants"
+import { Badge, Image } from "react-bootstrap"
 
 export default function Users({ match }) {
-
   const [users, setUsers] = useState([])
   const [userIndex, setUserIndex] = useState(0)
   const [matchDev, setMatchDev] = useState(null)
+  const [errored, setErrored] = useState(false)
+
+  const [avatar, setAvatar] = useState(
+    "https://www.w3schools.com/howto/img_avatar.png"
+  )
 
   useEffect(() => {
     if (dataQuery) setUsers(dataQuery.userManyToSwipe)
@@ -22,17 +26,26 @@ export default function Users({ match }) {
   }, [])
 
   useEffect(() => {
-    
     refetch()
     setUsers(dataQuery?.userManyToSwipe)
   }, [users])
 
-  
-  const {loading, error, data: dataQuery, refetch, } = useQuery(GET_USER_TO_SWIPE, ContextHeader)
+  const {
+    loading,
+    error,
+    data: dataQuery,
+    refetch,
+  } = useQuery(GET_USER_TO_SWIPE, ContextHeader)
 
-  const [swipeUser, { data: dataSwipeUser }] = useMutation(SWIPE_USER, ContextHeader)
+  const [swipeUser, { data: dataSwipeUser }] = useMutation(
+    SWIPE_USER,
+    ContextHeader
+  )
 
-  const [updateUser, { data: dataUpdate }] = useMutation(UPDATE_USER, ContextHeader)
+  const [updateUser, { data: dataUpdate }] = useMutation(
+    UPDATE_USER,
+    ContextHeader
+  )
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error </p>
@@ -41,13 +54,22 @@ export default function Users({ match }) {
     <div className="main-container">
       {users?.length >= 0 &&
       // users?.[0] &&
-      users  &&
+      users &&
       userIndex < users.length ? (
         <ul>
           {
             // users.map(user => (   // For img alt={users.name[0]}
-            <li key={users[userIndex]?._id}>
-              <img src="https://placekitten.com/640/392" />
+            <li key={users[userIndex]?._id} >
+              <div className="main-verticalhorizontal">
+                <Image
+                  src={users?.[userIndex]?.avatar}
+                  onerror="this.src={avatar}"
+                  width="300"
+                  height="300"
+                  roundedCircle
+                />
+              </div>
+
               <footer>
                 <strong id="name"> {users?.[userIndex]?.name} </strong>
                 <br />
@@ -71,9 +93,11 @@ export default function Users({ match }) {
                         variables: {
                           blocked: { toPush: users[userIndex]?._id },
                         },
+                      }).catch(() => {
+                        setErrored(true)
                       }).then((res) => {
                         refetch()
-                        })
+                      })
 
                       setUserIndex(userIndex + 1)
                       console.log(
@@ -102,7 +126,7 @@ export default function Users({ match }) {
                       },
                     }).then((res) => {
                       refetch()
-                      })
+                    })
 
                     console.log(
                       "user was DIS-liked, _id/Name",

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     Switch,
     Route
@@ -15,17 +15,22 @@ import Friends from './components/Friends';
 
 
 export default function App() {
+
+const [token, setToken] = useState(localStorage.getItem("SECREToken"))
+   
     return (
         <div >
-            <MyNavbar/>
+            <MyNavbar token={token} setToken={setToken} />
             
             <Switch>
                 <Route exact path="/"  component={Home}/>
-                <Route path="/login" component={Login}/>
+                <Route path="/login" component= { () => <Login/>} token={token} setToken={setToken}/>
                 <Route path="/signup" component={SignUp}/>
          
                 <Route exact path="/users" component={ () => <Users/>} />
-                <Route exact path="/profile" component={ () => <Profile  authorized={true}/>} />
+                <Route exact path="/friends" component={ () => <Friends/>} />
+
+                <Route exact path="/profile" component={ () => <Profile/>} />
 
                 <Route component={NotFound}/>
 
