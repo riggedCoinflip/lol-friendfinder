@@ -12,7 +12,7 @@ export default function ProfileImage(props) {
 
   const imageMaxSize = 1_000_000 // 1Mb
   const admittedImageFormats = ["png", "jpg", "jpeg"]
-  const urlAvatar = "http://localhost:5000/api/avatar"
+  const urlAvatar = process.env.REACT_APP_HOST+`/api/avatar` || "http://localhost:5000/graphql/api/avatar"
 
   function fileSelectedHandler(e) {
     let imageType = e.target.files[0].type
@@ -47,12 +47,13 @@ export default function ProfileImage(props) {
           "x-auth-token": TOKEN,
         },
       })
-      .catch(() => {
+      /*.catch(() => {
         setErrored(true)
-      })
+      })*/
       .then((res) => {
        
-       if(errored){ console.log(res?.data?.location)
+       if(!errored){ 
+        console.log(res?.data?.location)
         props.setState((state) => ({ ...state, avatar: res?.data?.location }))
       }
       })

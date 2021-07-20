@@ -8,8 +8,16 @@ export default function Login(appProps) {
  
   const client = useApolloClient()
   let TOKEN = localStorage.getItem("SECREToken")
-
-  const [values, handleChange] = useForm({ username: "",  password: "", })
+  /*
+  const [state, setState] = useState({ username: "",  password: "", })
+  
+  function handleChange(e) {
+    setState({ ...state, [e.target.name]: e.target.value })
+  }
+  */
+  const [values, handleChange] = useForm({ 
+   
+  })
   const [errored, setErrored] = useState(false)
 
   function handleSubmit(event) {
@@ -25,7 +33,6 @@ export default function Login(appProps) {
         localStorage.setItem("SECREToken", TOKEN)
         appProps.setToken(TOKEN)
         history.push("/profile")
-        //alert("Happend?")
       })
       .catch(() => {
         setErrored(true)
@@ -36,11 +43,12 @@ export default function Login(appProps) {
     return client.query({
       query: LOGIN,
       variables: {
-        email: email,
-        password: password,
+        email,
+        password,
       },
     })
   }
+  console.table(values)
 
   const history = useHistory()
 
