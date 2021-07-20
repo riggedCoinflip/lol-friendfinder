@@ -2,10 +2,10 @@ import { useState, useEffect, React } from "react"
 import { ListGroup } from "react-bootstrap"
 
 export default function Friends(props) {
-  const [friends, setFriends] = useState()
+  const [friends, setFriends] = useState(props?.state)
 
   useEffect(() => {
-      setFriends(props?.data?.userSelf.friends)
+      setFriends(props?.state)
     
   }, [])
 
@@ -22,7 +22,7 @@ export default function Friends(props) {
 
   return (
     <div className="friends">
-      Id from your actual friends: (id):
+      3Id from your actual friends: (id):
       <ListGroup horizontal>
         {friends &&
           friends.map((item, index) => {

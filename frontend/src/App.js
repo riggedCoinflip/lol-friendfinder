@@ -28,7 +28,7 @@ const [token, setToken] = useState(localStorage.getItem("SECREToken"))
                 <Route path="/signup" component={SignUp}/>
          
                 <Route exact path="/users" component={ () => <Users/>} />
-                <Route exact path="/friends" component={ () => <Friends/>} />
+                <Route exact path="/Friends" component={ () => <Friends/>} />
 
                 <Route exact path="/profile" component={ () => <Profile/>} />
 

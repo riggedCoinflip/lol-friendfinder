@@ -40,11 +40,11 @@ export default function Profile() {
   ]
 
   const { loading, error, data, refetch } = useQuery(GET_MY_INFO, ContextHeader)
-  /*
+  
   useEffect(() => {
-    setState() 
+    setState(data?.userSelf) 
     }, [])
-*/
+
   useEffect(() => {
     if (data || !state) {
       refetch()
@@ -220,7 +220,7 @@ export default function Profile() {
           </div>
         </Form>
         <br />
-        <Friends data={data} />
+        <Friends state={state?.friends} />
         <BlockedUsers data={data} />
       </Container>
     </div>
