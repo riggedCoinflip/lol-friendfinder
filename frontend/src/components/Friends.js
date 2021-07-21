@@ -1,15 +1,49 @@
 import { useState, useEffect, React } from "react"
+import { GET_MY_INFO, GET_USER_BY_ID } from "../GraphQL/Queries"
+import { useQuery } from "@apollo/client"
+import { ContextHeader } from "../constants"
 import { ListGroup } from "react-bootstrap"
+import BlockedUsers from "./BlockedUsers"
 
-export default function Friends(props) {
-  const [friends, setFriends] = useState(props?.state)
+export default function Friends() {
+  const [friends, setFriends] = useState()
+  const [blocked, setBlocked] = useState()
 
+  const { loading, error, data, refetch } = useQuery(
+    GET_MY_INFO,
+    ContextHeader,
+    { pollInterval: 1000 }
+  )
+  /*
+  const [userOneById, { data: nameById }] = useQuery(GET_USER_BY_ID, {
+      variables: { _id: "0" },
+    });
+  
+    console.log(nameById )
+*/
   useEffect(() => {
-      setFriends(props?.state)
-    
+    setFriends(data?.userSelf?.friends)
+    setBlocked(data?.userSelf?.blocked)
+
   }, [])
 
-/*
+  useEffect(() => {
+    if (data?.userSelf?.friends || !friends || blocked) {
+      refetch()
+      setFriends(data?.userSelf?.friends)
+      setBlocked(data?.userSelf?.blocked)
+
+      console.log("friends", friends)
+      console.log("blocked", blocked)
+
+    }
+  }, [friends, blocked])
+
+  //console.log("freiends", friends)
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error, where are your friends?</p>
+  /*
   useEffect(() => {
     if (!friends) {
       setFriends(props?.data?.userSelf.friends)
@@ -18,22 +52,34 @@ export default function Friends(props) {
 
   TO SHOW THE USERS BY ID; CHECK IN LOGIN HOW THE QUERY WAS CALLED;LINE 33-41
 */
-  console.log("friends/from profile", friends)
 
   return (
     <div className="friends">
-      3Id from your actual friends: (id):
+      Id from <strong>{data?.userSelf?.name}'s</strong> friends: (id):
       <ListGroup horizontal>
         {friends &&
           friends.map((item, index) => {
             return (
-              <ListGroup.Item
-                name="spoken-language"
-                variant="success"
-                key={index + 1}
-              >
+              <ListGroup.Item name="friends" variant="success" key={index + 1}>
                 {item.user}
               </ListGroup.Item>
+            )
+          })}
+      </ListGroup>
+
+      Id from blocked users:
+      <ListGroup horizontal>
+        {blocked &&
+          blocked.map((item, index) => {
+            return (
+                <ListGroup.Item
+                  name="blockedUsers"
+                  variant="info"
+                  action 
+                  key={index + 1}
+                >
+                  {item}
+                </ListGroup.Item>
             )
           })}
       </ListGroup>

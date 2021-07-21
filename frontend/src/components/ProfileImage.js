@@ -1,9 +1,6 @@
 import { useState, useEffect, React } from "react"
-import { GET_USER_BY_ID } from "../GraphQL/Queries"
-import { ContextHeader } from "../constants"
-import { useQuery } from "@apollo/client"
 import axios from "axios"
-import { Button, Image, Card } from "react-bootstrap"
+import { Button, Image } from "react-bootstrap"
 import { TOKEN } from "../constants"
 
 export default function ProfileImage(props) {
@@ -12,7 +9,9 @@ export default function ProfileImage(props) {
 
   const imageMaxSize = 1_000_000 // 1Mb
   const admittedImageFormats = ["png", "jpg", "jpeg"]
-  const urlAvatar = process.env.REACT_APP_HOST+`/api/avatar` || "http://localhost:5000/graphql/api/avatar"
+
+  const urlAvatar = process.env.REACT_APP_HOST.slice(0, -8)+`/api/avatar` //Using REACT_APP_HOST and removing the section `/graphql`
+  //console.log("URLAvatar", process.env.REACT_APP_HOST.slice(0, -8))
 
   function fileSelectedHandler(e) {
     let imageType = e.target.files[0].type
@@ -52,10 +51,10 @@ export default function ProfileImage(props) {
       })*/
       .then((res) => {
        
-       if(!errored){ 
+     //  if(!errored){ 
         console.log(res?.data?.location)
         props.setState((state) => ({ ...state, avatar: res?.data?.location }))
-      }
+      //}
       })
   }
 
