@@ -3,7 +3,6 @@ import { GET_MY_INFO, GET_USER_BY_ID } from "../GraphQL/Queries"
 import { useQuery } from "@apollo/client"
 import { ContextHeader } from "../constants"
 import { ListGroup } from "react-bootstrap"
-import BlockedUsers from "./BlockedUsers"
 
 export default function Friends() {
   const [friends, setFriends] = useState()
@@ -21,6 +20,18 @@ export default function Friends() {
   
     console.log(nameById )
 */
+
+/*function ShowUser( {userId} ) {
+      const { loadingUserById, errorUserById, userById } = useQuery(GET_USER_BY_ID, 
+      {ContextHeader, 
+        variables:  { userId } })
+     // return userById;
+    
+     if (loadingUserById) return null;
+     if (errorUserById) return `Error! `;
+    if (userById) return userById;
+  };
+  console.log("showUserById", ShowUser("60eb61b33a2481451c1cd7ad"));*/ 
   useEffect(() => {
     setFriends(data?.userSelf?.friends)
     setBlocked(data?.userSelf?.blocked)
