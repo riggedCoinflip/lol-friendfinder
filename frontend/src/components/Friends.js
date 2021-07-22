@@ -3,6 +3,7 @@ import { GET_MY_INFO, GET_USER_BY_ID } from "../GraphQL/Queries"
 import { useQuery } from "@apollo/client"
 import { ContextHeader } from "../constants"
 import { ListGroup } from "react-bootstrap"
+import FriendCard from "./FriendCard"
 
 export default function Friends() {
   const [friends, setFriends] = useState()
@@ -21,7 +22,7 @@ export default function Friends() {
     console.log(nameById )
 */
 
-/*function ShowUser( {userId} ) {
+  /*function ShowUser( {userId} ) {
       const { loadingUserById, errorUserById, userById } = useQuery(GET_USER_BY_ID, 
       {ContextHeader, 
         variables:  { userId } })
@@ -31,22 +32,20 @@ export default function Friends() {
      if (errorUserById) return `Error! `;
     if (userById) return userById;
   };
-  console.log("showUserById", ShowUser("60eb61b33a2481451c1cd7ad"));*/ 
+  console.log("showUserById", ShowUser("60eb61b33a2481451c1cd7ad"));*/
   useEffect(() => {
     setFriends(data?.userSelf?.friends)
     setBlocked(data?.userSelf?.blocked)
-
   }, [])
 
   useEffect(() => {
-    if (data?.userSelf?.friends || !friends || blocked) {
+    if (data?.userSelf?.friends || !friends || !blocked) {
       refetch()
       setFriends(data?.userSelf?.friends)
       setBlocked(data?.userSelf?.blocked)
 
       console.log("friends", friends)
       console.log("blocked", blocked)
-
     }
   }, [friends, blocked])
 
@@ -71,26 +70,29 @@ export default function Friends() {
         {friends &&
           friends.map((item, index) => {
             return (
-              <ListGroup.Item name="friends" variant="success" key={index + 1}>
-                {item.user}
-              </ListGroup.Item>
+              <div className="friends">
+                <FriendCard userId={item.user} />
+
+              </div>
             )
           })}
       </ListGroup>
+      <br />
+      <br />
 
       Id from blocked users:
       <ListGroup horizontal>
         {blocked &&
           blocked.map((item, index) => {
             return (
-                <ListGroup.Item
-                  name="blockedUsers"
-                  variant="info"
-                  action 
-                  key={index + 1}
-                >
-                  {item}
-                </ListGroup.Item>
+              <ListGroup.Item
+                name="blockedUsers"
+                variant="info"
+                action
+                key={index + 1}
+              >
+                {item}
+              </ListGroup.Item>
             )
           })}
       </ListGroup>

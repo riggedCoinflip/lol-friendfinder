@@ -9,7 +9,7 @@ function MyNavbar(appProps) {
     console.log("Token changed ", appProps.token)
     appProps.token?setLogged(true):setLogged(false)
     //  return ( ) =>{    console.log("Token setted(null) ", TOKEN)}
-  }, [ appProps.token ])
+  }, [ appProps.token, logged ])
   return (
     <div>
       <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
