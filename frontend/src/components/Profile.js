@@ -1,4 +1,4 @@
-import { useEffect, useState, React } from "react"
+import { useContext, useEffect, useState, React } from "react"
 import { GET_MY_INFO } from "../GraphQL/Queries"
 import { UPDATE_USER } from "../GraphQL/Mutations"
 import { useQuery, useMutation } from "@apollo/client"
@@ -8,6 +8,7 @@ import ProfileImage from "./ProfileImage"
 import IngameRoles from "./IngameRoles"
 import { ContextHeader } from "../constants"
 
+import { AuthContext } from "../App"
 
 import {
   Button,
@@ -16,13 +17,12 @@ import {
   Form,
   Col,
   Row,
-  InputGroup,
   FormControl,
-  ListGroup,
   Dropdown,
 } from "react-bootstrap"
 
 export default function Profile() {
+  const { token } = useContext(AuthContext)
   const [state, setState] = useState({})
   const [errored, setErrored] = useState(false)
 
@@ -39,7 +39,7 @@ export default function Profile() {
 
   const { loading, error, data, refetch } = useQuery(
     GET_MY_INFO,
-    ContextHeader,
+    ContextHeader(token),
     { pollInterval: 100 }
   )
 
@@ -47,13 +47,20 @@ export default function Profile() {
     if (data || !state) {
       //  refetch()
       setState(data?.userSelf)
+
       console.log("State from useEffect", state)
     }
   }, [data])
 
   useEffect(() => {
-    setState(data?.userSelf)
-  }, [])
+    if (token) {
+      refetch()
+      setState(data?.userSelf)
+    }
+
+    // setState(data?.userSelf)
+  }, [token])
+  console.log(data)
   //If F5
 
   const [updateUser, { data: dataUpdate }] = useMutation(

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import "./Users.css"
 import icon from "../../assets/icon.png"
 import like from "../../assets/like.svg"
@@ -8,9 +8,12 @@ import { GET_USER_TO_SWIPE } from "../../GraphQL/Queries"
 import { UPDATE_USER, SWIPE_USER } from "../../GraphQL/Mutations"
 import { useQuery, useMutation } from "@apollo/client"
 import { ContextHeader } from "../../constants"
+import { AuthContext } from "../../App"
 import { Badge, Image } from "react-bootstrap"
 
 export default function Users({ match }) {
+  const { token } = useContext(AuthContext)
+
   const [users, setUsers] = useState([])
   const [userIndex, setUserIndex] = useState(0)
   const [matchDev, setMatchDev] = useState(null)
@@ -35,16 +38,16 @@ export default function Users({ match }) {
     error,
     data: dataQuery,
     refetch,
-  } = useQuery(GET_USER_TO_SWIPE, ContextHeader)
+  } = useQuery(GET_USER_TO_SWIPE, ContextHeader(token))
 
   const [swipeUser, { data: dataSwipeUser }] = useMutation(
     SWIPE_USER,
-    ContextHeader
+    ContextHeader(token)
   )
 
   const [updateUser, { data: dataUpdate }] = useMutation(
     UPDATE_USER,
-    ContextHeader
+    ContextHeader(token)
   )
 
   if (loading) return <p>Loading...</p>
@@ -59,7 +62,7 @@ export default function Users({ match }) {
         <ul>
           {
             // users.map(user => (   // For img alt={users.name[0]}
-            <li key={users[userIndex]?._id} >
+            <li key={users[userIndex]?._id}>
               <div className="main-verticalhorizontal">
                 <Image
                   src={users?.[userIndex]?.avatar}
@@ -93,11 +96,13 @@ export default function Users({ match }) {
                         variables: {
                           blocked: { toPush: users[userIndex]?._id },
                         },
-                      }).catch(() => {
-                        setErrored(true)
-                      }).then((res) => {
-                        refetch()
                       })
+                        .catch(() => {
+                          setErrored(true)
+                        })
+                        .then((res) => {
+                          refetch()
+                        })
 
                       setUserIndex(userIndex + 1)
                       console.log(

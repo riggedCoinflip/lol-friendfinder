@@ -1,17 +1,19 @@
-import { useState, useEffect, React } from "react"
+import { useContext, useState, useEffect, React } from "react"
 import { GET_MY_INFO, GET_USER_BY_ID } from "../GraphQL/Queries"
 import { useQuery } from "@apollo/client"
 import { ContextHeader } from "../constants"
 import { ListGroup } from "react-bootstrap"
 import FriendCard from "./FriendCard"
+import { AuthContext } from "../App"
 
 export default function Friends() {
+  const { token } = useContext(AuthContext)
   const [friends, setFriends] = useState()
   const [blocked, setBlocked] = useState()
 
   const { loading, error, data, refetch } = useQuery(
     GET_MY_INFO,
-    ContextHeader,
+    ContextHeader(token),
     { pollInterval: 1000 }
   )
   /*

@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom"
-import { useEffect, useState, React } from "react"
+import { useEffect, useState, React, useContext } from "react"
 import { Navbar } from "react-bootstrap"
+import { AuthContext } from "../App"
 
 function MyNavbar(appProps) {
   const [logged, setLogged] = useState(false)
-
+const {token}=useContext(AuthContext)
   useEffect(() => {
     console.log("Token changed ", appProps.token)
-    appProps.token?setLogged(true):setLogged(false)
+    token?setLogged(true):setLogged(false)
     //  return ( ) =>{    console.log("Token setted(null) ", TOKEN)}
-  }, [ appProps.token, logged ])
+  }, [ appProps, logged ])
   return (
     <div>
       <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
