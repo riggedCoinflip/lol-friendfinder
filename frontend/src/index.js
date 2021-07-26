@@ -8,7 +8,7 @@ import App from './App';
 import { onError } from 'apollo-link-error';
 
 const client = new ApolloClient({
-    uri: process.env.REACT_APP_HOST || "http://localhost:5000/graphql",
+    uri: process.env.REACT_APP_HOST,
     cache: new InMemoryCache({
       typePolicies: {
         User: {

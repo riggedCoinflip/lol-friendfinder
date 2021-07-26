@@ -1,15 +1,14 @@
-import { useEffect, useState, React } from "react"
+import { useContext, useEffect, useState, React } from "react"
 import { GET_MY_INFO } from "../GraphQL/Queries"
 import { UPDATE_USER } from "../GraphQL/Mutations"
 import { useQuery, useMutation } from "@apollo/client"
 import Languages from "./Languages"
-import Friends from "./Friends"
 import ProfileImage from "./ProfileImage"
 
 import IngameRoles from "./IngameRoles"
 import { ContextHeader } from "../constants"
 
-import BlockedUsers from "./BlockedUsers"
+import { AuthContext } from "../App"
 
 import {
   Button,
@@ -18,14 +17,13 @@ import {
   Form,
   Col,
   Row,
-  InputGroup,
   FormControl,
-  ListGroup,
   Dropdown,
 } from "react-bootstrap"
 
 export default function Profile() {
-  const [state, setState] = useState()
+  const { token } = useContext(AuthContext)
+  const [state, setState] = useState({})
   const [errored, setErrored] = useState(false)
 
   const genderOptions = [
@@ -39,20 +37,30 @@ export default function Profile() {
     "I_prefer_not_to_say",
   ]
 
-  const { loading, error, data, refetch } = useQuery(GET_MY_INFO, ContextHeader)
-  /*
-  useEffect(() => {
-    setState() 
-    }, [])
-*/
+  const { loading, error, data, refetch } = useQuery(
+    GET_MY_INFO,
+    ContextHeader(token),
+    { pollInterval: 100 }
+  )
+
   useEffect(() => {
     if (data || !state) {
-      refetch()
+      //  refetch()
       setState(data?.userSelf)
+
       console.log("State from useEffect", state)
     }
   }, [data])
 
+  useEffect(() => {
+    if (token) {
+      refetch()
+      setState(data?.userSelf)
+    }
+
+    // setState(data?.userSelf)
+  }, [token])
+  console.log(data)
   //If F5
 
   const [updateUser, { data: dataUpdate }] = useMutation(
@@ -92,25 +100,12 @@ export default function Profile() {
             <Col>
               <ProfileImage setState={setState} state={state} />
               {errored && (
-          <small id="fileUploadError" className="form-text text-muted">
-            something went wrong
-          </small>
-        )}
+                <small id="fileUploadError" className="form-text text-muted">
+                  something went wrong
+                </small>
+              )}
             </Col>
             <Col>
-              {/*
-              <InputGroup className="mb-3" weight="50px">
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="username-input">@</InputGroup.Text>
-                </InputGroup.Prepend>
-                <FormControl
-                  name="name"
-                  value={state?.name}
-                  onChange={changeHandler}
-                  aria-label="Username"
-                  aria-describedby="basic-addon1"
-                />
-              </InputGroup>*/}
               Date of birth
               <FormControl
                 id="dateOfBirth"
@@ -207,7 +202,6 @@ export default function Profile() {
                   setErrored(true)
                 })
                 alert("Data was updated")
-
                 //get new data after mutation
                 refetch()
               }}
@@ -220,8 +214,6 @@ export default function Profile() {
           </div>
         </Form>
         <br />
-        <Friends data={data} />
-        <BlockedUsers data={data} />
       </Container>
     </div>
   )
