@@ -3,14 +3,16 @@ import { useEffect, useState, React, useContext } from "react"
 import { Navbar } from "react-bootstrap"
 import { AuthContext } from "../App"
 
-function MyNavbar(appProps) {
+function MyNavbar() {
   const [logged, setLogged] = useState(false)
-const {token}=useContext(AuthContext)
+  const { token, setToken } = useContext(AuthContext)
+
   useEffect(() => {
-    console.log("Token changed ", appProps.token)
-    token?setLogged(true):setLogged(false)
+    console.log("Token changed ", token)
+    token ? setLogged(true) : setLogged(false)
     //  return ( ) =>{    console.log("Token setted(null) ", TOKEN)}
-  }, [ appProps, logged ])
+  }, [token, logged])
+
   return (
     <div>
       <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
@@ -44,7 +46,7 @@ const {token}=useContext(AuthContext)
                 to="/login"
                 className="nav-link"
                 onClick={() => {
-                  appProps.setToken(null)
+                  setToken(null)
                   localStorage.clear()
                 }}
               >
@@ -58,7 +60,7 @@ const {token}=useContext(AuthContext)
                 to="/login"
                 className="nav-link"
                 onClick={() => {
-                  appProps.setToken(localStorage.getItem("SECREToken"))
+                  setToken(localStorage.getItem("SECREToken"))
                 }}
               >
                 Login

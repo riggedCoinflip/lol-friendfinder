@@ -51,9 +51,11 @@ export default function Users({ match }) {
   )
 
   if (loading) return <p>Loading...</p>
-  if (error) return <p>Error </p>
+  if (error) return <p>Error on request. Are you logged in?</p>
 
-  return (
+  return !token ? (
+    <div>You are NOT logged in</div>
+  ) : (
     <div className="main-container">
       {users?.length >= 0 &&
       // users?.[0] &&

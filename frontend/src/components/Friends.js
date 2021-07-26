@@ -65,8 +65,9 @@ export default function Friends() {
   TO SHOW THE USERS BY ID; CHECK IN LOGIN HOW THE QUERY WAS CALLED;LINE 33-41
 */
 
-  return (
-    <div className="friends">
+return !token ? (
+  <div>You are NOT logged in</div>
+) : (    <div className="friends">
       Id from <strong>{data?.userSelf?.name}'s</strong> friends: (id):
       <ListGroup horizontal>
         {friends &&

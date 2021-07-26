@@ -41,19 +41,14 @@ export default function App() {
   return (
     <AuthContext.Provider value={{ token, setToken }}>
       <div>
-        <MyNavbar token={token} setToken={setToken} />
+        <MyNavbar  />
 
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route
-            path="/login"
-            component={() => <Login token={token} setToken={setToken} />}
-          />
+          <Route path="/login" component={() => <Login  />} />       
           <Route path="/signup" component={SignUp} />
-
           <Route exact path="/users" component={() => <Users />} />
           <Route exact path="/friends" component={() => <Friends />} />
-
           <Route exact path="/profile" component={() => <Profile />}  />
          
 

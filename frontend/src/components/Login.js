@@ -1,19 +1,17 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { useApolloClient } from "@apollo/client"
 import { useHistory } from "react-router-dom"
 import { useForm } from "../customHooks/useForm"
 import { LOGIN } from "../GraphQL/Queries"
+//import { ContextHeader } from "../constants"
+import { AuthContext } from "../App"
 
-export default function Login(appProps) {
+export default function Login() {
   const client = useApolloClient()
-  const TOKEN = appProps.token
-  /*
-  const [state, setState] = useState({ username: "",  password: "", })
-  
-  function handleChange(e) {
-    setState({ ...state, [e.target.name]: e.target.value })
-  }
-  */
+  const { token, setToken } = useContext(AuthContext)
+
+  var newToken = 0;
+ 
   const [values, handleChange] = useForm({})
   const [errored, setErrored] = useState(false)
 
@@ -25,10 +23,10 @@ export default function Login(appProps) {
     Submit(values.email, values.password)
       .then((res) => {
         // console.log(`Log in successful!`)
-        let TOKEN = res.data.login
-        console.log(TOKEN) //for now, log token //TODO find a way to store token
-        localStorage.setItem("SECREToken", TOKEN)
-        appProps.setToken(TOKEN)
+        newToken = res.data.login
+        console.log(newToken) //for now, log token //TODO find a way to store token
+        localStorage.setItem("SECREToken", newToken)
+        setToken(newToken)
       })
       .catch(() => {
         setErrored(true)
@@ -48,11 +46,11 @@ export default function Login(appProps) {
 
   const history = useHistory()
 
-  if (TOKEN) {
+  if (token) {
     history.push("/profile")
   }
 
-  return TOKEN ? (
+  return token ? (
     <div>You are already logged in</div>
   ) : (
     //if TOKEN does not exist

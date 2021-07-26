@@ -91,7 +91,9 @@ export default function Profile() {
     return output
   }
 
-  return (
+  return !token ? (
+    <div>You are NOT logged in</div>
+  ) : (
     <div id="user-info">
       <Container>
         <Card.Title className="text-left">{state?.name}</Card.Title>
