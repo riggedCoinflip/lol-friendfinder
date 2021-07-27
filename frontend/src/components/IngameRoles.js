@@ -1,85 +1,73 @@
 import { React, useState, useEffect } from "react"
-import { useQuery } from "@apollo/client"
 import { Dropdown, ListGroup, Badge } from "react-bootstrap"
 import { ContextHeader } from "../constants"
 
 export default function IngameRoles(props) {
-  const ingameRolesOptions = [
-    "Top","Jungle", "Mid", "Bot", "Support", "Fill"
-  ]
-  const [ingameRoles, setIngameRoles] = useState(props?.state?.ingameRole)
-  const [selectedRole, setSelectedRole] = useState(ingameRolesOptions)
-  /*
+  const ingameRoleOptions = ["Top", "Jungle", "Mid", "Bot", "Support", "Fill"]
+  const [ingameRole, setIngameRole] = useState()
+  // const [selectedRole, setSelectedRole] = useState(ingameRolesOptions)
+
   useEffect(() => {
-    //setLocal_Languages(props?.state?.languages)
+    setIngameRole(props?.state?.ingameRole)
     //console.log("useEffect []: ", local_Languages)
-  }, [props?.state?.gender])
+  }, [props?.state?.ingameRole])
 
   useEffect(() => {
     //console.log("useEffect [local_Languages]: ", local_Languages)
-    props.setState((state) => ({ ...state, languages: local_Languages }))
-   // console.log("props.state.languages: ", props.state.languages)
-  }, [local_Languages])
-*/
+    props.setState((state) => ({ ...state, ingameRole: ingameRole }))
+    console.log("ingameRoles: ", ingameRole)
+  }, [ingameRole])
 
   return (
     <div id="avaliableIngameRoles">
       <Dropdown>
-      <Dropdown.Toggle size="sm" variant="success" id="dropdown-languages">
-      IngameRoles
-        </Dropdown.Toggle> 
-       
+        <Dropdown.Toggle size="sm" variant="success" id="dropdown-languages">
+          IngameRole
+        </Dropdown.Toggle>
+
         <Dropdown.Menu>
-      {ingameRolesOptions &&
-                    ingameRolesOptions.map((selectedRole, index) => {
-                      return (
-                        <Dropdown.Item
-                          name="optionsRole"
-                          onClick={(e) => {
-                            e.preventDefault()
-
-                           // console.log("Gender selected: ", selectedGender)
-                            setSelectedRole((selectedRole) => ({
-                              ...selectedRole,
-                              selectedRole: selectedRole,
-                            }))
-                          }}
-                          key={index + 1}
-                        >
-                          {
-                            selectedRole //?.replace("_", " ")
-                          }
-                        </Dropdown.Item>
-                      )
-                    })} 
-       
-       </Dropdown.Menu>
-      </Dropdown>
-      <br /> 
-
-        <ListGroup horizontal>
-          {ingameRoles ? (
-            ingameRoles.map((item, index) => {
+          {ingameRoleOptions &&
+            ingameRoleOptions.map((item, index) => {
               return (
-                <ListGroup.Item
-                  name="spoken-language"
-                  value={item}
-                  variant="dark"
+                <Dropdown.Item
+                  onClick={(e) => {
+                    e.preventDefault()
+
+                    setIngameRole((ingameRoles) => [...ingameRole, item])
+                  //  props.setState((state) => ({ ...state, ingameRole: ingameRole }))
+                  }}
                   key={index + 1}
                 >
                   {item}
-
-                  <Badge pill variant="danger">
-                    X
-                  </Badge>
-                </ListGroup.Item>
+                </Dropdown.Item>
               )
-            })
-          ) : (
-            <p>There're not IngameRole selected</p>
-          )}
-        </ListGroup>
-      
+            })}
+        </Dropdown.Menu>
+      </Dropdown>
+      <br />
+
+      <ListGroup horizontal>
+        {ingameRole ? (
+          ingameRole.map((item, index) => {
+            return (
+              <ListGroup.Item
+                name="ingame-roles"
+                value={item}
+                variant="dark"
+                key={index + 1}
+              >
+                {item}
+
+                <Badge pill variant="danger">
+                  X
+                </Badge>
+              </ListGroup.Item>
+            )
+          })
+        ) : (
+          <p>There're not IngameRole selected</p>
+        )}
+      </ListGroup>
     </div>
   )
 }

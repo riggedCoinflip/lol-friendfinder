@@ -65,7 +65,7 @@ export default function Profile() {
 
   const [updateUser, { data: dataUpdate }] = useMutation(
     UPDATE_USER,
-    ContextHeader
+    ContextHeader(token)
   )
 
   //Get users data
@@ -199,6 +199,7 @@ export default function Profile() {
                     gender: state.gender,
                     languages: state.languages,
                     dateOfBirth: state.dateOfBirth,
+                    ingameRole: state.ingameRole,
                   },
                 }).catch(() => {
                   setErrored(true)

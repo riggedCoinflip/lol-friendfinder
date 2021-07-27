@@ -20,6 +20,7 @@ export const UPDATE_USER = gql`
     $dateOfBirth: Date
     $gender: EnumUserPrivateGender
     $blocked: UserPrivateBlockedMutation
+    $ingameRole: [EnumUserPrivateIngameRole]
   ) {
     userUpdateSelf(
       aboutMe: $aboutMe
@@ -27,6 +28,8 @@ export const UPDATE_USER = gql`
       dateOfBirth: $dateOfBirth
       gender: $gender
       blocked: $blocked
+      ingameRole: $ingameRole
+
     ) {
       name
       aboutMe
