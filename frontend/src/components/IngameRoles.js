@@ -58,7 +58,20 @@ export default function IngameRoles(props) {
               >
                 {item}
 
-                <Badge pill variant="danger">
+                <Badge pill variant="danger"
+                onClick={(e) => {
+                  e.preventDefault()
+                  const ingameRoleToDelete =
+                    e.target.parentElement.getAttribute("value")
+                
+                  setIngameRole(
+                    ingameRole.filter(
+                      (item) => item !== ingameRoleToDelete
+                    )
+                  )
+                  console.log('Deleting ingameRole: ', ingameRoleToDelete)
+                }}
+                >
                   X
                 </Badge>
               </ListGroup.Item>
