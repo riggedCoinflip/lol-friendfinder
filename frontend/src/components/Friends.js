@@ -2,7 +2,7 @@ import { useContext, useState, useEffect, React } from "react"
 import { GET_MY_INFO, GET_USER_BY_ID } from "../GraphQL/Queries"
 import { useQuery } from "@apollo/client"
 import { ContextHeader } from "../constants"
-import { ListGroup } from "react-bootstrap"
+import { ListGroup, Row, Card, Col } from "react-bootstrap"
 import FriendCard from "./FriendCard"
 import { AuthContext } from "../App"
 
@@ -65,25 +65,35 @@ export default function Friends() {
   TO SHOW THE USERS BY ID; CHECK IN LOGIN HOW THE QUERY WAS CALLED;LINE 33-41
 */
 
-return !token ? (
-  <div>You are NOT logged in</div>
-) : (    <div className="friends">
-      Id from <strong>{data?.userSelf?.name}'s</strong> friends: (id):
-      <ListGroup horizontal>
-        {friends &&
-          friends.map((item, index) => {
-            return (
-              <div className="friends">
-                <FriendCard userId={item.user} />
+  return !token ? (
+    <div>You are NOT logged in</div>
+  ) : (
+    <div className="friends padding">
+      <Card.Title>My friends</Card.Title>
 
-              </div>
+      <Row>
+        {friends &&
+          friends?.map((item, index) => {
+            return (
+              <>
+                <FriendCard userId={item.user} friendship={true} />
+              </>
             )
           })}
-      </ListGroup>
-      <br />
-      <br />
+      </Row>
 
-      Id from blocked users:
+      
+      <Card.Title>Blocked users</Card.Title>
+      <Row>
+        {blocked &&
+          blocked?.map((item, index) => {
+            return (
+              <>
+                <FriendCard userId={item} friendship={false} />
+              </>
+            )
+          })}
+      </Row>
       <ListGroup horizontal>
         {blocked &&
           blocked.map((item, index) => {
