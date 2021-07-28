@@ -39,3 +39,17 @@
 .padding {
   padding: 35px;
 }
+
+.dot {
+  height: 200px;
+  width: 200px;
+  background-color: rgb(219, 139, 139);
+  border-radius: 50%;
+  display: flex;
+}
+
+//Just centering the first letter
+.letter {
+  font-size: 60px;
+  margin: auto;
+}

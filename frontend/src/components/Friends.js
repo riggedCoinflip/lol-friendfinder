@@ -94,21 +94,7 @@ export default function Friends() {
             )
           })}
       </Row>
-      <ListGroup horizontal>
-        {blocked &&
-          blocked.map((item, index) => {
-            return (
-              <ListGroup.Item
-                name="blockedUsers"
-                variant="info"
-                action
-                key={index + 1}
-              >
-                {item}
-              </ListGroup.Item>
-            )
-          })}
-      </ListGroup>
+    
     </div>
   )
 }

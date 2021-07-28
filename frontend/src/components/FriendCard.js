@@ -15,19 +15,28 @@ export default function FriendCard({ userId, friendship }) {
   //Show age if this is setted up
   function showAge(age) {
     if (age >= 0) return age
+    else return "??"
   }
 
   return (
     <div className="flex-container">
-      <Card key={data.userOneById._id} style={{ width: "18rem" }}>
+      <Card
+        key={data.userOneById._id}
+        style={{ width: "18rem" }}
+      >
         {data.userOneById.name}
 
-        <Image
-          src={data.userOneById.avatar}
-          style={{ height: 200, width: 200 }}
-          alt="Picture not defined"
-          roundedCircle
-        />
+        {data.userOneById.avatar ? (
+          <Image
+            src={data.userOneById.avatar}
+            alt="Picture not defined"
+            className="dot"
+          />
+        ) : (
+          <div className="dot">
+            <div className="letter">{data.userOneById.name.slice(0, 2)}</div>
+          </div>
+        )}
 
         {showAge(data.userOneById?.age)}
         {friendship && (
