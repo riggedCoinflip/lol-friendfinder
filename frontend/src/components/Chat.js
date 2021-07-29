@@ -7,9 +7,7 @@ import { ContextHeader } from "../constants"
 
 import { AuthContext } from "../App"
 
-import {
-  Button,
-} from "react-bootstrap"
+import { Button } from "react-bootstrap"
 
 export default function Chat() {
   const { token } = useContext(AuthContext)
@@ -65,6 +63,7 @@ export default function Chat() {
     <div className="chat-container padding5">
       <div className="chat-left-column">
         <input
+          className="user-search"
           autoFocus
           type="text"
           placeholder="Who are u looking for?🔍"

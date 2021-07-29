@@ -17,14 +17,8 @@ export default function App() {
   const [loading, setloading] = useState(true)
   console.log("token: ", token)
 
-  /* const ContextHeader = {
-    context: {
-      headers: {
-        "x-auth-token": token,
-      },
-    },
-  }
-*/
+  const [profileInfo, setProfileInfo] = useState(0)
+
   useEffect(() => {
     const call = async () => {
       const value = await localStorage.getItem("SECREToken")
@@ -42,17 +36,20 @@ export default function App() {
   return (
     <AuthContext.Provider value={{ token, setToken }}>
       <div>
-        <MyNavbar  />
+        <MyNavbar />
 
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/login" component={() => <Login  />} />       
+          <Route path="/login" component={() => <Login />} />
           <Route path="/signup" component={SignUp} />
           <Route exact path="/users" component={() => <Users />} />
-          <Route exact path="/friends" component={() => <Friends />} />
-          <Route exact path="/profile" component={() => <Profile />}  />
-          <Route exact path="/chat" component={() => <Chat />}  />
-
+          <Route exact path="/friends" component={() => <Friends profileInfo={profileInfo}/>} />
+          <Route
+            exact
+            path="/profile"
+            component={() => <Profile setProfileInfo={setProfileInfo}/>}
+          />
+          <Route exact path="/chat" component={() => <Chat />} />
 
           <Route component={NotFound} />
         </Switch>

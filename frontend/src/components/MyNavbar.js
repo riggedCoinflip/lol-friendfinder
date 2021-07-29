@@ -26,6 +26,7 @@ function MyNavbar() {
               </Link>
               <Link to="/friends" className="nav-link">
                 Friends
+               
               </Link>
               <Link to="/chat" className="nav-link">
                 Chat

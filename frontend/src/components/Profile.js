@@ -21,7 +21,7 @@ import {
   Dropdown,
 } from "react-bootstrap"
 
-export default function Profile() {
+export default function Profile({ setProfileInfo }) {
   const { token } = useContext(AuthContext)
   const [state, setState] = useState({})
   const [errored, setErrored] = useState(false)
@@ -47,8 +47,8 @@ export default function Profile() {
     if (data || !state) {
       //  refetch()
       setState(data?.userSelf)
-
       console.log("State from useEffect", state)
+      setProfileInfo(data?.userSelf?.friends?.user)
     }
   }, [data])
 
@@ -56,11 +56,13 @@ export default function Profile() {
     if (token) {
       refetch()
       setState(data?.userSelf)
-    }
-
+    setProfileInfo(data?.userSelf)}
     // setState(data?.userSelf)
   }, [token])
-  console.log(data)
+
+  
+
+
   //If F5
 
   const [updateUser, { data: dataUpdate }] = useMutation(
@@ -73,6 +75,7 @@ export default function Profile() {
   if (error) return <p>Error, are you already logged in?!</p>
 
   //console.log("Data Mutation:", dataUpdate)
+  console.log(data)
   console.table(data.userSelf)
 
   const changeHandler = (e) => {
