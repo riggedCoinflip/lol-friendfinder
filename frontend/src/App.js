@@ -9,6 +9,7 @@ import Users from "./components/Users/Users"
 import Profile from "./components/Profile"
 import NotFound from "./components/NotFound"
 import Friends from "./components/Friends"
+import Chat from "./components/Chat"
 
 export const AuthContext = createContext()
 export default function App() {
@@ -50,7 +51,8 @@ export default function App() {
           <Route exact path="/users" component={() => <Users />} />
           <Route exact path="/friends" component={() => <Friends />} />
           <Route exact path="/profile" component={() => <Profile />}  />
-         
+          <Route exact path="/chat" component={() => <Chat />}  />
+
 
           <Route component={NotFound} />
         </Switch>

@@ -4,42 +4,42 @@ import { Navbar } from "react-bootstrap"
 import { AuthContext } from "../App"
 
 function MyNavbar() {
-  const [logged, setLogged] = useState(false)
   const { token, setToken } = useContext(AuthContext)
 
   useEffect(() => {
     console.log("Token changed ", token)
-    token ? setLogged(true) : setLogged(false)
-    //  return ( ) =>{    console.log("Token setted(null) ", TOKEN)}
-  }, [token, logged])
+  }, [token])
 
   return (
     <div>
       <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Link to="/profile" className="nav-link">
-            Profile
-          </Link>
+          {token && (
+            <>
+              <Link to="/profile" className="nav-link">
+                Profile
+              </Link>
 
-          <Link to="/users" className="nav-link">
-            Users
-          </Link>
-          <Link to="/friends" className="nav-link">
-            Friends
-          </Link>
+              <Link to="/users" className="nav-link">
+                Users
+              </Link>
+              <Link to="/friends" className="nav-link">
+                Friends
+              </Link>
+              <Link to="/chat" className="nav-link">
+                Chat
+              </Link>
+            </>
+          )}
+
           <Navbar.Brand className="mx-auto order-0 justify-content-md-center">
             <Link to="/" className="nav-link order-0" type="button">
               Hooked
             </Link>
           </Navbar.Brand>
 
-          {!logged && (
-            <Link to="/signup" className="nav-link text-warning">
-              Signup for free!
-            </Link>
-          )}
-          {logged ? (
+          {token ? (
             <div className="nav-item">
               <Link
                 value="Logout"
@@ -54,18 +54,25 @@ function MyNavbar() {
               </Link>
             </div>
           ) : (
-            //if TOKEN === undefined, null...
-            <div className="nav-item" value="Login">
-              <Link
-                to="/login"
-                className="nav-link"
-                onClick={() => {
-                  setToken(localStorage.getItem("SECREToken"))
-                }}
-              >
-                Login
-              </Link>
-            </div>
+            <>
+              <div className="nav-item" value="Signup">
+                <Link to="/signup" className="nav-link text-warning">
+                  Signup for free!
+                </Link>
+              </div>
+
+              <div className="nav-item" value="Login">
+                <Link
+                  to="/login"
+                  className="nav-link"
+                  onClick={() => {
+                    setToken(localStorage.getItem("SECREToken"))
+                  }}
+                >
+                  Login
+                </Link>
+              </div>
+            </>
           )}
         </Navbar.Collapse>
       </Navbar>
