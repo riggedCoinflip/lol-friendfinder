@@ -9,20 +9,12 @@ import { AuthContext } from "../App"
 
 import {
   Button,
-  Container,
-  Card,
-  Form,
-  Col,
-  Row,
-  FormControl,
-  Dropdown,
 } from "react-bootstrap"
 
 export default function Chat() {
   const { token } = useContext(AuthContext)
   const [state, setState] = useState({})
   const [errored, setErrored] = useState(false)
-
 
   const { loading, error, data, refetch } = useQuery(
     GET_MY_INFO,
@@ -32,7 +24,6 @@ export default function Chat() {
 
   useEffect(() => {
     if (data || !state) {
-      //  refetch()
       setState(data?.userSelf)
 
       console.log("State from useEffect", state)
@@ -44,8 +35,6 @@ export default function Chat() {
       refetch()
       setState(data?.userSelf)
     }
-
-    // setState(data?.userSelf)
   }, [token])
   console.log(data)
   //If F5
@@ -59,7 +48,6 @@ export default function Chat() {
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error, are you already logged in?!</p>
 
-  //console.log("Data Mutation:", dataUpdate)
   console.table(data.userSelf)
 
   const changeHandler = (e) => {
@@ -69,21 +57,66 @@ export default function Chat() {
 
   const getValuesFromChild = (values) => {
     console.log("value from child", values)
-    //   console.log('State getValuesFromChild: ', state.languages);
-  }
-  //console.log("STATE.dateOfBirth", state?.dateOfBirth)
-
-  function limitDate(input) {
-    const output = input?.substring(0, 10) ?? "Date is unknown"
-    return output
   }
 
   return !token ? (
     <div>You are NOT logged in</div>
   ) : (
-    <div id="user-info">
-     
-      Chat...
+    <div className="chat-container padding5">
+      <div className="chat-left-column">
+        <input
+          autoFocus
+          type="text"
+          placeholder="Who are u looking for?🔍"
+          id="user-search"
+          name="user-search"
+          onChange={(e) => {
+            console.log("typing", e.target.value)
+          }}
+        />
+        <div className="chat-users">Users</div>
+      </div>
+
+      <div className="chat-room">
+        <div className="user-info">Your are texting with x</div>
+
+        <div className="conversation">
+          Many mgs...
+          <div className="message">hi</div>
+          <div className="message">hola</div>
+          <div className="message">hallo</div>
+          <div className="message">hi</div>
+          <div className="message">hola</div>
+          <div className="message">hallo</div>
+        </div>
+        {/*Do we nedd a element for the input? */}
+
+        <div className="message-field">
+          {" "}
+          <input
+            className="message-text"
+            autoFocus
+            type="text"
+            placeholder="Something good to tell me?"
+            id="message-text"
+            name="message-text"
+            onChange={(e) => {
+              console.log("typing", e.target.value)
+            }}
+          />
+          <Button
+            className="send-button"
+            variant="primary"
+            size="sm"
+            onClick={(e) => {
+              e.preventDefault()
+              //send msg
+            }}
+          >
+            Send
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

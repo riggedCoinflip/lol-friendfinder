@@ -40,6 +40,10 @@
   padding: 35px;
 }
 
+.padding5 {
+  padding: 5px;
+}
+
 .dot {
   height: 200px;
   width: 200px;
@@ -49,7 +53,35 @@
 }
 
 //Just centering the first letter
-.letter {
+.center-me {
   font-size: 60px;
   margin: auto;
+}
+
+//CSS for Chat
+.chat-container {
+  display: flex;
+}
+
+.chat-left-column {
+  flex: 1;
+}
+
+.chat-room {
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.chat-users {  
+  flex: 1;
+}
+
+.message-field {
+  display: flex;
+}
+
+.message-text {
+  flex: 1;
 }

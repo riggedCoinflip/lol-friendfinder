@@ -34,7 +34,7 @@ export default function FriendCard({ userId, friendship }) {
           />
         ) : (
           <div className="dot">
-            <div className="letter">{data.userOneById.name.slice(0, 2)}</div>
+            <div className="center-me">{data.userOneById.name.slice(0, 2)}</div>
           </div>
         )}
 
