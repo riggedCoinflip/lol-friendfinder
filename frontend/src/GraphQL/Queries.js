@@ -18,6 +18,7 @@ export const GET_MY_INFO = gql`
       dateOfBirth
       friends {
         user
+        chat
       }
       blocked
     }

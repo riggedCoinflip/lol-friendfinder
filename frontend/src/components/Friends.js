@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect, React } from "react"
-import { GET_MY_INFO, GET_USER_BY_ID } from "../GraphQL/Queries"
+import { GET_MY_INFO } from "../GraphQL/Queries"
 import { useQuery } from "@apollo/client"
 import { ContextHeader } from "../constants"
 import { ListGroup, Row, Card, Col } from "react-bootstrap"
@@ -60,7 +60,7 @@ export default function Friends({profileInfo}) {
     <div>You are NOT logged in</div>
   ) : (
     <div className="friends padding">
-
+{/*
 <Card.Title>My friends(props or useContext)</Card.Title>
       <Row>
         {amigos &&
@@ -72,7 +72,7 @@ export default function Friends({profileInfo}) {
             )
           })}
       </Row>
-
+*/}
 
       <Card.Title>My friends(Query in Friends)</Card.Title>
 
@@ -81,7 +81,7 @@ export default function Friends({profileInfo}) {
           friends?.map((item, index) => {
             return (
               <>
-                <FriendCard userId={item.user} friendship={true} />
+                <FriendCard userId={item.user} friendship={true} chatID={item.chat} />
               </>
             )
           })}

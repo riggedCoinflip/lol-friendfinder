@@ -6,11 +6,16 @@ import { useQuery, useMutation } from "@apollo/client"
 import { ContextHeader } from "../constants"
 
 import { AuthContext } from "../App"
-
+import { ProfileContext } from "./Profile"
 import { Button } from "react-bootstrap"
 
 export default function Chat() {
   const { token } = useContext(AuthContext)
+ // const { state } = useContext(ProfileContext)
+
+  //console.log("Chat-state ", state)
+
+  /*
   const [state, setState] = useState({})
   const [errored, setErrored] = useState(false)
 
@@ -47,7 +52,8 @@ export default function Chat() {
   if (error) return <p>Error, are you already logged in?!</p>
 
   console.table(data.userSelf)
-
+*/
+  /*
   const changeHandler = (e) => {
     e.persist() //important
     setState((state) => ({ ...state, [e.target.name]: e.target.value }))
@@ -56,7 +62,7 @@ export default function Chat() {
   const getValuesFromChild = (values) => {
     console.log("value from child", values)
   }
-
+*/
   return !token ? (
     <div>You are NOT logged in</div>
   ) : (

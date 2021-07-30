@@ -1,10 +1,12 @@
 import { useState, useEffect, React } from "react"
 import { GET_USER_BY_ID } from "../GraphQL/Queries"
-import { useQuery } from "@apollo/client"
+import { SEND_MESSAGE } from "../GraphQL/Mutations"
+
+import { useQuery, useMutation } from "@apollo/client"
 import { ContextHeader } from "../constants"
 import { Card, Image, Row, Button, Col } from "react-bootstrap"
 
-export default function FriendCard({ userId, friendship }) {
+export default function FriendCard({ userId, friendship, chatID }) {
   const { loading, error, data } = useQuery(GET_USER_BY_ID, {
     variables: { userId },
   })
@@ -45,6 +47,7 @@ export default function FriendCard({ userId, friendship }) {
             size="sm"
             onClick={(e) => {
               e.preventDefault()
+              alert(chatID)
               //start chat
             }}
           >

@@ -65,3 +65,20 @@ mutation
     }
 }
 `
+
+
+
+export const SEND_MESSAGE = gql`
+mutation sendMessage(
+$chatID: MongoID!
+$content: String!
+)
+  {
+    sendMessage(
+        chatID: $chatID
+        content: $content
+    )
+}
+`
+
+
