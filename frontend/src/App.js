@@ -44,7 +44,7 @@ export default function App() {
   const { loading, error, data, refetch } = useQuery(
     GET_MY_INFO,
     ContextHeader(token)
-   // ,    { pollInterval: 100 }
+    ,    { pollInterval: 100 }
   )
 
   //Use2

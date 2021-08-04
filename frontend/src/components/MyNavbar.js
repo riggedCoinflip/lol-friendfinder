@@ -4,7 +4,7 @@ import { Navbar } from "react-bootstrap"
 import { AuthContext } from "../App"
 
 function MyNavbar() {
-  const { token, setToken } = useContext(AuthContext)
+  const { token, setToken, setState } = useContext(AuthContext)
 
   useEffect(() => {
     console.log("Token changed ", token)
@@ -49,6 +49,7 @@ function MyNavbar() {
                 onClick={() => {
                   setToken(null)
                   localStorage.clear()
+                  setState(0)
                 }}
               >
                 Logout
