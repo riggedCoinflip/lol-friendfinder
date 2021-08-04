@@ -1,20 +1,26 @@
-import { React, useState, useEffect } from "react"
+import { React, useState, useEffect, useContext } from "react"
 import { Dropdown, ListGroup, Badge } from "react-bootstrap"
 import { ContextHeader } from "../constants"
+import { AuthContext } from "../App"
 
-export default function IngameRoles(props) {
+export default function IngameRoles() {
+  const { state, setState } = useContext(AuthContext)
+
+
   const ingameRoleOptions = ["Top", "Jungle", "Mid", "Bot", "Support", "Fill"]
   const [ingameRole, setIngameRole] = useState()
   // const [selectedRole, setSelectedRole] = useState(ingameRolesOptions)
 
+
   useEffect(() => {
-    setIngameRole(props?.state?.ingameRole)
+    setIngameRole(state?.ingameRole)
     //console.log("useEffect []: ", local_Languages)
-  }, [props?.state?.ingameRole])
+  }, [state?.ingameRole])
+
 
   useEffect(() => {
     //console.log("useEffect [local_Languages]: ", local_Languages)
-    props.setState((state) => ({ ...state, ingameRole: ingameRole }))
+   setState((state) => ({ ...state, ingameRole: ingameRole }))
     console.log("ingameRoles: ", ingameRole)
   }, [ingameRole])
 
@@ -34,7 +40,6 @@ export default function IngameRoles(props) {
                     e.preventDefault()
 
                     setIngameRole((ingameRoles) => [...ingameRole, item])
-                  //  props.setState((state) => ({ ...state, ingameRole: ingameRole }))
                   }}
                   key={index + 1}
                 >

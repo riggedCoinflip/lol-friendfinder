@@ -1,21 +1,22 @@
-import { React, useState, useEffect } from "react"
+import { React, useState, useEffect, useContext } from "react"
 import { useQuery } from "@apollo/client"
 import { Dropdown, ListGroup, Badge } from "react-bootstrap"
 import { ContextHeader} from "../constants"
 import { GET_LANGUAGES } from '../GraphQL/Queries'
+import { AuthContext } from "../App"
 
-const Languages = (props) => {
+const Languages = () => {
   const [local_Languages, setLocal_Languages] = useState()
   const [searchTerm, setSearchTerm] = useState("")
+  const { state, setState } = useContext(AuthContext)
 
   useEffect(() => {
-    setLocal_Languages(props?.state?.languages)
+  //***  setLocal_Languages(state?.languages)
     //console.log("useEffect []: ", local_Languages)
-  }, [props?.state?.gender])
+  }, [])
 
   useEffect(() => {
-    //console.log("useEffect [local_Languages]: ", local_Languages)
-    props.setState((state) => ({ ...state, languages: local_Languages }))
+  //  setState((state) => ({ ...state, languages: local_Languages }))
    // console.log("props.state.languages: ", props.state.languages)
   }, [local_Languages])
 

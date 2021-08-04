@@ -19,12 +19,10 @@ import {
   FormControl,
   Dropdown,
 } from "react-bootstrap"
-export const ProfileContext = createContext()
+
 export default function Profile() {
-  const { token } = useContext(AuthContext)
-  const [state, setState] = useState(0)
+  const { token, state, setState, refetch } = useContext(AuthContext)
   const [errored, setErrored] = useState(false)
-  const [loadingProfile, setloadingProfile] = useState(true)
 
   const genderOptions = [
     "non_binary",
@@ -37,52 +35,37 @@ export default function Profile() {
     "I_prefer_not_to_say",
   ]
 
- 
-
-
-  const { loading, error, data, refetch } = useQuery(
-    GET_MY_INFO,
-    ContextHeader(token),
-    { pollInterval: 100 }
-  )
-  
+  //use3
   useEffect(() => {
-    if (data || !state) {
+    if (!state) {
       //  refetch()
-      setState(data?.userSelf)
-      console.log("State from useEffect", state)
-     // setProfileInfo(data?.userSelf?.friends?.user)
+      //setState(data?.userSelf)
+
+      console.log("useEffect3", state)
     }
-  }, [data])
+  }, [])
 
   useEffect(() => {
     if (token) {
-      refetch()
-      setState(data?.userSelf)
-     // setProfileInfo(data?.userSelf)
+     // refetch()
+      setState(state)
     }
-    // setState(data?.userSelf)
   }, [token])
 
- 
- 
-
-
-  //If F5
   const [updateUser, { data: dataUpdate }] = useMutation(
     UPDATE_USER,
     ContextHeader(token)
   )
 
   //Get users data
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error, are you already logged in?!</p>
+  // if (loading) return <p>Loading...</p>
+  //if (error) return <p>Error, are you already logged in?!</p>
 
   //console.log("Data Mutation:", dataUpdate)
-  console.log(data)
-  console.table(data.userSelf)
+  //  console.log(state)
+  //console.table(data.userSelf)
   console.log("stateP", state)
-  
+
   const changeHandler = (e) => {
     e.persist() //important
     setState((state) => ({ ...state, [e.target.name]: e.target.value }))
@@ -99,140 +82,134 @@ export default function Profile() {
     return output
   }
 
-  return (
-    <ProfileContext.Provider Profile_values={{ state, setState }}>
-      {!token ? (
-        <div>You are NOT logged in</div>
-      ) : (
-        <div id="user-info">
-          <Container>
-            <Card.Title className="text-left">{state?.name}</Card.Title>
-            <Form>
-              <Row>
-                <Col>
-                  <ProfileImage setState={setState} state={state} />
-                  {errored && (
-                    <small
-                      id="fileUploadError"
-                      className="form-text text-muted"
-                    >
-                      something went wrong
-                    </small>
-                  )}
-                </Col>
-                <Col>
-                  Date of birth
-                  <FormControl
-                    id="dateOfBirth"
-                    name="dateOfBirth"
-                    placeholder="yyyy-mm-dd"
-                    /*type="date"*/
-                    type="text"
-                    value={limitDate(state?.dateOfBirth)}
-                    onChange={changeHandler}
-                  />
-                  <br />
-                  {/**/}
-                  <Dropdown>
-                    <Dropdown.Toggle
-                      size="sm"
-                      variant="success"
-                      id="dropdown-gender"
-                    >
-                      {state?.gender}
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      {genderOptions &&
-                        genderOptions.map((selectedGender, index) => {
-                          return (
-                            <Dropdown.Item
-                              name="gender"
-                              onClick={(e) => {
-                                e.preventDefault()
-
-                                console.log("Gender selected: ", selectedGender)
-                                setState((state) => ({
-                                  ...state,
-                                  gender: selectedGender,
-                                }))
-                              }}
-                              key={index + 1}
-                            >
-                              {
-                                selectedGender //?.replace("_", " ")
-                              }
-                            </Dropdown.Item>
-                          )
-                        })}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                  <br />
-                  <Languages
-                    getValuesFromChild={getValuesFromChild}
-                    state={state}
-                    setState={setState}
-                  />
-                  <br />
-                  <IngameRoles
-                    getValuesFromChild={getValuesFromChild}
-                    state={state}
-                    setState={setState}
-                  />
-                </Col>{" "}
-              </Row>
+  return !token ? (
+    <div>You are NOT logged in</div>
+  ) : (
+    <div id="user-info">
+      <Container>
+        <Card.Title className="text-left">{state?.name}</Card.Title>
+        <Form>
+          <Row>
+            <Col>
+              <ProfileImage setState={setState} state={state} />
+              {errored && (
+                <small id="fileUploadError" className="form-text text-muted">
+                  something went wrong
+                </small>
+              )}
+            </Col>
+            <Col>
+              Date of birth
+              <FormControl
+                id="dateOfBirth"
+                name="dateOfBirth"
+                placeholder="yyyy-mm-dd"
+                /*type="date"*/
+                type="text"
+                value={limitDate(state?.dateOfBirth)}
+                onChange={changeHandler}
+              />
               <br />
-
-              <Row>
-                <Form.Text className="text-muted">About me</Form.Text>
-              </Row>
-              <Row>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  value={state?.aboutMe}
-                  id="aboutMe"
-                  onChange={changeHandler}
-                  name="aboutMe"
-                  type="text"
-                />
-              </Row>
-
-              <br />
-
-              <div>
-                <Button
-                  variant="primary"
+              {/**/}
+              <Dropdown>
+                <Dropdown.Toggle
                   size="sm"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    updateUser({
-                      variables: {
-                        aboutMe: state.aboutMe,
-                        gender: state.gender,
-                        languages: state.languages,
-                        dateOfBirth: state.dateOfBirth,
-                        ingameRole: state.ingameRole,
-                      },
-                    }).catch(() => {
-                      setErrored(true)
-                    })
-                    alert("Data was updated")
-                    //get new data after mutation
-                    refetch()
-                  }}
+                  variant="success"
+                  id="dropdown-gender"
                 >
-                  {" "}
-                  Save changes{" "}
-                </Button>
-                {"  "}
-                <br />
-              </div>
-            </Form>
+                  {state?.gender}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  {genderOptions &&
+                    genderOptions.map((selectedGender, index) => {
+                      return (
+                        <Dropdown.Item
+                          name="gender"
+                          onClick={(e) => {
+                            e.preventDefault()
+
+                            console.log("Gender selected: ", selectedGender)
+                            setState((state) => ({
+                              ...state,
+                              gender: selectedGender,
+                            }))
+                          }}
+                          key={index + 1}
+                        >
+                          {
+                            selectedGender //?.replace("_", " ")
+                          }
+                        </Dropdown.Item>
+                      )
+                    })}
+                </Dropdown.Menu>
+              </Dropdown>
+              <br />
+              {/*   <Languages
+                    getValuesFromChild={getValuesFromChild}
+                    state={state}
+                    setState={setState}
+                  />
+                  <br />
+                 <IngameRoles
+                    getValuesFromChild={getValuesFromChild}
+                    state={state}
+                    setState={setState}
+                  />
+                   */}
+            </Col>{" "}
+          </Row>
+          <br />
+
+          <Row>
+            <Form.Text className="text-muted">About me</Form.Text>
+          </Row>
+          <Row>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={state?.aboutMe}
+              id="aboutMe"
+              onChange={changeHandler}
+              name="aboutMe"
+              type="text"
+            />
+          </Row>
+
+          <br />
+
+          <div>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={(e) => {
+                e.preventDefault()
+                updateUser({
+                  variables: {
+                    aboutMe: state.aboutMe,
+                    gender: state.gender,
+                    languages: state.languages,
+                    dateOfBirth: state.dateOfBirth,
+                    ingameRole: state.ingameRole,
+                  },
+                }).catch(() => {
+                  setErrored(true)
+                })
+                alert("Data was updated")
+                //get new data after mutation
+                // refetch()
+              }}
+            >
+              {" "}
+              Save changes{" "}
+            </Button>
+            {"  "}
             <br />
-          </Container>
-        </div>
-      )}
-    </ProfileContext.Provider>
+          </div>
+        </Form>
+        <br />
+      </Container>
+    </div>
   )
 }

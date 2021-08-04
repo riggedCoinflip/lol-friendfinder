@@ -1,11 +1,13 @@
-import { useState, useEffect, React } from "react"
+import { useState, useEffect, React, useContext } from "react"
 import axios from "axios"
 import { Button, Image } from "react-bootstrap"
 import { TOKEN } from "../constants"
+import { AuthContext } from "../App"
 
-export default function ProfileImage(props) {
+export default function ProfileImage() {
   const [file, setFile] = useState()
   const [errored, setErrored] = useState(false)
+  const { token, state, setState } = useContext(AuthContext)
 
   const imageMaxSize = 1_000_000 // 1Mb
   const admittedImageFormats = ["png", "jpg", "jpeg"]
@@ -53,7 +55,7 @@ export default function ProfileImage(props) {
        
      //  if(!errored){ 
         console.log(res?.data?.location)
-        props.setState((state) => ({ ...state, avatar: res?.data?.location }))
+        setState((state) => ({ ...state, avatar: res?.data?.location }))
       //}
       })
   }
@@ -61,7 +63,7 @@ export default function ProfileImage(props) {
   return (
     <div className="ProfileImage"class="center">
       <Image
-        src={props?.state?.avatar}
+        src={state?.avatar}
         width="300"
         height="300"
         alt="That's me"

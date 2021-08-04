@@ -9,9 +9,8 @@ import { AuthContext } from "../App"
 export default function Login() {
   const client = useApolloClient()
   const { token, setToken } = useContext(AuthContext)
+  var newToken = 0
 
-  var newToken = 0;
- 
   const [values, handleChange] = useForm({})
   const [errored, setErrored] = useState(false)
 

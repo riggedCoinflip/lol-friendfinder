@@ -6,17 +6,15 @@ import { useQuery, useMutation } from "@apollo/client"
 import { ContextHeader } from "../constants"
 
 import { AuthContext } from "../App"
-import { ProfileContext } from "./Profile"
 import { Button } from "react-bootstrap"
 import FriendCard from "./FriendCard"
 
 export default function Chat({ chatID } )  {
-  const { token } = useContext(AuthContext)
+  const { token, state, setState } = useContext(AuthContext)
    const [textWith, setTextWith] = useState()
 
  // const { state } = useContext(ProfileContext)
 
-  console.log(useContext(ProfileContext))
 
   /*
   const [state, setState] = useState({})
@@ -87,7 +85,7 @@ export default function Chat({ chatID } )  {
       </div>
 
       <div className="chat-room">
-        <div className="user-info">Your are texting with: {chatID}
+        <div className="user-info">Your are texting with: {state?.name}/{chatID}
         <FriendCard userId={textWith} friendship={true}  />
 
 </div>
