@@ -6,24 +6,25 @@ import { AuthContext } from "../App"
 export default function IngameRoles() {
   const { state, setState } = useContext(AuthContext)
 
-
   const ingameRoleOptions = ["Top", "Jungle", "Mid", "Bot", "Support", "Fill"]
-  const [ingameRole, setIngameRole] = useState()
+  //const [ingameRole, setIngameRole] = useState()
   // const [selectedRole, setSelectedRole] = useState(ingameRolesOptions)
 
-
+  /*
   useEffect(() => {
-    setIngameRole(state?.ingameRole)
+   // setIngameRole(state?.ingameRole)
+        setState((state) => ({ ...state, ingameRole: ingameRole }))
+
     //console.log("useEffect []: ", local_Languages)
   }, [state?.ingameRole])
 
 
   useEffect(() => {
     //console.log("useEffect [local_Languages]: ", local_Languages)
-   setState((state) => ({ ...state, ingameRole: ingameRole }))
-    console.log("ingameRoles: ", ingameRole)
+    setState((state) => ({ ...state, ingameRole: ingameRole }))
+    console.log("ingameRoles: ", state.ingameRole)
   }, [ingameRole])
-
+*/
   return (
     <div id="avaliableIngameRoles">
       <Dropdown>
@@ -38,8 +39,9 @@ export default function IngameRoles() {
                 <Dropdown.Item
                   onClick={(e) => {
                     e.preventDefault()
+                    setState((state) => ({ ...state, ingameRole: [...state.ingameRole, item] }))
 
-                    setIngameRole((ingameRoles) => [...ingameRole, item])
+                    // setIngameRole((ingameRoles) => [...ingameRole, item])
                   }}
                   key={index + 1}
                 >
@@ -52,8 +54,8 @@ export default function IngameRoles() {
       <br />
 
       <ListGroup horizontal>
-        {ingameRole ? (
-          ingameRole.map((item, index) => {
+        {state?.ingameRole ? (
+          state?.ingameRole.map((item, index) => {
             return (
               <ListGroup.Item
                 name="ingame-roles"
@@ -63,19 +65,26 @@ export default function IngameRoles() {
               >
                 {item}
 
-                <Badge pill variant="danger"
-                onClick={(e) => {
-                  e.preventDefault()
-                  const ingameRoleToDelete =
-                    e.target.parentElement.getAttribute("value")
-                
-                  setIngameRole(
-                    ingameRole.filter(
-                      (item) => item !== ingameRoleToDelete
+                <Badge
+                  pill
+                  variant="danger"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    const ingameRoleToDelete =
+                      e.target.parentElement.getAttribute("value")
+                    setState((state) => ({
+                      ...state,
+                      ingameRole: state.ingameRole.filter(
+                        (item) => item !== ingameRoleToDelete
+                      ),
+                    }))
+
+                   /* setIngameRole(
+                      ingameRole.filter((item) => item !== ingameRoleToDelete)
                     )
-                  )
-                  console.log('Deleting ingameRole: ', ingameRoleToDelete)
-                }}
+                    */
+                    console.log("Deleting ingameRole: ", ingameRoleToDelete)
+                  }}
                 >
                   X
                 </Badge>

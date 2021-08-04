@@ -35,12 +35,12 @@ export default function App() {
   }, [])
 
 //Use1
-/*
+
   useEffect(() => {
     if (data) setState(data.userSelf)
     console.log("useEffect 1", state)
   }, [])
-*/
+
   const { loading, error, data, refetch } = useQuery(
     GET_MY_INFO,
     ContextHeader(token)

@@ -1,25 +1,31 @@
 import { React, useState, useEffect, useContext } from "react"
 import { useQuery } from "@apollo/client"
 import { Dropdown, ListGroup, Badge } from "react-bootstrap"
-import { ContextHeader} from "../constants"
-import { GET_LANGUAGES } from '../GraphQL/Queries'
+import { ContextHeader } from "../constants"
+import { GET_LANGUAGES } from "../GraphQL/Queries"
 import { AuthContext } from "../App"
 
 const Languages = () => {
-  const [local_Languages, setLocal_Languages] = useState()
+  // const [local_Languages, setLocal_Languages] = useState()
   const [searchTerm, setSearchTerm] = useState("")
   const { state, setState } = useContext(AuthContext)
 
-  useEffect(() => {
-  //***  setLocal_Languages(state?.languages)
+  /*
+    useEffect(() => {
+    //    setLocal_Languages(state?.languages)
+    //   setState((state) => ({ ...state, languages: local_Languages }))
     //console.log("useEffect []: ", local_Languages)
   }, [])
 
-  useEffect(() => {
-  //  setState((state) => ({ ...state, languages: local_Languages }))
-   // console.log("props.state.languages: ", props.state.languages)
-  }, [local_Languages])
 
+  useEffect(() => {
+  // setState((state) => ({ ...state, languages: local_Languages }))
+   
+   console.log('Remaining Language: ', local_Languages)
+
+    // console.log("props.state.languages: ", props.state.languages)
+  }, [local_Languages])
+*/
   const { loading, error, data } = useQuery(GET_LANGUAGES, ContextHeader)
   if (loading) return <p>Loading languages...</p>
   if (error) return <p>Error!</p>
@@ -75,12 +81,23 @@ const Languages = () => {
                       e.preventDefault()
 
                       //adding another language
-                      setLocal_Languages((local_Languages) => [
+                      /* setState((state) => ({ ...state, 
+                        languages: item.alpha2 }))
+                     */
+                      /*state.languages((local_Languages) => [
                         ...local_Languages,
                         item.alpha2,
-                      ])
-                      console.log("local_Languages, selected: ", item.name)
-                     
+                      ])*/
+                      let newArr = state.languages // newArr.push("es")
+                      console.log(newArr[0]) //Object
+
+                      setState((state) => ({ ...state, languages: [...state.languages, item.alpha2] }))
+                console.log(
+                        "local_Languages, selected: ",
+                        item.name,
+                        " ",
+                        item.alpha2
+                      )
                     }}
                     key={index + 1}
                   >
@@ -93,8 +110,8 @@ const Languages = () => {
       {/*  */}
       <br />
       <ListGroup horizontal>
-        {local_Languages &&
-          local_Languages.map((item, index) => {
+        {state?.languages &&
+          state?.languages.map((item, index) => {
             return (
               <ListGroup.Item
                 name="spoken-language"
@@ -113,12 +130,12 @@ const Languages = () => {
                       e.target.parentElement.getAttribute("value")
                     //console.log('you want to delete', LanguageToDelete )
                     //Excluding the language we want to delete
-                    setLocal_Languages(
-                      local_Languages.filter(
+                    setState((state) => ({
+                      ...state,
+                      languages: state.languages.filter(
                         (item) => item !== languageToDelete
-                      )
-                    )
-                    // console.log('Deleting Language: ', local_Languages)
+                      ),
+                    }))
                   }}
                 >
                   X

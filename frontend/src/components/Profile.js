@@ -38,19 +38,14 @@ export default function Profile() {
   //use3
   useEffect(() => {
     if (!state) {
-      //  refetch()
+       refetch()
       //setState(data?.userSelf)
 
       console.log("useEffect3", state)
     }
   }, [])
 
-  useEffect(() => {
-    if (token) {
-     // refetch()
-      setState(state)
-    }
-  }, [token])
+
 
   const [updateUser, { data: dataUpdate }] = useMutation(
     UPDATE_USER,
@@ -146,18 +141,19 @@ export default function Profile() {
                 </Dropdown.Menu>
               </Dropdown>
               <br />
-              {/*   <Languages
+               <Languages
                     getValuesFromChild={getValuesFromChild}
                     state={state}
                     setState={setState}
                   />
                   <br />
+                  
                  <IngameRoles
                     getValuesFromChild={getValuesFromChild}
                     state={state}
                     setState={setState}
                   />
-                   */}
+                 {/*  */}
             </Col>{" "}
           </Row>
           <br />
