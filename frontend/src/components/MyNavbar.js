@@ -49,7 +49,7 @@ function MyNavbar() {
                 onClick={() => {
                   setToken(null)
                   localStorage.clear()
-                  setState(0)
+                  setState(null)
                 }}
               >
                 Logout

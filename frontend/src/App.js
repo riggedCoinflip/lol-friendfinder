@@ -13,16 +13,17 @@ import Profile from "./components/Profile"
 import NotFound from "./components/NotFound"
 import Friends from "./components/Friends"
 import Chat from "./components/Chat"
+import FriendCard from "./components/FriendCard"
 
 export const AuthContext = createContext()
 export default function App() {
   const [token, setToken] = useState(0)
   const [loadingToken, setloadingToken] = useState(true)
- // console.log("token: ", token)
+  const [textWith, setTextWith] = useState("myself")
 
   //const [profileInfo, setProfileInfo] = useState(0)
   const [state, setState] = useState(0)
-  
+
   useEffect(() => {
     const call = async () => {
       const token = await localStorage.getItem("SECREToken")
@@ -34,7 +35,7 @@ export default function App() {
     call()
   }, [])
 
-//Use1
+  //Use1
 
   useEffect(() => {
     if (data) setState(data.userSelf)
@@ -43,8 +44,8 @@ export default function App() {
 
   const { loading, error, data, refetch } = useQuery(
     GET_MY_INFO,
-    ContextHeader(token)
-    ,    { pollInterval: 100 }
+    ContextHeader(token),
+    { pollInterval: 100 }
   )
 
   //Use2
@@ -58,11 +59,8 @@ export default function App() {
   }, [data])
 
   console.log(data)
-  //If F5 
+  //If F5
 
-  
- 
-  
   if (loadingToken) {
     return <p>loading ...</p>
   }
@@ -78,7 +76,16 @@ export default function App() {
           <Route exact path="/users" component={() => <Users />} />
           <Route exact path="/friends" component={() => <Friends />} />
           <Route exact path="/profile" component={() => <Profile />} />
-          <Route exact path="/chat" component={() => <Chat />} />
+          <Route
+            exact
+            path="/chat"
+            component={() => <Chat textWith={textWith} />}
+          />
+          <Route
+            exact
+            path="/friendCard"
+            component={() => <FriendCard setTextWith={setTextWith} />}
+          />
 
           <Route component={NotFound} />
         </Switch>

@@ -38,14 +38,10 @@ export default function Profile() {
   //use3
   useEffect(() => {
     if (!state) {
-       refetch()
-      //setState(data?.userSelf)
-
-      console.log("useEffect3", state)
+      refetch()
+      console.log("We refetch", state)
     }
   }, [])
-
-
 
   const [updateUser, { data: dataUpdate }] = useMutation(
     UPDATE_USER,
@@ -62,14 +58,17 @@ export default function Profile() {
   console.log("stateP", state)
 
   const changeHandler = (e) => {
-    e.persist() //important
+    e.preventDefault()
+    // e.persist() //important
+
     setState((state) => ({ ...state, [e.target.name]: e.target.value }))
   }
-
+  /*
   const getValuesFromChild = (values) => {
     console.log("value from child", values)
     //   console.log('State getValuesFromChild: ', state.languages);
   }
+  */
   //console.log("STATE.dateOfBirth", state?.dateOfBirth)
 
   function limitDate(input) {
@@ -96,13 +95,19 @@ export default function Profile() {
             <Col>
               Date of birth
               <FormControl
-                id="dateOfBirth"
+               
                 name="dateOfBirth"
                 placeholder="yyyy-mm-dd"
                 /*type="date"*/
                 type="text"
                 value={limitDate(state?.dateOfBirth)}
                 onChange={changeHandler}
+                onFocus={(e) => {
+                  console.log("Focused on input")
+                }}
+                onBlur={(e) => {
+                  console.log("onBlur")
+                }}
               />
               <br />
               {/**/}
@@ -141,25 +146,16 @@ export default function Profile() {
                 </Dropdown.Menu>
               </Dropdown>
               <br />
-               <Languages
-                    getValuesFromChild={getValuesFromChild}
-                    state={state}
-                    setState={setState}
-                  />
-                  <br />
-                  
-                 <IngameRoles
-                    getValuesFromChild={getValuesFromChild}
-                    state={state}
-                    setState={setState}
-                  />
-                 {/*  */}
+              <Languages />
+              <br />
+              <IngameRoles />
+              {/*  */}
             </Col>{" "}
           </Row>
           <br />
 
           <Row>
-            <Form.Text className="text-muted">About me</Form.Text>
+            <Form.Text>About me</Form.Text>
           </Row>
           <Row>
             <Form.Control
