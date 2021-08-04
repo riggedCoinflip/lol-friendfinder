@@ -20,10 +20,11 @@ import {
   Dropdown,
 } from "react-bootstrap"
 export const ProfileContext = createContext()
-export default function Profile({ setProfileInfo }) {
+export default function Profile() {
   const { token } = useContext(AuthContext)
   const [state, setState] = useState(0)
   const [errored, setErrored] = useState(false)
+  const [loadingProfile, setloadingProfile] = useState(true)
 
   const genderOptions = [
     "non_binary",
@@ -36,18 +37,21 @@ export default function Profile({ setProfileInfo }) {
     "I_prefer_not_to_say",
   ]
 
+ 
+
+
   const { loading, error, data, refetch } = useQuery(
     GET_MY_INFO,
     ContextHeader(token),
     { pollInterval: 100 }
   )
-
+  
   useEffect(() => {
     if (data || !state) {
       //  refetch()
       setState(data?.userSelf)
       console.log("State from useEffect", state)
-      setProfileInfo(data?.userSelf?.friends?.user)
+     // setProfileInfo(data?.userSelf?.friends?.user)
     }
   }, [data])
 
@@ -55,10 +59,14 @@ export default function Profile({ setProfileInfo }) {
     if (token) {
       refetch()
       setState(data?.userSelf)
-      setProfileInfo(data?.userSelf)
+     // setProfileInfo(data?.userSelf)
     }
     // setState(data?.userSelf)
   }, [token])
+
+ 
+ 
+
 
   //If F5
   const [updateUser, { data: dataUpdate }] = useMutation(
@@ -90,7 +98,7 @@ export default function Profile({ setProfileInfo }) {
     const output = input?.substring(0, 10) ?? "Date is unknown"
     return output
   }
-  const msg = "hi"
+
   return (
     <ProfileContext.Provider Profile_values={{ state, setState }}>
       {!token ? (

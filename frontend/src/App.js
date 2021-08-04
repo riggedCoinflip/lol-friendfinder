@@ -43,11 +43,11 @@ export default function App() {
           <Route path="/login" component={() => <Login />} />
           <Route path="/signup" component={SignUp} />
           <Route exact path="/users" component={() => <Users />} />
-          <Route exact path="/friends" component={() => <Friends profileInfo={profileInfo}/>} />
+          <Route exact path="/friends" component={() => <Friends />} />
           <Route
             exact
             path="/profile"
-            component={() => <Profile setProfileInfo={setProfileInfo}/>}
+            component={() => <Profile />}
           />
           <Route exact path="/chat" component={() => <Chat />} />
 

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState, React } from "react"
 import { GET_MY_INFO } from "../GraphQL/Queries"
-import { UPDATE_USER } from "../GraphQL/Mutations"
+import { UPDATE_USER, SEND_MESSAGE } from "../GraphQL/Mutations"
 import { useQuery, useMutation } from "@apollo/client"
 
 import { ContextHeader } from "../constants"
@@ -8,12 +8,15 @@ import { ContextHeader } from "../constants"
 import { AuthContext } from "../App"
 import { ProfileContext } from "./Profile"
 import { Button } from "react-bootstrap"
+import FriendCard from "./FriendCard"
 
-export default function Chat() {
+export default function Chat({ chatID } )  {
   const { token } = useContext(AuthContext)
+   const [textWith, setTextWith] = useState()
+
  // const { state } = useContext(ProfileContext)
 
-  //console.log("Chat-state ", state)
+  console.log(useContext(ProfileContext))
 
   /*
   const [state, setState] = useState({})
@@ -63,6 +66,7 @@ export default function Chat() {
     console.log("value from child", values)
   }
 */
+
   return !token ? (
     <div>You are NOT logged in</div>
   ) : (
@@ -83,7 +87,10 @@ export default function Chat() {
       </div>
 
       <div className="chat-room">
-        <div className="user-info">Your are texting with x</div>
+        <div className="user-info">Your are texting with: {chatID}
+        <FriendCard userId={textWith} friendship={true}  />
+
+</div>
 
         <div className="conversation">
           Many mgs...
