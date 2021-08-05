@@ -6,12 +6,13 @@ import { useHistory } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/client"
 import { ContextHeader } from "../constants"
 import { Card, Image, Row, Button, Col } from "react-bootstrap"
+import AvatarImage from "./AvatarImage"
 
 export default function FriendList({
   userId,
-  friendship,
-  setTextWith,
-  setChatWith,
+  setUserID,
+  setUserNameChat,
+  setChatAvatar,
 }) {
   const history = useHistory()
 
@@ -22,42 +23,27 @@ export default function FriendList({
   if (loading) return null
   if (error) return `Error! ${error}`
 
-  //Show age if this is setted up
- 
-
-  const start_chat = (userId) => {
-    setTextWith(userId)
-  }
-
   return (
     <>
-      <Row           
->
+      <Row>
         <div
-        className="flex-row"
+          className="flex-row"
           id="div1"
           onClick={(e) => {
             e.preventDefault()
             //alert(data.userOneById._id)
-            setChatWith(data.userOneById._id)
+            setUserID(data.userOneById._id)
+            setUserNameChat(data.userOneById.name)
+            setChatAvatar(data.userOneById.avatar)
           }}
         >
-          <div id="div2"  key={data.userOneById._id} >
+          <div id="div2" key={data.userOneById._id}>
             {data.userOneById.name}
 
-            {data.userOneById.avatar ? (
-              <Image
-                src={data.userOneById.avatar}
-                alt="Picture not defined"
-                className="dot-mini"
-              />
-            ) : (
-              <div className="dot">
-                <div className="center-me">
-                  {data.userOneById.name.slice(0, 2)}
-                </div>
-              </div>
-            )}
+            <AvatarImage
+              avatarUrl={data.userOneById.avatar}
+              name={data.userOneById.name}
+            />
 
           </div>
         </div>

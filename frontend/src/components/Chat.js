@@ -8,10 +8,17 @@ import { ContextHeader } from "../constants"
 import { AuthContext } from "../App"
 import FriendList from "./FriendList"
 import { Card, Image, Row, Button, Col } from "react-bootstrap"
+import AvatarImage from "./AvatarImage"
 
-export default function Chat({ textWith }) {
+export default function Chat({}) {
   const { token, state, setState, refetch } = useContext(AuthContext)
-  const [chatWith, setChatWith] = useState("Me!")
+  const [userID, setUserID] = useState("UserId!")
+  const [chatID, setChatID] = useState("ChatId!")
+  const [userNameChat, setUserNameChat] = useState("Rudis!")
+  const [chatAvatar, setChatAvatar] = useState()
+  const [contentMessage, setContentMessage] = useState()
+
+  const [errored, setErrored] = useState(false)
 
   useEffect(() => {
     if (!state) {
@@ -19,6 +26,33 @@ export default function Chat({ textWith }) {
       console.log("We refetch", state)
     }
   }, [])
+
+  const [sendMessage, { data: dataMessage }] = useMutation(
+    SEND_MESSAGE,
+    ContextHeader(token)
+  )
+  const sendTheMessage = (e) => {
+    e.preventDefault()
+  
+//    setChatID(item.chat)
+    console.log("contentMessage: ", contentMessage)
+    sendMessage({
+      variables: {
+        chatID: chatID,
+        content: contentMessage,
+      },
+    }).catch(() => {
+      setErrored(true)
+    })
+    // alert("Msg sent")
+    setContentMessage()
+  }
+  const messageHandler = (e) => {
+    e.preventDefault()
+    e.persist() //important
+    setContentMessage(e.target.value)
+    console.log(contentMessage)
+  }
 
   return !token ? (
     <div>You are NOT logged in</div>
@@ -37,26 +71,25 @@ export default function Chat({ textWith }) {
               console.log("typing", e.target.value)
             }}
           />
-          <div className="chat-users" >
-           
-              {state?.friends &&
-                state?.friends?.map((item, index) => {
-                  return (
-                    <FriendList
-                      setChatWith={setChatWith}
-                      userId={item.user}
-                      friendship={true}
-                      chatID={item.chat}
-                    />
-                  )
-                })}
-            
+          <div className="chat-users">
+            {state?.friends &&
+              state?.friends?.map((item, index) => {
+                return (
+                  <FriendList
+                    setUserID={setUserID}
+                    setUserNameChat={setUserNameChat}
+                    setChatAvatar={setChatAvatar}
+                    userId={item.user}
+                  />
+                )
+              })}
           </div>
         </div>
 
         <div className="chat-room">
           <div className="user-info">
-            Your are texting with: {textWith}/{chatWith}
+            {userNameChat}/UserID: {userID}/{chatID}/
+            <AvatarImage avatarUrl={chatAvatar} name={userNameChat} />
           </div>
 
           <div className="conversation">
@@ -67,30 +100,35 @@ export default function Chat({ textWith }) {
             <div className="message">hi</div>
             <div className="message">hola</div>
             <div className="message">hallo</div>
+            {/*Find all chat for the selected user, show the ChatID's
+             */}
+            {state?.friends &&
+              state?.friends
+                ?.filter((item) => {
+                  return item.user === userID
+                })
+                .map((item) => {
+                  return item.chat
+                })}
           </div>
           {/*Do we nedd a element for the input? */}
 
           <div className="message-field">
             {" "}
             <input
-              className="message-text"
-              autoFocus
+              value={contentMessage}
+              id="contentMessage"
+              onChange={messageHandler}
+              name="contentMessage"
               type="text"
-              placeholder="Something good to tell me?"
-              id="message-text"
-              name="message-text"
-              onChange={(e) => {
-                console.log("typing", e.target.value)
-              }}
+              className="message-text"
+              placeholder="Something good to say?"
             />
             <Button
               className="send-button"
               variant="primary"
               size="sm"
-              onClick={(e) => {
-                e.preventDefault()
-                //send msg
-              }}
+              onClick={sendTheMessage}
             >
               Send
             </Button>

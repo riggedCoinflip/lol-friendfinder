@@ -3,7 +3,7 @@ import { GET_MY_INFO } from "../GraphQL/Queries"
 import { UPDATE_USER } from "../GraphQL/Mutations"
 import { useQuery, useMutation } from "@apollo/client"
 import Languages from "./Languages"
-import ProfileImage from "./ProfileImage"
+import ProfileImage from "./ProfileImageUpload"
 
 import IngameRoles from "./IngameRoles"
 import { ContextHeader } from "../constants"
@@ -59,10 +59,10 @@ export default function Profile() {
 
   const changeHandler = (e) => {
     e.preventDefault()
-    // e.persist() //important
-
+     e.persist() //important
     setState((state) => ({ ...state, [e.target.name]: e.target.value }))
   }
+  
   /*
   const getValuesFromChild = (values) => {
     console.log("value from child", values)
