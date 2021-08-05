@@ -7,14 +7,15 @@ import { ContextHeader } from "../constants"
 
 import { AuthContext } from "../App"
 import FriendList from "./FriendList"
+import ChatMessage from "./ChatMessage"
 import { Card, Image, Row, Button, Col } from "react-bootstrap"
 import AvatarImage from "./AvatarImage"
 
 export default function Chat({}) {
   const { token, state, setState, refetch } = useContext(AuthContext)
   const [userID, setUserID] = useState("UserId!")
-  const [chatID, setChatID] = useState("ChatId!")
-  const [userNameChat, setUserNameChat] = useState("Rudis!")
+  const [chatID, setChatID] = useState("-")
+  const [userNameChat, setUserNameChat] = useState("My clone")
   const [chatAvatar, setChatAvatar] = useState()
   const [contentMessage, setContentMessage] = useState()
 
@@ -33,8 +34,8 @@ export default function Chat({}) {
   )
   const sendTheMessage = (e) => {
     e.preventDefault()
-  
-//    setChatID(item.chat)
+
+    //    setChatID(item.chat)
     console.log("contentMessage: ", contentMessage)
     sendMessage({
       variables: {
@@ -54,6 +55,17 @@ export default function Chat({}) {
     console.log(contentMessage)
   }
 
+  function findMyChats(userID) {
+    state?.friends &&
+      state?.friends
+        ?.filter((item) => {
+          return item.user === userID
+        })
+        .map((item) => {
+          return item.chat
+        })
+  }
+
   return !token ? (
     <div>You are NOT logged in</div>
   ) : (
@@ -68,7 +80,12 @@ export default function Chat({}) {
             id="user-search"
             name="user-search"
             onChange={(e) => {
-              console.log("typing", e.target.value)
+              //This is just fun, setting a different image as background
+              console.log("typing", e.target.value);
+              const imgUrl = `url(${e.target.value})`;
+
+              document.getElementById("chat-room")
+              .style.backgroundImage = imgUrl;
             }}
           />
           <div className="chat-users">
@@ -86,20 +103,33 @@ export default function Chat({}) {
           </div>
         </div>
 
-        <div className="chat-room">
+        <div className="chat-room" id="chat-room">
           <div className="user-info">
-            {userNameChat}/UserID: {userID}/{chatID}/
+            {userNameChat}
             <AvatarImage avatarUrl={chatAvatar} name={userNameChat} />
+            <br />
+            UserID: {userID} <br /> ChatID: {chatID}
           </div>
 
           <div className="conversation">
-            Many mgs...
-            <div className="message">hi</div>
+            All mgs...
+            {state?.friends &&
+              state?.friends
+                ?.filter((item) => {
+                  return item.user === userID
+                })
+                .map((item) => {
+                  return (
+                    <>
+                      <ChatMessage chatID={item.chat} />
+                    </>
+                  )
+                })}
             <div className="message">hola</div>
             <div className="message">hallo</div>
             <div className="message">hi</div>
-            <div className="message">hola</div>
             <div className="message">hallo</div>
+            <br/>
             {/*Find all chat for the selected user, show the ChatID's
              */}
             {state?.friends &&
@@ -108,7 +138,10 @@ export default function Chat({}) {
                   return item.user === userID
                 })
                 .map((item) => {
-                  return item.chat
+                 
+                 // setChatID(item.chat)
+                  return (`chatID: ${item.chat}` )
+                   
                 })}
           </div>
           {/*Do we nedd a element for the input? */}

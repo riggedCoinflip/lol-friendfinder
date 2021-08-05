@@ -14,14 +14,12 @@ import NotFound from "./components/NotFound"
 import Friends from "./components/Friends"
 import Chat from "./components/Chat"
 import FriendCard from "./components/FriendCard"
+import ChatMessage from "./components/ChatMessage"
 
 export const AuthContext = createContext()
 export default function App() {
   const [token, setToken] = useState(0)
   const [loadingToken, setloadingToken] = useState(true)
-  const [textWith, setTextWith] = useState("myself")
-
-  //const [profileInfo, setProfileInfo] = useState(0)
   const [state, setState] = useState(0)
 
   useEffect(() => {
@@ -53,7 +51,6 @@ export default function App() {
     if (data || !state) {
       //  refetch()
       setState(data?.userSelf)
-
       console.log("useEffect 2", state)
     }
   }, [data])
@@ -76,16 +73,10 @@ export default function App() {
           <Route exact path="/users" component={() => <Users />} />
           <Route exact path="/friends" component={() => <Friends />} />
           <Route exact path="/profile" component={() => <Profile />} />
-          <Route
-            exact
-            path="/chat"
-            component={() => <Chat textWith={textWith} />}
-          />
-          <Route
-            exact
-            path="/friendCard"
-            component={() => <FriendCard setTextWith={setTextWith} />}
-          />
+          <Route exact path="/chat" component={() => <Chat />} />
+         
+          <Route exact path="/friendCard" component={() => <FriendCard />} />
+          <Route exact path="/ChatMessage" component={() => <ChatMessage />} />
 
           <Route component={NotFound} />
         </Switch>

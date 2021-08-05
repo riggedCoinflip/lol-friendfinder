@@ -23,11 +23,16 @@ export default function FriendList({
   if (loading) return null
   if (error) return `Error! ${error}`
 
+  function showAge(age) {
+    if (age >= 0) return age
+    else return " "
+  }
+
   return (
     <>
       <Row>
         <div
-          className="flex-row"
+          className="flex-row padding5"
           id="div1"
           onClick={(e) => {
             e.preventDefault()
@@ -38,14 +43,20 @@ export default function FriendList({
           }}
         >
           <div id="div2" key={data.userOneById._id}>
-            {data.userOneById.name}
-
             <AvatarImage
               avatarUrl={data.userOneById.avatar}
               name={data.userOneById.name}
             />
-
           </div>
+          <div className="padding5">
+            <div>
+              {data.userOneById.name}
+            </div>
+            {showAge(data.userOneById?.age)}
+          </div>
+          <div>
+              {data.userOneById.aboutMe}
+            </div>
         </div>
       </Row>
     </>

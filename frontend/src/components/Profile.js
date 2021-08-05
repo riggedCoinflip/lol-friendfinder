@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState, React, createContext } from "react"
-import { GET_MY_INFO } from "../GraphQL/Queries"
+//import { GET_MY_INFO } from "../GraphQL/Queries"
 import { UPDATE_USER } from "../GraphQL/Mutations"
-import { useQuery, useMutation } from "@apollo/client"
+import {  useMutation } from "@apollo/client"
 import Languages from "./Languages"
 import ProfileImage from "./ProfileImageUpload"
 

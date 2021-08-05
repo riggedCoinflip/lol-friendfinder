@@ -20,7 +20,7 @@ export default function FriendCard({ userId, friendship, setTextWith }) {
   //Show age if this is setted up
   function showAge(age) {
     if (age >= 0) return age
-    else return "??"
+    else return "?"
   }
 
   const start_chat=(userId)=>{ setTextWith(userId)}

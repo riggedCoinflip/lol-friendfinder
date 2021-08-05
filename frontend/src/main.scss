@@ -69,23 +69,29 @@
 :root {
 --main-bg-color: #2b2e2e; 
 --main-text-color: white;
+--sec-bg-color: #2b2e2e;
 }
 
 .chat-container {
   display: flex;
   background-color: var(--main-bg-color);
-  color: var(--main-text-color);
+  color: var(--main-text-color); 
 }
 
 .chat-left-column {
   flex: 1;
+  background-color: var(--sec-bg-color);
+
 }
 
 .chat-room {
-  flex: 5;
+  flex: 4;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  background-image: url(https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80);
+  background-repeat: no-repeat;
+  background-size: auto;
 }
 
 .chat-users {  
