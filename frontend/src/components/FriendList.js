@@ -1,7 +1,6 @@
 import { useState, useEffect, React } from "react"
 import { GET_USER_BY_ID } from "../GraphQL/Queries"
 import { SEND_MESSAGE } from "../GraphQL/Mutations"
-import { useHistory } from "react-router-dom"
 
 import { useQuery, useMutation } from "@apollo/client"
 import { ContextHeader } from "../constants"
@@ -14,7 +13,6 @@ export default function FriendList({
   setUserNameChat,
   setChatAvatar,
 }) {
-  const history = useHistory()
 
   const { loading, error, data } = useQuery(GET_USER_BY_ID, {
     variables: { userId },

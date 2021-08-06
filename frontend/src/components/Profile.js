@@ -37,9 +37,9 @@ export default function Profile() {
 
   //use3
   useEffect(() => {
-    if (!state) {
+    if (!profile) {
       refetch()
-      console.log("We refetch", state)
+      console.log("We refetch", profile)
     }
   }, [])
 
@@ -47,7 +47,7 @@ export default function Profile() {
     UPDATE_USER,
     ContextHeader(token)
   )
-
+const [profile, setProfile] = useState(state)
   //Get users data
   // if (loading) return <p>Loading...</p>
   //if (error) return <p>Error, are you already logged in?!</p>
@@ -55,12 +55,11 @@ export default function Profile() {
   //console.log("Data Mutation:", dataUpdate)
   //  console.log(state)
   //console.table(data.userSelf)
-  console.log("stateP", state)
+  console.log("state", state)
+  console.log("profile", profile)
 
   const changeHandler = (e) => {
-    e.preventDefault()
-     e.persist() //important
-    setState((state) => ({ ...state, [e.target.name]: e.target.value }))
+   setProfile((profile) => ({ ...profile, [e.target.name]: e.target.value }))
   }
   
   /*
@@ -81,11 +80,11 @@ export default function Profile() {
   ) : (
     <div id="user-info">
       <Container>
-        <Card.Title className="text-left">{state?.name}</Card.Title>
+        <Card.Title className="text-left">{profile?.name}</Card.Title>
         <Form>
           <Row>
             <Col>
-              <ProfileImage setState={setState} state={state} />
+              <ProfileImage />
               {errored && (
                 <small id="fileUploadError" className="form-text text-muted">
                   something went wrong
@@ -100,7 +99,7 @@ export default function Profile() {
                 placeholder="yyyy-mm-dd"
                 /*type="date"*/
                 type="text"
-                value={limitDate(state?.dateOfBirth)}
+                value={limitDate(profile?.dateOfBirth)}
                 onChange={changeHandler}
                 onFocus={(e) => {
                   console.log("Focused on input")
@@ -117,7 +116,7 @@ export default function Profile() {
                   variant="success"
                   id="dropdown-gender"
                 >
-                  {state?.gender}
+                  {profile?.gender}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
@@ -130,8 +129,8 @@ export default function Profile() {
                             e.preventDefault()
 
                             console.log("Gender selected: ", selectedGender)
-                            setState((state) => ({
-                              ...state,
+                            setProfile((profile) => ({
+                              ...profile,
                               gender: selectedGender,
                             }))
                           }}
@@ -161,10 +160,10 @@ export default function Profile() {
             <Form.Control
               as="textarea"
               rows={3}
-              value={state?.aboutMe}
+              value={profile?.aboutMe}
               id="aboutMe"
-              onChange={changeHandler}
-              name="aboutMe"
+               onChange={changeHandler}
+             name="aboutMe"
               type="text"
             />
           </Row>
@@ -179,11 +178,11 @@ export default function Profile() {
                 e.preventDefault()
                 updateUser({
                   variables: {
-                    aboutMe: state.aboutMe,
-                    gender: state.gender,
-                    languages: state.languages,
-                    dateOfBirth: state.dateOfBirth,
-                    ingameRole: state.ingameRole,
+                    aboutMe: profile.aboutMe,
+                    gender: profile.gender,
+                    languages: profile.languages,
+                    dateOfBirth: profile.dateOfBirth,
+                    ingameRole: profile.ingameRole,
                   },
                 }).catch(() => {
                   setErrored(true)

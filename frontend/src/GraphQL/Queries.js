@@ -65,4 +65,15 @@ export const GET_USER_BY_ID = gql`
   }
 `
 
-
+export const GET_CHAT = gql`
+  query GET_CHAT($chatID: MongoID!  $page: Int) {
+    getChat(chatID: $chatID page: $page) {
+      participants
+      messages {
+        content
+        author
+        createdAt
+      }
+    }
+  }
+`

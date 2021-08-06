@@ -13,12 +13,13 @@ import AvatarImage from "./AvatarImage"
 
 export default function Chat({}) {
   const { token, state, setState, refetch } = useContext(AuthContext)
+  
   const [userID, setUserID] = useState("UserId!")
   const [chatID, setChatID] = useState("-")
   const [userNameChat, setUserNameChat] = useState("My clone")
   const [chatAvatar, setChatAvatar] = useState()
+  
   const [contentMessage, setContentMessage] = useState()
-
   const [errored, setErrored] = useState(false)
 
   useEffect(() => {
@@ -28,15 +29,20 @@ export default function Chat({}) {
     }
   }, [])
 
+ 
+
   const [sendMessage, { data: dataMessage }] = useMutation(
     SEND_MESSAGE,
     ContextHeader(token)
   )
+
   const sendTheMessage = (e) => {
     e.preventDefault()
 
     //    setChatID(item.chat)
     console.log("contentMessage: ", contentMessage)
+    console.log("chatID ", chatID,
+    )
     sendMessage({
       variables: {
         chatID: chatID,
@@ -45,9 +51,14 @@ export default function Chat({}) {
     }).catch(() => {
       setErrored(true)
     })
-    // alert("Msg sent")
-    setContentMessage()
+    /*
+    .then((res) => { 
+      console.log("Msg sent successfully", res)
+    })
+    */
+    setContentMessage("")
   }
+
   const messageHandler = (e) => {
     e.preventDefault()
     e.persist() //important
@@ -55,16 +66,6 @@ export default function Chat({}) {
     console.log(contentMessage)
   }
 
-  function findMyChats(userID) {
-    state?.friends &&
-      state?.friends
-        ?.filter((item) => {
-          return item.user === userID
-        })
-        .map((item) => {
-          return item.chat
-        })
-  }
 
   return !token ? (
     <div>You are NOT logged in</div>
@@ -113,6 +114,7 @@ export default function Chat({}) {
 
           <div className="conversation">
             All mgs...
+            <br />
             {state?.friends &&
               state?.friends
                 ?.filter((item) => {
@@ -121,6 +123,9 @@ export default function Chat({}) {
                 .map((item) => {
                   return (
                     <>
+                     <br />
+                    {item.chat}
+                    <br /> <br />
                       <ChatMessage chatID={item.chat} />
                     </>
                   )

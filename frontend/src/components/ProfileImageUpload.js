@@ -6,14 +6,15 @@ import { AuthContext } from "../App"
 
 export default function ProfileImage() {
   const [file, setFile] = useState()
-  const [errored, setErrored] = useState(false)
+  const [errored, setErrored] = useState("")
   const { token, state, setState } = useContext(AuthContext)
 
   const imageMaxSize = 1_000_000 // 1Mb
   const admittedImageFormats = ["png", "jpg", "jpeg"]
 
-  const urlAvatar = process.env.REACT_APP_HOST.slice(0, -8)+`/api/avatar` //Using REACT_APP_HOST and removing the section `/graphql`
+  const urlAvatar = process.env.REACT_APP_HOST.slice(0, -8) + `/api/avatar` //Using REACT_APP_HOST and removing the section `/graphql`
   //console.log("URLAvatar", process.env.REACT_APP_HOST.slice(0, -8))
+
 
   function fileSelectedHandler(e) {
     let imageType = e.target.files[0].type
@@ -24,21 +25,35 @@ export default function ProfileImage() {
     console.log("size", imageSize)
     console.log("target", target)
 
-    if (imageSize >= imageMaxSize) {
-      alert("Max image size is 1Mb")
-    }
-
     function formatValid() {
       return admittedImageFormats.some(
         (admittedImageFormats) => imageType === admittedImageFormats
       )
     }
-    setFile(target)
-    console.log(formatValid())
+
+    if (!formatValid()) {
+      setErrored(`File have to be "jpg", "jpeg", "png" `)
+    } else if (imageSize >= imageMaxSize) {
+      setErrored("Img too big")
+    } else {
+      setErrored(true)
+      setFile(target)
+      console.log(formatValid())
+    }
   }
 
+function disableBtn()
+{  
+const uploadBtn = document.getElementById("buttonUpload")
+uploadBtn.disabled = true
+uploadBtn.style.background='#000000';
+}
+
   function fileUploadHandler() {
-    console.log("uploading pic...", file.name)
+    errored
+      ? //console.log("There is a error", errored)
+      disableBtn()
+      : console.log("uploading pic...", file.name)
     const fd = new FormData()
     fd.append("avatar", file)
 
@@ -52,30 +67,28 @@ export default function ProfileImage() {
         setErrored(true)
       })*/
       .then((res) => {
-       
-     //  if(!errored){ 
+        //  if(!errored){
         console.log(res?.data?.location)
         setState((state) => ({ ...state, avatar: res?.data?.location }))
-      //}
+        //}
       })
   }
 
   return (
-    <div className="ProfileImage"class="center">
+    <div className="ProfileImage" class="center">
       <Image
         src={state?.avatar}
         width="300"
         height="300"
         alt="That's me"
         roundedCircle
-        
       />
       <br />
       {errored && (
-          <small id="loginHelpBlock" className="form-text text-muted">
-            File has to be png, jpg or jpeg
-          </small>
-        )}
+        <small id="loginHelpBlock" className="form-text text-muted">
+          {errored}
+        </small>
+      )}
 
       <br />
 
@@ -83,7 +96,13 @@ export default function ProfileImage() {
       <br />
       <br />
 
-      <Button variant="primary" size="sm" onClick={fileUploadHandler}>
+      <Button
+        id="buttonUpload"
+        name="buttonUpload"
+        variant="primary"
+        size="sm"
+        onClick={fileUploadHandler}
+      >
         Upload foto
       </Button>
     </div>

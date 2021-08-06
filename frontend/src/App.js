@@ -36,11 +36,12 @@ export default function App() {
   //Use1
 
   useEffect(() => {
-    if (data) setState(data.userSelf)
+    if (dataUserSelf) 
+    setState(dataUserSelf.userSelf)
     console.log("useEffect 1", state)
   }, [])
 
-  const { loading, error, data, refetch } = useQuery(
+  const { loading, error, data: dataUserSelf, refetch } = useQuery(
     GET_MY_INFO,
     ContextHeader(token),
     { pollInterval: 100 }
@@ -48,14 +49,14 @@ export default function App() {
 
   //Use2
   useEffect(() => {
-    if (data || !state) {
+    if (dataUserSelf || !state) {
       //  refetch()
-      setState(data?.userSelf)
+      setState(dataUserSelf?.userSelf)
       console.log("useEffect 2", state)
     }
-  }, [data])
+  }, [dataUserSelf])
 
-  console.log(data)
+  console.log(dataUserSelf)
   //If F5
 
   if (loadingToken) {

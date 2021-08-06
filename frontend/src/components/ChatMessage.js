@@ -1,66 +1,53 @@
-import { useQuery, gql, useApolloClient } from "@apollo/client"
-import { useState, useContext, React } from "react"
-//import { GET_CHAT } from "../GraphQL/Queries"
+import { useState, useEffect, useContext, React } from "react"
+
+import { useQuery, useApolloClient } from "@apollo/client"
+import { GET_CHAT } from "../GraphQL/Queries"
 
 import { ContextHeader } from "../constants"
 import { Card, Image, Row, Button, Col } from "react-bootstrap"
 import { AuthContext } from "../App"
 
-const GET_CHAT = gql`
-  query GET_CHAT($chatID: MongoID!) {
-    getChat(chatID: $chatID) {
-      participants
-      messages {
-        content
-        author
-        createdAt
-      }
-    }
-  }
-`
+
 export default function ChatMessage({ chatID }) {
   const client = useApolloClient()
 
   const { token, state, setState, refetch } = useContext(AuthContext)
   console.log("chatID ", chatID)
-  /*
-  const { loading, error, data: dataChat } = 
-  useQuery(GET_CHAT, ContextHeader(token),{
-    variables: { chatID },
-  })
-  */
+ 
 
   const { loading, error, data: dataChat } = useQuery(
     GET_CHAT,
-    ContextHeader(token),
-    { pollInterval: 100 },{
-      variables: { chatID },
+   ContextHeader(token),
+    //{ pollInterval: 100 },
+    {variables: { chatID, page: 1 },
     })
 
-  if (loading) return null
-  if (error) return `Error! ${error}`
+  if (loading) return "loading"
+  if (error) return (`Error! ${error} `)
  if(dataChat) return  "Data is there"
   
 /*
-  Submit(chatID).then((res) => {
-    console.log(res)
-  })
+  
 
   function Submit(chatID) {
     return client.query({
-      query: GET_CHAT,
-      variables: { chatID },
       context: ContextHeader(token),
-      
+      query: GET_CHAT,
+      variables: { chatID, page :1 }, 
     })
   }
+  Submit(chatID).then((res) => {
+    console.log(res)
+    alert(res)
+  })
 */
   return (
     <>
       <Row>
         <div id="div1">
-          {/*data.getChat.messages.content*/}
+          {/*console.log("dataChat: ", dataChat.getChat.messages.content)*/}
           No problem here
+          {token}
         </div>
       </Row>
     </>
