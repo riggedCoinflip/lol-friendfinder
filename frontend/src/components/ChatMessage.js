@@ -2,31 +2,32 @@ import { useState, useEffect, useContext, React } from "react"
 
 import { useQuery, useApolloClient } from "@apollo/client"
 import { GET_CHAT } from "../GraphQL/Queries"
+import { AuthContext } from "../App"
 
 import { ContextHeader } from "../constants"
 import { Card, Image, Row, Button, Col } from "react-bootstrap"
-import { AuthContext } from "../App"
-
 
 export default function ChatMessage({ chatID }) {
   const client = useApolloClient()
 
   const { token, state, setState, refetch } = useContext(AuthContext)
   console.log("chatID ", chatID)
- 
 
-  const { loading, error, data: dataChat } = useQuery(
+     const { loading, error, data: dataChat, } = useQuery(
     GET_CHAT,
-   ContextHeader(token),
-    //{ pollInterval: 100 },
-    {variables: { chatID, page: 1 },
-    })
+    ContextHeader(token),
+    { variables: { chatID, page: 1 } }, 
+    
+  )
+  if (loading) return "No error, loading";
+//If the error is deleted I can receive the data...
 
-  if (loading) return "loading"
-  if (error) return (`Error! ${error} `)
- if(dataChat) return  "Data is there"
-  
-/*
+
+//  if (error) return `Error! ${error} `;
+  if (dataChat) return "Data is there";
+  console.log("dataChat ", dataChat)
+
+  /*
   
 
   function Submit(chatID) {
@@ -41,6 +42,7 @@ export default function ChatMessage({ chatID }) {
     alert(res)
   })
 */
+
   return (
     <>
       <Row>

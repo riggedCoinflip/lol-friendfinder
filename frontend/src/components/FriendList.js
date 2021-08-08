@@ -3,7 +3,6 @@ import { GET_USER_BY_ID } from "../GraphQL/Queries"
 import { SEND_MESSAGE } from "../GraphQL/Mutations"
 
 import { useQuery, useMutation } from "@apollo/client"
-import { ContextHeader } from "../constants"
 import { Card, Image, Row, Button, Col } from "react-bootstrap"
 import AvatarImage from "./AvatarImage"
 

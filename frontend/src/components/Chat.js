@@ -2,10 +2,10 @@ import { useContext, useEffect, useState, React } from "react"
 import { GET_MY_INFO } from "../GraphQL/Queries"
 import { UPDATE_USER, SEND_MESSAGE } from "../GraphQL/Mutations"
 import { useQuery, useMutation } from "@apollo/client"
+import { AuthContext } from "../App"
 
 import { ContextHeader } from "../constants"
 
-import { AuthContext } from "../App"
 import FriendList from "./FriendList"
 import ChatMessage from "./ChatMessage"
 import { Card, Image, Row, Button, Col } from "react-bootstrap"

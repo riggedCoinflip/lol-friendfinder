@@ -4,7 +4,6 @@ import { SEND_MESSAGE } from "../GraphQL/Mutations"
 import { useHistory } from "react-router-dom"
 
 import { useQuery, useMutation } from "@apollo/client"
-import { ContextHeader } from "../constants"
 import { Card, Image, Row, Button, Col } from "react-bootstrap"
 
 export default function FriendCard({ userId, friendship, setTextWith }) {

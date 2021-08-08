@@ -5,6 +5,8 @@ import {  useMutation } from "@apollo/client"
 import Languages from "./Languages"
 import ProfileImage from "./ProfileImageUpload"
 
+//import Test from "./Test"
+
 import IngameRoles from "./IngameRoles"
 import { ContextHeader } from "../constants"
 import { AuthContext } from "../App"
@@ -79,6 +81,9 @@ const [profile, setProfile] = useState(state)
     <div>You are NOT logged in</div>
   ) : (
     <div id="user-info">
+     
+     
+
       <Container>
         <Card.Title className="text-left">{profile?.name}</Card.Title>
         <Form>
