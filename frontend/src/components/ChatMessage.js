@@ -15,15 +15,18 @@ export default function ChatMessage({ chatID }) {
 
      const { loading, error, data: dataChat, } = useQuery(
     GET_CHAT,
-    ContextHeader(token),
-    { variables: { chatID, page: 1 } }, 
-    
-  )
-  if (loading) return "No error, loading";
-//If the error is deleted I can receive the data...
+    {
+        variables: {
+            chatID,
+            page: 1
+        },
+        context: ContextHeader(token),
+        pollInterval: 100
+    })
 
+if (loading) return "No error, loading";
 
-//  if (error) return `Error! ${error} `;
+ if (error) return `Error! ${error} `;
   if (dataChat) return "Data is there";
   console.log("dataChat ", dataChat)
 
