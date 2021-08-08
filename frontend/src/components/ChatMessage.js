@@ -17,9 +17,13 @@ export default function ChatMessage({ chatID }) {
 
   const { loading, error, data: dataChat } = useQuery(
     GET_CHAT,
-   ContextHeader(token),
-    //{ pollInterval: 100 },
-    {variables: { chatID, page: 1 },
+    {
+        variables: {
+            chatID,
+            page: 1
+        },
+        context: ContextHeader(token),
+        pollInterval: 100
     })
 
   if (loading) return "loading"
