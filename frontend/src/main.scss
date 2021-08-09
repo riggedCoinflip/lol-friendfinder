@@ -76,12 +76,14 @@
   display: flex;
   background-color: var(--main-bg-color);
   color: var(--main-text-color); 
+  height: 100%;
+  margin:0;
+  padding:0;
 }
 
 .chat-left-column {
   flex: 1;
   background-color: var(--sec-bg-color);
-
 }
 
 .chat-room {
@@ -95,6 +97,10 @@
 }
 
 .chat-users {  
+  flex: 1;
+ 
+}
+.user-info {  
   flex: 1;
 }
 

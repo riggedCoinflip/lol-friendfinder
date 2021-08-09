@@ -25,7 +25,7 @@ function MyNavbar() {
                 Users
               </Link>
               <Link to="/friends" className="nav-link">
-                Friends
+                Friends(toBeDeleted)
                
               </Link>
               <Link to="/chat" className="nav-link">
