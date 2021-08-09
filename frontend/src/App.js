@@ -43,7 +43,7 @@ export default function App() {
 
   const { loading, error, data: dataUserSelf, refetch } = useQuery(
     GET_MY_INFO,
-    ContextHeader(token),
+   ContextHeader(token),
     { pollInterval: 100 }
   )
 
@@ -58,6 +58,7 @@ export default function App() {
 
   console.log(dataUserSelf)
   //If F5
+ // if (error) return `Error! ${error} `;
 
   if (loadingToken) {
     return <p>loading ...</p>
