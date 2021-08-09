@@ -117,3 +117,33 @@
 
 
 
+.justifyStart {
+  justify-content: flex-start;
+}
+
+.justifyEnd {
+  justify-content: flex-end;
+}
+
+.messageContainer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 5%;
+  margin-top: 3px;
+}
+
+.messageBox {
+  background: #F3F3F3;
+  border-radius: 20px;
+  padding: 5px 20px;
+  color: white;
+  display: inline-block;
+  max-width: 80%;
+}
+.backgroundBlue {
+  background: #3f444d;
+}
+
+.backgroundLight {
+  background: #F3F3F3;
+}

@@ -1,10 +1,8 @@
 import { useContext, useEffect, useState, React } from "react"
-import { GET_MY_INFO } from "../GraphQL/Queries"
-import { UPDATE_USER, SEND_MESSAGE } from "../GraphQL/Mutations"
-import { useQuery, useMutation } from "@apollo/client"
+import { SEND_MESSAGE } from "../GraphQL/Mutations"
+import { useApolloClient } from "@apollo/client"
 import { AuthContext } from "../App"
-
-import { ContextHeader } from "../constants"
+import { Headers } from "../constants"
 
 import FriendList from "./FriendList"
 import ChatMessage from "./ChatMessage"
@@ -12,13 +10,16 @@ import { Card, Image, Row, Button, Col } from "react-bootstrap"
 import AvatarImage from "./AvatarImage"
 
 export default function Chat({}) {
+  const client = useApolloClient()
+
   const { token, state, setState, refetch } = useContext(AuthContext)
-  
+
   const [userID, setUserID] = useState("UserId!")
   const [chatID, setChatID] = useState("-")
   const [userNameChat, setUserNameChat] = useState("My clone")
   const [chatAvatar, setChatAvatar] = useState()
-  
+  const [selected, setSelected] = useState()
+
   const [contentMessage, setContentMessage] = useState()
   const [errored, setErrored] = useState(false)
 
@@ -29,20 +30,44 @@ export default function Chat({}) {
     }
   }, [])
 
- 
+  /*
 
   const [sendMessage, { data: dataMessage }] = useMutation(
     SEND_MESSAGE,
     ContextHeader(token)
   )
+*/
+  function sendMessage(chatID, content) {
+    return client.mutate({
+      context: Headers(token),
+      mutation: SEND_MESSAGE,
+      variables: {
+        chatID: chatID,
+        content: contentMessage,
+      },
+    })
+  }
 
-  const sendTheMessage = (e) => {
+  const sendTheMessageNow = (e) => {
     e.preventDefault()
 
+    sendMessage(chatID, contentMessage)
+      .then((res) => {
+        console.log("chatID: ", chatID)
+        console.log("contentMessage: ", contentMessage)
+
+        console.log("response: ", res?.data?.sendMessage)
+        setContentMessage("")
+        refetch()
+      })
+      .catch((err) => {
+        setErrored(true)
+        console.error(`Error in SendMessage: ${err}`)
+      })
+    /*
     //    setChatID(item.chat)
     console.log("contentMessage: ", contentMessage)
-    console.log("chatID ", chatID,
-    )
+    console.log("chatID ", chatID)
     sendMessage({
       variables: {
         chatID: chatID,
@@ -51,12 +76,12 @@ export default function Chat({}) {
     }).catch(() => {
       setErrored(true)
     })
-    /*
+    
     .then((res) => { 
       console.log("Msg sent successfully", res)
     })
-    */
-    setContentMessage("")
+    
+    setContentMessage("")*/
   }
 
   const messageHandler = (e) => {
@@ -64,8 +89,8 @@ export default function Chat({}) {
     e.persist() //important
     setContentMessage(e.target.value)
     console.log(contentMessage)
+    console.log("chatID", chatID)
   }
-
 
   return !token ? (
     <div>You are NOT logged in</div>
@@ -82,11 +107,11 @@ export default function Chat({}) {
             name="user-search"
             onChange={(e) => {
               //This is just fun, setting a different image as background
-              console.log("typing", e.target.value);
-              const imgUrl = `url(${e.target.value})`;
+              console.log("typing", e.target.value)
+              const imgUrl = `url(${e.target.value})`
 
-              document.getElementById("chat-room")
-              .style.backgroundImage = imgUrl;
+              document.getElementById("chat-room").style.backgroundImage =
+                imgUrl
             }}
           />
           <div className="chat-users">
@@ -109,12 +134,11 @@ export default function Chat({}) {
             {userNameChat}
             <AvatarImage avatarUrl={chatAvatar} name={userNameChat} />
             <br />
-            UserID: {userID} <br /> ChatID: {chatID}
+            UserID: {userID}
           </div>
 
           <div className="conversation">
-            All mgs...
-            <br />
+            {/*Find the conversation for selected user/friend*/}
             {state?.friends &&
               state?.friends
                 ?.filter((item) => {
@@ -123,31 +147,15 @@ export default function Chat({}) {
                 .map((item) => {
                   return (
                     <>
-                     <br />
-                    {item.chat}
-                    <br /> <br />
+                      <br />
+                      ChatID: {item.chat}
+                      <br />
                       <ChatMessage chatID={item.chat} />
                     </>
                   )
                 })}
-            <div className="message">hola</div>
-            <div className="message">hallo</div>
-            <div className="message">hi</div>
-            <div className="message">hallo</div>
-            <br/>
-            {/*Find all chat for the selected user, show the ChatID's
-             */}
-            {state?.friends &&
-              state?.friends
-                ?.filter((item) => {
-                  return item.user === userID
-                })
-                .map((item) => {
-                 
-                 // setChatID(item.chat)
-                  return (`chatID: ${item.chat}` )
-                   
-                })}
+
+            <br />
           </div>
           {/*Do we nedd a element for the input? */}
 
@@ -166,7 +174,7 @@ export default function Chat({}) {
               className="send-button"
               variant="primary"
               size="sm"
-              onClick={sendTheMessage}
+              onClick={sendTheMessageNow}
             >
               Send
             </Button>

@@ -4,57 +4,78 @@ import { useQuery, useApolloClient } from "@apollo/client"
 import { GET_CHAT } from "../GraphQL/Queries"
 import { AuthContext } from "../App"
 
-import { ContextHeader } from "../constants"
+import { Headers } from "../constants"
 import { Card, Image, Row, Button, Col } from "react-bootstrap"
 
 export default function ChatMessage({ chatID }) {
   const client = useApolloClient()
 
-  const { token, state, setState, refetch } = useContext(AuthContext)
-  console.log("chatID ", chatID)
-
-     const { loading, error, data: dataChat, } = useQuery(
-    GET_CHAT,
-    {
-        variables: {
-            chatID,
-            page: 1
-        },
-        context: ContextHeader(token),
-        pollInterval: 100
-    })
-
-if (loading) return "No error, loading";
-
- if (error) return `Error! ${error} `;
-  if (dataChat) return "Data is there";
-  console.log("dataChat ", dataChat)
-
   /*
-  
+  useEffect(() => {
+    if (conversation) 
+    console.log("useEffect")  
+  }, [])
+*/
 
-  function Submit(chatID) {
+  const { token, state, setState, refetch } = useContext(AuthContext)
+  const [conversation, setConversation] = useState()
+  const [conversation2, setConversation2] = useState()
+
+  const [participants, setParticipants] = useState()
+
+  function GetMessage(chatID) {
     return client.query({
-      context: ContextHeader(token),
+      context: Headers(token),
       query: GET_CHAT,
-      variables: { chatID, page :1 }, 
+      variables: { chatID, page: 1 },
     })
   }
-  Submit(chatID).then((res) => {
-    console.log(res)
-    alert(res)
+
+  GetMessage(chatID).then((res) => {
+  //  console.log("GetConversation", res)
+    setConversation(res?.data?.getChat?.messages)
+    console.log("Conversation(State)", conversation)
+   // console.log("TypeOf: ", typeof conversation)
   })
+
+    //to order the messages in the right way
+/*
+  function orderC(conversation) {
+    setConversation2(Object.assign([], conversation).reverse())
+    //setConversation(CInverted)
+    console.log("CInverted(State)", conversation2)
+    console.log("CInverted(State)", typeof conversation2)
+  }
+  orderC(conversation)
 */
+  // differ between my and message from other users 
+  //let isSentByCurrentUser = false;
+
+  // const messageContainer = document.getElementById('oneMsg')
 
   return (
     <>
-      <Row>
-        <div id="div1">
-          {/*console.log("dataChat: ", dataChat.getChat.messages.content)*/}
-          No problem here
-          {token}
-        </div>
-      </Row>
+      {conversation &&
+        conversation.map((msg, index) => {
+          /*
+          if(conversation?.author === state._id){
+         messageContainer.style.justifyContent = 'flex-start'
+         messageContainer.style.color = 'red'         
+        }
+         */
+
+          return (
+            <div key={msg?._id} id="oneMsg">
+              <div className="messageContainer justifyEnd">
+                {/*  <p >{msg?.author}</p> */}
+                <div className="">
+                  <p> {msg?.content}/</p>
+                </div>
+                <p> {msg?.createdAt}</p>
+              </div>
+            </div>
+          )
+        })}
     </>
   )
 }

@@ -79,15 +79,6 @@ const Languages = () => {
                   <Dropdown.Item
                     onClick={(e) => {
                       e.preventDefault()
-
-                      //adding another language
-                      /* setState((state) => ({ ...state, 
-                        languages: item.alpha2 }))
-                     */
-                      /*state.languages((local_Languages) => [
-                        ...local_Languages,
-                        item.alpha2,
-                      ])*/
                       let newArr = state.languages // newArr.push("es")
                       console.log(newArr[0]) //Object
 

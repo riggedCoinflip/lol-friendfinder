@@ -1,11 +1,9 @@
-import { useContext, useEffect, useState, React, createContext } from "react"
+import { useContext, useEffect, useState, React } from "react"
 //import { GET_MY_INFO } from "../GraphQL/Queries"
 import { UPDATE_USER } from "../GraphQL/Mutations"
 import {  useMutation } from "@apollo/client"
 import Languages from "./Languages"
 import ProfileImage from "./ProfileImageUpload"
-
-//import Test from "./Test"
 
 import IngameRoles from "./IngameRoles"
 import { ContextHeader } from "../constants"
