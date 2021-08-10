@@ -1,5 +1,4 @@
 import { useState,  useContext, React } from "react"
-
 import {  useApolloClient } from "@apollo/client"
 import { GET_CHAT } from "../GraphQL/Queries"
 import { AuthContext } from "../App"
@@ -15,9 +14,9 @@ export default function ChatMessage({ chatID }) {
   }, [])
 */
 
-  const { token, state, setState, refetch } = useContext(AuthContext)
+  const { token } = useContext(AuthContext)
   const [conversation, setConversation] = useState()
-  const [conversation2, setConversation2] = useState()
+ // const [conversation2, setConversation2] = useState()
 
   const [participants, setParticipants] = useState()
 

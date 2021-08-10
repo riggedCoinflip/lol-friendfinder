@@ -10,6 +10,7 @@ export default function FriendList({
   setUserID,
   setUserNameChat,
   setChatAvatar,
+  setSelectedChatID,
   searchUser,
 }) {
   const { loading, error, data } = useQuery(GET_USER_BY_ID, {
@@ -39,6 +40,8 @@ export default function FriendList({
                 e.preventDefault()
                 //alert(data.userOneById._id)
                 setUserID(data.userOneById._id)
+               // const foundChat= userId.find((item) => item === data.userOneById._id ).chat
+               // setSelectedChatID(foundChat)
                 setUserNameChat(data.userOneById.name)
                 setChatAvatar(data.userOneById.avatar)
               }}

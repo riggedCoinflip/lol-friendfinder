@@ -18,7 +18,7 @@ export const AuthContext = createContext()
 export default function App() {
   const [token, setToken] = useState(0)
   const [loadingToken, setloadingToken] = useState(true)
-  const [state, setState] = useState(0)
+  const [state, setState] = useState()
 
   useEffect(() => {
     const call = async () => {
