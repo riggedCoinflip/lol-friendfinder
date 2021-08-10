@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState, React } from "react"
-//import { GET_MY_INFO } from "../GraphQL/Queries"
 import { UPDATE_USER } from "../GraphQL/Mutations"
 import {  useMutation } from "@apollo/client"
 import Languages from "./Languages"
@@ -52,9 +51,7 @@ const [profile, setProfile] = useState(state)
   // if (loading) return <p>Loading...</p>
   //if (error) return <p>Error, are you already logged in?!</p>
 
-  //console.log("Data Mutation:", dataUpdate)
-  //  console.log(state)
-  //console.table(data.userSelf)
+ 
   console.log("state", state)
   console.log("profile", profile)
 

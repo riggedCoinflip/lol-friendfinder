@@ -6,7 +6,7 @@ import { Headers } from "../constants"
 
 import FriendList from "./FriendList"
 import ChatMessage from "./ChatMessage"
-import { Card, Image, Row, Button, Col } from "react-bootstrap"
+import {  Button} from "react-bootstrap"
 import AvatarImage from "./AvatarImage"
 
 export default function Chat({}) {

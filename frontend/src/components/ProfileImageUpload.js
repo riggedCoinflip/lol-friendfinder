@@ -1,4 +1,4 @@
-import { useState, useEffect, React, useContext } from "react"
+import { useState, React, useContext } from "react"
 import axios from "axios"
 import { Button, Image } from "react-bootstrap"
 import { TOKEN } from "../constants"
@@ -75,7 +75,7 @@ uploadBtn.style.background='#000000';
   }
 
   return (
-    <div className="ProfileImage" class="center">
+    <div className="ProfileImage center" >
       <Image
         src={state?.avatar}
         width="300"

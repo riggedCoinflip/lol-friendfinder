@@ -1,11 +1,9 @@
-import { useState, useEffect, useContext, React } from "react"
+import { useState,  useContext, React } from "react"
 
-import { useQuery, useApolloClient } from "@apollo/client"
+import {  useApolloClient } from "@apollo/client"
 import { GET_CHAT } from "../GraphQL/Queries"
 import { AuthContext } from "../App"
-
 import { Headers } from "../constants"
-import { Card, Image, Row, Button, Col } from "react-bootstrap"
 
 export default function ChatMessage({ chatID }) {
   const client = useApolloClient()

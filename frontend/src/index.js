@@ -31,6 +31,7 @@ const link = onError(({ graphQLErrors, networkError }) => {
       );
     if (networkError) console.log(`[Network error]: ${networkError}`);
   });
+  
 render(
     <Router>
         <ApolloProvider client={client}>

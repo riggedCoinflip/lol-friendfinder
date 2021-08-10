@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { useEffect, useState, React, useContext } from "react"
+import { useEffect, React, useContext } from "react"
 import { Navbar, Nav } from "react-bootstrap"
 import { AuthContext } from "../App"
 
@@ -25,10 +25,6 @@ function MyNavbar() {
 
               <Nav.Link eventKey="2">  <Link to="/users" className="nav-link">
                 Users
-              </Link></Nav.Link>
-              <Nav.Link eventKey="2"><Link to="/friends" className="nav-link">
-                Friends(toBeDeleted)
-               
               </Link></Nav.Link>
            <Nav.Link eventKey="2">   <Link to="/chat" className="nav-link">
                 Chat
