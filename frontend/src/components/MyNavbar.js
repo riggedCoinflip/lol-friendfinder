@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { useEffect, useState, React, useContext } from "react"
-import { Navbar } from "react-bootstrap"
+import { Navbar, Nav } from "react-bootstrap"
 import { AuthContext } from "../App"
 
 function MyNavbar() {
@@ -17,32 +17,34 @@ function MyNavbar() {
         <Navbar.Collapse id="basic-navbar-nav">
           {token && (
             <>
-              <Link to="/profile" className="nav-link">
-                Profile
-              </Link>
+             
 
-              <Link to="/users" className="nav-link">
+             <Nav.Link eventKey="2"> <Link to="/profile" className="nav-link">
+                Profile
+              </Link></Nav.Link>
+
+              <Nav.Link eventKey="2">  <Link to="/users" className="nav-link">
                 Users
-              </Link>
-              <Link to="/friends" className="nav-link">
+              </Link></Nav.Link>
+              <Nav.Link eventKey="2"><Link to="/friends" className="nav-link">
                 Friends(toBeDeleted)
                
-              </Link>
-              <Link to="/chat" className="nav-link">
+              </Link></Nav.Link>
+           <Nav.Link eventKey="2">   <Link to="/chat" className="nav-link">
                 Chat
-              </Link>
+              </Link></Nav.Link>
             </>
           )}
 
           <Navbar.Brand className="mx-auto order-0 justify-content-md-center">
-            <Link to="/" className="nav-link order-0" type="button">
+           <Nav.Link eventKey="2">  <Link to="/" className="nav-link order-0" type="button">
               Hooked
-            </Link>
+            </Link></Nav.Link>
           </Navbar.Brand>
 
           {token ? (
             <div className="nav-item">
-              <Link
+              <Nav.Link eventKey="2"> <Link
                 value="Logout"
                 to="/login"
                 className="nav-link"
@@ -53,18 +55,18 @@ function MyNavbar() {
                 }}
               >
                 Logout
-              </Link>
+              </Link></Nav.Link>
             </div>
           ) : (
             <>
               <div className="nav-item" value="Signup">
-                <Link to="/signup" className="nav-link text-warning">
+              <Nav.Link eventKey="2"> <Link to="/signup" className="nav-link text-warning">
                   Signup for free!
-                </Link>
+                </Link></Nav.Link>
               </div>
 
               <div className="nav-item" value="Login">
-                <Link
+              <Nav.Link eventKey="2"> <Link
                   to="/login"
                   className="nav-link"
                   onClick={() => {
@@ -72,10 +74,12 @@ function MyNavbar() {
                   }}
                 >
                   Login
-                </Link>
+                </Link></Nav.Link>
               </div>
             </>
           )}
+            
+
         </Navbar.Collapse>
       </Navbar>
     </div>
