@@ -18,6 +18,7 @@ export const GET_MY_INFO = gql`
       dateOfBirth
       friends {
         user
+        chat
       }
       blocked
     }
@@ -55,6 +56,24 @@ export const GET_USER_BY_ID = gql`
       _id
       name
       languages
+      gender
+      avatar
+      age
+      languages
+      aboutMe
+    }
+  }
+`
+
+export const GET_CHAT = gql`
+  query GET_CHAT($chatID: MongoID!  $page: Int) {
+    getChat(chatID: $chatID page: $page) {
+      participants
+      messages {
+        content
+        author
+        createdAt
+      }
     }
   }
 `

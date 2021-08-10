@@ -1,13 +1,11 @@
 import { useContext, useEffect, useState, React } from "react"
-import { GET_MY_INFO } from "../GraphQL/Queries"
 import { UPDATE_USER } from "../GraphQL/Mutations"
-import { useQuery, useMutation } from "@apollo/client"
+import {  useMutation } from "@apollo/client"
 import Languages from "./Languages"
-import ProfileImage from "./ProfileImage"
+import ProfileImage from "./ProfileImageUpload"
 
 import IngameRoles from "./IngameRoles"
 import { ContextHeader } from "../constants"
-
 import { AuthContext } from "../App"
 
 import {
@@ -22,8 +20,7 @@ import {
 } from "react-bootstrap"
 
 export default function Profile() {
-  const { token } = useContext(AuthContext)
-  const [state, setState] = useState({})
+  const { token, state, setState, refetch } = useContext(AuthContext)
   const [errored, setErrored] = useState(false)
 
   const genderOptions = [
@@ -37,53 +34,37 @@ export default function Profile() {
     "I_prefer_not_to_say",
   ]
 
-  const { loading, error, data, refetch } = useQuery(
-    GET_MY_INFO,
-    ContextHeader(token),
-    { pollInterval: 100 }
-  )
-
+  //use3
   useEffect(() => {
-    if (data || !state) {
-      //  refetch()
-      setState(data?.userSelf)
-
-      console.log("State from useEffect", state)
-    }
-  }, [data])
-
-  useEffect(() => {
-    if (token) {
+    if (!profile) {
       refetch()
-      setState(data?.userSelf)
+      console.log("We refetch", profile)
     }
-
-    // setState(data?.userSelf)
-  }, [token])
-  console.log(data)
-  //If F5
+  }, [])
 
   const [updateUser, { data: dataUpdate }] = useMutation(
     UPDATE_USER,
     ContextHeader(token)
   )
-
+const [profile, setProfile] = useState(state)
   //Get users data
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error, are you already logged in?!</p>
+  // if (loading) return <p>Loading...</p>
+  //if (error) return <p>Error, are you already logged in?!</p>
 
-  //console.log("Data Mutation:", dataUpdate)
-  console.table(data.userSelf)
+ 
+  console.log("state", state)
+  console.log("profile", profile)
 
   const changeHandler = (e) => {
-    e.persist() //important
-    setState((state) => ({ ...state, [e.target.name]: e.target.value }))
+   setProfile((profile) => ({ ...profile, [e.target.name]: e.target.value }))
   }
-
+  
+  /*
   const getValuesFromChild = (values) => {
     console.log("value from child", values)
     //   console.log('State getValuesFromChild: ', state.languages);
   }
+  */
   //console.log("STATE.dateOfBirth", state?.dateOfBirth)
 
   function limitDate(input) {
@@ -95,12 +76,15 @@ export default function Profile() {
     <div>You are NOT logged in</div>
   ) : (
     <div id="user-info">
+     
+     
+
       <Container>
-        <Card.Title className="text-left">{state?.name}</Card.Title>
+        <Card.Title className="text-left">{profile?.name}</Card.Title>
         <Form>
           <Row>
             <Col>
-              <ProfileImage setState={setState} state={state} />
+              <ProfileImage />
               {errored && (
                 <small id="fileUploadError" className="form-text text-muted">
                   something went wrong
@@ -110,13 +94,19 @@ export default function Profile() {
             <Col>
               Date of birth
               <FormControl
-                id="dateOfBirth"
+               
                 name="dateOfBirth"
                 placeholder="yyyy-mm-dd"
                 /*type="date"*/
                 type="text"
-                value={limitDate(state?.dateOfBirth)}
+                value={limitDate(profile?.dateOfBirth)}
                 onChange={changeHandler}
+                onFocus={(e) => {
+                  console.log("Focused on input")
+                }}
+                onBlur={(e) => {
+                  console.log("onBlur")
+                }}
               />
               <br />
               {/**/}
@@ -126,7 +116,7 @@ export default function Profile() {
                   variant="success"
                   id="dropdown-gender"
                 >
-                  {state?.gender}
+                  {profile?.gender}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
@@ -139,8 +129,8 @@ export default function Profile() {
                             e.preventDefault()
 
                             console.log("Gender selected: ", selectedGender)
-                            setState((state) => ({
-                              ...state,
+                            setProfile((profile) => ({
+                              ...profile,
                               gender: selectedGender,
                             }))
                           }}
@@ -155,32 +145,25 @@ export default function Profile() {
                 </Dropdown.Menu>
               </Dropdown>
               <br />
-              <Languages
-                getValuesFromChild={getValuesFromChild}
-                state={state}
-                setState={setState}
-              />
+              <Languages />
               <br />
-              <IngameRoles
-                getValuesFromChild={getValuesFromChild}
-                state={state}
-                setState={setState}
-              />
+              <IngameRoles />
+              {/*  */}
             </Col>{" "}
           </Row>
           <br />
 
           <Row>
-            <Form.Text className="text-muted">About me</Form.Text>
+            <Form.Text>About me</Form.Text>
           </Row>
           <Row>
             <Form.Control
               as="textarea"
               rows={3}
-              value={state?.aboutMe}
+              value={profile?.aboutMe}
               id="aboutMe"
-              onChange={changeHandler}
-              name="aboutMe"
+               onChange={changeHandler}
+             name="aboutMe"
               type="text"
             />
           </Row>
@@ -195,18 +178,18 @@ export default function Profile() {
                 e.preventDefault()
                 updateUser({
                   variables: {
-                    aboutMe: state.aboutMe,
-                    gender: state.gender,
-                    languages: state.languages,
-                    dateOfBirth: state.dateOfBirth,
-                    ingameRole: state.ingameRole,
+                    aboutMe: profile.aboutMe,
+                    gender: profile.gender,
+                    languages: profile.languages,
+                    dateOfBirth: profile.dateOfBirth,
+                    ingameRole: profile.ingameRole,
                   },
                 }).catch(() => {
                   setErrored(true)
                 })
                 alert("Data was updated")
                 //get new data after mutation
-                refetch()
+                // refetch()
               }}
             >
               {" "}

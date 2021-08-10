@@ -1,72 +1,81 @@
 import { Link } from "react-router-dom"
-import { useEffect, useState, React, useContext } from "react"
-import { Navbar } from "react-bootstrap"
+import { useEffect, React, useContext } from "react"
+import { Navbar, Nav } from "react-bootstrap"
 import { AuthContext } from "../App"
 
 function MyNavbar() {
-  const [logged, setLogged] = useState(false)
-  const { token, setToken } = useContext(AuthContext)
+  const { token, setToken, setState } = useContext(AuthContext)
 
   useEffect(() => {
     console.log("Token changed ", token)
-    token ? setLogged(true) : setLogged(false)
-    //  return ( ) =>{    console.log("Token setted(null) ", TOKEN)}
-  }, [token, logged])
+  }, [token])
 
   return (
     <div>
-      <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
+      <Navbar className="navbar" collapseOnSelect expand="md" bg="dark" variant="dark">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Link to="/profile" className="nav-link">
-            Profile
-          </Link>
+          {token && (
+            <>
+             
 
-          <Link to="/users" className="nav-link">
-            Users
-          </Link>
-          <Link to="/friends" className="nav-link">
-            Friends
-          </Link>
+             <Nav.Link eventKey="2"> <Link to="/profile" className="nav-link">
+                Profile
+              </Link></Nav.Link>
+
+              <Nav.Link eventKey="2">  <Link to="/users" className="nav-link">
+                Users
+              </Link></Nav.Link>
+           <Nav.Link eventKey="2">   <Link to="/chat" className="nav-link">
+                Chat
+              </Link></Nav.Link>
+            </>
+          )}
+
           <Navbar.Brand className="mx-auto order-0 justify-content-md-center">
-            <Link to="/" className="nav-link order-0" type="button">
+           <Nav.Link eventKey="2">  <Link to="/" className="nav-link order-0" type="button">
               Hooked
-            </Link>
+            </Link></Nav.Link>
           </Navbar.Brand>
 
-          {!logged && (
-            <Link to="/signup" className="nav-link text-warning">
-              Signup for free!
-            </Link>
-          )}
-          {logged ? (
+          {token ? (
             <div className="nav-item">
-              <Link
+              <Nav.Link eventKey="2"> <Link
                 value="Logout"
                 to="/login"
                 className="nav-link"
                 onClick={() => {
                   setToken(null)
                   localStorage.clear()
+                  setState(null)
                 }}
               >
                 Logout
-              </Link>
+              </Link></Nav.Link>
             </div>
           ) : (
-            //if TOKEN === undefined, null...
-            <div className="nav-item" value="Login">
-              <Link
-                to="/login"
-                className="nav-link"
-                onClick={() => {
-                  setToken(localStorage.getItem("SECREToken"))
-                }}
-              >
-                Login
-              </Link>
-            </div>
+            <>
+              <div className="nav-item" value="Signup">
+              <Nav.Link eventKey="2"> <Link to="/signup" className="nav-link text-warning">
+                  Signup for free!
+                </Link></Nav.Link>
+              </div>
+
+              <div className="nav-item" value="Login">
+              <Nav.Link eventKey="2"> <Link
+                  to="/login"
+                  className="nav-link"
+                  onClick={() => {
+                    setToken(localStorage.getItem("SECREToken"))
+                  }}
+                >
+                  Login
+                </Link></Nav.Link>
+              </div>
+            </>
           )}
+            
+
         </Navbar.Collapse>
       </Navbar>
     </div>

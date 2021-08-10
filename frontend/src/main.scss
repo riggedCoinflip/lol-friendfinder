@@ -1,13 +1,160 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 .nav-link {
-    
-    color: rgb(161, 153, 152);
+  color: rgb(161, 153, 152);
+}
+
+.form-control {
+  padding: 5px;
+  width: 80%;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgb(148, 93, 165);
+  margin: 5px;
+  padding: 10px;
+  align-items: center;
+  border-radius: 15px;
+}
+
+.flex-container > div {
+  background-color: #f1f1f1;
+  width: 100px;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+  align-items: center;
+  border-radius: 15px;
+}
+
+//Margin for the buttons
+.btn-sm,
+.btn-group-sm > .btn {
+  margin: 10px;
+}
+
+.padding {
+  padding: 35px;
+}
+
+.padding5 {
+  padding: 5px;
+}
+
+.dot {
+  height: 200px;
+  width: 200px;
+  background-color: rgb(219, 139, 139);
+  border-radius: 50%;
+  display: flex;
+}
+.dot-mini {
+  height: 50px;
+  width: 50px;
+  background-color: rgb(219, 139, 139);
+  border-radius: 50%;
+  display: flex;
+  font-size: 20px;
+}
+//Just centering the first letter
+.center-me {
+  
+  margin: auto;
+}
+
+//CSS for Chat
+:root {
+--main-bg-color: #2b2e2e; 
+--main-text-color: white;
+--sec-bg-color: #2b2e2e;
+}
+
+.chat-container {
+  display: flex;
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color); 
+   margin:0;
+  padding:0;
+}
+
+.chat-left-column {
+  flex: 1;
+  background-color: var(--sec-bg-color);
+  height: 100vh;
 
 }
 
-.form-control{
-    padding: 5px;
-    width: 80%;
-   
+.chat-room {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+ background-image: url();
+  background-repeat: no-repeat;
+  background-size: auto;
+
 }
+
+.chat-users {  
+  flex: 1;
+ 
+}
+.user-info {  
+  flex: 1;
+}
+
+.message-field {
+  display: flex;
+}
+
+.message-text, .user-search {
+  flex: 1;
+  background-color: var(--main-bg-color);
+  color:var(--main-text-color);
+}
+
+ 
+.flex-row{
+  display: flex;
+  flex-direction: row;
+
+}
+
+
+
+.justifyStart {
+  justify-content: flex-start;
+}
+
+.justifyEnd {
+  justify-content: flex-end;
+}
+
+.messageContainer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 5%;
+  margin-top: 3px;
+}
+
+.messageBox {
+  background: #F3F3F3;
+  border-radius: 20px;
+  padding: 5px 20px;
+  color: white;
+  display: inline-block;
+  max-width: 80%;
+}
+.backgroundBlue {
+  background: #3f444d;
+}
+
+.backgroundLight {
+  background: #F3F3F3;
+}
+
+body{
+  height: 100%;}

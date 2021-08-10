@@ -3,15 +3,13 @@ import { useApolloClient } from "@apollo/client"
 import { useHistory } from "react-router-dom"
 import { useForm } from "../customHooks/useForm"
 import { LOGIN } from "../GraphQL/Queries"
-//import { ContextHeader } from "../constants"
 import { AuthContext } from "../App"
 
 export default function Login() {
   const client = useApolloClient()
   const { token, setToken } = useContext(AuthContext)
+  var newToken = 0
 
-  var newToken = 0;
- 
   const [values, handleChange] = useForm({})
   const [errored, setErrored] = useState(false)
 

@@ -1,22 +1,11 @@
-import { React, useState, useEffect } from "react"
+import { React, useContext } from "react"
 import { Dropdown, ListGroup, Badge } from "react-bootstrap"
-import { ContextHeader } from "../constants"
+import { AuthContext } from "../App"
 
-export default function IngameRoles(props) {
+export default function IngameRoles() {
+  const { state, setState } = useContext(AuthContext)
+
   const ingameRoleOptions = ["Top", "Jungle", "Mid", "Bot", "Support", "Fill"]
-  const [ingameRole, setIngameRole] = useState()
-  // const [selectedRole, setSelectedRole] = useState(ingameRolesOptions)
-
-  useEffect(() => {
-    setIngameRole(props?.state?.ingameRole)
-    //console.log("useEffect []: ", local_Languages)
-  }, [props?.state?.ingameRole])
-
-  useEffect(() => {
-    //console.log("useEffect [local_Languages]: ", local_Languages)
-    props.setState((state) => ({ ...state, ingameRole: ingameRole }))
-    console.log("ingameRoles: ", ingameRole)
-  }, [ingameRole])
 
   return (
     <div id="avaliableIngameRoles">
@@ -32,9 +21,12 @@ export default function IngameRoles(props) {
                 <Dropdown.Item
                   onClick={(e) => {
                     e.preventDefault()
+                    setState((state) => ({
+                      ...state,
+                      ingameRole: [...state.ingameRole, item],
+                    }))
 
-                    setIngameRole((ingameRoles) => [...ingameRole, item])
-                  //  props.setState((state) => ({ ...state, ingameRole: ingameRole }))
+                    // setIngameRole((ingameRoles) => [...ingameRole, item])
                   }}
                   key={index + 1}
                 >
@@ -47,8 +39,8 @@ export default function IngameRoles(props) {
       <br />
 
       <ListGroup horizontal>
-        {ingameRole ? (
-          ingameRole.map((item, index) => {
+        {state?.ingameRole ? (
+          state?.ingameRole.map((item, index) => {
             return (
               <ListGroup.Item
                 name="ingame-roles"
@@ -58,19 +50,22 @@ export default function IngameRoles(props) {
               >
                 {item}
 
-                <Badge pill variant="danger"
-                onClick={(e) => {
-                  e.preventDefault()
-                  const ingameRoleToDelete =
-                    e.target.parentElement.getAttribute("value")
-                
-                  setIngameRole(
-                    ingameRole.filter(
-                      (item) => item !== ingameRoleToDelete
-                    )
-                  )
-                  console.log('Deleting ingameRole: ', ingameRoleToDelete)
-                }}
+                <Badge
+                  pill
+                  variant="danger"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    const ingameRoleToDelete =
+                      e.target.parentElement.getAttribute("value")
+                    setState((state) => ({
+                      ...state,
+                      ingameRole: state.ingameRole.filter(
+                        (item) => item !== ingameRoleToDelete
+                      ),
+                    }))
+
+                    console.log("Deleting ingameRole: ", ingameRoleToDelete)
+                  }}
                 >
                   X
                 </Badge>
