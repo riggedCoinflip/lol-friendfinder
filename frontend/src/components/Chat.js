@@ -33,12 +33,13 @@ export default function Chat() {
   }, [])
 
   useEffect(() => {
-    setSelectedChatID(state?.friends?.find((item) => item?.user === userID)?.chat)
+    //Find a specific friend using the given userID and return his or her chat
+    setSelectedChatID(
+      state?.friends?.find((item) => item?.user === userID)?.chat
+    )
     console.log("Another user selected. ChatID", selectedChatID)
     console.log("selected UserID", userID)
-
   }, [userID])
-
 
   function sendMessage(chatID, content) {
     return client.mutate({
@@ -51,9 +52,8 @@ export default function Chat() {
     })
   }
 
-  const sendTheMessageNow = (e) => {
-    e.preventDefault()
-
+  const sendTheMessageNow = () => {
+    //   e.preventDefault()
     sendMessage(selectedChatID, typedMessage)
       .then((res) => {
         console.log("chatID: ", selectedChatID)
@@ -66,17 +66,14 @@ export default function Chat() {
         setErrored(true)
         console.error(`Error in SendMessage: ${err}`)
       })
-    
   }
 
   const messageHandler = (e) => {
-    e.preventDefault()
-    e.persist() //important
+    e.persist() 
     setContentMessage(e.target.value)
     console.log(typedMessage)
     console.log("chatID", selectedChatID)
   }
- 
 
   return !token ? (
     <div key="Not-logged">You are NOT logged in</div>
@@ -113,7 +110,6 @@ export default function Chat() {
                     userId={item.user}
                     searchUser={searchUser}
                     key={index + 1}
-                    
                   />
                 )
               })}
@@ -130,7 +126,7 @@ export default function Chat() {
 
           <div className="conversation">
             {/*From all my friends, show the messages between me and the selected user*/}
-            
+
             {state?.friends &&
               state?.friends
                 ?.filter((item) => {
@@ -140,13 +136,13 @@ export default function Chat() {
                   return (
                     <>
                       <br />
-                      ChatID: <br />{selectedChatID}
+                      ChatID: <br />
+                      {selectedChatID}
                       <br />
                       <ChatMessage chatID={item.chat} />
                     </>
                   )
                 })}
-            
 
             <br />
           </div>
@@ -157,11 +153,16 @@ export default function Chat() {
             <input
               value={typedMessage}
               id="contentMessage"
-              onChange={messageHandler}
               name="contentMessage"
               type="text"
               className="message-text"
               placeholder="Something good to say?"
+              onChange={messageHandler}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  sendTheMessageNow()
+                }
+              }}
             />
             <Button
               className="send-button"
