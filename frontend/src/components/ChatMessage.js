@@ -28,6 +28,7 @@ export default function ChatMessage({ chatID }) {
       context: Headers(token),
       query: GET_CHAT,
       variables: { chatID, page: 1 },
+    //  pollInterval: 100
     })
   }
 

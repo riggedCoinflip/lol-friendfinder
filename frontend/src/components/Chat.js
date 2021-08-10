@@ -105,7 +105,7 @@ export default function Chat({}) {
             className="user-search"
             autoFocus
             type="text"
-            placeholder="Who are u looking for?🔍"
+            placeholder="I am looking for 🔍"
             id="user-search"
             name="user-search"
             onChange={(e) => {

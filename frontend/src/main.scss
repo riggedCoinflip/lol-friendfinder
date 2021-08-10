@@ -76,14 +76,15 @@
   display: flex;
   background-color: var(--main-bg-color);
   color: var(--main-text-color); 
-  height: 100%;
-  margin:0;
+   margin:0;
   padding:0;
 }
 
 .chat-left-column {
   flex: 1;
   background-color: var(--sec-bg-color);
+  height: 100vh;
+
 }
 
 .chat-room {
@@ -94,6 +95,7 @@
  background-image: url();
   background-repeat: no-repeat;
   background-size: auto;
+
 }
 
 .chat-users {  
@@ -153,3 +155,6 @@
 .backgroundLight {
   background: #F3F3F3;
 }
+
+body{
+  height: 100%;}
