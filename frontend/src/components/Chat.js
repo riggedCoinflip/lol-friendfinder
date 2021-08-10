@@ -39,6 +39,7 @@ export default function Chat() {
     )
     console.log("Another user selected. ChatID", selectedChatID)
     console.log("selected UserID", userID)
+    document.getElementById('user-search').value = ''
   }, [userID])
 
   function sendMessage(chatID, content) {
@@ -99,7 +100,7 @@ export default function Chat() {
                 imgUrl*/
             }}
           />
-          <div className="chat-users">
+          <div className="user-many">
             {state?.friends &&
               state?.friends?.map((item, index) => {
                 return (
@@ -109,6 +110,7 @@ export default function Chat() {
                     setChatAvatar={setChatAvatar}
                     userId={item.user}
                     searchUser={searchUser}
+                    setSearchUser={setSearchUser}
                     key={index + 1}
                   />
                 )
