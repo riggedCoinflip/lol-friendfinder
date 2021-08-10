@@ -60,8 +60,7 @@
   font-size: 20px;
 }
 //Just centering the first letter
-.center-me {
-  
+.center-me { 
   margin: auto;
 }
 
@@ -100,15 +99,19 @@
   background-color: var(--sec-bg-color);
  
 }
-.chat-users {  
+.user-many {  
   flex: 1;
  
 }
+
 .conversation { 
+  display: flex;
   flex: 1; 
   overflow: auto;
   height: 100%;
   overflow-y: scroll;
+  flex-direction: column;
+  justify-content: flex-end;
  }
 
 
@@ -125,7 +128,6 @@
 .flex-row{
   display: flex;
   flex-direction: row;
-
 }
 
 .justifyStart {

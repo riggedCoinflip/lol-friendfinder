@@ -66,7 +66,7 @@ export default function ChatMessage({ chatID }) {
          */
 
             return (
-              <div key={msg?._id} id="oneMsg">
+              <div key={msg?._id} id="oneMsg justifyEnd" >
                 <div className="messageContainer justifyEnd">
                   {/*  <p >{msg?.author}</p> */}
                   <div className="">

@@ -39,7 +39,7 @@ export default function Chat() {
     )
     console.log("Another user selected. ChatID", selectedChatID)
     console.log("selected UserID", userID)
-    document.getElementById('user-search').value = ''
+    document.getElementById("user-search").value = ""
   }, [userID])
 
   function sendMessage(chatID, content) {
@@ -70,7 +70,7 @@ export default function Chat() {
   }
 
   const messageHandler = (e) => {
-    e.persist() 
+    e.persist()
     setContentMessage(e.target.value)
     console.log(typedMessage)
     console.log("chatID", selectedChatID)
@@ -122,8 +122,6 @@ export default function Chat() {
           <div className="user-info">
             {userNameChat}
             <AvatarImage avatarUrl={chatAvatar} name={userNameChat} />
-            <br />
-            UserID: {userID}
           </div>
 
           <div className="conversation">
@@ -137,10 +135,6 @@ export default function Chat() {
                 .map((item) => {
                   return (
                     <>
-                      <br />
-                      ChatID: <br />
-                      {selectedChatID}
-                      <br />
                       <ChatMessage chatID={item.chat} />
                     </>
                   )
