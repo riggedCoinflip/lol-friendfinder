@@ -23,6 +23,9 @@ export default function Chat({}) {
   const [contentMessage, setContentMessage] = useState()
   const [errored, setErrored] = useState(false)
 
+  const [searchUser, setSearchUser] = useState("")
+
+
   useEffect(() => {
     if (!state) {
       refetch()
@@ -106,26 +109,30 @@ export default function Chat({}) {
             id="user-search"
             name="user-search"
             onChange={(e) => {
-              //This is just fun, setting a different image as background
               console.log("typing", e.target.value)
-              const imgUrl = `url(${e.target.value})`
+              setSearchUser(e.target.value)
+
+              //Setting a different image as background
+              /* const imgUrl = `url(${e.target.value})`
 
               document.getElementById("chat-room").style.backgroundImage =
-                imgUrl
+                imgUrl*/
             }}
           />
           <div className="chat-users">
             {state?.friends &&
-              state?.friends?.map((item, index) => {
+              state?.friends
+              ?.map((item, index) => {
                 return (
                   <FriendList
                     setUserID={setUserID}
                     setUserNameChat={setUserNameChat}
                     setChatAvatar={setChatAvatar}
                     userId={item.user}
+                    searchUser={searchUser}
                   />
-                )
-              })}
+                )})
+              }
           </div>
         </div>
 

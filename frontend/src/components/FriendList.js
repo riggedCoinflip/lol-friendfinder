@@ -11,6 +11,7 @@ export default function FriendList({
   setUserID,
   setUserNameChat,
   setChatAvatar,
+  searchUser
 }) {
 
   const { loading, error, data } = useQuery(GET_USER_BY_ID, {
@@ -27,6 +28,11 @@ export default function FriendList({
 
   return (
     <>
+   { /*This return the searched user */ 
+   (data.userOneById.name.toLowerCase()
+   .includes(searchUser.toLowerCase())
+                )
+  &&
       <Row>
         <div
           className="flex-row padding5"
@@ -56,6 +62,7 @@ export default function FriendList({
             </div>
         </div>
       </Row>
+      }
     </>
   )
 }
