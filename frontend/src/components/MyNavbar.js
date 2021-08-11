@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { useEffect, React, useContext } from "react"
 import { Navbar, Nav } from "react-bootstrap"
 import { AuthContext } from "../App"
 
 function MyNavbar() {
+  const history = useHistory()
+
   const { token, setToken, setState } = useContext(AuthContext)
 
   useEffect(() => {
@@ -65,7 +67,9 @@ function MyNavbar() {
                   onClick={() => {
                     setToken(null)
                     localStorage.clear()
-                    setState(null)
+                   setState(null)
+                   window.location.reload(true);
+                   history.push("/profile")
                   }}
                 >
                   Logout

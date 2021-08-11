@@ -3,6 +3,7 @@ import { UPDATE_USER } from "../GraphQL/Mutations"
 import { useMutation } from "@apollo/client"
 import Languages from "./Languages"
 import ProfileImage from "./ProfileImageUpload"
+import { Redirect } from "react-router-dom"
 
 import IngameRoles from "./IngameRoles"
 import { ContextHeader } from "../constants"
@@ -20,6 +21,7 @@ import {
 } from "react-bootstrap"
 
 export default function Profile() {
+
   const { token, state, refetch } = useContext(AuthContext)
   const [errored, setErrored] = useState(false)
   const [profile, setProfile] = useState(state)
@@ -37,9 +39,9 @@ export default function Profile() {
 
   //use3
   useEffect(() => {
-    if (!profile) {
-      refetch()
-  setProfile(state)
+    if (!profile || !state) {
+      refetch() 
+      setProfile(state)      
       console.log("We refetch", profile)
     }
   }, [state])
@@ -65,7 +67,10 @@ export default function Profile() {
   }
 
   return !token ? (
+    <>
+    <Redirect to="/login" />
     <div>You are NOT logged in</div>
+  </>
   ) : (
     <div id="user-info">
       <Container>

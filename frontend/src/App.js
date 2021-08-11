@@ -16,9 +16,9 @@ import ChatMessage from "./components/ChatMessage"
 
 export const AuthContext = createContext()
 export default function App() {
-  const [token, setToken] = useState(0)
+  const [token, setToken] = useState()
   const [loadingToken, setloadingToken] = useState(true)
-  const [state, setState] = useState()
+  const [state, setState] = useState(null)
 
   useEffect(() => {
     const call = async () => {
@@ -31,24 +31,24 @@ export default function App() {
     call()
   }, [])
 
-  //Use1
-
-  useEffect(() => {
-    if (dataUserSelf) 
-    setState(dataUserSelf.userSelf)
-    console.log("useEffect 1", state)
-  }, [])
+ 
 
   const { loading, error, data: dataUserSelf, refetch } = useQuery(
     GET_MY_INFO,
    ContextHeader(token),
-    { pollInterval: 100 }
+   // { pollInterval: 100 }
   )
+ //Use1
 
+ useEffect(() => {
+  if (dataUserSelf) 
+  setState(dataUserSelf.userSelf)
+  console.log("useEffect 1", state)
+}, [])
   //Use2
   useEffect(() => {
     if (dataUserSelf || !state) {
-      //  refetch()
+       refetch()
       setState(dataUserSelf?.userSelf)
       console.log("useEffect 2", state)
     }
@@ -56,9 +56,9 @@ export default function App() {
 
   console.log(dataUserSelf)
   //If F5
-  if (loading) return <p>Loading...</p>
+  if (loading) return <p>Loading Data...</p>
   if (loadingToken) {
-    return <p>loading ...</p>
+    return <p>loading Token...</p>
   }
   return (
     <AuthContext.Provider value={{ token, setToken, state, setState, refetch }}>

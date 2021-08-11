@@ -45,7 +45,8 @@ export default function Login() {
   const history = useHistory()
 
   if (token) {
-    history.push("/profile")
+     history.push("/profile")
+    
   }
 
   return token ? (
