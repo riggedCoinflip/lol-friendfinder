@@ -8,9 +8,11 @@ import FriendList from "./FriendList"
 import ChatMessage from "./ChatMessage"
 import { Button } from "react-bootstrap"
 import AvatarImage from "./AvatarImage"
+import { useHistory } from "react-router-dom"
 
 export default function Chat() {
   const client = useApolloClient()
+  const history = useHistory()
 
   const { token, state, setState, refetch } = useContext(AuthContext)
 
@@ -41,8 +43,12 @@ export default function Chat() {
    // console.log("selected UserID", userID)
    
    //Clean the input, when another user is selected
+   token ?
    document.getElementById("user-search").value = ""
-    
+   :
+   history.push("/login")
+
+   
   }, [userID])
 
   function sendMessage() {
@@ -155,7 +161,7 @@ export default function Chat() {
               name="contentMessage"
               type="text"
               className="message-text"
-              placeholder="Something good to say?"
+              placeholder="Type to check for updates...💬"
               onChange={messageHandler}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {

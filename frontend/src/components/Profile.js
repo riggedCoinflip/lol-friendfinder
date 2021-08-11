@@ -150,7 +150,7 @@ export default function Profile() {
             />
             <br />
           </Row>
-          {profile?.aboutMe.length >= 250 && (
+          {profile?.aboutMe?.length >= 250 && (
             <small id="text-too-long" className="center-me text-muted">
               💥 Up to 250 characters allowed
             </small>

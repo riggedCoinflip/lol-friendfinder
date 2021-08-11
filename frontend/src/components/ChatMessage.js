@@ -7,13 +7,6 @@ import { Headers } from "../constants"
 export default function ChatMessage({ chatID }) {
   const client = useApolloClient()
 
-  /*
-  useEffect(() => {
-    if (conversation) 
-    console.log("useEffect")  
-  }, [])
-*/
-
   const { token } = useContext(AuthContext)
   const [conversation, setConversation] = useState()
   // const [conversation2, setConversation2] = useState()
@@ -31,19 +24,9 @@ export default function ChatMessage({ chatID }) {
   GetMessage(chatID).then((res) => {
     //  console.log("GetConversation", res)
     setConversation(res?.data?.getChat?.messages)
-    //console.log("Conversation(State)", conversation)
+    console.log("Conversation(State)", conversation)
   })
 
-  //to order the messages in the right way
-  /*
-  function orderC(conversation) {
-    setConversation2(Object.assign([], conversation).reverse())
-    //setConversation(CInverted)
-    console.log("CInverted(State)", conversation2)
-    console.log("CInverted(State)", typeof conversation2)
-  }
-  orderC(conversation)
-*/
   // differ between my and message from other users
   //let isSentByCurrentUser = false;
 
