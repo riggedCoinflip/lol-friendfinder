@@ -26,7 +26,7 @@ export default function ChatMessage({ chatID, }) {
       query: GET_CHAT,
       variables: { chatID, page: 1 },
        // pollInterval: 100,
-       fetchPolicy: 'network-only',
+     //  fetchPolicy: 'network-only',
     })
   }
 
