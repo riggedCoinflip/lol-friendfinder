@@ -37,9 +37,11 @@ export default function Chat() {
     setSelectedChatID(
      state?.friends?.find((item) => item?.user === userID)?.chat
     )
-    console.log("Another user selected. ChatID", selectedChatID)
-    console.log("selected UserID", userID)
-    document.getElementById("user-search").value = ""
+   // console.log("Another user selected. ChatID", selectedChatID)
+   // console.log("selected UserID", userID)
+   
+   //Clean the input, when another user is selected
+   document.getElementById("user-search").value = ""
     
   }, [userID])
 
@@ -59,7 +61,7 @@ export default function Chat() {
     sendMessage(selectedChatID, typedMessage)
       .then((res) => {
       //  console.log("chatID: ", selectedChatID)
-        console.log("contentMessage: ", typedMessage)
+     //   console.log("contentMessage: ", typedMessage)
         console.log("response: ", res?.data?.sendMessage)
         setContentMessage("")
         refetch()

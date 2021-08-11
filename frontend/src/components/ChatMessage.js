@@ -4,7 +4,7 @@ import { GET_CHAT } from "../GraphQL/Queries"
 import { AuthContext } from "../App"
 import { Headers } from "../constants"
 
-export default function ChatMessage({ chatID, }) {
+export default function ChatMessage({ chatID }) {
   const client = useApolloClient()
 
   /*
@@ -25,17 +25,13 @@ export default function ChatMessage({ chatID, }) {
       context: Headers(token),
       query: GET_CHAT,
       variables: { chatID, page: 1 },
-       // pollInterval: 100,
-     //  fetchPolicy: 'network-only',
     })
   }
-
- 
 
   GetMessage(chatID).then((res) => {
     //  console.log("GetConversation", res)
     setConversation(res?.data?.getChat?.messages)
-    console.log("Conversation(State)", conversation)
+    //console.log("Conversation(State)", conversation)
   })
 
   //to order the messages in the right way
@@ -68,7 +64,7 @@ export default function ChatMessage({ chatID, }) {
          */
 
             return (
-              <div key={msg?._id} id="oneMsg justifyEnd" >
+              <div key={msg?._id} id="oneMsg justifyEnd">
                 <div className="messageContainer justifyEnd">
                   {/*  <p >{msg?.author}</p> */}
                   <div className="">
