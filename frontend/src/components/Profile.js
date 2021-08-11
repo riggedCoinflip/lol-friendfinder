@@ -51,15 +51,15 @@ export default function Profile() {
   // if (loading) return <p>Loading...</p>
   //if (error) return <p>Error, are you already logged in?!</p>
 
- // console.log("state", state)
+  console.log("state", state)
   console.log("profile", profile)
 
   const changeHandler = (e) => {
     setProfile((profile) => ({ ...profile, [e.target.name]: e.target.value }))
   }
 
-  function limitDate(input) {
-    const output = input?.substring(0, 10) ?? " "
+  function limitLength(input, limit) {
+    const output = input?.substring(0, limit) ?? " "
     return output
   }
 
@@ -86,7 +86,7 @@ export default function Profile() {
                 placeholder="yyyy-mm-dd"
                 /*type="date"*/
                 type="text"
-                value={limitDate(profile?.dateOfBirth)}
+                value={limitLength(profile?.dateOfBirth, 10)}
                 onChange={changeHandler}
               />
               <br />
@@ -139,15 +139,22 @@ export default function Profile() {
           </Row>
           <Row>
             <Form.Control
+              className="center-me"
+              as="textarea"
               rows={3}
-              value={profile?.aboutMe || ` `}
+              value={limitLength(profile?.aboutMe, 250) || ` `}
               id="aboutMe"
               onChange={changeHandler}
               name="aboutMe"
               type="text"
             />
+            <br />
           </Row>
-
+          {profile?.aboutMe.length >= 250 && (
+            <small id="text-too-long" className="center-me text-muted">
+              💥 Up to 250 characters allowed
+            </small>
+          )}
           <br />
 
           <div>
