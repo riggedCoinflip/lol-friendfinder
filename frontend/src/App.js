@@ -18,7 +18,7 @@ export const AuthContext = createContext()
 export default function App() {
   const [token, setToken] = useState(0)
   const [loadingToken, setloadingToken] = useState(true)
-  const [state, setState] = useState(0)
+  const [state, setState] = useState()
 
   useEffect(() => {
     const call = async () => {
@@ -72,7 +72,6 @@ export default function App() {
           <Route exact path="/users" component={() => <Users />} />
           <Route exact path="/profile" component={() => <Profile />} />
           <Route exact path="/chat" component={() => <Chat />} />
-         
           <Route exact path="/ChatMessage" component={() => <ChatMessage />} />
 
           <Route component={NotFound} />

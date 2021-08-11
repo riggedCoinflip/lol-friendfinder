@@ -11,6 +11,7 @@ export default function FriendList({
   setUserNameChat,
   setChatAvatar,
   searchUser,
+  setSearchUser,
 }) {
   const { loading, error, data } = useQuery(GET_USER_BY_ID, {
     variables: { userId },
@@ -31,19 +32,22 @@ export default function FriendList({
         data.userOneById.name
           .toLowerCase()
           .includes(searchUser.toLowerCase()) && (
-          <Row>
+          
             <div
-              className="flex-row padding5"
-              id="div1"
+              className="user-one flex-row padding5"
+              id="user-one"
               onClick={(e) => {
                 e.preventDefault()
                 //alert(data.userOneById._id)
                 setUserID(data.userOneById._id)
+               // const foundChat= userId.find((item) => item === data.userOneById._id ).chat
+               // setSelectedChatID(foundChat)
                 setUserNameChat(data.userOneById.name)
                 setChatAvatar(data.userOneById.avatar)
+                setSearchUser("")
               }}
             >
-              <div id="div2" key={data.userOneById._id}>
+              <div id="user-avatar" key={data.userOneById._id}>
                 <AvatarImage
                   avatarUrl={data.userOneById.avatar}
                   name={data.userOneById.name}
@@ -55,7 +59,7 @@ export default function FriendList({
               </div>
               <div>{data.userOneById.aboutMe}</div>
             </div>
-          </Row>
+         
         )
       }
     </>

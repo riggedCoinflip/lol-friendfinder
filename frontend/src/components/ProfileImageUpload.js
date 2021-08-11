@@ -103,7 +103,7 @@ uploadBtn.style.background='#000000';
         size="sm"
         onClick={fileUploadHandler}
       >
-        Upload foto
+        Change foto
       </Button>
     </div>
   )

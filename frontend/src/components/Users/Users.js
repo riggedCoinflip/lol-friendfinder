@@ -60,7 +60,7 @@ export default function Users({ match }) {
               <div className="main-verticalhorizontal">
                 <Image
                   src={users?.[userIndex]?.avatar}
-                  onerror="this.src={avatar}"
+                 
                   width="300"
                   height="300"
                   roundedCircle
@@ -76,7 +76,7 @@ export default function Users({ match }) {
                 {/*spoken languages*/}
                 {users[userIndex]?.languages.map((languages, index) => {
                   return (
-                    <Badge pill variant="danger">
+                    <Badge pill variant="danger" key={index+1}>
                       {languages}
                     </Badge>
                   )
