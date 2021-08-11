@@ -7,7 +7,7 @@ import { Headers } from "../constants"
 export default function ChatMessage({ chatID }) {
   const client = useApolloClient()
 
-  const { token } = useContext(AuthContext)
+  const { token, state } = useContext(AuthContext)
   const [conversation, setConversation] = useState()
   // const [conversation2, setConversation2] = useState()
 
@@ -31,7 +31,10 @@ export default function ChatMessage({ chatID }) {
   //let isSentByCurrentUser = false;
 
   // const messageContainer = document.getElementById('oneMsg')
-
+  function limitLength(input, start, end) {
+    const output = input?.slice(start, end) ?? " "
+    return output
+  }
   return (
     <>
       {conversation &&
@@ -39,22 +42,29 @@ export default function ChatMessage({ chatID }) {
           .slice(0) //with slice(0), we make a copy of the conversation, because this is only-read
           .reverse() //order of the conversation will be inverted with reverse()
           .map((msg) => {
-            /*
-          if(conversation?.author === state._id){
-         messageContainer.style.justifyContent = 'flex-start'
-         messageContainer.style.color = 'red'         
-        }
-         */
-
-            return (
-              <div key={msg?._id} id="oneMsg justifyEnd">
-                <div className="messageContainer justifyEnd">
-                  {/*  <p >{msg?.author}</p> */}
-                  <div className="">
-                    <p> {msg?.content}/</p>
-                  </div>
-                  <p> {msg?.createdAt}</p>
+          return msg.author === state._id ? 
+          //Justify the messages, depending if this comes from you or from other user
+          (
+              <div
+                key={msg?._id}
+                id="oneMsg"
+                className="message-container-others"
+              >
+                <div>
+                  <p> {msg?.content} </p>
                 </div>
+                <p className="createdAt padding5">
+                  {limitLength(`${msg?.createdAt}`, 11, 16)}
+                </p>
+              </div>
+            ) : (
+              <div key={msg?._id} id="oneMsg" className="message-container-me">
+                <div>
+                  <p> {msg?.content}</p>
+                </div>
+                <p className="createdAt padding5">
+                  {limitLength(`${msg?.createdAt}`, 11, 16)}
+                </p>
               </div>
             )
           })}
