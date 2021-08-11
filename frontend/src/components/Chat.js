@@ -16,7 +16,7 @@ export default function Chat() {
 
   const [userID, setUserID] = useState("UserId!")
   const [selectedChatID, setSelectedChatID] = useState()
-  const [userNameChat, setUserNameChat] = useState("My clone")
+  const [userNameChat, setUserNameChat] = useState("Me")
   const [chatAvatar, setChatAvatar] = useState()
   // const [selected, setSelected] = useState()
 
@@ -35,14 +35,15 @@ export default function Chat() {
   useEffect(() => {
     //Find a specific friend using the given userID and return his or her chat
     setSelectedChatID(
-      state?.friends?.find((item) => item?.user === userID)?.chat
+     state?.friends?.find((item) => item?.user === userID)?.chat
     )
     console.log("Another user selected. ChatID", selectedChatID)
     console.log("selected UserID", userID)
     document.getElementById("user-search").value = ""
+    
   }, [userID])
 
-  function sendMessage(chatID, content) {
+  function sendMessage() {
     return client.mutate({
       context: Headers(token),
       mutation: SEND_MESSAGE,
@@ -57,7 +58,7 @@ export default function Chat() {
     //   e.preventDefault()
     sendMessage(selectedChatID, typedMessage)
       .then((res) => {
-        console.log("chatID: ", selectedChatID)
+      //  console.log("chatID: ", selectedChatID)
         console.log("contentMessage: ", typedMessage)
         console.log("response: ", res?.data?.sendMessage)
         setContentMessage("")

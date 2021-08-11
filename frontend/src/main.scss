@@ -84,7 +84,7 @@
   flex: 1;
   background-color: var(--sec-bg-color);
   height: 100vh;
-
+  overflow: auto;
 }
 
 .chat-room {
@@ -101,7 +101,7 @@
 }
 .user-many {  
   flex: 1;
- 
+  
 }
 
 .conversation { 
@@ -169,6 +169,9 @@ body{
   overflow-y: scroll;
  }
 
- .body::-webkit-scrollbar, .conversation::-webkit-scrollbar {
+ //Hide the scrollbars
+ .body::-webkit-scrollbar, 
+ .conversation::-webkit-scrollbar,
+ .chat-left-column::-webkit-scrollbar {
   display: none;
 }
