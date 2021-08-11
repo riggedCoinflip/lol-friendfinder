@@ -9,6 +9,13 @@ import { onError } from 'apollo-link-error';
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_HOST,
+     
+     defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-and-network',
+    },
+  },
+    
     cache: new InMemoryCache({
       typePolicies: {
         User: {

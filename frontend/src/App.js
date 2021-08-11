@@ -72,7 +72,6 @@ export default function App() {
           <Route exact path="/users" component={() => <Users />} />
           <Route exact path="/profile" component={() => <Profile />} />
           <Route exact path="/chat" component={() => <Chat />} />
-         
           <Route exact path="/ChatMessage" component={() => <ChatMessage />} />
 
           <Route component={NotFound} />
