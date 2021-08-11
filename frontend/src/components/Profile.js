@@ -1,15 +1,12 @@
-import { useEffect, useState, React } from "react"
-import { GET_MY_INFO } from "../GraphQL/Queries"
+import { useContext, useEffect, useState, React } from "react"
 import { UPDATE_USER } from "../GraphQL/Mutations"
-import { useQuery, useMutation } from "@apollo/client"
+import { useMutation } from "@apollo/client"
 import Languages from "./Languages"
-import Friends from "./Friends"
-import ProfileImage from "./ProfileImage"
+import ProfileImage from "./ProfileImageUpload"
 
 import IngameRoles from "./IngameRoles"
 import { ContextHeader } from "../constants"
-
-import BlockedUsers from "./BlockedUsers"
+import { AuthContext } from "../App"
 
 import {
   Button,
@@ -18,14 +15,14 @@ import {
   Form,
   Col,
   Row,
-  InputGroup,
   FormControl,
-  ListGroup,
   Dropdown,
 } from "react-bootstrap"
 
 export default function Profile() {
-  const [state, setState] = useState()
+  const { token, state, refetch } = useContext(AuthContext)
+  const [errored, setErrored] = useState(false)
+  const [profile, setProfile] = useState(state)
 
   const genderOptions = [
     "non_binary",
@@ -38,79 +35,70 @@ export default function Profile() {
     "I_prefer_not_to_say",
   ]
 
-  const { loading, error, data, refetch } = useQuery(GET_MY_INFO, ContextHeader)
-  /*
+  //use3
   useEffect(() => {
-    setState() 
-    }, [])
-*/
-  useEffect(() => {
-    if (data || !state) {
+    if (!profile) {
       refetch()
-      setState(data?.userSelf)
-      console.log("State from useEffect", state)
+  setProfile(state)
+      console.log("We refetch", profile)
     }
-  }, [data])
-
-  //If F5
+  }, [state])
 
   const [updateUser, { data: dataUpdate }] = useMutation(
     UPDATE_USER,
-    ContextHeader
+    ContextHeader(token)
   )
-
   //Get users data
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error, are you already logged in?!</p>
+  // if (loading) return <p>Loading...</p>
+  //if (error) return <p>Error, are you already logged in?!</p>
 
-  //console.log("Data Mutation:", dataUpdate)
-  console.table(data.userSelf)
+  console.log("state", state)
+  console.log("profile", profile)
 
   const changeHandler = (e) => {
-    e.persist() //important
-    setState((state) => ({ ...state, [e.target.name]: e.target.value }))
+    setProfile((profile) => ({ ...profile, [e.target.name]: e.target.value }))
   }
 
-  const getValuesFromChild = (values) => {
-    console.log("value from child", values)
-    //   console.log('State getValuesFromChild: ', state.languages);
-  }
-  //console.log("STATE.dateOfBirth", state?.dateOfBirth)
-
-  function limitDate(input) {
-    const output = input?.substring(0, 10) ?? "Date is unknown"
+  function limitLength(input, limit) {
+    const output = input?.substring(0, limit) ?? " "
     return output
   }
 
-  return (
+  return !token ? (
+    <div>You are NOT logged in</div>
+  ) : (
     <div id="user-info">
       <Container>
-        <Card.Title>Personal Info</Card.Title>
+        <Card.Title className="text-left">{profile?.name}</Card.Title>
         <Form>
           <Row>
             <Col>
-            <ProfileImage />
+              <ProfileImage />
+              {errored && (
+                <small id="fileUploadError" className="form-text text-muted">
+                  something went wrong
+                </small>
+              )}
             </Col>
             <Col>
-              <InputGroup className="mb-3" weight="50px">
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="username-input">@</InputGroup.Text>
-                </InputGroup.Prepend>
-                <FormControl
-                  name="name"
-                  value={state?.name}
-                  onChange={changeHandler}
-                  aria-label="Username"
-                  aria-describedby="basic-addon1"
-                />
-              </InputGroup>
+              Date of birth
+              <FormControl
+                name="dateOfBirth"
+                placeholder="yyyy-mm-dd"
+                /*type="date"*/
+                type="text"
+                value={limitLength(profile?.dateOfBirth, 10)}
+                onChange={changeHandler}
+              />
+              <br />
+              {/**/}
               <Dropdown>
                 <Dropdown.Toggle
                   size="sm"
                   variant="success"
                   id="dropdown-gender"
                 >
-                  {state?.gender}
+                  {profile?.gender}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
@@ -123,8 +111,8 @@ export default function Profile() {
                             e.preventDefault()
 
                             console.log("Gender selected: ", selectedGender)
-                            setState((state) => ({
-                              ...state,
+                            setProfile((profile) => ({
+                              ...profile,
                               gender: selectedGender,
                             }))
                           }}
@@ -138,46 +126,36 @@ export default function Profile() {
                     })}
                 </Dropdown.Menu>
               </Dropdown>
-              Date of birth
-              <FormControl
-                id="dateOfBirth"
-                name="dateOfBirth"
-                placeholder="yyyy-mm-dd"
-                /*type="date"*/
-                type="text"
-                value={limitDate(state?.dateOfBirth)}
-                onChange={changeHandler}
-              />
               <br />
-              {/**/}
-              <Languages
-                getValuesFromChild={getValuesFromChild}
-                state={state}
-                setState={setState}
-              />
+              <Languages />
               <br />
-              <IngameRoles
-                getValuesFromChild={getValuesFromChild}
-                state={state}
-                setState={setState}
-              />
+              <IngameRoles />
+              {/*  */}
             </Col>{" "}
           </Row>
           <br />
 
           <Row>
-            <Form.Text className="text-muted">About me</Form.Text>
+            <Form.Text>About me</Form.Text>
+          </Row>
+          <Row>
             <Form.Control
+              className="center-me"
               as="textarea"
               rows={3}
-              value={state?.aboutMe}
+              value={limitLength(profile?.aboutMe, 250) || ` `}
               id="aboutMe"
               onChange={changeHandler}
               name="aboutMe"
               type="text"
             />
+            <br />
           </Row>
-
+          {profile?.aboutMe?.length >= 250 && (
+            <small id="text-too-long" className="center-me text-muted">
+              💥 Up to 250 characters allowed
+            </small>
+          )}
           <br />
 
           <div>
@@ -188,16 +166,18 @@ export default function Profile() {
                 e.preventDefault()
                 updateUser({
                   variables: {
-                    aboutMe: state.aboutMe,
-                    gender: state.gender,
-                    languages: state.languages,
-                    dateOfBirth: state.dateOfBirth,
+                    aboutMe: profile.aboutMe,
+                    gender: profile.gender,
+                    languages: profile.languages,
+                    dateOfBirth: profile.dateOfBirth,
+                    ingameRole: profile.ingameRole,
                   },
+                }).catch(() => {
+                  setErrored(true)
                 })
                 alert("Data was updated")
-
                 //get new data after mutation
-                refetch()
+                // refetch()
               }}
             >
               {" "}
@@ -208,8 +188,6 @@ export default function Profile() {
           </div>
         </Form>
         <br />
-        <Friends data={data} />
-        <BlockedUsers data={data} />
       </Container>
     </div>
   )

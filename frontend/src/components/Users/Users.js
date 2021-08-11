@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import "./Users.css"
 import icon from "../../assets/icon.png"
 import like from "../../assets/like.svg"
@@ -7,14 +7,17 @@ import itsamatch from "../../assets/itsamatch.png"
 import { GET_USER_TO_SWIPE } from "../../GraphQL/Queries"
 import { UPDATE_USER, SWIPE_USER } from "../../GraphQL/Mutations"
 import { useQuery, useMutation } from "@apollo/client"
-import { ContextHeader} from "../../constants"
-import { Badge } from "react-bootstrap"
+import { ContextHeader } from "../../constants"
+import { AuthContext } from "../../App"
+import { Badge, Image } from "react-bootstrap"
 
 export default function Users({ match }) {
+  const { token } = useContext(AuthContext)
 
   const [users, setUsers] = useState([])
   const [userIndex, setUserIndex] = useState(0)
   const [matchDev, setMatchDev] = useState(null)
+  const [errored, setErrored] = useState(false)
 
   useEffect(() => {
     if (dataQuery) setUsers(dataQuery.userManyToSwipe)
@@ -22,32 +25,48 @@ export default function Users({ match }) {
   }, [])
 
   useEffect(() => {
-    
     refetch()
     setUsers(dataQuery?.userManyToSwipe)
   }, [users])
 
-  
-  const {loading, error, data: dataQuery, refetch, } = useQuery(GET_USER_TO_SWIPE, ContextHeader)
+  const {
+    loading,
+    error,
+    data: dataQuery,
+    refetch,
+  } = useQuery(GET_USER_TO_SWIPE, ContextHeader(token))
 
-  const [swipeUser, { data: dataSwipeUser }] = useMutation(SWIPE_USER, ContextHeader)
+  const [swipeUser, { data: dataSwipeUser }] = useMutation(
+    SWIPE_USER,
+    ContextHeader(token)
+  )
 
-  const [updateUser, { data: dataUpdate }] = useMutation(UPDATE_USER, ContextHeader)
+  const [updateUser, { data: dataUpdate }] = useMutation(
+    UPDATE_USER,
+    ContextHeader(token)
+  )
 
   if (loading) return <p>Loading...</p>
-  if (error) return <p>Error </p>
+  if (error) return <p>Error on request. Are you logged in?</p>
 
-  return (
+  return !token ? (
+    <div>You are NOT logged in</div>
+  ) : (
     <div className="main-container">
-      {users?.length >= 0 &&
-      // users?.[0] &&
-      users  &&
-      userIndex < users.length ? (
+      {users?.length >= 0 && users && userIndex < users.length ? (
         <ul>
           {
-            // users.map(user => (   // For img alt={users.name[0]}
             <li key={users[userIndex]?._id}>
-              <img src="https://placekitten.com/640/392" />
+              <div className="main-verticalhorizontal">
+                <Image
+                  src={users?.[userIndex]?.avatar}
+                 
+                  width="300"
+                  height="300"
+                  roundedCircle
+                />
+              </div>
+
               <footer>
                 <strong id="name"> {users?.[userIndex]?.name} </strong>
                 <br />
@@ -57,7 +76,7 @@ export default function Users({ match }) {
                 {/*spoken languages*/}
                 {users[userIndex]?.languages.map((languages, index) => {
                   return (
-                    <Badge pill variant="danger">
+                    <Badge pill variant="danger" key={index+1}>
                       {languages}
                     </Badge>
                   )
@@ -71,8 +90,12 @@ export default function Users({ match }) {
                         variables: {
                           blocked: { toPush: users[userIndex]?._id },
                         },
-                      }).then((res) => {
-                        refetch()
+                      })
+                        .catch(() => {
+                          setErrored(true)
+                        })
+                        .then((res) => {
+                          refetch()
                         })
 
                       setUserIndex(userIndex + 1)
@@ -102,7 +125,7 @@ export default function Users({ match }) {
                       },
                     }).then((res) => {
                       refetch()
-                      })
+                    })
 
                     console.log(
                       "user was DIS-liked, _id/Name",
@@ -150,7 +173,7 @@ export default function Users({ match }) {
       ) : (
         <div className="empty">
           <img src={icon} alt="Tinder" className="icon" />
-          <h2>There's no one else here.</h2>
+          <h2>There's no one else here to swipe.</h2>
         </div>
       )}
       {matchDev && (

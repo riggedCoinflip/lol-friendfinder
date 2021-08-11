@@ -1,0 +1,73 @@
+<mxfile host="app.diagrams.net" modified="2021-07-21T14:24:19.213Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36" etag="kL-e6E0h-X5BRbIz_BgB" version="14.7.3" type="github">
+  <diagram name="Page-1" id="5f0bae14-7c28-e335-631c-24af17079c00">
+    <mxGraphModel dx="1662" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="miuzoMhV4orZHuT02o5_-57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="miuzoMhV4orZHuT02o5_-29" target="miuzoMhV4orZHuT02o5_-52" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="G3qzU1fQjU4DV7F7RYAy-4" value="&lt;font style=&quot;font-size: 14px&quot;&gt;state.friends&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="miuzoMhV4orZHuT02o5_-57">
+          <mxGeometry x="-0.2167" y="-4" relative="1" as="geometry">
+            <mxPoint x="3" y="-24" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="miuzoMhV4orZHuT02o5_-29" value="Profile" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" parent="1" vertex="1">
+          <mxGeometry x="90" y="130" width="330" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="G3qzU1fQjU4DV7F7RYAy-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="miuzoMhV4orZHuT02o5_-30" target="miuzoMhV4orZHuT02o5_-29">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="360" />
+              <mxPoint x="480" y="290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="miuzoMhV4orZHuT02o5_-30" value="Users (toSwipe)" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" parent="1" vertex="1">
+          <mxGeometry x="540" y="250" width="190" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="miuzoMhV4orZHuT02o5_-32" value="Languages" style="html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" parent="1" vertex="1">
+          <mxGeometry x="280" y="192.5" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="miuzoMhV4orZHuT02o5_-49" value="Profile image" style="html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" parent="1" vertex="1">
+          <mxGeometry x="280" y="232.5" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="miuzoMhV4orZHuT02o5_-50" value="in Game Roles" style="html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" parent="1" vertex="1">
+          <mxGeometry x="280" y="277.5" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="miuzoMhV4orZHuT02o5_-51" value="like - dislike&lt;br&gt;block" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+          <mxGeometry x="580" y="395" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="G3qzU1fQjU4DV7F7RYAy-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="miuzoMhV4orZHuT02o5_-52" target="G3qzU1fQjU4DV7F7RYAy-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="miuzoMhV4orZHuT02o5_-52" value="Friends" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" parent="1" vertex="1">
+          <mxGeometry x="540" y="12.5" width="190" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="G3qzU1fQjU4DV7F7RYAy-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.005;entryY=0.682;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="miuzoMhV4orZHuT02o5_-53" target="miuzoMhV4orZHuT02o5_-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="G3qzU1fQjU4DV7F7RYAy-2" value="goTo" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G3qzU1fQjU4DV7F7RYAy-1">
+          <mxGeometry x="-0.1942" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="miuzoMhV4orZHuT02o5_-53" value="LogIn" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" parent="1" vertex="1">
+          <mxGeometry x="100" y="510" width="190" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="miuzoMhV4orZHuT02o5_-54" value="SignUp" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" parent="1" vertex="1">
+          <mxGeometry x="310" y="510" width="160" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="G3qzU1fQjU4DV7F7RYAy-6" value="&lt;span style=&quot;font-family: &amp;#34;verdana&amp;#34;&quot;&gt;IF email+password ok&lt;/span&gt;&lt;br style=&quot;font-family: &amp;#34;verdana&amp;#34;&quot;&gt;&lt;span style=&quot;font-family: &amp;#34;verdana&amp;#34;&quot;&gt;THEN return a TOKEN&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="120" y="590" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="G3qzU1fQjU4DV7F7RYAy-10" value="&lt;font style=&quot;font-size: 14px&quot;&gt;Match=new friend&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="470" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="G3qzU1fQjU4DV7F7RYAy-11" value="Chat" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="860" y="12.5" width="190" height="220" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

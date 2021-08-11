@@ -8,7 +8,23 @@ import App from './App';
 import { onError } from 'apollo-link-error';
 
 const client = new ApolloClient({
-    uri: process.env.REACT_APP_HOST || "http://localhost:5000/graphql",
+    uri: process.env.REACT_APP_HOST,
+     
+    defaultOptions : {
+      watchQuery: {
+        fetchPolicy: 'cache-first',
+        errorPolicy: 'ignore',
+      },
+      query: {
+        fetchPolicy: 'network-only',
+        errorPolicy: 'all',
+      },
+      mutate: {
+        errorPolicy: 'all',
+      },
+    },
+    
+    
     cache: new InMemoryCache({
       typePolicies: {
         User: {
@@ -16,6 +32,7 @@ const client = new ApolloClient({
         }
       },
     }),
+    
     onError: ({ networkError, graphQLErrors }) => {
         console.log('graphQLErrors', graphQLErrors)
         console.log('networkError', networkError)
@@ -30,6 +47,7 @@ const link = onError(({ graphQLErrors, networkError }) => {
       );
     if (networkError) console.log(`[Network error]: ${networkError}`);
   });
+  
 render(
     <Router>
         <ApolloProvider client={client}>

@@ -10,6 +10,9 @@ export  const useForm = (initialValues) => {
       setValues({ 
           ...values, 
           [e.target.name]: e.target.value })
+          console.table(values.email, values.password)
+
+
     },
   ]
 }

@@ -1,9 +1,9 @@
 import { gql } from "@apollo/client"
 
 export const LOGIN = gql`
-query login($email: String!, $password: String!) {
-  login(email: $email, password: $password)
-}
+  query login($email: String!, $password: String!) {
+    login(email: $email, password: $password)
+  }
 `
 export const GET_MY_INFO = gql`
   {
@@ -16,25 +16,29 @@ export const GET_MY_INFO = gql`
       avatar
       ingameRole
       dateOfBirth
-      friends { user }
+      friends {
+        user
+        chat
+      }
       blocked
     }
   }
 `
 
 export const GET_USER_TO_SWIPE = gql`
-        { 
-          userManyToSwipe
-{
-        name
-        age
-        languages
-        ingameRole
-        _id
-        gender  
-        aboutMe     
-}
-}`;
+  {
+    userManyToSwipe {
+      name
+      age
+      languages
+      ingameRole
+      _id
+      gender
+      aboutMe
+      avatar
+    }
+  }
+`
 
 export const GET_LANGUAGES = gql`
   {
@@ -47,11 +51,29 @@ export const GET_LANGUAGES = gql`
 `
 
 export const GET_USER_BY_ID = gql`
- query  userOneById ( $userId: MongoID! ){
-    userOneById(_id: $userId)
-    {
-        _id
-        name
-        languages
+  query userOneById($userId: MongoID!) {
+    userOneById(_id: $userId) {
+      _id
+      name
+      languages
+      gender
+      avatar
+      age
+      languages
+      aboutMe
     }
-}`;
+  }
+`
+
+export const GET_CHAT = gql`
+  query GET_CHAT($chatID: MongoID!  $page: Int) {
+    getChat(chatID: $chatID page: $page) {
+      participants
+      messages {
+        content
+        author
+        createdAt
+      }
+    }
+  }
+`

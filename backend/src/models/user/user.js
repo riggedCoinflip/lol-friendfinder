@@ -106,16 +106,18 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.plugin(idvalidator);
 
+function setAge (dateOfBirth) {
+    //https://stackoverflow.com/a/24181701/12340711 - good enough
+    if (!dateOfBirth) return -1 //default
+    const ageDifMs = Date.now() - dateOfBirth
+    const ageDate = new Date(ageDifMs) // milliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970)
+}
+
 //update dateOfBirth
 UserSchema.pre("save", function (next) {
     if (this.isModified("dateOfBirth") || this.isModified("age")) {
-        this.age = (() => {
-            //https://stackoverflow.com/a/24181701/12340711 - good enough
-            if (!this.dateOfBirth) return -1 //default
-            const ageDifMs = Date.now() - this.dateOfBirth
-            const ageDate = new Date(ageDifMs); // milliseconds from epoch
-            return Math.abs(ageDate.getUTCFullYear() - 1970);
-        })()
+        this.age = setAge(this.dateOfBirth)
     }
     next()
 })
@@ -189,6 +191,7 @@ const UserTCPublic = composeMongoose(User, {
 })
 
 module.exports = {
+    setAge,
     User,
     UserTCAdmin,
     UserTCPublic,

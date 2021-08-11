@@ -4,6 +4,8 @@ const mongoose = require("mongoose")
 const createApollo = require("./src/utils/createApolloServer")
 const expressApp = require("./src/utils/createExpressApp")
 const launchServer = require("./src/utils/launchServer")
+const cron = require("node-cron")
+const {User, setAge} = require("./src/models/user/user")
 
 // allow use of dotenv
 dotenv.config()
@@ -28,6 +30,26 @@ mongoose
     .then(async () => {
         console.log("Connection to DB successful")
 
+        function updateAge () {
+            User.find().cursor().eachAsync(user => {
+                user.age = setAge(user.dateOfBirth)
+                //console.log(user.name, user.age)
+                return user.save()
+            })
+        }
+
+        // update once on startup
+        updateAge()
+        // and then daily
+        cron.schedule(
+            "0 8 * * *", //every day at 8 am
+            () => {
+                console.log("Update age")
+                updateAge()
+            },
+            {}
+        )
+
         if (process.env.NODE_ENV === "development") {
             //create data for db
             const createMongoData = require("./src/utils/createMongoData")
@@ -36,7 +58,8 @@ mongoose
     })
     .catch(err => {
         console.log(`Connection to DB Error: ${err}`)
-    });
+    })
+
 
 //express
 const app = expressApp()
@@ -45,6 +68,6 @@ const app = expressApp()
 const apollo = createApollo(app)
 
 //launch
-launchServer(app, apollo,  process.env.PORT)
+launchServer(app, apollo, process.env.PORT)
 
 
