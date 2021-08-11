@@ -60,23 +60,24 @@
   font-size: 20px;
 }
 //Just centering the first letter
-.center-me { 
+.center-me {
   margin: auto;
 }
 
 //CSS for Chat
 :root {
---main-bg-color: #2b2e2e; 
---main-text-color: white;
---sec-bg-color: #3f4444;
+  --main-bg-color: #2b2e2e;
+  --main-text-color: white;
+  --sec-bg-color: #3f4444;
+  --sec-text-color: rgb(210, 208, 214);
 }
 
 .chat-container {
   display: flex;
   background-color: var(--main-bg-color);
-  color: var(--main-text-color); 
-   margin:0;
-  padding:0;
+  color: var(--main-text-color);
+  margin: 0;
+  padding: 0;
   height: 100vh;
 }
 
@@ -95,83 +96,72 @@
   background-repeat: no-repeat;
   background-size: auto;
 }
-.user-info {  
+.user-info {
   background-color: var(--sec-bg-color);
- 
 }
-.user-many {  
+.user-many {
   flex: 1;
-  
 }
 
-.conversation { 
+.conversation {
   display: flex;
-  flex: 1; 
+  flex: 1;
   overflow: auto;
   height: 100%;
   overflow-y: scroll;
   flex-direction: column;
   justify-content: flex-end;
- }
+}
 
+.createdAt {
+  opacity: 0.5;
+}
 
 .message-field {
   display: flex;
 }
 
-.message-text, .user-search {
+.message-text,
+.user-search {
   flex: 1;
   background-color: var(--main-bg-color);
-  color:var(--main-text-color);
+  color: var(--main-text-color);
 }
 
-.flex-row{
+.flex-row {
   display: flex;
   flex-direction: row;
 }
 
-.justifyStart {
-  justify-content: flex-start;
-}
-
-.justifyEnd {
-  justify-content: flex-end;
-}
-
-.messageContainer {
+.message-container-me {
   display: flex;
   justify-content: flex-end;
   padding: 0 5%;
   margin-top: 3px;
+  color: var(--main-text-color);
 }
 
-.messageBox {
-  background: #F3F3F3;
-  border-radius: 20px;
-  padding: 5px 20px;
-  color: white;
-  display: inline-block;
-  max-width: 80%;
-}
-.backgroundBlue {
-  background: #3f444d;
+.message-container-others {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 5%;
+  margin-top: 3px;
+  color: var(--sec-text-color);
+ 
 }
 
-.backgroundLight {
-  background: #F3F3F3;
-}
-html{
+html {
   height: auto;
- }
+}
 
-body{ 
+body {
   height: 100%;
   overflow-y: scroll;
- }
+}
 
- //Hide the scrollbars
- .body::-webkit-scrollbar, 
- .conversation::-webkit-scrollbar,
- .chat-left-column::-webkit-scrollbar {
+//Hide the scrollbars
+.body::-webkit-scrollbar,
+.conversation::-webkit-scrollbar,
+.chat-left-column::-webkit-scrollbar {
   display: none;
 }

@@ -22,6 +22,7 @@ import {
 export default function Profile() {
   const { token, state, refetch } = useContext(AuthContext)
   const [errored, setErrored] = useState(false)
+  const [profile, setProfile] = useState(state)
 
   const genderOptions = [
     "non_binary",
@@ -38,15 +39,15 @@ export default function Profile() {
   useEffect(() => {
     if (!profile) {
       refetch()
+  setProfile(state)
       console.log("We refetch", profile)
     }
-  }, [])
+  }, [state])
 
   const [updateUser, { data: dataUpdate }] = useMutation(
     UPDATE_USER,
     ContextHeader(token)
   )
-  const [profile, setProfile] = useState(state)
   //Get users data
   // if (loading) return <p>Loading...</p>
   //if (error) return <p>Error, are you already logged in?!</p>
