@@ -161,7 +161,7 @@ export default function Chat() {
               name="contentMessage"
               type="text"
               className="message-text"
-              placeholder="Type to receive new messages...💬"
+              placeholder="Type to receive the last messages...💬"
               onChange={messageHandler}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
