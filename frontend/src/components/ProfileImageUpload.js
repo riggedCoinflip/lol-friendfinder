@@ -12,9 +12,9 @@ export default function ProfileImage() {
   const imageMaxSize = 1_000_000 // 1Mb
   const admittedImageFormats = ["png", "jpg", "jpeg"]
 
-  const urlAvatar = process.env.REACT_APP_HOST.slice(0, -8) + `/api/avatar` //Using REACT_APP_HOST and removing the section `/graphql`
+  const urlAvatar = process.env.REACT_APP_HOST.slice(0, -8) + `/api/avatar`
+  //Using REACT_APP_HOST and removing the section `/graphql`
   //console.log("URLAvatar", process.env.REACT_APP_HOST.slice(0, -8))
-
 
   function fileSelectedHandler(e) {
     let imageType = e.target.files[0].type
@@ -33,26 +33,36 @@ export default function ProfileImage() {
 
     if (!formatValid()) {
       setErrored(`File have to be "jpg", "jpeg", "png" `)
+      disableBtn()
     } else if (imageSize >= imageMaxSize) {
       setErrored("Img too big")
+      disableBtn()
     } else {
+      enableBtn()
       setErrored(true)
       setFile(target)
       console.log(formatValid())
     }
   }
 
-function disableBtn()
-{  
-const uploadBtn = document.getElementById("buttonUpload")
-uploadBtn.disabled = true
-uploadBtn.style.background='#000000';
-}
+  function disableBtn() {
+    const uploadBtn = document.getElementById("buttonUpload")
+
+    uploadBtn.disabled = true
+    uploadBtn.style.background = "#000000"
+  }
+
+  function enableBtn() {
+    const uploadBtn = document.getElementById("buttonUpload")
+
+    uploadBtn.disabled = false
+    uploadBtn.style.background = "#007bff"
+  }
 
   function fileUploadHandler() {
     errored
       ? //console.log("There is a error", errored)
-      disableBtn()
+        disableBtn()
       : console.log("uploading pic...", file.name)
     const fd = new FormData()
     fd.append("avatar", file)
@@ -75,7 +85,7 @@ uploadBtn.style.background='#000000';
   }
 
   return (
-    <div className="ProfileImage center" >
+    <div className="ProfileImage center">
       <Image
         src={state?.avatar}
         width="300"
