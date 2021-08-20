@@ -17,11 +17,11 @@ export default function ProfileImage() {
   //console.log("URLAvatar", process.env.REACT_APP_HOST.slice(0, -8))
 
   function fileSelectedHandler(e) {
-    let imageType = e.target.files[0].type
+    let imageType = e.target?.files[0].type
     imageType = imageType.toLowerCase().slice(6) //from image/png make png jpeg
-    const imageSize = e.target.files[0].size
-    const target = e.target.files[0]
-    console.log("type", imageType, "original: ", target.type)
+    const imageSize = e.target?.files[0].size
+    const target = e.target?.files[0]
+    console.log("type", imageType, "original: ", target?.type)
     console.log("size", imageSize)
     console.log("target", target)
 
@@ -47,21 +47,19 @@ export default function ProfileImage() {
 
   function disableBtn() {
     const uploadBtn = document.getElementById("buttonUpload")
-
     uploadBtn.disabled = true
     uploadBtn.style.background = "#000000"
   }
 
   function enableBtn() {
     const uploadBtn = document.getElementById("buttonUpload")
-
     uploadBtn.disabled = false
     uploadBtn.style.background = "#007bff"
   }
 
   function fileUploadHandler() {
     errored
-      ? //console.log("There is a error", errored)
+      ? 
         disableBtn()
       : console.log("uploading pic...", file.name)
     const fd = new FormData()

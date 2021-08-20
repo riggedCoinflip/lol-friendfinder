@@ -14,19 +14,23 @@ import { Badge, Image } from "react-bootstrap"
 export default function Users({ match }) {
   const { token } = useContext(AuthContext)
 
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState()
   const [userIndex, setUserIndex] = useState(0)
   const [matchDev, setMatchDev] = useState(null)
   const [errored, setErrored] = useState(false)
 
   useEffect(() => {
-    if (dataQuery) setUsers(dataQuery.userManyToSwipe)
+    if (!dataQuery) 
+    refetch()
+    setUsers(dataQuery?.userManyToSwipe)
     console.log("useEffect[]", users)
   }, [])
 
   useEffect(() => {
+   if(!users){
     refetch()
     setUsers(dataQuery?.userManyToSwipe)
+  }
   }, [users])
 
   const {
