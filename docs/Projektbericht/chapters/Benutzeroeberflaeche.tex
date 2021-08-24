@@ -1,27 +1,60 @@
 % Wie werden die Informationen die Benutzer gezeigt und wie können sie diese manipulieren
 \paragraph{}
-Welches (moderne)Framework (für JavaScript) stehen für dir Entwicklung 
-einer Web-Anwendung zur Verfügung?
 
+Nachdem die Projektanforderungen definiert waren, wurden verschiedene Optionen für die Entwicklung der Benutzeroberfläche bewertet.
+
+Folgende JavaScript Frameworks wurden berücksichtigt: Angular, Vue und React.
+
+
+Eigentlich hätte das Projekt auch mit Angular durchgeführt werden können, mit dem Unterschied, dass die Entwicklung mit Angular mehr Zeit gekostet hätte, außerdem ist das Projekt nicht komplex genug, um das Angular-Ökosystem zu benötigen.
+\paragraph{}
+\textbf{Warum sollte man React berücksichtigen?}\\
+\newline
+\textbf{Vorteile} 
+\newline
+
+\textbf{Deklarativ} \\
+Mit React ist es leicht, interaktive Benutzeroberflächen zu erstellen. Man kann einfache Ansichten für jeden Zustand der Anwendung. React aktualisiert und rendert effizient genau die richtigen Komponenten, wenn sich deren Daten ändern.
+Durch deklarative Ansichten wird der Code vorhersehbarer und einfacher zu debuggen.
+\newline
+
+\textbf{Komponentenbasiert}\\
+Gekapselte Komponenten, die ihren eigenen Zustand verwalten.
+Da die Komponentenlogik in JavaScript geschrieben wird, kann man problemlos umfangreiche Daten durch die Anwendung leiten und den Zustand aus dem DOM heraushalten.
+\newline
+
+\textbf{Große Entwickler-Community}\\
+React besteht aus rund 56.162 professionellen Entwicklern auf der ganzen Welt.
+
+Laut einer StackOverFlow Umfrage hat React.js im Jahr 2021 jQuery als das am häufigsten verwendete Web-Framework überholt.
+\newline
+
+\textbf{Nachteile}\\
+Bei der Auswahl des Frameworks wollten wir so unvoreingenommen wie möglich sein, daher listen wir einige Aspekte auf, die bei Projekten mit React zu beachten sind.
+\newline
+
+\textbf{JSX}\\
+Während dies für einige Entwickler ein Nachteil sein könnte, ist es wichtig zu beachten, dass JSX auch seine Vorteile hat und hilft, den Code vor Injektionen zu schützen.
+\newline
+
+\textbf{Ein hohes Entwicklungstempo}\\
+Entwickler, die das Entwicklungstempo als Nachteil sehen, würden argumentieren, dass sie die Arbeit mit ReactJS ständig neu erlernen müssen und es schwierig ist, damit Schritt zu halten.
+
+Es ist wichtig festzustellen, dass neue Entwicklungen des Frameworks verbessern und dazu beitragen, dass er ein höheres Leistungsniveau erreicht. 
+\newline
+
+\textbf{Eine zu leichte Dokumentation}\\
+Aufgrund der rasanten Entwicklung ist die Dokumentation in Bezug auf die neuesten Aktualisierungen und Änderungen oft spärlich. 
 
 \paragraph{}
-Angular, Vue und React...
+\textbf{Was sind React Hooks und wie kann man daraus profitieren?}\\
+Beginnend mit 16.8.0, enthält React eine stabile Implementierung von React Hooks.
 
-\paragraph{}
-Warum sollte man React berücksichtigen?
 
-weil, wenn man mit React arbeitet, schreibt man direkt JavaScript und nicht die Syntax von Vue oder Angular.
-…Link, Route, Switch Error Handling (Network…)
-
-Vor- und Nachteile
-FOLGEN
-
-\paragraph{}
-Was sind React Hooks und wie kann man daraus profitieren?
 
 \paragraph{}
 - useState
-useState gibt uns die Möglichkeit, den Zustand unserer Anwendung zu verwalten. Sie besteht aus mindestens einen Wert und einer Funktion, die die besagte Variable aktualisiert.
+Das Hook useState gibt uns die Möglichkeit, den Zustand unserer Anwendung zu verwalten. Sie besteht aus mindestens einen Wert und einer Funktion, die die besagte Variable aktualisiert.
 Der Wert bei der Definition kann ein Zahl, ein String, ein Array oder sogar ein Objekt sein.
 Darüber hinaus kann bei der Definition von useState ein Anfangswert festgelegt werden.
 
@@ -32,7 +65,7 @@ Darüber hinaus kann bei der Definition von useState ein Anfangswert festgelegt 
 - useContext…
 
 \paragraph{}
-API Anfragen mit Rest, Axios und Apollo Client 
+API Anfragen mit Rest, Axios und Apollo Client
 
 \paragraph{}
 ES FOLGT Was ist axios…
@@ -40,7 +73,7 @@ ES FOLGT Was ist axios…
 \paragraph{}
 Über axios wurde eine Post-Anfrage bereitgestellt, die ermöglicht hat Bilder auf die S3 Speicher von AWS hochzuladen.
 
-In der Benutzeroberfläche wurde ein Eingabefeld "input" verwendet mit type = "file" definiert. 
+In der Benutzeroberfläche wurde ein Eingabefeld "input" verwendet mit type = "file" definiert.
 Um die Art der hochzuladenden Dateien einzuschränken, wurde eine Reihe zulässiger Dateiformate definiert, die an den Server gesendet werden dürfen.
 
 

@@ -14,16 +14,16 @@
 \contentsline {section}{\numberline {4}Benutzeroeberflaeche}{7}{section.18}%
 \contentsline {paragraph}{}{7}{section*.19}%
 \contentsline {paragraph}{}{7}{section*.20}%
-\contentsline {paragraph}{}{7}{section*.21}%
-\contentsline {paragraph}{}{7}{section*.22}%
-\contentsline {paragraph}{}{7}{section*.23}%
-\contentsline {paragraph}{}{7}{section*.24}%
-\contentsline {paragraph}{}{7}{section*.25}%
-\contentsline {paragraph}{}{7}{section*.26}%
-\contentsline {section}{\numberline {5}Zusammenfassung und Ausblick}{8}{section.27}%
-\contentsline {section}{\numberline {6}Quellenverzeichnis}{9}{section.29}%
-\contentsline {subsection}{\numberline {6.1}Literatur}{9}{subsection.30}%
-\contentsline {subsection}{\numberline {6.2}Internetquellen}{9}{subsection.32}%
-\contentsline {section}{\numberline {A}Anhang}{10}{section.34}%
-\contentsline {subsection}{\numberline {A.1}Unterabschnitt von Anhang}{10}{subsection.35}%
-\contentsline {section}{Erklärung über die selbständige Abfassung der Arbeit}{11}{section*.36}%
+\contentsline {paragraph}{}{8}{section*.21}%
+\contentsline {paragraph}{}{8}{section*.22}%
+\contentsline {paragraph}{}{8}{section*.23}%
+\contentsline {paragraph}{}{8}{section*.24}%
+\contentsline {paragraph}{}{8}{section*.25}%
+\contentsline {section}{\numberline {5}Serveranfragen }{9}{section.26}%
+\contentsline {section}{\numberline {6}Zusammenfassung und Ausblick}{12}{section.56}%
+\contentsline {section}{\numberline {7}Quellenverzeichnis}{13}{section.58}%
+\contentsline {subsection}{\numberline {7.1}Literatur}{13}{subsection.59}%
+\contentsline {subsection}{\numberline {7.2}Internetquellen}{13}{subsection.61}%
+\contentsline {section}{\numberline {A}Anhang}{14}{section.63}%
+\contentsline {subsection}{\numberline {A.1}Unterabschnitt von Anhang}{14}{subsection.64}%
+\contentsline {section}{Erklärung über die selbständige Abfassung der Arbeit}{15}{section*.65}%

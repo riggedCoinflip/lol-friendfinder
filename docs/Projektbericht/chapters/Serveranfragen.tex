@@ -1,0 +1,105 @@
+
+
+
+//TO COMPLETE...
+- GraphQL
+- React-Bootsrap
+
+3x Mögliche Alternativen für die API-Anfragen im React
+
+Rest
+GraphQL
+Ein Endpunkt…
+Queries, Mutations und Subscriptions…
+
+Kein Over-Fetching:_
+Mit GraphQL werden nur die Daten zurückgegeben, die benötigt werden, und nicht mehr.
+Nur bestimmte zugelassen Datentypen werden akzeptiert.
+
+3x Warum sollte Apollo Client und GraphQL in Betracht gezogen werden?
+https://www.howtographql.com/basics/1-graphql-is-the-better-rest/
+
+https://www.freecodecamp.org/news/react-apollo-client-2020-tutorial/
+
+GraphQL (gql)
+- API Requests -> Queries and mutations
+
+\textbf{Wie wurden die Anfragen in unserem Projekt verwaltet?}\\
+Alle Queries/Abfragen und Mutations wurden in einem Ordner gesammelt. 
+Diese wurden für die spätere Verwendung in den React-Komponenten exportiert.
+
+\begin{lstlisting}
+    export const GET_MY_INFO = gql`
+    {
+      userSelf {
+        _id
+        name
+        aboutMe
+        languages
+        gender
+        avatar
+        ingameRole
+        dateOfBirth
+        friends { user chat }        
+        blocked
+      }
+    }
+  `
+//Beispiel einer Abfrage
+\end{lstlisting}
+
+
+\newpage
+\textbf{Apollo Client}\\
+Nachdem eine Abfrage exportiert wurde, ist sie bereit, in einer React-Komponente importiert und angewendet zu werden.
+
+\begin{lstlisting}
+import { GET_MY_INFO } from "./GraphQL/Queries"
+
+const { loading, error, data } = useQuery(
+GET_MY_INFO,
+ContextHeader(token),
+)
+\end{lstlisting}
+Die Konstante ContextHeader enthält das Token in der Struktur, die erforderlich ist, um die Abfrage nur dann stellen zu können, wenn der Benutzer dazu berechtigt ist.
+Sollte das Token undefined, null oder ungültig sein, wird der Server ein Fehler zurückgegeben.
+
+Der useQuery-Hook liefert ein Ergebnisobjekt, das Folgendes enthält:
+
+\textbf{loading:}\\
+Ein boolescher Wert, der angibt, ob die Abfrage in Bearbeitung ist.
+Wenn loading true ist, ist die Anfrage noch nicht abgeschlossen. Typischerweise kann diese Information verwendet werden, um einen Lade-Spinner anzuzeigen.
+\\
+
+\textbf{error:}\\
+Ein Laufzeitfehler mit den Eigenschaften graphQLErrors und networkError.
+Enthält Informationen darüber, was bei Ihrer Abfrage schief gelaufen ist.
+\\
+
+\textbf{date:}\\
+Ein Objekt, das das Ergebnis der GraphQL-Abfrage enthält.
+Es enthält die tatsächlichen Daten vom Server. 
+\\
+
+
+\textbf{Axios} \\
+
+Was ist axios…
+
+Über axios wurde eine Post-Anfrage bereitgestellt, die ermöglicht hat Bilder auf die S3 Speicher von AWS hochzuladen.
+
+In der Benutzeroberfläche wurde ein Eingabefeld "input" verwendet mit type = "file" definiert.
+Um die Art der hochzuladenden Dateien einzuschränken, wurde eine Reihe zulässiger Dateiformate definiert, die an den Server gesendet werden dürfen.
+\\
+
+\begin{lstlisting}
+    const admittedImageFormats = ["png", "jpg", "jpeg"]
+\end{lstlisting}
+\newline
+
+Die Größe der hochzuladenden Datei wurde um 1Mb abgegrenzt.
+Durch die Eigenschaft „size“ der ausgewählten Datei konnten wir auf die Größe der Datei zugreifen.
+
+\begin{lstlisting}
+    const imageSize = e.target.files[0].size
+\end{lstlisting}
