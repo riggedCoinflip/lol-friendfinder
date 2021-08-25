@@ -1,31 +1,50 @@
+\textbf{GraphQL}\\
+GraphQL ist eine Abfragesprache und Server-Laufzeitumgebung für APIs.
+Ihre Aufgabe ist es, genau die Daten zu liefern, die anfordert werden, und nicht mehr.
+\\
+Mit GraphQL sind APIs schnell, flexibel und einfach für Entwickler.
+\\ \\
+Laut dem 2020 State of the API Report von Postman.com steht GrapQL an fünfter Stelle der spannendsten Technologien für 2021.
+% \begin{quote}  {Vgl. u.a. \cite{RH1}} \end{quote}
 
+Im Hinblick auf die Art und Weise, wie Abfragen an den Server mit Hilfe von \\ GraphQL behandelt werden können, sind folgende Aspekte zu beachten.
+\\
+\begin{quote}
+    \textbf{Vorteile}\\
 
+    \begin{itemize}
+        \item
+              GraphQL-Aufrufe werden in einem einzigen Round Trip gehandhabt. Wir bekommen genau die Daten, die angefragt haben (kein Over-Fetching).
 
-//TO COMPLETE...
-- GraphQL
-- React-Bootsrap
+        \item
+              Stark definierte Datentypen verringern das Risiko einer Fehlkommunikation zwischen Client und Server.
 
-3x Mögliche Alternativen für die API-Anfragen im React
+        \item
+              GraphQL ist introspektiv. So können wir eine Liste der verfügbaren Datentypen anfordern. Dies ist ideal für automatisch erstellte Dokumente.
 
-Rest
-GraphQL
-Ein Endpunkt…
-Queries, Mutations und Subscriptions…
+        \item
+              Eine Anwendungs-API kann sich mit GraphQL weiterentwickeln, ohne dass bestehende Anfragen beeinträchtigt werden.
+        \item
+              GraphQL schreibt keine spezifische Anwendungsarchitektur vor. Es kann auf einer vorhandenen REST-API installiert und mit aktuellen API-Management-Tools verwendet werden.
+        \item
+              Als Alternative zu REST ermöglicht GraphQL Entwicklern die Erstellung von Abfragen zur Extraktion von Daten aus mehreren Quellen mit einem einzigen API-Abfrage.
 
-Kein Over-Fetching:_
-Mit GraphQL werden nur die Daten zurückgegeben, die benötigt werden, und nicht mehr.
-Nur bestimmte zugelassen Datentypen werden akzeptiert.
+    \end{itemize}
+   
+    \textbf{Nachteile}
+    \begin{itemize}
+        \item
+        Für Entwickler, die sich bereits mit REST-APIs auskennen, bedeutet GraphQL weiteren Lernaufwand.
+     \item 
+     Mit GraphQL verschiebt sich die Funktionalität von Datenabfragen zur Serverseite, was zusätzliche Komplexität für Serverentwickler bedeutet.
 
-3x Warum sollte Apollo Client und GraphQL in Betracht gezogen werden?
-https://www.howtographql.com/basics/1-graphql-is-the-better-rest/
+\end{itemize}
 
-https://www.freecodecamp.org/news/react-apollo-client-2020-tutorial/
-
-GraphQL (gql)
-- API Requests -> Queries and mutations
+    \footnote{Vgl. u.a. \cite{RH1}}
+\end{quote}
 
 \textbf{Wie wurden die Anfragen in unserem Projekt verwaltet?}\\
-Alle Queries/Abfragen und Mutations wurden in einem Ordner gesammelt. 
+Alle Abfragen und Mutations wurden in einem Ordner gesammelt.
 Diese wurden für die spätere Verwendung in den React-Komponenten exportiert.
 
 \begin{lstlisting}
@@ -51,7 +70,7 @@ Diese wurden für die spätere Verwendung in den React-Komponenten exportiert.
 
 \newpage
 \textbf{Apollo Client}\\
-Nachdem eine Abfrage exportiert wurde, ist sie bereit, in einer React-Komponente importiert und angewendet zu werden.
+Nachdem eine Abfrage exportiert wurde, ist sie bereit, in einer React-Komponente importiert \\ und angewendet zu werden.
 
 \begin{lstlisting}
 import { GET_MY_INFO } from "./GraphQL/Queries"
@@ -62,44 +81,82 @@ ContextHeader(token),
 )
 \end{lstlisting}
 Die Konstante ContextHeader enthält das Token in der Struktur, die erforderlich ist, um die Abfrage nur dann stellen zu können, wenn der Benutzer dazu berechtigt ist.
+\\
 Sollte das Token undefined, null oder ungültig sein, wird der Server ein Fehler zurückgegeben.
+\\ 
 
-Der useQuery-Hook liefert ein Ergebnisobjekt, das Folgendes enthält:
-
+Der useQuery Hook liefert ein Ergebnisobjekt, das Folgendes enthält.
+\\
 \textbf{loading:}\\
 Ein boolescher Wert, der angibt, ob die Abfrage in Bearbeitung ist.
 Wenn loading true ist, ist die Anfrage noch nicht abgeschlossen. Typischerweise kann diese Information verwendet werden, um einen Lade-Spinner anzuzeigen.
 \\
 
 \textbf{error:}\\
-Ein Laufzeitfehler mit den Eigenschaften graphQLErrors und networkError.
-Enthält Informationen darüber, was bei Ihrer Abfrage schief gelaufen ist.
+Ein Laufzeitfehler mit den Eigenschaften von GraphQL Errors und network Error.
+Dieses enthält Informationen darüber, was bei der Abfrage schief gelaufen ist.
 \\
 
 \textbf{date:}\\
 Ein Objekt, das das Ergebnis der GraphQL-Abfrage enthält.
-Es enthält die tatsächlichen Daten vom Server. 
+\\Es enthält die tatsächlichen Daten vom Server.
 \\
 
-
+\newpage
 \textbf{Axios} \\
+Zusätzlich zu den GraphQL-Abfragen, wurde eine Post-Anfrage mit Axios bereitgestellt.
+Mit dieser war es möglich, Bilder auf die S3 Speicher von AWS hochzuladen.
 
-Was ist axios…
+\begin{quote}
+Axios ist ein Promise-basierter HTTP-Client für node.js und den browser. Er ist isomorphisch (= kann auf dem server und im browser verwendet weden). Auf der Server-Seite wir das modul http verwendet, während im Browser XMLHttpRequests (ajax) ausgeführt werden.
+\end{quote}
 
-Über axios wurde eine Post-Anfrage bereitgestellt, die ermöglicht hat Bilder auf die S3 Speicher von AWS hochzuladen.
+\begin{lstlisting}
+    function disableBtn() {
+        const uploadBtn = document.getElementById("uploadBtn")
+        uploadBtn.disabled = true
+        uploadBtn.style.background = "#000000"
+      }
+    
+      function fileUploadHandler() {
+        errored ? 
+         disableBtn()
+         /*
+        Tritt ein Fehler auf, wird die Abfrage nicht gesendet und der Knopf deaktiviert 
+        Ein Fehler tritt auf, wenn die Datei zu gross ist oder oder wenn sie ein ungueltiges  Format hat
+        */
+        :
+        console.log("uploading pic...", file?.name)
+        const fd = new FormData()
+        /* avatar ist der Name der Datei, die hochgeladen wird
+          file ist der zu sendende  Wert */
+        fd.append("avatar", file)  
+    
+        axios
+          .post(urlAvatar, fd, {
+            headers: {
+              "x-auth-token": TOKEN,
+            },
+          })
+          .then((res) => {
+            setState((state) => ({ ...state, avatar: res?.data?.location }))    
+            //In location finden wir die URL fuer das gerade hochgeladende Bild 
+          })
+      }\end{lstlisting}
 
-In der Benutzeroberfläche wurde ein Eingabefeld "input" verwendet mit type = "file" definiert.
-Um die Art der hochzuladenden Dateien einzuschränken, wurde eine Reihe zulässiger Dateiformate definiert, die an den Server gesendet werden dürfen.
-\\
+Das HTML-Eingabefeld "input" wurde folgendermaße definiert.
+\begin{lstlisting}
+    <input type="file" onChange={fileSelectedHandler} />
+\end{lstlisting}
 
+
+Das Format der hochzuladenden Dateien wurde limitiert, damit nur zulässige Dateien an den Server gesendet werden.
 \begin{lstlisting}
     const admittedImageFormats = ["png", "jpg", "jpeg"]
 \end{lstlisting}
-\newline
 
 Die Größe der hochzuladenden Datei wurde um 1Mb abgegrenzt.
 Durch die Eigenschaft „size“ der ausgewählten Datei konnten wir auf die Größe der Datei zugreifen.
-
 \begin{lstlisting}
     const imageSize = e.target.files[0].size
 \end{lstlisting}

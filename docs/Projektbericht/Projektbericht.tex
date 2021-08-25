@@ -23,6 +23,9 @@
 \usepackage{fancyhdr} % Für Kopf- und Fußzeilen
 \usepackage{lscape} % Für Querformat
 
+
+
+
 %% Show code in a better way
 \usepackage{listings}
 \usepackage{color}
@@ -133,6 +136,7 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% DOKUMENT                                %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{document}
   % Unbeschriftetes Vorblatt (Leere Seite)
   \pagestyle{empty} % Seite ohne Kopf- und Fußzeilen
@@ -315,9 +319,15 @@ Bei Verwendung von Tabellen und auch Abbildungen beachten Sie bitte, dass diese 
   \input{chapters/Benutzeroeberflaeche}
   
   \newpage  
-  \section{Serveranfragen }\label{kap_serveranfragen }
+  \section{Serveranfragen}\label{kap_serveranfragen }
   \input{chapters/Serveranfragen}
-  
+ 
+  %Temporär
+  \newpage  
+  \section{Glossar}\label{kap_glossar}
+  \input{chapters/Glossar}
+ 
+
   \newpage 
   \section{Zusammenfassung und Ausblick}\label{kap_zusammfAusbl}  
    %\input{}
@@ -367,7 +377,10 @@ Das Kapitel \textit{Zusammenfassung und Ausblick} enthält folgende formale Aspe
         \bibitem [SO01]{SO01}StackOverFlow: Developer Survey 2021. \url{https://insights.stackoverflow.com/survey/2021#section-most-popular-technologies-web-frameworks}
         \bibitem [EE1]{EE1}Elad Elrom: React and Libraries. \url{https://link.springer.com/content/pdf/10.1007%2F978-1-4842-6696-0.pdf}
         \bibitem [SS1]{SS1}Stoyan Stefanov: Durchstarten mit React. \url{https://content-select.com/media/moz_viewer/5d5fc360-478c-4038-ac17-246bb0dd2d03/language:de}
-        
+        \bibitem [RH1]{RH1}Red Hat: Was ist GraphQL? \url{https://www.redhat.com/de/topics/api/what-is-graphql}
+        \bibitem [PM1]{PM1}Postman: 2020 State of the API Report \url{https://www.postman.com/state-of-api/the-future-of-apis/#the-future-of-apis}
+        \bibitem [AX1]{AX1}Offizielle Website Axios \url{https://axios-http.com/}
+
         
         
      \end{thebibliography} 
@@ -425,6 +438,8 @@ Das Kapitel \textit{Zusammenfassung und Ausblick} enthält folgende formale Aspe
 % Unbeschriftetes Abschlussblatt (Leere Seite)
 \thispagestyle{empty}
 \input{leereSeite}
-    
+
+
+ 
 \end{document}
 
