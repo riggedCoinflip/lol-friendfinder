@@ -1,29 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% LaTeX-Vorlage für Abschlussarbeiten                                       %%
+%% Dokumentation für Praxisprojekt                                           %%
 %% (TH Köln -Campus Gummersbach, Fak. 10)                                    %%
 %%                                                                           %%
-%% Gemäß dem Merkblatt zur Anfertigung von Projekt-, Bachelor-, Master- und  %%
-%% Diplomarbeiten der Fakultät 10 von Frau Prof. Dr. Halfmann &              %%
-%% Herr Prof. Dr. Rühmann (Version vom 27.01.2008)                           %%
-%%                                                                           %%                                                                            
-%% Bitte sprechen Sie unbedingt mit Ihrer Betreuerin bzw. Ihrem Betreuer     %%
-%% bezüglich der Ausgestaltung Ihrer Arbeit!                                 %%
-%%                                                                           %%
-%%                                                                           %%
-%% MERKKASTEN IN DIESER VORLAGE:                                             %%
-%% In dieser Vorlage finden Sie Merkkasten, die Ihnen Informationen          %%
-%% zu bestimmten, formalen Aspekten geben. Sprechen Sie immer auch mit       %% 
-%% Ihrer Betreuerin bzw. Ihrem Betreuer dazu an.                             %%                       
-%% Für die eigene Verwendung der Vorlage entfernen oder kommentieren Sie die %%
-%% Merkkasten. Die betreffenden Bereiche für die Merkkasten in der Vorlage   %%
-%% sind wie folgt kommentiert: <MERKKASTEN> ... </MERKKASTEN>.               %%                            %%                                                                           %%
-%%                                                                           %%
-%% LIZENZ:                                                                   %%
-%% Diese Vorlage darf nicht kommerziell verbreitet                           %%
-%% werden. Eine nicht-kommerzielle Weitergabe ist                            %% 
-%% gestattet.                                                                %%
-%%                                                                           %%
-%% Von Ludger Schönfeld, M. Sc.,
 %% 2014-2017                            %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -45,6 +23,33 @@
 \usepackage{fancyhdr} % Für Kopf- und Fußzeilen
 \usepackage{lscape} % Für Querformat
 
+
+
+
+%% Show code in a better way
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
 %% Schriften (Beispiele)
 %% Weitere LaTeX-Schriften im "LaTeX Font Catalogue"
 %% unter: http://www.tug.dk/FontCatalogue/.
@@ -131,6 +136,7 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% DOKUMENT                                %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{document}
   % Unbeschriftetes Vorblatt (Leere Seite)
   \pagestyle{empty} % Seite ohne Kopf- und Fußzeilen
@@ -155,16 +161,18 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
       Titel der Arbeit\\
       \Large
       Ggf. Untertitel\\
-      \vspace{1.5cm}
+      \vspace{1cm}
       \large
       Vorgelegt an der TH Köln\\
       Campus Gummersbach\\
       im Studiengang\\
-      <Ihr Studiengang>\\ 
+      Wirtshaftsinformatik\\ 
       \vspace{1.0cm}
       ausgearbeitet von:\\
-      \textsc{Max Mustermann}\\
-      (Matrikelnummer: 12345678)\\
+      \textsc{Timo Kalter}\\
+       12345678\\
+      \textsc{Carlo Menjivar}\\
+      11117929\\
       \vspace{1.5cm}
       \begin{tabular}{ll} % Einfache Tabelle ohne Rahmen, mit 2 Spalten erzeugen
           \textbf{Erster Prüfer:} & <Name des 1. Prüfers> \\
@@ -258,7 +266,12 @@ Ein Abstract beinhaltet folgende Aspekte \footnote{ Vgl. \cite{SW11}, S. 249}:
 
   \section{Problemstellung}\label{kap_problemstellung}
   \input{chapters/Problemstellung}
+<<<<<<< HEAD
 
+=======
+  
+  \newpage  
+>>>>>>> pf-82-documentation_carlo
   \section{Einleitung}\label{kap_einleitung}  
    %\input{} 
    TEXT FOLGT...
@@ -305,7 +318,20 @@ Bei Verwendung von Tabellen und auch Abbildungen beachten Sie bitte, dass diese 
   \end{tcolorbox}
   %</MERKKASTEN>  
   
+  \newpage  
+  \section{Benutzeroeberflaeche}\label{kap_benutzeroeberflaeche}
+  \input{chapters/Benutzeroeberflaeche}
   
+  \newpage  
+  \section{Serveranfragen}\label{kap_serveranfragen }
+  \input{chapters/Serveranfragen}
+ 
+  %Temporär
+  \newpage  
+  \section{Glossar}\label{kap_glossar}
+  \input{chapters/Glossar}
+ 
+
   \newpage 
   \section{Zusammenfassung und Ausblick}\label{kap_zusammfAusbl}  
    %\input{}
@@ -349,6 +375,18 @@ Das Kapitel \textit{Zusammenfassung und Ausblick} enthält folgende formale Aspe
      \begin{thebibliography}{HR08} % 2. {...} => Hier die größte/breiteste Nummer (z.B. 99) oder Kurzbeleg angeben.
        \bibitem[BBoJ]{BBoJ}Bertelsmeier, Birgit (o. J.): Tipps zum Schrei\-b\-en ei\-n\-er Ab\-sch\-luss\-ar\-beit. Fach\-hoch\-schu\-le Köln-Campus Gummersbach, Institut für Informatik. \url{http://lwibs01.gm.fh-koeln.de/blogs/bertelsmeier/files/2008/05/abschlussarbeitsbetreuung.pdf} (29.10.2013).
         \bibitem[HR08]{HR08} Halfmann, Marion; Rühmann, Hans (2008): Merkblatt zur Anfertigung von Projekt-, Bachelor-, Master- und Diplomarbeiten der Fakultät 10. Fachhochschule Köln-Campus Gummersbach.\url{http://www.f10.fh-koeln.de/imperia/md/content/pdfs/studium/tipps/anleitungda270108.pdf} (29.10.2013).
+        \bibitem [V01]{V01} Offizielle Vue-Website: Vergleich zwischen Vue, React und Angular. \url{https://vuejs.org/v2/guide/comparison.html#Preact-and-Other-React-Like-Libraries} (unbekannte Veröffentlichung).
+        \bibitem [R01]{R01}Offizielle React-Website: React Hooks. \url{https://reactjs.org/docs/hooks-faq.html#which-versions-of-react-include-hooks}
+        \bibitem [A01]{A01}Offizielle Website Apollo für React. \url{https://www.apollographql.com/docs/react/}
+        \bibitem [SO01]{SO01}StackOverFlow: Developer Survey 2021. \url{https://insights.stackoverflow.com/survey/2021#section-most-popular-technologies-web-frameworks}
+        \bibitem [EE1]{EE1}Elad Elrom: React and Libraries. \url{https://link.springer.com/content/pdf/10.1007%2F978-1-4842-6696-0.pdf}
+        \bibitem [SS1]{SS1}Stoyan Stefanov: Durchstarten mit React. \url{https://content-select.com/media/moz_viewer/5d5fc360-478c-4038-ac17-246bb0dd2d03/language:de}
+        \bibitem [RH1]{RH1}Red Hat: Was ist GraphQL? \url{https://www.redhat.com/de/topics/api/what-is-graphql}
+        \bibitem [PM1]{PM1}Postman: 2020 State of the API Report \url{https://www.postman.com/state-of-api/the-future-of-apis/#the-future-of-apis}
+        \bibitem [AX1]{AX1}Offizielle Website Axios \url{https://axios-http.com/}
+
+        
+        
      \end{thebibliography} 
   
   % INFO: Biblatex -Ausgabe des  
@@ -404,6 +442,8 @@ Das Kapitel \textit{Zusammenfassung und Ausblick} enthält folgende formale Aspe
 % Unbeschriftetes Abschlussblatt (Leere Seite)
 \thispagestyle{empty}
 \input{leereSeite}
-    
+
+
+ 
 \end{document}
 
