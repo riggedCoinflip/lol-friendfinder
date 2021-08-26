@@ -25,17 +25,17 @@
 \contentsline {section}{\numberline {4}Benutzeroberfläche}{10}{section.29}%
 \contentsline {paragraph}{}{10}{section*.30}%
 \contentsline {paragraph}{}{10}{section*.31}%
-\contentsline {paragraph}{}{11}{section*.32}%
 \contentsline {paragraph}{}{11}{section*.33}%
 \contentsline {paragraph}{}{11}{section*.34}%
 \contentsline {paragraph}{}{11}{section*.35}%
 \contentsline {paragraph}{}{11}{section*.36}%
-\contentsline {section}{\numberline {5}Serveranfragen}{12}{section.37}%
-\contentsline {section}{\numberline {6}Glossar}{17}{section.102}%
-\contentsline {section}{\numberline {7}Zusammenfassung und Ausblick}{18}{section.103}%
-\contentsline {section}{\numberline {8}Quellenverzeichnis}{19}{section.105}%
-\contentsline {subsection}{\numberline {8.1}Literatur}{19}{subsection.106}%
-\contentsline {subsection}{\numberline {8.2}Internetquellen}{19}{subsection.108}%
-\contentsline {section}{\numberline {A}Anhang}{21}{section.110}%
-\contentsline {subsection}{\numberline {A.1}Unterabschnitt von Anhang}{21}{subsection.111}%
-\contentsline {section}{Erklärung über die selbständige Abfassung der Arbeit}{22}{section*.112}%
+\contentsline {paragraph}{}{11}{section*.37}%
+\contentsline {section}{\numberline {5}Serveranfragen}{12}{section.38}%
+\contentsline {section}{\numberline {6}Glossar}{17}{section.103}%
+\contentsline {section}{\numberline {7}Zusammenfassung und Ausblick}{18}{section.104}%
+\contentsline {section}{\numberline {8}Quellenverzeichnis}{19}{section.106}%
+\contentsline {subsection}{\numberline {8.1}Literatur}{19}{subsection.107}%
+\contentsline {subsection}{\numberline {8.2}Internetquellen}{19}{subsection.109}%
+\contentsline {section}{\numberline {A}Anhang}{21}{section.111}%
+\contentsline {subsection}{\numberline {A.1}Unterabschnitt von Anhang}{21}{subsection.112}%
+\contentsline {section}{Erklärung über die selbständige Abfassung der Arbeit}{22}{section*.113}%

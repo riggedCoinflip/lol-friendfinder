@@ -6,7 +6,7 @@ Nachdem die Projektanforderungen definiert waren, wurden verschiedene Optionen f
 Folgende JavaScript Frameworks wurden berücksichtigt: Angular, Vue und React.
 
 
-Eigentlich hätte das Projekt auch mit Angular durchgeführt werden können, mit dem Unterschied, dass die Entwicklung mit Angular mehr Zeit gekostet hätte, außerdem ist das Projekt nicht komplex genug, um das Angular-Ökosystem zu benötigen.
+Es war möglich das Projekt auch mit Angular durchgeführt werden können, mit dem Unterschied, dass die Entwicklung mit Angular mehr Zeit gekostet hätte, außerdem ist das Projekt nicht komplex genug, um das Angular-Ökosystem zu benötigen.
 \paragraph{}
 \textbf{Warum sollte man React berücksichtigen?}\\
 \newline
@@ -37,6 +37,7 @@ Bei der Auswahl des Frameworks wollten wir so unvoreingenommen wie möglich sein
 Während dies für einige Entwickler ein Nachteil sein könnte, ist es wichtig zu beachten, dass JSX auch seine Vorteile hat und hilft, den Code vor Injektionen zu schützen.
 \newline
 
+\newpage
 \textbf{Ein hohes Entwicklungstempo}\\
 Entwickler, die das Entwicklungstempo als Nachteil sehen, würden argumentieren, dass sie die Arbeit mit React ständig neu erlernen müssen und es schwierig ist, damit Schritt zu halten.
 
@@ -45,22 +46,28 @@ Es ist wichtig festzustellen, dass neue Entwicklungen des Frameworks verbessern 
 
 \textbf{Eine zu leichte Dokumentation}\\
 Aufgrund der rasanten Entwicklung ist die Dokumentation in Bezug auf die neuesten Aktualisierungen und Änderungen oft spärlich. 
+\footnote{ Vgl. \cite{R01}}
 
 \paragraph{}
 \textbf{Was sind React Hooks und wie kann man daraus profitieren?}\\
 Beginnend mit 16.8.0, enthält React eine stabile Implementierung von React Hooks.
 
-
-
 \paragraph{}
-- useState
-Das Hook useState gibt uns die Möglichkeit, den Zustand unserer Anwendung zu verwalten. Sie besteht aus mindestens einen Wert und einer Funktion, die die besagte Variable aktualisiert.
+\textbf{useState}\\
+Der Hook useState gibt uns die Möglichkeit, den Zustand unserer Anwendung zu verwalten. Sie besteht aus mindestens einen Wert und einer Funktion, die die besagte Variable aktualisiert.
 Der Wert bei der Definition kann ein Zahl, ein String, ein Array oder sogar ein Objekt sein.
 Darüber hinaus kann bei der Definition von useState ein Anfangswert festgelegt werden.
 
-- useEffect
+\begin{lstlisting}
+const [wert, definiereWert] = useState(Anfangswert);
+\end{lstlisting}
 
-%Solo corres cuando algo dentro de las dependencias cambian.-
+In unserem Projekt haben wir useState verwendet, um alle damit verbundenen Informationen zu manipulieren und dem Benutzer anzuzeigen.
+
+\textbf{useEffect}\\
+useEffect ermöglicht es uns, verschiedene Arten von Effekten zu erzeugen, nachdem eine Komponente gerendert wurde. 
+
+Der Hook useEffect entspricht einer Kombination aus componentDidMount, componentDidUpdate und componentWillUnmount.
 
 - useContext…
 

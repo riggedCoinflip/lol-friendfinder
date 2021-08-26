@@ -50,11 +50,9 @@ export default function App() {
   //Use2
   useEffect(() => {
     if (dataUserSelf || !state) {
-      //  refetch()
       setState(dataUserSelf?.userSelf)
-      console.log("useEffect 2", state)
     }
-  }, [dataUserSelf])
+  }, [dataUserSelf, state])
 
   console.log(dataUserSelf)
   //If F5
