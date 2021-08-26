@@ -11,16 +11,14 @@ import SignUp from "./components/Signup"
 import Users from "./components/Users/Users"
 import Profile from "./components/Profile"
 import NotFound from "./components/NotFound"
-import Friends from "./components/Friends"
 import Chat from "./components/Chat"
-import FriendCard from "./components/FriendCard"
 import ChatMessage from "./components/ChatMessage"
 
 export const AuthContext = createContext()
 export default function App() {
-  const [token, setToken] = useState(0)
+  const [token, setToken] = useState()
   const [loadingToken, setloadingToken] = useState(true)
-  const [state, setState] = useState(0)
+  const [state, setState] = useState(null)
 
   useEffect(() => {
     const call = async () => {
@@ -33,33 +31,34 @@ export default function App() {
     call()
   }, [])
 
-  //Use1
-
-  useEffect(() => {
-    if (dataUserSelf) 
-    setState(dataUserSelf.userSelf)
-    console.log("useEffect 1", state)
-  }, [])
+ 
 
   const { loading, error, data: dataUserSelf, refetch } = useQuery(
     GET_MY_INFO,
    ContextHeader(token),
-    { pollInterval: 100 }
+   // { pollInterval: 100 }
   )
+ //Use1
 
+ useEffect(() => {
+  if (dataUserSelf) 
+  setState(dataUserSelf.userSelf)
+  console.log("useEffect 1", state)
+}, [])
   //Use2
   useEffect(() => {
     if (dataUserSelf || !state) {
+       refetch()
       setState(dataUserSelf?.userSelf)
+      console.log("useEffect 2", state)
     }
-  }, [dataUserSelf, state])
+  }, [dataUserSelf])
 
   console.log(dataUserSelf)
   //If F5
- // if (error) return `Error! ${error} `;
-
+  if (loading) return <p>Loading Data...</p>
   if (loadingToken) {
-    return <p>loading ...</p>
+    return <p>loading Token...</p>
   }
   return (
     <AuthContext.Provider value={{ token, setToken, state, setState, refetch }}>
@@ -71,11 +70,8 @@ export default function App() {
           <Route path="/login" component={() => <Login />} />
           <Route path="/signup" component={SignUp} />
           <Route exact path="/users" component={() => <Users />} />
-          <Route exact path="/friends" component={() => <Friends />} />
           <Route exact path="/profile" component={() => <Profile />} />
           <Route exact path="/chat" component={() => <Chat />} />
-         
-          <Route exact path="/friendCard" component={() => <FriendCard />} />
           <Route exact path="/ChatMessage" component={() => <ChatMessage />} />
 
           <Route component={NotFound} />

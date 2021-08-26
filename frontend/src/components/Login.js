@@ -3,7 +3,6 @@ import { useApolloClient } from "@apollo/client"
 import { useHistory } from "react-router-dom"
 import { useForm } from "../customHooks/useForm"
 import { LOGIN } from "../GraphQL/Queries"
-//import { ContextHeader } from "../constants"
 import { AuthContext } from "../App"
 
 export default function Login() {
@@ -46,7 +45,8 @@ export default function Login() {
   const history = useHistory()
 
   if (token) {
-    history.push("/profile")
+     history.push("/profile")
+    
   }
 
   return token ? (

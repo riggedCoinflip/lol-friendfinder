@@ -8,7 +8,7 @@ export default function FriendList({ avatarUrl, name }) {
         <Image src={avatarUrl} alt="" className="dot-mini" />
       ) : (
         <div className="dot-mini">
-          <div className="center-me">{name.slice(0, 2)}</div>
+          <div className="center-me">{name?.slice(0, 2)}</div>
         </div>
       )}
     </>
