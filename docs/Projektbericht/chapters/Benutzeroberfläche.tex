@@ -69,21 +69,25 @@ useEffect ermöglicht es uns, verschiedene Arten von Effekten zu erzeugen, nachd
 
 Der Hook useEffect entspricht einer Kombination aus componentDidMount, componentDidUpdate und componentWillUnmount.
 
-- useContext…
+In unserem Projekt manipulieren wir die Anzeige der Daten abhängig der Änderungen des lokalen Zustands.\\
+Der Zustand profile befindet sich in der Komponente Profile.
+Sie speichert die Änderungen, die der Benutzer an seinen Daten vornimmt, bevor sie in der Datenbank gespeichert werden.
+\\
+Der globale Zustand ist in der Komponente App enthalten.
+In diesem wird die Antwort von der Datenbankenabfrage gespeichert.
+\\
+Wir definieren den Zustand als  Abhängigkeit von useEffect, so dass er bei jeder Änderung in der Benutzeroberfläche aktualisiert wird.
+\\
+\begin{lstlisting}
+useEffect(() => { 
+      setProfile(state)      
+  }, [state])           
+\end{lstlisting}
 
-\paragraph{}
-API Anfragen mit Rest, Axios und Apollo Client
-
-\paragraph{}
-ES FOLGT Was ist axios…
-
-\paragraph{}
-Über axios wurde eine Post-Anfrage bereitgestellt, die ermöglicht hat Bilder auf die S3 Speicher von AWS hochzuladen.
-
-In der Benutzeroberfläche wurde ein Eingabefeld "input" verwendet mit type = "file" definiert.
-Um die Art der hochzuladenden Dateien einzuschränken, wurde eine Reihe zulässiger Dateiformate definiert, die an den Server gesendet werden dürfen.
+  
+\textbf{useContext} \\
+WAS KANN MAN DAMIT MACHEN?
+WELCHES PROBLEM HABEN WIR DAMIT GELÖST?
 
 
-Die Größe der hochzuladenden Datei wurde um 1Mb abgegrenzt.
-Durch die Eigenschaft „size“ der ausgewählten Datei konnten wir auf die Größe der Datei zugreifen.
 
