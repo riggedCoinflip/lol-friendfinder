@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState, React } from "react"
-//import { GET_MY_INFO } from "../GraphQL/Queries"
 import { UPDATE_USER } from "../GraphQL/Mutations"
-import {  useMutation } from "@apollo/client"
+import { useMutation } from "@apollo/client"
 import Languages from "./Languages"
 import ProfileImage from "./ProfileImageUpload"
+import { Redirect } from "react-router-dom"
 
 import IngameRoles from "./IngameRoles"
 import { ContextHeader } from "../constants"
@@ -21,8 +21,10 @@ import {
 } from "react-bootstrap"
 
 export default function Profile() {
-  const { token, state, setState, refetch } = useContext(AuthContext)
+
+  const { token, state, refetch } = useContext(AuthContext)
   const [errored, setErrored] = useState(false)
+  const [profile, setProfile] = useState(state)
 
   const genderOptions = [
     "non_binary",
@@ -37,51 +39,40 @@ export default function Profile() {
 
   //use3
   useEffect(() => {
-    if (!profile) {
-      refetch()
+    if (!profile || !state) {
+      refetch() 
+      setProfile(state)      
       console.log("We refetch", profile)
     }
-  }, [])
+  }, [state])
 
   const [updateUser, { data: dataUpdate }] = useMutation(
     UPDATE_USER,
     ContextHeader(token)
   )
-const [profile, setProfile] = useState(state)
   //Get users data
   // if (loading) return <p>Loading...</p>
   //if (error) return <p>Error, are you already logged in?!</p>
 
-  //console.log("Data Mutation:", dataUpdate)
-  //  console.log(state)
-  //console.table(data.userSelf)
   console.log("state", state)
   console.log("profile", profile)
 
   const changeHandler = (e) => {
-   setProfile((profile) => ({ ...profile, [e.target.name]: e.target.value }))
+    setProfile((profile) => ({ ...profile, [e.target.name]: e.target.value }))
   }
-  
-  /*
-  const getValuesFromChild = (values) => {
-    console.log("value from child", values)
-    //   console.log('State getValuesFromChild: ', state.languages);
-  }
-  */
-  //console.log("STATE.dateOfBirth", state?.dateOfBirth)
 
-  function limitDate(input) {
-    const output = input?.substring(0, 10) ?? "Date is unknown"
+  function limitLength(input, limit) {
+    const output = input?.substring(0, limit) ?? " "
     return output
   }
 
   return !token ? (
+    <>
+    <Redirect to="/login" />
     <div>You are NOT logged in</div>
+  </>
   ) : (
     <div id="user-info">
-     
-     
-
       <Container>
         <Card.Title className="text-left">{profile?.name}</Card.Title>
         <Form>
@@ -97,19 +88,12 @@ const [profile, setProfile] = useState(state)
             <Col>
               Date of birth
               <FormControl
-               
                 name="dateOfBirth"
                 placeholder="yyyy-mm-dd"
                 /*type="date"*/
                 type="text"
-                value={limitDate(profile?.dateOfBirth)}
+                value={limitLength(profile?.dateOfBirth, 10)}
                 onChange={changeHandler}
-                onFocus={(e) => {
-                  console.log("Focused on input")
-                }}
-                onBlur={(e) => {
-                  console.log("onBlur")
-                }}
               />
               <br />
               {/**/}
@@ -161,16 +145,22 @@ const [profile, setProfile] = useState(state)
           </Row>
           <Row>
             <Form.Control
+              className="center-me"
               as="textarea"
               rows={3}
-              value={profile?.aboutMe}
+              value={limitLength(profile?.aboutMe, 250) || ` `}
               id="aboutMe"
-               onChange={changeHandler}
-             name="aboutMe"
+              onChange={changeHandler}
+              name="aboutMe"
               type="text"
             />
+            <br />
           </Row>
-
+          {profile?.aboutMe?.length >= 250 && (
+            <small id="text-too-long" className="center-me text-muted">
+              💥 Up to 250 characters allowed
+            </small>
+          )}
           <br />
 
           <div>

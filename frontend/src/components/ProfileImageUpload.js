@@ -12,15 +12,16 @@ export default function ProfileImage() {
   const imageMaxSize = 1_000_000 // 1Mb
   const admittedImageFormats = ["png", "jpg", "jpeg"]
 
-  const urlAvatar = process.env.REACT_APP_HOST.slice(0, -8) + `/api/avatar` //Using REACT_APP_HOST and removing the section `/graphql`
+  const urlAvatar = process.env.REACT_APP_HOST.slice(0, -8) + `/api/avatar`
+  //Using REACT_APP_HOST and removing the section `/graphql`
   //console.log("URLAvatar", process.env.REACT_APP_HOST.slice(0, -8))
 
   function fileSelectedHandler(e) {
-    let imageType = e.target.files[0].type
+    let imageType = e.target?.files[0].type
     imageType = imageType.toLowerCase().slice(6) //from image/png make png jpeg
-    const imageSize = e.target.files[0].size
-    const target = e.target.files[0]
-    console.log("type", imageType, "original: ", target.type)
+    const imageSize = e.target?.files[0].size
+    const target = e.target?.files[0]
+    console.log("type", imageType, "original: ", target?.type)
     console.log("size", imageSize)
     console.log("target", target)
 
@@ -45,45 +46,44 @@ export default function ProfileImage() {
   }
 
   function disableBtn() {
-    const uploadBtn = document.getElementById("uploadBtn")
+    const uploadBtn = document.getElementById("buttonUpload")
     uploadBtn.disabled = true
     uploadBtn.style.background = "#000000"
   }
 
   function enableBtn() {
-    const uploadBtn = document.getElementById("uploadBtn")
+    const uploadBtn = document.getElementById("buttonUpload")
     uploadBtn.disabled = false
     uploadBtn.style.background = "#007bff"
   }
+
   function fileUploadHandler() {
-    errored ? 
-    //Tritt ein Fehler auf, wird die Abfrage nicht gesendet und der Knopf deaktiviert.
-    //Ein Fehler tritt auf, wenn die Datei zu groß ist oder oder wenn sie ein ungültiges Format hat
-    disableBtn() 
-    :
-    console.log("uploading pic...", file?.name)
+    errored
+      ? 
+        disableBtn()
+      : console.log("uploading pic...", file.name)
     const fd = new FormData()
-    //avatar ist der Name der Datei, die hochgeladen wird
-    //file ist der zu sendende  Wert 
-    fd.append("avatar", file)  
+    fd.append("avatar", file)
 
     axios
       .post(urlAvatar, fd, {
         headers: {
           "x-auth-token": TOKEN,
         },
-      })/*
-      .catch((err) => {
-        setErrored(err)
+      })
+      /*.catch(() => {
+        setErrored(true)
       })*/
       .then((res) => {
-        //In location finden wir die URL für das gerade hochgeladende Bild
+        //  if(!errored){
+        console.log(res?.data?.location)
         setState((state) => ({ ...state, avatar: res?.data?.location }))
+        //}
       })
   }
 
   return (
-    <div className="ProfileImage" class="center">
+    <div className="ProfileImage center">
       <Image
         src={state?.avatar}
         width="300"
@@ -105,13 +105,13 @@ export default function ProfileImage() {
       <br />
 
       <Button
-        id="uploadBtn"
-        name="uploadBtn"
+        id="buttonUpload"
+        name="buttonUpload"
         variant="primary"
         size="sm"
         onClick={fileUploadHandler}
       >
-        Upload foto
+        Change foto
       </Button>
     </div>
   )

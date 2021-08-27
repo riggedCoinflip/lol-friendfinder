@@ -14,23 +14,23 @@ import { Badge, Image } from "react-bootstrap"
 export default function Users({ match }) {
   const { token } = useContext(AuthContext)
 
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState()
   const [userIndex, setUserIndex] = useState(0)
   const [matchDev, setMatchDev] = useState(null)
   const [errored, setErrored] = useState(false)
 
-  const [avatar, setAvatar] = useState(
-    "https://www.w3schools.com/howto/img_avatar.png"
-  )
-
   useEffect(() => {
-    if (dataQuery) setUsers(dataQuery.userManyToSwipe)
+    if (!dataQuery) 
+    refetch()
+    setUsers(dataQuery?.userManyToSwipe)
     console.log("useEffect[]", users)
   }, [])
 
   useEffect(() => {
+   if(!users){
     refetch()
     setUsers(dataQuery?.userManyToSwipe)
+  }
   }, [users])
 
   const {
@@ -57,18 +57,14 @@ export default function Users({ match }) {
     <div>You are NOT logged in</div>
   ) : (
     <div className="main-container">
-      {users?.length >= 0 &&
-      // users?.[0] &&
-      users &&
-      userIndex < users.length ? (
+      {users?.length >= 0 && users && userIndex < users.length ? (
         <ul>
           {
-            // users.map(user => (   // For img alt={users.name[0]}
             <li key={users[userIndex]?._id}>
               <div className="main-verticalhorizontal">
                 <Image
                   src={users?.[userIndex]?.avatar}
-                  onerror="this.src={avatar}"
+                 
                   width="300"
                   height="300"
                   roundedCircle
@@ -84,7 +80,7 @@ export default function Users({ match }) {
                 {/*spoken languages*/}
                 {users[userIndex]?.languages.map((languages, index) => {
                   return (
-                    <Badge pill variant="danger">
+                    <Badge pill variant="danger" key={index+1}>
                       {languages}
                     </Badge>
                   )
@@ -181,7 +177,7 @@ export default function Users({ match }) {
       ) : (
         <div className="empty">
           <img src={icon} alt="Tinder" className="icon" />
-          <h2>There's no one else here.</h2>
+          <h2>There's no one else here to swipe.</h2>
         </div>
       )}
       {matchDev && (

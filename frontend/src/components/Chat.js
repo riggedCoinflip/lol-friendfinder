@@ -6,25 +6,26 @@ import { Headers } from "../constants"
 
 import FriendList from "./FriendList"
 import ChatMessage from "./ChatMessage"
-import { Card, Image, Row, Button, Col } from "react-bootstrap"
+import { Button } from "react-bootstrap"
 import AvatarImage from "./AvatarImage"
+import { useHistory } from "react-router-dom"
 
-export default function Chat({}) {
+export default function Chat() {
   const client = useApolloClient()
+  const history = useHistory()
 
   const { token, state, setState, refetch } = useContext(AuthContext)
 
   const [userID, setUserID] = useState("UserId!")
-  const [chatID, setChatID] = useState("-")
-  const [userNameChat, setUserNameChat] = useState("My clone")
+  const [selectedChatID, setSelectedChatID] = useState()
+  const [userNameChat, setUserNameChat] = useState("Me")
   const [chatAvatar, setChatAvatar] = useState()
-  const [selected, setSelected] = useState()
+  // const [selected, setSelected] = useState()
 
-  const [contentMessage, setContentMessage] = useState()
+  const [typedMessage, setContentMessage] = useState()
   const [errored, setErrored] = useState(false)
 
   const [searchUser, setSearchUser] = useState("")
-
 
   useEffect(() => {
     if (!state) {
@@ -33,32 +34,40 @@ export default function Chat({}) {
     }
   }, [])
 
-  /*
+  useEffect(() => {
+    //Find a specific friend using the given userID and return his or her chat
+    setSelectedChatID(
+     state?.friends?.find((item) => item?.user === userID)?.chat
+    )
+   // console.log("Another user selected. ChatID", selectedChatID)
+   // console.log("selected UserID", userID)
+   
+   //Clean the input, when another user is selected
+   token ?
+   document.getElementById("user-search").value = ""
+   :
+   history.push("/login")
 
-  const [sendMessage, { data: dataMessage }] = useMutation(
-    SEND_MESSAGE,
-    ContextHeader(token)
-  )
-*/
-  function sendMessage(chatID, content) {
+   
+  }, [userID])
+
+  function sendMessage() {
     return client.mutate({
       context: Headers(token),
       mutation: SEND_MESSAGE,
       variables: {
-        chatID: chatID,
-        content: contentMessage,
+        chatID: selectedChatID,
+        content: typedMessage,
       },
     })
   }
 
-  const sendTheMessageNow = (e) => {
-    e.preventDefault()
-
-    sendMessage(chatID, contentMessage)
+  const sendTheMessageNow = () => {
+    //   e.preventDefault()
+    sendMessage(selectedChatID, typedMessage)
       .then((res) => {
-        console.log("chatID: ", chatID)
-        console.log("contentMessage: ", contentMessage)
-
+      //  console.log("chatID: ", selectedChatID)
+     //   console.log("contentMessage: ", typedMessage)
         console.log("response: ", res?.data?.sendMessage)
         setContentMessage("")
         refetch()
@@ -67,36 +76,17 @@ export default function Chat({}) {
         setErrored(true)
         console.error(`Error in SendMessage: ${err}`)
       })
-    /*
-    //    setChatID(item.chat)
-    console.log("contentMessage: ", contentMessage)
-    console.log("chatID ", chatID)
-    sendMessage({
-      variables: {
-        chatID: chatID,
-        content: contentMessage,
-      },
-    }).catch(() => {
-      setErrored(true)
-    })
-    
-    .then((res) => { 
-      console.log("Msg sent successfully", res)
-    })
-    
-    setContentMessage("")*/
   }
 
   const messageHandler = (e) => {
-    e.preventDefault()
-    e.persist() //important
+    e.persist()
     setContentMessage(e.target.value)
-    console.log(contentMessage)
-    console.log("chatID", chatID)
+    console.log(typedMessage)
+    console.log("chatID", selectedChatID)
   }
 
   return !token ? (
-    <div>You are NOT logged in</div>
+    <div key="Not-logged">You are NOT logged in</div>
   ) : (
     <>
       <div className="chat-container padding5">
@@ -119,10 +109,9 @@ export default function Chat({}) {
                 imgUrl*/
             }}
           />
-          <div className="chat-users">
+          <div className="user-many">
             {state?.friends &&
-              state?.friends
-              ?.map((item, index) => {
+              state?.friends?.map((item, index) => {
                 return (
                   <FriendList
                     setUserID={setUserID}
@@ -130,9 +119,11 @@ export default function Chat({}) {
                     setChatAvatar={setChatAvatar}
                     userId={item.user}
                     searchUser={searchUser}
+                    setSearchUser={setSearchUser}
+                    key={index + 1}
                   />
-                )})
-              }
+                )
+              })}
           </div>
         </div>
 
@@ -140,12 +131,11 @@ export default function Chat({}) {
           <div className="user-info">
             {userNameChat}
             <AvatarImage avatarUrl={chatAvatar} name={userNameChat} />
-            <br />
-            UserID: {userID}
           </div>
 
           <div className="conversation">
-            {/*Find the conversation for selected user/friend*/}
+            {/*From all my friends, show the messages between me and the selected user*/}
+
             {state?.friends &&
               state?.friends
                 ?.filter((item) => {
@@ -154,9 +144,6 @@ export default function Chat({}) {
                 .map((item) => {
                   return (
                     <>
-                      <br />
-                      ChatID: {item.chat}
-                      <br />
                       <ChatMessage chatID={item.chat} />
                     </>
                   )
@@ -169,13 +156,18 @@ export default function Chat({}) {
           <div className="message-field">
             {" "}
             <input
-              value={contentMessage}
+              value={typedMessage}
               id="contentMessage"
-              onChange={messageHandler}
               name="contentMessage"
               type="text"
               className="message-text"
-              placeholder="Something good to say?"
+              placeholder="Type to receive the last messages...💬"
+              onChange={messageHandler}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  sendTheMessageNow()
+                }
+              }}
             />
             <Button
               className="send-button"
