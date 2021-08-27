@@ -7,8 +7,11 @@ Folgende JavaScript Frameworks wurden berücksichtigt: Angular, Vue und React.
 
 
 Es war möglich das Projekt auch mit Angular durchgeführt werden können, mit dem Unterschied, dass die Entwicklung mit Angular mehr Zeit gekostet hätte, außerdem ist das Projekt nicht komplex genug, um das Angular-Ökosystem zu benötigen.
+
+
 \paragraph{}
 \textbf{Warum sollte man React berücksichtigen?}\\
+Die Entscheidung zwischen Vue und React wurde unter anderem wegen des Unternehmen hinter React getroffen, zwar Facebook. Auch wegen der persönlichen Vorlieben.
 \newline
 \textbf{Vorteile} 
 \newline
@@ -27,6 +30,7 @@ Da die Komponentenlogik in JavaScript geschrieben wird, kann man problemlos umfa
 React besteht aus rund 56.162 professionellen Entwicklern auf der ganzen Welt.
 
 Laut einer StackOverFlow Umfrage hat React.js im Jahr 2021 jQuery als das am häufigsten verwendete Web-Framework überholt.
+\footnote{ Vgl. \cite{SO01}}
 \newline
 
 \textbf{Nachteile}\\
@@ -63,6 +67,26 @@ const [wert, definiereWert] = useState(Anfangswert);
 \end{lstlisting}
 
 In unserem Projekt haben wir useState verwendet, um alle damit verbundenen Informationen zu manipulieren und dem Benutzer anzuzeigen.
+\begin{lstlisting}
+    const [profile, setProfile] = useState(state)    
+    \end{lstlisting}
+
+\newpage
+Unser Variable State enthält die Daten des angemeldeten Benutzers. Diese Daten sind die Antwort auf die an den Server gesendete Anfrage. 
+Nachstehend finden Sie ein Beispiel für die im Status enthaltenen Daten.
+
+\begin{lstlisting}
+    aboutMe: "I like video code video games too"
+    avatar: "https://lol-friendfinder-dev.s3.eu-central-1.amazonaws.com/avatars/a028fd00-e767-4dcb-912b-b4828dbe52e7.jpg"
+    blocked: (6) ["60eb61b33a2481451c1cd7ac", "60eb61b33a2481451c1cd7b0", "60eb61b33a2481451c1cd7b1", "60eb61b33a2481451c1cd7b4", "60eb61b33a2481451c1cd7b7", "60eea5eed7e23b5ef08f68af"]
+    dateOfBirth: "1990-06-01T00:00:00.000Z"
+    friends: (12) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+    gender: "male"
+    ingameRole: []
+    languages: (2) ["bm", "de"]
+    name: "gilo2754"
+\end{lstlisting}
+In späteren Kapiteln wird näher erläutert, wie diese Informationen, die wir durch einen einzigen Aufruf an den Server erhalten, in den Chat- und Benutzerkomponenten genutzt werden können. 
 
 \textbf{useEffect}\\
 useEffect ermöglicht es uns, verschiedene Arten von Effekten zu erzeugen, nachdem eine Komponente gerendert wurde. 

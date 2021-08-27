@@ -1,7 +1,6 @@
 import { useState, React, useContext } from "react"
 import axios from "axios"
 import { Button, Image } from "react-bootstrap"
-import { TOKEN } from "../constants"
 import { AuthContext } from "../App"
 
 export default function ProfileImage() {
@@ -68,7 +67,7 @@ export default function ProfileImage() {
     axios
       .post(urlAvatar, fd, {
         headers: {
-          "x-auth-token": TOKEN,
+          "x-auth-token": token,
         },
       })
       /*.catch(() => {
@@ -84,13 +83,20 @@ export default function ProfileImage() {
 
   return (
     <div className="ProfileImage center">
-      <Image
+     {state?.avatar ? 
+     
+     <Image
         src={state?.avatar}
         width="300"
         height="300"
         alt="That's me"
         roundedCircle
       />
+      :
+      <div className="dot-mini">
+      <div className="center-me">{state?.name?.slice(0, 2)}</div>
+    </div>
+    }
       <br />
       {errored && (
         <small id="loginHelpBlock" className="form-text text-muted">

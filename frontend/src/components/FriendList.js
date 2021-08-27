@@ -2,7 +2,6 @@ import { React } from "react"
 import { GET_USER_BY_ID } from "../GraphQL/Queries"
 
 import { useQuery } from "@apollo/client"
-import { Row } from "react-bootstrap"
 import AvatarImage from "./AvatarImage"
 
 export default function FriendList({

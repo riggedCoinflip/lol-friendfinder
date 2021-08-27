@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from "react"
-import "./Users.css"
-import icon from "../../assets/icon.png"
-import like from "../../assets/like.svg"
-import dislike from "../../assets/dislike.svg"
-import itsamatch from "../../assets/itsamatch.png"
-import { GET_USER_TO_SWIPE } from "../../GraphQL/Queries"
-import { UPDATE_USER, SWIPE_USER } from "../../GraphQL/Mutations"
+import icon from "../assets/icon.png"
+import like from "../assets/like.svg"
+import dislike from "../assets/dislike.svg"
+import itsamatch from "../assets/itsamatch.png"
+import { GET_USER_TO_SWIPE } from "../GraphQL/Queries"
+import { UPDATE_USER, SWIPE_USER } from "../GraphQL/Mutations"
 import { useQuery, useMutation } from "@apollo/client"
-import { ContextHeader } from "../../constants"
-import { AuthContext } from "../../App"
+import { ContextHeader } from "../constants"
+import { AuthContext } from "../App"
 import { Badge, Image } from "react-bootstrap"
 
 export default function Users({ match }) {
@@ -20,17 +19,16 @@ export default function Users({ match }) {
   const [errored, setErrored] = useState(false)
 
   useEffect(() => {
-    if (!dataQuery) 
-    refetch()
+    if (!dataQuery) refetch()
     setUsers(dataQuery?.userManyToSwipe)
     console.log("useEffect[]", users)
   }, [])
 
   useEffect(() => {
-   if(!users){
-    refetch()
-    setUsers(dataQuery?.userManyToSwipe)
-  }
+    if (!users) {
+      refetch()
+      setUsers(dataQuery?.userManyToSwipe)
+    }
   }, [users])
 
   const {
@@ -64,7 +62,6 @@ export default function Users({ match }) {
               <div className="main-verticalhorizontal">
                 <Image
                   src={users?.[userIndex]?.avatar}
-                 
                   width="300"
                   height="300"
                   roundedCircle
@@ -80,7 +77,7 @@ export default function Users({ match }) {
                 {/*spoken languages*/}
                 {users[userIndex]?.languages.map((languages, index) => {
                   return (
-                    <Badge pill variant="danger" key={index+1}>
+                    <Badge pill variant="danger" key={index + 1}>
                       {languages}
                     </Badge>
                   )
@@ -176,8 +173,22 @@ export default function Users({ match }) {
         </ul>
       ) : (
         <div className="empty">
-          <img src={icon} alt="Tinder" className="icon" />
-          <h2>There's no one else here to swipe.</h2>
+          <img src={icon} alt="Logo" className="icon" />
+          <h2>
+            It seems that there are no more users for swipe... But you can...{" "}
+          </h2>
+          <div className="buttons">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault()
+                setUsers(dataQuery?.userManyToSwipe)
+                console.log("UsersToSwipe", users)
+              }}
+            >
+              Check for new users
+            </button>
+          </div>
         </div>
       )}
       {matchDev && (
