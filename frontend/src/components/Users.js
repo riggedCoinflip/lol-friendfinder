@@ -9,6 +9,7 @@ import { useQuery, useMutation } from "@apollo/client"
 import { ContextHeader } from "../constants"
 import { AuthContext } from "../App"
 import { Badge, Image } from "react-bootstrap"
+import AvatarImage from "./AvatarImage"
 
 export default function Users({ match }) {
   const { token } = useContext(AuthContext)
@@ -59,15 +60,13 @@ export default function Users({ match }) {
         <ul>
           {
             <li key={users[userIndex]?._id}>
-              <div className="main-verticalhorizontal">
-                <Image
-                  src={users?.[userIndex]?.avatar}
-                  width="300"
-                  height="300"
-                  roundedCircle
+              <div className="center-me">
+                <AvatarImage
+                  avatarUrl={users?.[userIndex]?.avatar}
+                  name={users?.[userIndex]?.name}
+                  size={"300"}
                 />
               </div>
-
               <footer>
                 <strong id="name"> {users?.[userIndex]?.name} </strong>
                 <br />

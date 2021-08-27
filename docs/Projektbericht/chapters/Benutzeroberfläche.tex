@@ -53,8 +53,13 @@ Aufgrund der rasanten Entwicklung ist die Dokumentation in Bezug auf die neueste
 \footnote{ Vgl. \cite{R01}}
 
 \paragraph{}
-\textbf{Was sind React Hooks und wie kann man daraus profitieren?}\\
-Beginnend mit 16.8.0, enthält React eine stabile Implementierung von React Hooks.
+\textbf{Das Projekt besteht aus Komponenten}\\
+In diesem Kapitel wird der Zweck der einzelnen Komponenten erläutert....
+TO-DO && SOLLTE überhaupt DIESES KAPITEL GESCHRIEBEN WERDEN?
+
+
+\paragraph{}
+\textbf{Was sind React Hooks und wie kann man daraus profitieren?}\\Beginnend mit 16.8.0, enthält React eine stabile Implementierung von React Hooks.
 
 \paragraph{}
 \textbf{useState}\\
@@ -97,10 +102,10 @@ In unserem Projekt manipulieren wir die Anzeige der Daten abhängig der Änderun
 Der Zustand profile befindet sich in der Komponente Profile.
 Sie speichert die Änderungen, die der Benutzer an seinen Daten vornimmt, bevor sie in der Datenbank gespeichert werden.
 \\
-Der globale Zustand ist in der Komponente App enthalten.
+Der globale Zustand state ist in der Komponente App enthalten.
 In diesem wird die Antwort von der Datenbankenabfrage gespeichert.
 \\
-Wir definieren den Zustand als  Abhängigkeit von useEffect, so dass er bei jeder Änderung in der Benutzeroberfläche aktualisiert wird.
+Wir definieren den Zustand als Abhängigkeit von useEffect, so dass er bei jeder Änderung in der Benutzeroberfläche aktualisiert wird.
 \\
 \begin{lstlisting}
 useEffect(() => { 
@@ -108,7 +113,9 @@ useEffect(() => {
   }, [state])           
 \end{lstlisting}
 
-  
+Es ist möglich, mehrere useEffects in unserem Code zu haben und mit ihrer jeweiligen Abhängigkeiten separat definieren.
+Wenn wir wollen, dass der Code in unserem useEffect nur einmal nach dem ersten Rendering ausgeführt wird, definieren wir ein leeres Array als Abhängigkeit.
+
 \textbf{useContext} \\
 WAS KANN MAN DAMIT MACHEN?
 WELCHES PROBLEM HABEN WIR DAMIT GELÖST?

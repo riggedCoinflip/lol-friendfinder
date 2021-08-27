@@ -1,7 +1,8 @@
 import { useState, React, useContext } from "react"
 import axios from "axios"
-import { Button, Image } from "react-bootstrap"
+import { Button } from "react-bootstrap"
 import { AuthContext } from "../App"
+import AvatarImage from "./AvatarImage"
 
 export default function ProfileImage() {
   const [file, setFile] = useState()
@@ -57,10 +58,7 @@ export default function ProfileImage() {
   }
 
   function fileUploadHandler() {
-    errored
-      ? 
-        disableBtn()
-      : console.log("uploading pic...", file.name)
+    errored ? disableBtn() : console.log("uploading pic...", file.name)
     const fd = new FormData()
     fd.append("avatar", file)
 
@@ -82,21 +80,18 @@ export default function ProfileImage() {
   }
 
   return (
-    <div className="ProfileImage center">
-     {state?.avatar ? 
-     
-     <Image
-        src={state?.avatar}
-        width="300"
-        height="300"
-        alt="That's me"
-        roundedCircle
-      />
-      :
-      <div className="dot-mini">
-      <div className="center-me">{state?.name?.slice(0, 2)}</div>
-    </div>
-    }
+    <div className="center">
+      {state?.avatar ? (
+        <AvatarImage
+          avatarUrl={state?.avatar}
+          name={state?.name}
+          size={"300"}
+        />
+      ) : (
+        <div className="dot-mini">
+          <div className="center-me">{state?.name?.slice(0, 2)}</div>
+        </div>
+      )}
       <br />
       {errored && (
         <small id="loginHelpBlock" className="form-text text-muted">

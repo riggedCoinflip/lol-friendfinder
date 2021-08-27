@@ -45,15 +45,11 @@
 }
 
 .dot {
-  height: 200px;
-  width: 200px;
   background-color: rgb(219, 139, 139);
   border-radius: 50%;
   display: flex;
 }
 .dot-mini {
-  height: 50px;
-  width: 50px;
   background-color: rgb(219, 139, 139);
   border-radius: 50%;
   display: flex;
@@ -200,7 +196,7 @@ body {
 
 .main-container ul li img {
   max-width: 100%;
-  border-radius: 5px 5px 0 0;
+  border-radius: 50%;
 }
 
 .main-container ul li footer {

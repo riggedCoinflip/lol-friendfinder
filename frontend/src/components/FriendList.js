@@ -50,6 +50,7 @@ export default function FriendList({
                 <AvatarImage
                   avatarUrl={data.userOneById.avatar}
                   name={data.userOneById.name}
+                  size={"50"}
                 />
               </div>
               <div className="padding5">

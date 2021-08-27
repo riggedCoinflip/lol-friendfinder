@@ -130,7 +130,7 @@ export default function Chat() {
         <div className="chat-room" id="chat-room">
           <div className="user-info">
             {userNameChat}
-            <AvatarImage avatarUrl={chatAvatar} name={userNameChat} />
+            <AvatarImage avatarUrl={chatAvatar} name={userNameChat} size={"50"}/>
           </div>
 
           <div className="conversation">
