@@ -9,6 +9,22 @@ import { onError } from 'apollo-link-error';
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_HOST,
+     
+    defaultOptions : {
+      watchQuery: {
+        fetchPolicy: 'cache-first',
+        errorPolicy: 'ignore',
+      },
+      query: {
+        fetchPolicy: 'network-only',
+        errorPolicy: 'all',
+      },
+      mutate: {
+        errorPolicy: 'all',
+      },
+    },
+    
+    
     cache: new InMemoryCache({
       typePolicies: {
         User: {
@@ -31,6 +47,7 @@ const link = onError(({ graphQLErrors, networkError }) => {
       );
     if (networkError) console.log(`[Network error]: ${networkError}`);
   });
+  
 render(
     <Router>
         <ApolloProvider client={client}>

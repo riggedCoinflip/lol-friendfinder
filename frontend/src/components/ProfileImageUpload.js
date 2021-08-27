@@ -1,4 +1,4 @@
-import { useState, useEffect, React, useContext } from "react"
+import { useState, React, useContext } from "react"
 import axios from "axios"
 import { Button, Image } from "react-bootstrap"
 import { TOKEN } from "../constants"
@@ -12,16 +12,16 @@ export default function ProfileImage() {
   const imageMaxSize = 1_000_000 // 1Mb
   const admittedImageFormats = ["png", "jpg", "jpeg"]
 
-  const urlAvatar = process.env.REACT_APP_HOST.slice(0, -8) + `/api/avatar` //Using REACT_APP_HOST and removing the section `/graphql`
+  const urlAvatar = process.env.REACT_APP_HOST.slice(0, -8) + `/api/avatar`
+  //Using REACT_APP_HOST and removing the section `/graphql`
   //console.log("URLAvatar", process.env.REACT_APP_HOST.slice(0, -8))
 
-
   function fileSelectedHandler(e) {
-    let imageType = e.target.files[0].type
+    let imageType = e.target?.files[0].type
     imageType = imageType.toLowerCase().slice(6) //from image/png make png jpeg
-    const imageSize = e.target.files[0].size
-    const target = e.target.files[0]
-    console.log("type", imageType, "original: ", target.type)
+    const imageSize = e.target?.files[0].size
+    const target = e.target?.files[0]
+    console.log("type", imageType, "original: ", target?.type)
     console.log("size", imageSize)
     console.log("target", target)
 
@@ -33,26 +33,34 @@ export default function ProfileImage() {
 
     if (!formatValid()) {
       setErrored(`File have to be "jpg", "jpeg", "png" `)
+      disableBtn()
     } else if (imageSize >= imageMaxSize) {
       setErrored("Img too big")
+      disableBtn()
     } else {
+      enableBtn()
       setErrored(true)
       setFile(target)
       console.log(formatValid())
     }
   }
 
-function disableBtn()
-{  
-const uploadBtn = document.getElementById("buttonUpload")
-uploadBtn.disabled = true
-uploadBtn.style.background='#000000';
-}
+  function disableBtn() {
+    const uploadBtn = document.getElementById("buttonUpload")
+    uploadBtn.disabled = true
+    uploadBtn.style.background = "#000000"
+  }
+
+  function enableBtn() {
+    const uploadBtn = document.getElementById("buttonUpload")
+    uploadBtn.disabled = false
+    uploadBtn.style.background = "#007bff"
+  }
 
   function fileUploadHandler() {
     errored
-      ? //console.log("There is a error", errored)
-      disableBtn()
+      ? 
+        disableBtn()
       : console.log("uploading pic...", file.name)
     const fd = new FormData()
     fd.append("avatar", file)
@@ -75,7 +83,7 @@ uploadBtn.style.background='#000000';
   }
 
   return (
-    <div className="ProfileImage" class="center">
+    <div className="ProfileImage center">
       <Image
         src={state?.avatar}
         width="300"
@@ -103,7 +111,7 @@ uploadBtn.style.background='#000000';
         size="sm"
         onClick={fileUploadHandler}
       >
-        Upload foto
+        Change foto
       </Button>
     </div>
   )

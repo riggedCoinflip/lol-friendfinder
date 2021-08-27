@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useContext } from "react"
+import { React, useState, useContext } from "react"
 import { useQuery } from "@apollo/client"
 import { Dropdown, ListGroup, Badge } from "react-bootstrap"
 import { ContextHeader } from "../constants"
@@ -82,8 +82,11 @@ const Languages = () => {
                       let newArr = state.languages // newArr.push("es")
                       console.log(newArr[0]) //Object
 
-                      setState((state) => ({ ...state, languages: [...state.languages, item.alpha2] }))
-                console.log(
+                      setState((state) => ({
+                        ...state,
+                        languages: [...state.languages, item.alpha2],
+                      }))
+                      console.log(
                         "local_Languages, selected: ",
                         item.name,
                         " ",
