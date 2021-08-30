@@ -76,11 +76,14 @@ Nachdem eine Abfrage exportiert wurde, ist sie bereit, in einer React-Komponente
 
 \begin{lstlisting}
 import { GET_MY_INFO } from "./GraphQL/Queries"
+import { useQuery } from "@apollo/client"
 
 const { loading, error, data } = useQuery(
 GET_MY_INFO,
 ContextHeader(token),
 )
+//Code-Auszug in frontend/src/App.js
+
 \end{lstlisting}
 Die Konstante ContextHeader enthält das Token in der Struktur, die erforderlich ist, um die Abfrage nur dann stellen zu können, wenn der Benutzer dazu berechtigt ist.
 \\
@@ -104,6 +107,7 @@ Ein Objekt, das das Ergebnis der GraphQL-Abfrage enthält.
 \\Es enthält die tatsächlichen Daten vom Server.
 \\
 
+AUCH MUTATIONS ZEIGEN\dots
 \newpage
 \subsection{Axios}
 Zusätzlich zu den GraphQL-Abfragen, wurde eine Post-Anfrage mit Axios bereitgestellt.
