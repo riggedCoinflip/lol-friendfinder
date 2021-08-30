@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState, React } from "react"
 import { SEND_MESSAGE } from "../GraphQL/Mutations"
 import { useApolloClient } from "@apollo/client"
-import { AuthContext } from "../App"
+import { GlobalContext } from "../App"
 import { Headers } from "../constants"
 
 import FriendList from "./FriendList"
@@ -14,7 +14,7 @@ export default function Chat() {
   const client = useApolloClient()
   const history = useHistory()
 
-  const { token, state, setState, refetch } = useContext(AuthContext)
+  const { token, state, setState, refetch } = useContext(GlobalContext)
 
   const [userID, setUserID] = useState("UserId!")
   const [selectedChatID, setSelectedChatID] = useState()

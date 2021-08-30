@@ -3,12 +3,12 @@ import { useQuery } from "@apollo/client"
 import { Dropdown, ListGroup, Badge } from "react-bootstrap"
 import { ContextHeader } from "../constants"
 import { GET_LANGUAGES } from "../GraphQL/Queries"
-import { AuthContext } from "../App"
+import { GlobalContext } from "../App"
 
 const Languages = () => {
   // const [local_Languages, setLocal_Languages] = useState()
   const [searchTerm, setSearchTerm] = useState("")
-  const { state, setState } = useContext(AuthContext)
+  const { state, setState } = useContext(GlobalContext)
 
   /*
     useEffect(() => {

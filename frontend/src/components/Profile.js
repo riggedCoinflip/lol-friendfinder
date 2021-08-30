@@ -7,7 +7,7 @@ import { Redirect } from "react-router-dom"
 
 import IngameRoles from "./IngameRoles"
 import { ContextHeader } from "../constants"
-import { AuthContext } from "../App"
+import { GlobalContext } from "../App"
 
 import {
   Button,
@@ -22,7 +22,7 @@ import {
 
 export default function Profile() {
 
-  const { token, state, refetch } = useContext(AuthContext)
+  const { token, state, refetch } = useContext(GlobalContext)
   const [errored, setErrored] = useState(false)
   const [profile, setProfile] = useState(state)
 

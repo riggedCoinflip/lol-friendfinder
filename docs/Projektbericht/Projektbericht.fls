@@ -1128,6 +1128,13 @@ INPUT chapters\Serveranfragen.tex
 INPUT .\chapters\Serveranfragen.tex
 INPUT .\chapters\Serveranfragen.tex
 INPUT chapters\Serveranfragen.tex
+INPUT .\chapters\Qualitätssicherung.tex
+INPUT .\chapters\Qualitätssicherung.tex
+INPUT .\chapters\Qualitätssicherung.tex
+INPUT chapters\Qualitätssicherung.tex
+INPUT .\chapters\Qualitätssicherung.tex
+INPUT .\chapters\Qualitätssicherung.tex
+INPUT chapters\Qualitätssicherung.tex
 INPUT .\chapters\Glossar.tex
 INPUT .\chapters\Glossar.tex
 INPUT .\chapters\Glossar.tex
@@ -1135,8 +1142,8 @@ INPUT chapters\Glossar.tex
 INPUT .\chapters\Glossar.tex
 INPUT .\chapters\Glossar.tex
 INPUT chapters\Glossar.tex
-INPUT C:\Users\Nutzer\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmbxi10.tfm
 INPUT C:\Users\Nutzer\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtt12.tfm
+INPUT C:\Users\Nutzer\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmbxi10.tfm
 INPUT .\leereSeite.tex
 INPUT .\leereSeite.tex
 INPUT .\leereSeite.tex

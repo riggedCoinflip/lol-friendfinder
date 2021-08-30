@@ -1,13 +1,13 @@
 import { useState, React, useContext } from "react"
 import axios from "axios"
 import { Button } from "react-bootstrap"
-import { AuthContext } from "../App"
+import { GlobalContext } from "../App"
 import AvatarImage from "./AvatarImage"
 
 export default function ProfileImage() {
   const [file, setFile] = useState()
   const [errored, setErrored] = useState("")
-  const { token, state, setState } = useContext(AuthContext)
+  const { token, state, setState } = useContext(GlobalContext)
 
   const imageMaxSize = 1_000_000 // 1Mb
   const admittedImageFormats = ["png", "jpg", "jpeg"]

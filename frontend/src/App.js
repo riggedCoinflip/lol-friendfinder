@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from "react"
+import { React, useState, useEffect, createContext } from "react"
 import { Switch, Route } from "react-router-dom"
 import { GET_MY_INFO } from "./GraphQL/Queries"
 import { ContextHeader } from "./constants"
@@ -14,21 +14,21 @@ import NotFound from "./components/NotFound"
 import Chat from "./components/Chat"
 import ChatMessage from "./components/ChatMessage"
 
-export const AuthContext = createContext()
+export const GlobalContext = createContext()
 export default function App() {
   const [token, setToken] = useState()
   const [loadingToken, setloadingToken] = useState(true)
   const [state, setState] = useState(null)
 
   useEffect(() => {
-    const call = async () => {
+    const callGetToken = async () => {
       const token = await localStorage.getItem("SECREToken")
       if (token) {
         setToken(token)
       }
       setloadingToken(false)
     }
-    call()
+    callGetToken()
   }, [])
 
  
@@ -61,8 +61,8 @@ export default function App() {
     return <p>loading Token...</p>
   }
   return (
-    <AuthContext.Provider value={{ token, setToken, state, setState, refetch }}>
-      <div>
+    <GlobalContext.Provider value={{ token, setToken, state, setState, refetch }}>
+      <>
         <MyNavbar />
 
         <Switch>
@@ -76,7 +76,7 @@ export default function App() {
 
           <Route component={NotFound} />
         </Switch>
-      </div>
-    </AuthContext.Provider>
+      </>
+    </GlobalContext.Provider>
   )
 }

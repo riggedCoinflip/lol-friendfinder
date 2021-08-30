@@ -1,13 +1,13 @@
 import { useState, useContext, React } from "react"
 import { useApolloClient } from "@apollo/client"
 import { GET_CHAT } from "../GraphQL/Queries"
-import { AuthContext } from "../App"
+import { GlobalContext } from "../App"
 import { Headers } from "../constants"
 
 export default function ChatMessage({ chatID }) {
   const client = useApolloClient()
 
-  const { token, state } = useContext(AuthContext)
+  const { token, state } = useContext(GlobalContext)
   const [conversation, setConversation] = useState()
   // const [conversation2, setConversation2] = useState()
 
@@ -25,6 +25,8 @@ export default function ChatMessage({ chatID }) {
     //  console.log("GetConversation", res)
     setConversation(res?.data?.getChat?.messages)
     console.log("Conversation(State)", conversation)
+  }).catch((err) => {
+    console.error(`Error in GetMessage: ${err}`)
   })
 
   // differ between my and message from other users

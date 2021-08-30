@@ -24,15 +24,19 @@
 \contentsline {subsection}{\numberline {3.1}Unterabschnitt von Grundlagen}{9}{subsection.28}%
 \contentsline {section}{\numberline {4}Benutzeroberfläche}{10}{section.29}%
 \contentsline {paragraph}{}{10}{section*.30}%
-\contentsline {paragraph}{}{10}{section*.31}%
-\contentsline {paragraph}{}{11}{section*.34}%
+\contentsline {subsection}{\numberline {4.1}Warum sollte man React berücksichtigen?}{10}{subsection.31}%
+\contentsline {paragraph}{}{10}{section*.32}%
 \contentsline {paragraph}{}{11}{section*.35}%
-\contentsline {section}{\numberline {5}Serveranfragen}{13}{section.54}%
-\contentsline {section}{\numberline {6}Glossar}{18}{section.119}%
-\contentsline {section}{\numberline {7}Zusammenfassung und Ausblick}{20}{section.120}%
-\contentsline {section}{\numberline {8}Quellenverzeichnis}{21}{section.122}%
-\contentsline {subsection}{\numberline {8.1}Literatur}{21}{subsection.123}%
-\contentsline {subsection}{\numberline {8.2}Internetquellen}{21}{subsection.125}%
-\contentsline {section}{\numberline {A}Anhang}{23}{section.127}%
-\contentsline {subsection}{\numberline {A.1}Unterabschnitt von Anhang}{23}{subsection.128}%
-\contentsline {section}{Erklärung über die selbständige Abfassung der Arbeit}{24}{section*.129}%
+\contentsline {subsection}{\numberline {4.2}React Hooks}{11}{subsection.36}%
+\contentsline {paragraph}{}{11}{section*.37}%
+\contentsline {paragraph}{}{11}{section*.38}%
+\contentsline {section}{\numberline {5}Serveranfragen}{17}{section.127}%
+\contentsline {section}{\numberline {6}Qualitätssicherung }{22}{section.192}%
+\contentsline {section}{\numberline {7}Glossar}{23}{section.193}%
+\contentsline {section}{\numberline {8}Zusammenfassung und Ausblick}{25}{section.194}%
+\contentsline {section}{\numberline {9}Quellenverzeichnis}{26}{section.196}%
+\contentsline {subsection}{\numberline {9.1}Literatur}{26}{subsection.197}%
+\contentsline {subsection}{\numberline {9.2}Internetquellen}{26}{subsection.199}%
+\contentsline {section}{\numberline {A}Anhang}{28}{section.201}%
+\contentsline {subsection}{\numberline {A.1}Unterabschnitt von Anhang}{28}{subsection.202}%
+\contentsline {section}{Erklärung über die selbständige Abfassung der Arbeit}{29}{section*.203}%

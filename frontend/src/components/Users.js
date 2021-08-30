@@ -7,12 +7,12 @@ import { GET_USER_TO_SWIPE } from "../GraphQL/Queries"
 import { UPDATE_USER, SWIPE_USER } from "../GraphQL/Mutations"
 import { useQuery, useMutation } from "@apollo/client"
 import { ContextHeader } from "../constants"
-import { AuthContext } from "../App"
+import { GlobalContext } from "../App"
 import { Badge, Image } from "react-bootstrap"
 import AvatarImage from "./AvatarImage"
 
 export default function Users({ match }) {
-  const { token } = useContext(AuthContext)
+  const { token } = useContext(GlobalContext)
 
   const [users, setUsers] = useState()
   const [userIndex, setUserIndex] = useState(0)
