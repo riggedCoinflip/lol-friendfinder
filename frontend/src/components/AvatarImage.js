@@ -1,7 +1,7 @@
 import { React } from "react"
 import { Image } from "react-bootstrap"
 
-export default function AvatarImage({ avatarUrl, name, size }) {
+export default function AvatarImage({ avatarUrl, name, size}) {
   const setSize = {
     height: `${size}px`,
     width: `${size}px`,

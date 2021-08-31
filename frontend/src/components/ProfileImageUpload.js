@@ -81,17 +81,8 @@ export default function ProfileImage() {
 
   return (
     <div className="center">
-      {state?.avatar ? (
-        <AvatarImage
-          avatarUrl={state?.avatar}
-          name={state?.name}
-          size={"300"}
-        />
-      ) : (
-        <div className="dot-mini">
-          <div className="center-me">{state?.name?.slice(0, 2)}</div>
-        </div>
-      )}
+      <AvatarImage avatarUrl={state?.avatar} name={state?.name} size={"300"} />
+
       <br />
       {errored && (
         <small id="loginHelpBlock" className="form-text text-muted">

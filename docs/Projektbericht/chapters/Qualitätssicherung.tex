@@ -1,4 +1,4 @@
-\textbf{Software Testing }
+\textbf{Software Testing }\\
 Obwohl unser Projekt relativ klein ist, wollten wir, wo immer möglich, automatisierte Testfälle einbeziehen.
 
 Für das FrontEnd haben wir EndToEnd-Testfälle mit Cypress geschrieben.
@@ -7,7 +7,7 @@ So können wir in Sekundenschnelle feststellen, ob etwas in unserer Anwendung de
 
 Ein mögliches Szenario ist, dass eine Komponente, die in anderen Komponenten verwendet wird, geändert wurde, ohne zu berücksichtigen, dass sie in einer anderen Komponente für einen anderen Zweck verwendet wurde.
 
-Dies ist der Fall bei der Komponente AvatarImage.
+Das ist der Fall bei der Komponente AvatarImage.
 %---
 Dies ist eine Funktionskomponente, die 3 Parameter erhält: Größe des Bildes, Bild-URL und Benutzername.
 
@@ -15,11 +15,51 @@ Zu Beginn des Projekts wurde nicht daran gedacht, die Größe des Bildes über e
 
 Innerhalb der Komponente wird geprüft, ob eine URL existiert, und wenn ja, wird das mit dem Link verbundene Bild gezeichnet. Falls es keine URL  angegeben wurde, werden die ersten beiden Buchstaben des Benutzernamens verwendet, um ein Standardsymbol zu erzeugen.
 
-%code
-In der aktuellen Version des Codes wird diese Komponente in vier anderen Komponenten verwendet.
+In der aktuellen Version des Codes wird diese Komponente in vier anderen Komponenten wieder verwendet.
+Wenn das Projekt weiter wachsen würde, würde auch die Möglichkeit von Fehlern im Code zunehmen. Und es wäre schwieriger, sie zu finden.
 
 Ohne automatisierte Tests müssten Sie normalerweise manuell prüfen, ob die übergeordneten Komponenten noch wie erwartet funktionieren.
 
+
+%code
+\begin{lstlisting}
+//in constants.js sind Standard-Testdaten
+import * as c from "../constants.js"
+
+describe("Check if all profile elements have been rendered", () => {
+  it("Login with existing account", () => {
+    cy.typeLogin(c.email, c.password)
+  })
+
+  it("Username is there", () => {
+    cy.get('#username').should("be.visible")
+  })
+
+  it("Gender selection is there", () => {
+    cy.get("#avaliableLanguages > .dropdown > #dropdown-languages").should(
+      "be.visible")
+  })
+
+  it("Language selection is there", () => {
+    cy.get("#avaliableLanguages > .dropdown > #dropdown-languages").should(
+      "be.visible")
+  })
+
+  it("InGameRole selection is there", () => {
+    cy.get("#avaliableIngameRoles > .dropdown > #dropdown-languages").should(
+      "be.visible")
+  })
+
+ it("AboutMe is there", () => {
+    cy.get('#aboutMe').should("be.visible")
+  })
+  
+})
+\end{lstlisting}
+
+(Img: Cy_Test Cases)
+
+(Img: Cy_Test_Case_running)
 %%POSIBLEMENTE ESTE NO ES ELMEJOR EJ PUESTO QUE NO SE ESTA PROBANDO EL TAMANIO LAS IMAGENES EN LAS PRUEBAS DE CYPRESS
 %% SIN EMBARGO EL HECHO DE REUTILIZAR LOGICA DE CIERTOS ELEMENTOS ES MUY RELEVANTE Y DEBERIA SER INCLUIDA EN OTRA PARTE %DEL REPORTE
 %BUSCAR OTRO EJ. DONDE EL TESTING COBRA MAS RELEVANCIA
