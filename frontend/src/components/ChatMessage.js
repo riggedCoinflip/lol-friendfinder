@@ -50,7 +50,7 @@ export default function ChatMessage({ chatID }) {
               <div
                 key={msg?._id}
                 id="oneMsg"
-                className="message-container-others"
+                className="message-container-me"
               >
                 <div>
                   <p> {msg?.content} </p>
@@ -60,7 +60,7 @@ export default function ChatMessage({ chatID }) {
                 </p>
               </div>
             ) : (
-              <div key={msg?._id} id="oneMsg" className="message-container-me">
+              <div key={msg?._id} id="oneMsg" className="message-container-others">
                 <div>
                   <p> {msg?.content}</p>
                 </div>

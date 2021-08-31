@@ -114,6 +114,7 @@ export default function Users({ match }) {
 
               <div className="buttons">
                 <button
+                  id="disliked"
                   type="button"
                   onClick={(e) => {
                     e.preventDefault()
@@ -140,6 +141,7 @@ export default function Users({ match }) {
                 </button>
 
                 <button
+                  id="liked"
                   type="button"
                   onClick={(e) => {
                     e.preventDefault()

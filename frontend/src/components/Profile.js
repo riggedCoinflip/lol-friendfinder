@@ -74,7 +74,7 @@ export default function Profile() {
   ) : (
     <div id="user-info">
       <Container>
-        <Card.Title className="text-left">{profile?.name}</Card.Title>
+        <Card.Title id="username" className="text-left">{profile?.name}</Card.Title>
         <Form>
           <Row>
             <Col>
