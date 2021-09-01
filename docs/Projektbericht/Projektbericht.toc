@@ -20,26 +20,42 @@
 \contentsline {subsection}{\numberline {1.10}Dokumentation}{7}{subsection.22}%
 \contentsline {subsection}{\numberline {1.11}Konto löschen}{8}{subsection.23}%
 \contentsline {section}{\numberline {2}Einleitung}{9}{section.24}%
-\contentsline {section}{\numberline {3}Grundlagen}{10}{section.27}%
-\contentsline {subsection}{\numberline {3.1}Unterabschnitt von Grundlagen}{10}{subsection.28}%
-\contentsline {section}{\numberline {4}Benutzeroberfläche}{11}{section.29}%
-\contentsline {paragraph}{}{11}{section*.30}%
-\contentsline {subsection}{\numberline {4.1}Warum sollte man React berücksichtigen?}{11}{subsection.31}%
-\contentsline {paragraph}{}{11}{section*.32}%
-\contentsline {paragraph}{}{12}{section*.35}%
-\contentsline {subsection}{\numberline {4.2}React Hooks}{12}{subsection.36}%
-\contentsline {paragraph}{}{12}{section*.37}%
+\contentsline {subsection}{\numberline {2.1}Einführung in das Thema (Motivation, zentrale Begriffe etc.)}{9}{subsection.25}%
+\contentsline {subsection}{\numberline {2.2}Hinführung zu den Ergebnissen}{9}{subsection.26}%
+\contentsline {subsection}{\numberline {2.3}Ggf. Angabe des Schwerpunktes}{9}{subsection.27}%
+\contentsline {subsection}{\numberline {2.4} Ggf. Einschränkungen darlegen}{9}{subsection.28}%
+\contentsline {subsection}{\numberline {2.5}Problemstellung}{9}{subsection.29}%
+\contentsline {subsection}{\numberline {2.6}Zielstellung der Arbeit}{9}{subsection.30}%
+\contentsline {subsection}{\numberline {2.7}Fragestellung der Arbeit}{9}{subsection.31}%
+\contentsline {subsection}{\numberline {2.8}Struktur der Arbeit}{9}{subsection.32}%
+\contentsline {section}{\numberline {3}Grundlagen}{11}{section.35}%
+\contentsline {subsection}{\numberline {3.1}Unterabschnitt von Grundlagen}{11}{subsection.36}%
+\contentsline {section}{\numberline {4}Benutzeroberfläche}{12}{section.37}%
 \contentsline {paragraph}{}{12}{section*.38}%
-\contentsline {section}{\numberline {5}Serveranfragen}{18}{section.127}%
-\contentsline {subsection}{\numberline {5.1}GraphQL}{18}{subsection.128}%
-\contentsline {paragraph}{}{18}{section*.129}%
-\contentsline {subsection}{\numberline {5.2}Axios}{21}{subsection.159}%
-\contentsline {section}{\numberline {6}Qualitätssicherung }{23}{section.198}%
-\contentsline {section}{\numberline {7}Glossar}{24}{section.199}%
-\contentsline {section}{\numberline {8}Zusammenfassung und Ausblick}{26}{section.200}%
-\contentsline {section}{\numberline {9}Quellenverzeichnis}{27}{section.202}%
-\contentsline {subsection}{\numberline {9.1}Literatur}{27}{subsection.203}%
-\contentsline {subsection}{\numberline {9.2}Internetquellen}{27}{subsection.205}%
-\contentsline {section}{\numberline {A}Anhang}{29}{section.207}%
-\contentsline {subsection}{\numberline {A.1}Unterabschnitt von Anhang}{29}{subsection.208}%
-\contentsline {section}{Erklärung über die selbständige Abfassung der Arbeit}{30}{section*.209}%
+\contentsline {subsection}{\numberline {4.1}Überlegungen bei der Verwendung von React}{12}{subsection.39}%
+\contentsline {paragraph}{}{12}{section*.40}%
+\contentsline {subsubsection}{\numberline {4.1.1}Vorteile}{12}{subsubsection.41}%
+\contentsline {subsubsection}{\numberline {4.1.2}Nachteile}{12}{subsubsection.43}%
+\contentsline {paragraph}{}{13}{section*.45}%
+\contentsline {subsection}{\numberline {4.2}React Hooks}{13}{subsection.46}%
+\contentsline {paragraph}{}{13}{section*.47}%
+\contentsline {subsubsection}{\numberline {4.2.1}useState}{13}{subsubsection.48}%
+\contentsline {subsubsection}{\numberline {4.2.2}useEffect}{15}{subsubsection.63}%
+\contentsline {subsubsection}{\numberline {4.2.3}useContext}{16}{subsubsection.68}%
+\contentsline {section}{\numberline {5}Serveranfragen}{19}{section.139}%
+\contentsline {subsection}{\numberline {5.1}GraphQL}{19}{subsection.140}%
+\contentsline {paragraph}{}{19}{section*.141}%
+\contentsline {subsubsection}{\numberline {5.1.1}Leseabfrage}{20}{subsubsection.143}%
+\contentsline {subsection}{\numberline {5.2}Axios}{23}{subsection.172}%
+\contentsline {section}{\numberline {6}Qualitätssicherung }{25}{section.211}%
+\contentsline {subsection}{\numberline {6.1}Die Testfälle für unser Projekt}{27}{subsection.273}%
+\contentsline {paragraph}{}{27}{section*.274}%
+\contentsline {section}{\numberline {7}Glossar}{29}{section.285}%
+\contentsline {section}{\numberline {8}Zusammenfassung und Ausblick}{31}{section.286}%
+\contentsline {section}{\numberline {9}Quellenverzeichnis}{32}{section.288}%
+\contentsline {subsection}{\numberline {9.1}Literatur}{32}{subsection.289}%
+\contentsline {subsection}{\numberline {9.2}Internetquellen}{32}{subsection.291}%
+\contentsline {section}{\numberline {A}Anhang}{34}{section.293}%
+\contentsline {subsection}{\numberline {A.1}Aufwandsverteilung}{34}{subsection.294}%
+\contentsline {subsection}{\numberline {A.2}Verwendete Technologien und Werkzeuge}{34}{subsection.295}%
+\contentsline {section}{Erklärung über die selbständige Abfassung der Arbeit}{35}{section*.296}%

@@ -6,26 +6,10 @@ import { GET_LANGUAGES } from "../GraphQL/Queries"
 import { GlobalContext } from "../App"
 
 const Languages = () => {
-  // const [local_Languages, setLocal_Languages] = useState()
   const [searchTerm, setSearchTerm] = useState("")
   const { state, setState } = useContext(GlobalContext)
 
-  /*
-    useEffect(() => {
-    //    setLocal_Languages(state?.languages)
-    //   setState((state) => ({ ...state, languages: local_Languages }))
-    //console.log("useEffect []: ", local_Languages)
-  }, [])
-
-
-  useEffect(() => {
-  // setState((state) => ({ ...state, languages: local_Languages }))
-   
-   console.log('Remaining Language: ', local_Languages)
-
-    // console.log("props.state.languages: ", props.state.languages)
-  }, [local_Languages])
-*/
+  
   const { loading, error, data } = useQuery(GET_LANGUAGES, ContextHeader)
   if (loading) return <p>Loading languages...</p>
   if (error) return <p>Error!</p>

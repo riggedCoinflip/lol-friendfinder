@@ -111,7 +111,8 @@ export default function Profile() {
                     genderOptions.map((selectedGender, index) => {
                       return (
                         <Dropdown.Item
-                          name="gender"
+                        id="gender-option"  
+                        name="gender-option"
                           onClick={(e) => {
                             e.preventDefault()
 

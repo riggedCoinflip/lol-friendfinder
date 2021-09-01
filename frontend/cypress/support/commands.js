@@ -25,7 +25,6 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add("typeLogin", (email, password) => {
- // it("Enters email", () => {
     cy.visit("/login")
 
     cy.get("[id=email-input]").type(email).should("have.value", email)
@@ -33,5 +32,4 @@ Cypress.Commands.add("typeLogin", (email, password) => {
     cy.get("[id=password-input]").type(password).should("have.value", password)
 
     cy.get("[id=btn-submit]").click()
- // })
 })

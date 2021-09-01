@@ -10,7 +10,7 @@ export default function IngameRoles() {
   return (
     <div id="avaliableIngameRoles">
       <Dropdown>
-        <Dropdown.Toggle size="sm" variant="success" id="dropdown-languages">
+        <Dropdown.Toggle size="sm" variant="success" id="dropdown-ingamerole">
           IngameRole
         </Dropdown.Toggle>
 

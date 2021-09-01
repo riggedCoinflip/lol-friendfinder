@@ -44,10 +44,18 @@ Im Hinblick auf die Art und Weise, wie Abfragen an den Server mit Hilfe von \\ G
     \footnote{Vgl. u.a. \cite{RH1}}
 \end{quote}
 
-\textbf{Wie wurden die Anfragen in unserem Projekt verwaltet?}\\
-Alle Abfragen und Mutations wurden in einem Ordner gesammelt.
+\textbf{Implementierung der Serveranfragen}\\
+Alle Abfragen und Mutations wurden in einem separaten Ordner gesammelt.
+Damit soll eine saubere Struktur des Codes gewährleistet werden.
 Diese wurden für die spätere Verwendung in den React-Komponenten exportiert.
 
+Beim Einloggen in unseren Account werden die entsprechenden Daten geladen, für die zunächst mit Hilfe des ApolloClient Hook useQuery Daten gelesen werden.
+In ähnlicher Weise wurde der Schreibprozess mit dem Hook useMutation implementiert.
+\\
+In diesem Kapitel wird erläutert, wie die beiden oben genannten Abfragen implementiert wurden.
+
+
+\subsubsection{Leseabfrage} 
 \begin{lstlisting}
     export const GET_MY_INFO = gql`
     {
@@ -67,12 +75,16 @@ Diese wurden für die spätere Verwendung in den React-Komponenten exportiert.
   `
 //Beispiel einer Abfrage
 \end{lstlisting}
-
+Der obige Code zeigt die Felder der userSelf-Anfrage.
+Es ist auch möglich, über GraphQL Playground selbst die automatisch generierte Dokumentation einzusehen. 
+Dort seiht man alle verfügbaren Felder und deren Datentyp.
+\includegraphics[scale=0.60]{GraphQL_Playground}
 
 \newpage
 \textbf{Apollo Client}\\
 %Warum haben wir uns dafür entschieden?
-Nachdem eine Abfrage exportiert wurde, ist sie bereit, in einer React-Komponente importiert \\ und angewendet zu werden.
+Nachdem eine Abfrage exportiert wurde, ist sie bereit, in einer React-Komponente importiert \\ 
+und angewendet zu werden.
 
 \begin{lstlisting}
 import { GET_MY_INFO } from "./GraphQL/Queries"
@@ -89,19 +101,16 @@ Die Konstante ContextHeader enthält das Token in der Struktur, die erforderlich
 \\
 Sollte das Token undefined, null oder ungültig sein, wird der Server ein Fehler zurückgegeben.
 \\ 
-
-Der useQuery Hook liefert ein Ergebnisobjekt, das Folgendes enthält.
+Der useQuery Hook liefert ein Ergebnisobjekt, welches eine der folgenden Optionen zurückgibt.
 \\
 \textbf{loading:}\\
 Ein boolescher Wert, der angibt, ob die Abfrage in Bearbeitung ist.
 Wenn loading true ist, ist die Anfrage noch nicht abgeschlossen. Typischerweise kann diese Information verwendet werden, um einen Lade-Spinner anzuzeigen.
 \\
-
 \textbf{error:}\\
 Ein Laufzeitfehler mit den Eigenschaften von GraphQL Errors und network Error.
 Dieses enthält Informationen darüber, was bei der Abfrage schief gelaufen ist.
 \\
-
 \textbf{date:}\\
 Ein Objekt, das das Ergebnis der GraphQL-Abfrage enthält.
 \\Es enthält die tatsächlichen Daten vom Server.
