@@ -5,8 +5,11 @@ Nachdem die Projektanforderungen definiert waren, wurden verschiedene Optionen f
 
 Folgende JavaScript Frameworks wurden berücksichtigt: Angular, Vue und React.
 
-
+% Formulierung: Auch wenn technisch möglich, haben wir uns gegen Angular entschieden, da (Gründe)
 Eigentlich hätte das Projekt auch mit Angular durchgeführt werden können, mit dem Unterschied, dass die Entwicklung mit Angular mehr Zeit gekostet hätte, außerdem ist das Projekt nicht komplex genug, um das Angular-Ökosystem zu benötigen.
+
+% Vue?
+
 \paragraph{}
 \textbf{Warum sollte man React berücksichtigen?}\\
 \newline
@@ -14,7 +17,11 @@ Eigentlich hätte das Projekt auch mit Angular durchgeführt werden können, mit
 \newline
 
 \textbf{Deklarativ} \\
-Mit React ist es leicht, interaktive Benutzeroberflächen zu erstellen. Man kann einfache Ansichten für jeden Zustand der Anwendung. React aktualisiert und rendert effizient genau die richtigen Komponenten, wenn sich deren Daten ändern.
+Mit React ist es leicht, interaktive Benutzeroberflächen zu erstellen. 
+% Verb am Ende fehlt
+Man kann einfache Ansichten für jeden Zustand der Anwendung. 
+% Sollten sich einzelne komponenten verändern, werden gezielt nur diese neu geladen und nicht die ganze Seite. Dies erhöht die performance drastisch.
+React aktualisiert und rendert effizient genau die richtigen Komponenten, wenn sich deren Daten ändern.
 Durch deklarative Ansichten wird der Code vorhersehbarer und einfacher zu debuggen.
 \newline
 
@@ -30,21 +37,28 @@ Laut einer StackOverFlow Umfrage hat React.js im Jahr 2021 jQuery als das am hä
 \newline
 
 \textbf{Nachteile}\\
+% Von einem wissenschaftlichen Paper wird erwartet, so unvoreingenommen wie möglich zu sein. Das als Punkt zu erwähnen wirkt auf mich unprofessionell. Würd ich einfach weglassen
+% JSX benötigt JS - wenn Nutzer also das NoJS Plugin installiert haben, kann gar nichts angezeigt werden. Viele andere Webseiten ohne JSX funktionieren auch ohne JS, wenn auch vlt ein paar funktionen wegfallen
+% JSX ist eine neue Sprache, die das Team erst lernen muss.
 Bei der Auswahl des Frameworks wollten wir so unvoreingenommen wie möglich sein, daher listen wir einige Aspekte auf, die bei Projekten mit React zu beachten sind.
 \newline
 
 \textbf{JSX}\\
+% Wenn es ein Vorteil ist, warum steht es bei den Nachteilen? Bzw: Was sind die Nachteile von JSX?
+% JSX ermöglicht es, HTML und JS in einfacher Syntax miteinander zu vermischen und schützt zudem (auf verschiedene Weisen) vor angriffen. 
 Während dies für einige Entwickler ein Nachteil sein könnte, ist es wichtig zu beachten, dass JSX auch seine Vorteile hat und hilft, den Code vor Injektionen zu schützen.
 \newline
 
 \textbf{Ein hohes Entwicklungstempo}\\
+% Das ist kein Nachteil so wie du es formulierst
+% React wird permanent weiterentwickelt und verändert sich oft, um den neuesten Stand der Technik anzubieten. Auch wenn dies grundsätzlich vorteilhaft ist, kann es passieren, dass Teile von React ständig neu erlernt werden müssen, da sich diese verändern. Es ist abzuwägen, ob die Vorteile die Nachteile ausgleichen/übertreffen.
 Entwickler, die das Entwicklungstempo als Nachteil sehen, würden argumentieren, dass sie die Arbeit mit React ständig neu erlernen müssen und es schwierig ist, damit Schritt zu halten.
 
 Es ist wichtig festzustellen, dass neue Entwicklungen des Frameworks verbessern und dazu beitragen, dass er ein höheres Leistungsniveau erreicht. 
 \newline
 
 \textbf{Eine zu leichte Dokumentation}\\
-Aufgrund der rasanten Entwicklung ist die Dokumentation in Bezug auf die neuesten Aktualisierungen und Änderungen oft spärlich. 
+Aufgrund der rasanten Entwicklung ist die Dokumentation des Frameworks in Bezug auf die neuesten Aktualisierungen und Änderungen oft spärlich. 
 
 \paragraph{}
 \textbf{Was sind React Hooks und wie kann man daraus profitieren?}\\
