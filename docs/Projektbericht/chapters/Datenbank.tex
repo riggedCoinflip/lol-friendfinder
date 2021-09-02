@@ -1,0 +1,59 @@
+% Welche Datenbank wurde verwendet und warum,...
+\paragraph{Einleitung}
+Nutzer unserer Plattform erstellen sich ein Profil, auf dem sie etliche Daten angeben können. Diese Daten helfen anderen Nutzern bei der Kontaktsuche. Sobald sich 2 Nutzer gefunden haben, können sie miteinander schreiben und die Texte auch später noch lesen. Um all dies zu ermöglichen und verwalten zu können, benötigt es Infrastruktur in Form von einer Datenbank.
+
+\paragraph{Wahl der Datenbank}
+In der näheren Auswahl der Datenbank standen MongoDB, eine 'universelle, dokumentbasierte, verteilte Datenbank für die moderne Anwendungsentwicklung und die Cloud' \cite{MG1} und PostgreSQL, ein 'starkes, quelloffenes objektrelationales Datenbankmanagementsystem mit über 30 Jahre aktiver Entwicklung' \cite{PG01}, welche beide unterschiedliche Vorteile haben. PostgreSQL steht dabei repräsentativ für SQL-basierte, objektrelationale Datenbankmanagesysteme. Diese finden schon seit Jahrzehnten Anwendung in der Industrie.
+
+
+\paragraph{PostgreSQL}
+% Master-Slave Zeitgemäß? Primary-Secondary?
+Wie der Name vermuten lässt, ist PostgreSQL ein SQL-basiertes Datenbankmanagementsystem und verwaltet Daten in normalisierten Tabellen. Tabellen werden über Foreign Keys referenziert und können über Joins in Datenbankabfragen verbunden werden. PostgreSQL ist in der Lage, große Datenmengen effizient zu speichern und zu filtern. Mit nutzerdefinierten Typen, Sperren auf Tabellenebene, erweiterten Indexierungsoptionen, PL/pgSQL und vielen weiteren Funktionen lassen sich auch komplexe Strukturen und Vorgänge abbilden \cite{PG02}. Zur horizontalen Skalierung ('scale-out') bietet PostgreSQL ein Master-Slave-System mit load balancing. \cite{PG11}
+
+PostgreSQL wird von namhaften Firmen wie Netflix, Uber, Instagram und Spotify verwendet. \cite{PG03}
+
+\paragraph{MongoDB}
+MongoDB ist eine dokumentbasierte Datenbank, Daten werden im binären JSON Format (BSON) BSON-Format gespeichert. 'Dokumentdatenbanken kombinieren jeden Schlüssel mit einer komplexen Datenstruktur, dem sogenannten Dokument. Jedes Dokument kann viele verschiedene Schlüssel-Wert-Paare bzw. Schlüssel-Array-Paare und sogar eingebettete Dokumente enthalten.' \cite{MG2} Als Dokumentdatenbank zählt MongoDB zu den NoSQL-Datenbanken. MongoDB bietet durch sharding (jeder Prozess enthält eine Untermenge der Daten) und replica sets (Daten sind als Weiterentwicklung des Master-Slave-System über mehrere Prozesse lesbar) eine horizontale Skalierung.
+
+Weltbekannte Firmen wie ebay, Google, EA, coinbase und SAP verwenden MongoDB. \cite{MG1}
+
+\textbf{Aspekte}\\
+
+\textbf{Skalierbarkeit}\\
+Sollte unsere Webseite in Zukunft mehr Datenverkehr generieren, gibt es durch die von MongoDB entwickelten Konzepte des sharding und der replica sets native Möglichkeiten, die Rechenkapazität schnell, einfach und effizient zu erhöhen. Horizontale Skalierbarkeit ist ein integraler Bestandteil der MongoDB Infrastruktur und als solches gut mit anderen Diensten und Funktionen abgestimmt.
+
+\textbf{Flexibilität}\\
+Gerade in der Anfangsphase von Projekten werden Datenbankstrukturen oft umgeworfen, angepasst und verworfen. Dokumente einer Collection müssen, anders als Spalten einer ORDBMS-Tabelle, nicht die gleiche Struktur aufweisen. Sollten also Änderungen an einem Dokuemtentyp vorgenommen werden, müssen vorherige Daten nicht angepasst und bereinigt werden. Dies erleichtert einen agilen Programmieransatz, kann aber die technischen Schulden des Projektes erhöhen.
+
+\textbf{BSON}\\
+MongoDB speichert Daten im "binary JSON"-Format. JSON wiederum steht für 'JavaScript Object Notation' und 'ist ein schlankes Datenaustauschformat, welches für Menschen einfach zu lesen und für Maschinen einfach zu parsen [] ist' \cite{JSON1}. JSON als semistrukturiertes Dateiformat eignet sich gut für Schnittstellendaten. Zudem wird im gewählten MERN-Techstack ausschließlich JavaScript verwendet - das JavaScript native Dateiformat JSON ist daher ohne Umwandlungen direkt verwendbar und der Umgang für unsere Entwickler bereits bekannt. Dies verringert die Gefahr möglicher Komplikationen und spart Lern- und Programmieraufwand.
+
+
+\textbf{Atlas}\\
+% Risiko Professor
+MongoDB Inc. bietet mit MongoDB Atlas eine Database-as-a-Service Lösung an, die flexibel auf die Größe und Auslastung des Projektes angepasst werden kann. Die Einrichtung des Datenbankservers scheint uns recht einfach zu sein und erlaubt uns, unseren Fokus darauf zu legen, das Projekt weiterzubringen. Sollte unser Projekt erfolgreich sein und in kurzer Zeit viele Nutzer generieren, ist es die Sache von ein paar Minuten, ein teureres Abonnement mit stärkerer Rechenleistung zu buchen.Für kleine Projekte und Projekte in der Entwicklungsphase ist das DaaS-Angebot zudem kostenlos. Dies verringert die Kosten in der Entwicklungsphase und verringert somit das Risiko einer Fehlinvestition.
+
+Das Risiko, dass Code auf der lokalen Maschine funktioniert, aber auf der Produktionsumgebung Fehler wirft, wird durch die Verwendung von der gleichen Technologie (Atlas) in der Produktions- und Entwicklungsumgebung stark verringert. Die Dev-Prod-Vergleichbarkeit wird durch die geringere Werkzeuglücke erhöht. \cite{12FA1}
+
+
+
+% TODO Überarbeiten
+\textbf{Denormalisierung}\\
+Während objektrelationale Datenbankmanagesysteme meist nach dem Prinzip der Normalformen normalisiert werden, setzt MongoDB an einigen Stellen auf Denormalisierung für bessere Performance. So ist es neben der klassischen Referenz per ID möglich, einzelne Dokumente oder ganze Arrays in ein Dokument einzubetten. Dies sorgt dafür, dass die Schreibgeschwindigkeit abnimmt, da an mehreren Stellen Daten verändert werden müssen, dafür aber die Lesegeschwindigkeit oft zunimmt - Die Daten befinden sich alle in einem Dokument und müssen nicht durch Joins aus verschiedenen Tabellen zusammengesucht werden.
+Auf einer Online-Plattform wie unserer werden oft Daten gelesen, aber selten geändert oder hinzugefügt, daher eignet sich für die meisten Daten Denormalisierung.
+Auch bei PostgreSQL ist eine Denormalisierung möglich, jedoch glauben wir, dass MongoDB besser dafür ausgelegt ist.
+
+\textbf{Beliebtheit}\\
+Mit X und Y gehört MongoDB zu einer der beliebtesten Datenbanken. Beliebte npm-Pakete wie "mongoose" erleichtern die Verwendung von MongoDB weiter und das npm-Paket "graphql-compose-mongoose" ermöglicht eine autogenerierte, funktionsfähige Schnittstelle durch GraphQL.
+
+\textbf{Erfahrung}\\
+Das Entwicklerteam hat in der Vergangenheit bereits Erfahrung in MongoDB sammeln können und ist gut mit der Datenbank zurecht gekommen. 
+
+Sowohl PostgreSQL als auch MongoDB eigenen sich sehr gut für unser Projekt. Uns ist bei der Recherche jedoch aufgefallen, dass MongoDB in unserem verwendeten Tech-Stack mit Express, React, und Node (MERN) deutlich mehr Verwendung findet als die Alternative mit PostgreSQL. Sollte
+
+
+%TODO AWS
+
+%TODO CAP
+
+%TODO Schlusssatz
