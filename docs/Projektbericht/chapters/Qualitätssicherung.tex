@@ -1,7 +1,7 @@
 \textbf{Software Testing }\\
 Obwohl unser Projekt relativ klein ist, wollten wir, wo immer möglich, automatisierte Testfälle einbeziehen.
 
-Für das FrontEnd haben wir EndToEnd-Testfälle mit Cypress geschrieben.
+Für das Frontend haben wir End-to-End Testfälle mit Cypress geschrieben.
 
 So können wir in Sekundenschnelle feststellen, ob etwas in unserer Anwendung defekt ist.
 
@@ -95,25 +95,26 @@ Ansicht der laufenden Testfälle.
 \includegraphics[scale=0.60]{Cy_Test_Cases}
 \\
 \includegraphics[scale=0.20]{Cy_Test_running}
-\\
+
+\newpage
 \textbf{home.spec.js}\\
-Prüfen Sie, ob das Hom gerendert wurde
-\\
+Prüfen Sie, ob die Startseite „Home“ gerendert wurde.
+\\\\
 \textbf{HTTP-Request.spec.js}\\
-\\
+\\\\
 \textbf{likeUsers.spec.js}\\
-Mit diesem Testfall wird überprüft, ob nach der Vergabe eines Likes oder Dislikes ein anderer Nutzer angezeigt wird.
-\\
+Mit diesem Testfall wird überprüft, ob nach der Vergabe von einem „Like“ oder einem „Dislike“ ein anderer Nutzer angezeigt wird.
+\\\\
 \textbf{Testfall localStorage Token}\\
 Hier wird der Wert des JSON-Web-Tokens zu verschiedenen Zeitpunkten überprüft.
 Die Erwartung ist, dass das Token null ist, wenn der Benutzer nicht angemeldet ist.
 Dieses Token wird in localStorage gespeichert.
 Es besteht auch die Möglichkeit, dass das Token abgelaufen ist, wodurch alle Anfragen an den Server, die eine Authentifizierung erfordern, unmöglich werden.
-\\
+\\\\
 \textbf{profileElements.spec.js}\\
 Der Testfall prüft, ob die Elemente und Komponenten der Komponente Profil gerendert wurden und sichtbar sind. Diese Elemente sind userName, Gender und AboutMe. Die Komponenten sind Language und InGameRole.
 
-Außerdem wird überprüft, ob Komponenten mit Dropdowns eine Mindestanzahl von Elementen enthalten, die angezeigt werden müssen. 
+Außerdem wird überprüft, ob Komponenten, ein Element „Dropdown“ enthalten, eine Mindestanzahl von Elementen enthalten, die angezeigt werden müssen. 
 \\
 \textbf{signUp.spec.js}\\
 Dieser Testfall erstellt einen neuen Benutzer mit einer zufälligen E-Mail und einem zufälligen Benutzernamen.  \\
