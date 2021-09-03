@@ -30,32 +30,37 @@
 \contentsline {subsection}{\numberline {2.8}Struktur der Arbeit}{9}{subsection.32}%
 \contentsline {section}{\numberline {3}Grundlagen}{11}{section.35}%
 \contentsline {subsection}{\numberline {3.1}Unterabschnitt von Grundlagen}{11}{subsection.36}%
-\contentsline {section}{\numberline {4}Benutzeroberfläche}{12}{section.37}%
-\contentsline {paragraph}{}{12}{section*.38}%
-\contentsline {subsection}{\numberline {4.1}Überlegungen bei der Verwendung von React}{12}{subsection.39}%
-\contentsline {paragraph}{}{12}{section*.40}%
-\contentsline {subsubsection}{\numberline {4.1.1}Vorteile}{12}{subsubsection.41}%
-\contentsline {subsubsection}{\numberline {4.1.2}Nachteile}{12}{subsubsection.43}%
-\contentsline {paragraph}{}{13}{section*.45}%
-\contentsline {subsection}{\numberline {4.2}React Hooks}{13}{subsection.46}%
-\contentsline {paragraph}{}{13}{section*.47}%
-\contentsline {subsubsection}{\numberline {4.2.1}useState}{13}{subsubsection.48}%
-\contentsline {subsubsection}{\numberline {4.2.2}useEffect}{15}{subsubsection.63}%
-\contentsline {subsubsection}{\numberline {4.2.3}useContext}{16}{subsubsection.68}%
-\contentsline {section}{\numberline {5}Serveranfragen}{19}{section.139}%
-\contentsline {subsection}{\numberline {5.1}GraphQL}{19}{subsection.140}%
-\contentsline {paragraph}{}{19}{section*.141}%
-\contentsline {subsubsection}{\numberline {5.1.1}Leseabfrage}{20}{subsubsection.143}%
-\contentsline {subsection}{\numberline {5.2}Axios}{23}{subsection.172}%
-\contentsline {section}{\numberline {6}Qualitätssicherung }{25}{section.212}%
-\contentsline {subsection}{\numberline {6.1}Die Testfälle für unser Projekt}{27}{subsection.274}%
-\contentsline {paragraph}{}{27}{section*.275}%
-\contentsline {section}{\numberline {7}Glossar}{30}{section.286}%
-\contentsline {section}{\numberline {8}Zusammenfassung und Ausblick}{32}{section.287}%
-\contentsline {section}{\numberline {9}Quellenverzeichnis}{33}{section.289}%
-\contentsline {subsection}{\numberline {9.1}Literatur}{33}{subsection.290}%
-\contentsline {subsection}{\numberline {9.2}Internetquellen}{33}{subsection.292}%
-\contentsline {section}{\numberline {A}Anhang}{35}{section.294}%
-\contentsline {subsection}{\numberline {A.1}Aufwandsverteilung}{35}{subsection.295}%
-\contentsline {subsection}{\numberline {A.2}Verwendete Technologien und Werkzeuge}{35}{subsection.296}%
-\contentsline {section}{Erklärung über die selbständige Abfassung der Arbeit}{36}{section*.297}%
+\contentsline {section}{\numberline {4}Datenbank}{12}{section.37}%
+\contentsline {paragraph}{Einleitung}{12}{section*.38}%
+\contentsline {paragraph}{Wahl der Datenbank}{12}{section*.39}%
+\contentsline {paragraph}{PostgreSQL}{12}{section*.40}%
+\contentsline {paragraph}{MongoDB}{12}{section*.41}%
+\contentsline {section}{\numberline {5}Benutzeroberfläche}{15}{section.42}%
+\contentsline {paragraph}{}{15}{section*.43}%
+\contentsline {subsection}{\numberline {5.1}Überlegungen bei der Verwendung von React}{15}{subsection.44}%
+\contentsline {paragraph}{}{15}{section*.45}%
+\contentsline {subsubsection}{\numberline {5.1.1}Vorteile}{15}{subsubsection.46}%
+\contentsline {subsubsection}{\numberline {5.1.2}Nachteile}{15}{subsubsection.48}%
+\contentsline {paragraph}{}{16}{section*.50}%
+\contentsline {subsection}{\numberline {5.2}React Hooks}{16}{subsection.51}%
+\contentsline {paragraph}{}{16}{section*.52}%
+\contentsline {subsubsection}{\numberline {5.2.1}useState}{16}{subsubsection.53}%
+\contentsline {subsubsection}{\numberline {5.2.2}useEffect}{18}{subsubsection.68}%
+\contentsline {subsubsection}{\numberline {5.2.3}useContext}{19}{subsubsection.73}%
+\contentsline {section}{\numberline {6}Serveranfragen}{22}{section.144}%
+\contentsline {subsection}{\numberline {6.1}GraphQL}{22}{subsection.145}%
+\contentsline {paragraph}{}{22}{section*.146}%
+\contentsline {subsubsection}{\numberline {6.1.1}Leseabfrage}{23}{subsubsection.148}%
+\contentsline {subsection}{\numberline {6.2}Axios}{26}{subsection.177}%
+\contentsline {section}{\numberline {7}Qualitätssicherung }{28}{section.217}%
+\contentsline {subsection}{\numberline {7.1}Die Testfälle für unser Projekt}{30}{subsection.279}%
+\contentsline {paragraph}{}{30}{section*.280}%
+\contentsline {section}{\numberline {8}Glossar}{33}{section.291}%
+\contentsline {section}{\numberline {9}Zusammenfassung und Ausblick}{35}{section.292}%
+\contentsline {section}{\numberline {10}Quellenverzeichnis}{36}{section.294}%
+\contentsline {subsection}{\numberline {10.1}Literatur}{36}{subsection.295}%
+\contentsline {subsection}{\numberline {10.2}Internetquellen}{36}{subsection.297}%
+\contentsline {section}{\numberline {A}Anhang}{38}{section.299}%
+\contentsline {subsection}{\numberline {A.1}Aufwandsverteilung}{38}{subsection.300}%
+\contentsline {subsection}{\numberline {A.2}Verwendete Technologien und Werkzeuge}{38}{subsection.301}%
+\contentsline {section}{Erklärung über die selbständige Abfassung der Arbeit}{39}{section*.302}%
