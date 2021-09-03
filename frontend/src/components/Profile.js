@@ -7,7 +7,7 @@ import { Redirect } from "react-router-dom"
 
 import IngameRoles from "./IngameRoles"
 import { ContextHeader } from "../constants"
-import { AuthContext } from "../App"
+import { GlobalContext } from "../App"
 
 import {
   Button,
@@ -22,7 +22,7 @@ import {
 
 export default function Profile() {
 
-  const { token, state, refetch } = useContext(AuthContext)
+  const { token, state, refetch } = useContext(GlobalContext)
   const [errored, setErrored] = useState(false)
   const [profile, setProfile] = useState(state)
 
@@ -74,7 +74,7 @@ export default function Profile() {
   ) : (
     <div id="user-info">
       <Container>
-        <Card.Title className="text-left">{profile?.name}</Card.Title>
+        <Card.Title id="username" className="text-left">{profile?.name}</Card.Title>
         <Form>
           <Row>
             <Col>
@@ -111,7 +111,8 @@ export default function Profile() {
                     genderOptions.map((selectedGender, index) => {
                       return (
                         <Dropdown.Item
-                          name="gender"
+                        id="gender-option"  
+                        name="gender-option"
                           onClick={(e) => {
                             e.preventDefault()
 

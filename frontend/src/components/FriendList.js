@@ -2,7 +2,6 @@ import { React } from "react"
 import { GET_USER_BY_ID } from "../GraphQL/Queries"
 
 import { useQuery } from "@apollo/client"
-import { Row } from "react-bootstrap"
 import AvatarImage from "./AvatarImage"
 
 export default function FriendList({
@@ -51,6 +50,7 @@ export default function FriendList({
                 <AvatarImage
                   avatarUrl={data.userOneById.avatar}
                   name={data.userOneById.name}
+                  size={"50"}
                 />
               </div>
               <div className="padding5">
