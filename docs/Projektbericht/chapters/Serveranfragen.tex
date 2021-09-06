@@ -57,30 +57,13 @@ In diesem Kapitel wird erläutert, wie die beiden oben genannten Abfragen implem
 
 
 \subsubsection{Leseabfrage}
-\begin{lstlisting}
-    export const GET_MY_INFO = gql`
-    {
-      userSelf {
-        _id
-        name
-        aboutMe
-        languages
-        gender
-        avatar
-        ingameRole
-        dateOfBirth
-        friends { user chat }        
-        blocked
-      }
-    }
-  `
-//Beispiel einer Abfrage
-\end{lstlisting}
-Der obige Code zeigt die Felder der userSelf-Anfrage.
-Es ist auch möglich, über GraphQL Playground selbst die automatisch generierte Dokumentation einzusehen.
-Dort sieht man alle verfügbaren Felder und deren Datentyp.
+
 \includegraphics[scale=0.60]{GraphQL_Playground}\label{fig:GraphQL_Playground}
-Abbildung \autoref{fig:GraphQL_Playground} zeigt der Datentyp der Felder in Bezug auf eine Beispielabfrage.
+\\
+\textbf{Abbildung \autoref{fig:GraphQL_Playground}:}\\ 
+Beim GraphQL Playground: alle verfügbaren Felder und deren Datentyp in Bezug auf eine Beispielabfrage auf.
+
+Genau derselbe Code wurde für die Abfrage von Benutzerinformationen verwendet.
 \newpage
 \textbf{Apollo Client}\\
 %Warum haben wir uns dafür entschieden?
@@ -107,11 +90,11 @@ Der useQuery Hook liefert ein Ergebnisobjekt, welches eine der folgenden Optione
 \textbf{loading:}\\
 Ein boolescher Wert, der angibt, ob die Abfrage in Bearbeitung ist.
 Wenn loading wahr ist, ist die Anfrage noch nicht abgeschlossen. Typischerweise kann diese Information verwendet werden, um einen Lade-Spinner anzuzeigen.
-\\
+\\\\
 \textbf{error:}\\
 Ein Laufzeitfehler mit den Eigenschaften von GraphQL Errors und network Error.
 Dieses enthält Informationen darüber, was bei der Abfrage fehlgeschlagen  ist.
-\\
+\\\\
 \textbf{date:}\\
 Ein Objekt, das das Ergebnis der GraphQL-Abfrage enthält.
 \\Es enthält die tatsächlichen Daten vom Server.
