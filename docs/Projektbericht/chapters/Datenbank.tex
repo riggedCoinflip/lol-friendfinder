@@ -1,59 +1,126 @@
 % Welche Datenbank wurde verwendet und warum,...
-\paragraph{Einleitung}
-Nutzer unserer Plattform erstellen sich ein Profil, auf dem sie etliche Daten angeben können. Diese Daten helfen anderen Nutzern bei der Kontaktsuche. Sobald sich 2 Nutzer gefunden haben, können sie miteinander schreiben und die Texte auch später noch lesen. Um all dies zu ermöglichen und verwalten zu können, benötigt es Infrastruktur in Form von einer Datenbank.
+\subsection{Anforderungen}
+Wir entwickeln eine moderne Plattform, auf der sich Nutzer ähnlich Social Media Profile anderer Nutzer anschauen und Chats miteinander führen. Nutzer sollen in Echtzeit miteinander schreiben können und nahezu keine Wartezeit in Kauf nehmen müssen, um sich andere Profile anzeigen zu lassen. Die Datenbank muss nahezu immer erreichbar sein, da Nutzer unsere Webseite sonst nicht nutzen können. 
+Wenn Benutzer Änderungen an ihrem Profil vornehmen, kann eine geringe Wartezeit in Kauf genommen werden. Nutzer müssen bei Profilen nicht unbedingt die aktuelleste, gerade veränderte Profilbeschreibung sehen; es ist viel wichtiger, dass die Nutzer Nutzerprofile schnell sehen, all dass diese auf dem neuesten Stand sind. 
+Webseiten wie unsere können "über Nacht" zum Erfolg werden, es reicht ein großer Influencer, welcher seinen Followern von der Webseite berichtet und auf einen Schlag erreichen wir Nutzerzahlen, bei denen unsere Rechenleistung auf Grenzen stößt. Die Datenbank unserer Wahl sollte sich vor allem schnell, ohne viel Programmieraufwand, skalieren lassen, um die Zeit, in denen unsere Plattform ausgelastet ist, möglichst gering zu halten. 
+Statt dass unsere Nutzer ihr Verhalten auf unsere Webseite anpassen müssen, wollen wir die Webseite auf die Wünsche unserer Nutzer anpassen. Datenstrukturen sollen sich schnell und oft ändern können, um dies zu ermöglichen.
 
-\paragraph{Wahl der Datenbank}
-In der näheren Auswahl der Datenbank standen MongoDB, eine 'universelle, dokumentbasierte, verteilte Datenbank für die moderne Anwendungsentwicklung und die Cloud' \cite{MG1} und PostgreSQL, ein 'starkes, quelloffenes objektrelationales Datenbankmanagementsystem mit über 30 Jahre aktiver Entwicklung' \cite{PG01}, welche beide unterschiedliche Vorteile haben. PostgreSQL steht dabei repräsentativ für SQL-basierte, objektrelationale Datenbankmanagesysteme. Diese finden schon seit Jahrzehnten Anwendung in der Industrie.
+\subsection{Wahl der Datenbank}
+In der näheren Auswahl der Datenbank standen die SQL-Datenbank PostgreSQL und MongoDB, eine NoSQL-Datenbank, zwei beliebte Datenbankmanagementsysteme mit unterschiedlichen Ansätzen. Wir werden uns im Folgenden die Gemeinsamkeiten und Unterschiede der Datenbanken anschauen und erklären, warum wir MongoDB als die für unser Projekt beste Lösung halten.
+
+\subsubsection{PostgreSQL}
+Michael Stonebreaker veröffentlichte 1974 in Berkeley unter BSD-Lizenz das RDBMS INGRES. Jahre später führte er das Projekt als Postgres (Post INGRES) weiter und fügte einen objektorientierten Ansatz hinzu. \cite{PG1} Im Laufe der Jahre wurde PostgreSQL fortlaufend weiterentwickelt und hat viele neue Funktionen dazuerhalten.
+PostgreSQL beschreibt sich selbst als das fortschrittlichste, quelloffene, relationale Datenbankmanagementsystem und habe sich in über 30 Jahren aktiver Entwicklung einen guten Ruf für Zuverlässlichkeit, Funktionsrobusheit und Leistung verdient. \cite{PG2} PostgreSQL wird auch in Zukunft unter einer quelloffenen Lizenz stehen, welche die kommerzielle Nutzung erlaubt. \cite{PG3}
+PostgreSQL wurde exemplarisch als Option eines SQL-Systems verwendet, da der Funktionsumfang vergleichbar mit anderen beliebten SQL-Systemen ist. \cite{PG4}
+
+\subsubsection{MongoDB und PostgreSQL im Vergleich}
+
+\subsubsection{MongoDB}
+Die 2007 neu gegründete Firma 10Gen, mittlerweile bekannt als MongoDB Inc., benötigte eine Datenbank, welche den Anforderungen ihrer quelloffenen Plattform-as-a-Service Cloud-Architektur gerecht werden würde. Das Team suchte nach einer Datenbank, die elastisch, skalierbar, einfach zu verwalten und für Entwickler und Anwender einfach zu benutzen ist. Unzufrieden mit den auf dem Markt verfügbaren Datenbanksystemen wurde MongoDB, eine dokumentbasierte Datenbank entwickelt. Als das Team das Potenzial der Datenbank realisierte, wurde die Idee der Cloud-Plattform eingestellt und die Entwicklung von MongoDB gefördert.\cite{MG1}
+Laut eigenen Aussagen ist \enquote{MongoDB [] eine universelle, dokumentbasierte, verteilte Datenbank für die moderne Anwendungsentwicklung und die Cloud, die in puncto Produktivität höchsten Ansprüchen gerecht wird}. \cite{MG2} 
 
 
-\paragraph{PostgreSQL}
-% Master-Slave Zeitgemäß? Primary-Secondary?
-Wie der Name vermuten lässt, ist PostgreSQL ein SQL-basiertes Datenbankmanagementsystem und verwaltet Daten in normalisierten Tabellen. Tabellen werden über Foreign Keys referenziert und können über Joins in Datenbankabfragen verbunden werden. PostgreSQL ist in der Lage, große Datenmengen effizient zu speichern und zu filtern. Mit nutzerdefinierten Typen, Sperren auf Tabellenebene, erweiterten Indexierungsoptionen, PL/pgSQL und vielen weiteren Funktionen lassen sich auch komplexe Strukturen und Vorgänge abbilden \cite{PG02}. Zur horizontalen Skalierung ('scale-out') bietet PostgreSQL ein Master-Slave-System mit load balancing. \cite{PG11}
+\subsubsection{MongoDB und PostgreSQL im Vergleich}
 
-PostgreSQL wird von namhaften Firmen wie Netflix, Uber, Instagram und Spotify verwendet. \cite{PG03}
+\begin{center}
+    \begin{tabular}{ |c|c|c| } 
+     \hline
+     Kriterien & PostgreSQL & MongoDB  \\ 
+     \hline
+     Datenbanktyp & SQL, Objektrelational & NoSQL, Dokumentbasiert \\
+     Ranking nach DB-Engines \cite{DB1} & 577,50 Punkte, viertbeliebteste Datenbank, viertbeliebteste relationale Datenbank & 496,50 Punkte, fünftbeliebteste Datenbank, beliebteste nicht-relationale Datenbank \cite{DB2} \\
+     Architektur \\ Monolithisch \\ Dezentralisiert
+     Erscheinungsjahr & 1989 & 2009 \\
+     Datenschema & Ja & Selbstbeschreibende Dokumente\\
+     Referenzierung & Referenzierung per ID, erlaubt Foreign Keys & Referenzierung per ID oder eingebettetes Sub-Dokument \\
+     Datenstruktur & Tabellen bestehen aus Zeilen und Spalten & Kollektionen bestehen aus Dokumenten. Dokumente haben Felder. Dokumente der gleichen Kollektion müssen nicht die selben Felder besitzen. \\
+     Typisierung & Erlaubt verschiedene Datentypen und nutzerdefinierte Datentypen\cite{PG5} & Erlaubt verschiedene Datentypen nach BSON Spezifikation \cite{MG3}; ähnelt stark JSON \\
+     Horizontale Skalierung & Repliken nach Master-Slave-System \cite{PG6} & Sharding und Replica Sets als Teil der Infrastruktur \cite{MG4} \cite{MG5} \\
+     Konsistenzmodell & ACID, optional eventuelle Konsistenz \cite{MG6} \cite{MG7}  & ACID \\
+     CAP-Theorem & CA & CP/AP \\ %Correct?
+     \hline
+    \end{tabular}
+    \cite{DB3} \cite{DB4}
+\end{center}
 
+\subsubsection{ACID}
+Auch wenn man NoSQL oft mit BASE verbindet, muss eine NoSQL Datenbank nicht zwangsläufig den Prinzipien von BASE folgen. MongoDB ist seit Erschaffung ACID-Konform auf Dokumentebene und unterstützt ab den Versionen 4.0 (Juni 2018 \cite{MG8}) auf einem einzelnen Replik-Set bzw. ab Version 4.2 (August 2019 \cite{MG8}) zwischen mehreren Sets multi-Dokument-Transaktionen mit ACID-Konformität. \cite{MG6} Dies erlaubt "Alles-oder-Nichts"-Transaktionen, bei denen es kritisch ist, dass entweder alle Teile oder kein Teil der Transaktion ausgeführt wird und löst damit Probleme, die historisch nur mit SQL-Datenbanken lösbar waren.
+
+\subsubsection{Referenzierung und Denormalisierung}
+PostgreSQL erlaubt es, andere Tabellen mit Foreign Keys (FK) gemäß SQL-Standard zu referenzieren. Der Wert eines FK muss korrekt sein, sollte der angegebene FK in der referenzierten Tabelle nicht existieren, wird ein Fehler geworfen. Auch ist es möglich, entsprechende Regeln zu definieren, was passieren soll, wenn der referenzierte Datensatz beispielsweise gelöscht wird.
+MongoDB erlaubt auch, andere Dokumente per ID zu referenzieren, bietet jedoch keine direkte Option, direkt zu definieren, was beim löschen des referenzieren Datensatz passieren soll. Es ist weiterhin möglich, Trigger beim Löschen des referenzierten Datensatzes feuern zu lassen, dies ist im Vergleich zum Foreign Key Constraint jedoch aufwändig. Stattdessen setzt MongoDB darauf, alle relevanten Informationen in einem Dokument einzubetten, soweit möglich.
+%TODO Schaubilder erstellen 1-1 1-Many Many-Many
+
+Denormalisierung und damit eingebettete Dokumente erlauben schnelleren Lesezugriff, da alle relevanten Informationen in einem Dokument sind und anders als in SQL nicht über mehrere Tabellen mit über Zeit immer länger werdenden JOIN-Anweisungen zusammengefasst werden müssen. Dies erleichtert Abfragen und erhöht die Geschwindigkeit von Leseabfragen. Der Nachteil ist, dass Daten über verschiedene Dokumente dupliziert werden und Schreibzugriffe langsamer werden - schließlich müssen Daten in verschiedenen Dokumenten erstellt oder aktualisiert werden. 
+Wir glauben, dass viele Nutzer ihre Profilinformationen wie Avatarbild, Name oder Profiltext selten verändern. Jedes Mal, wenn das Profil eines Nutzers in der Kontaktsuche gezeigt werden soll, jedes Mal, wenn die Freundesliste oder ein Chat geöffnet wird, muss das Profil abgefragt werden - teilweise hunderte Male am Tag. Eine schnelle Antwort ist hier auch wichtig: Der Nutzer will nicht warten müssen, bis die Seite geladen hat. Auf der anderen Seite wird ein Nutzer vermutlich selten seine Profilinformationen ändern, höchstens ein paar Mal am Tag. Wir glauben auch, dass der Nutzer hier eher geneigt ist, eine kurze Verzögerung für die Aktualisierung seiner Daten hinzunehmen. Entsprechend sind wir der Meinung, dass
+die Vorteile der Denormalisierung dessen Nachteile überwiegen.
+
+\subsubsection{Skalierbarkeit}
+Sowohl PostgreSQL als auch MongoDB lassen sich vertikal skalieren - mit mehr Ressourcen läuft die Datenbank schneller. Bei horizontaler Skalierung verfolgen die beiden Datenbanken verschiedene Ansätze.
+\paragraph{PostgreSQL} nutzt ein Master-Slave-System bzw. Primary-Standby-System mit Load Balancing.\cite{PG6} Die Standby-Knoten sind Kopien des Primärknotens und können Lesezugriffe verarbeiten. Schreibzugriffe werden nur vom Primärknoten angenommen. Sollte der Primärknoten versagen, bietet PostgreSQL keine automatische Lösung dieses Problems, ohne Drittsoftware muss manuell ein neuer Primärknoten gewählt werden. Es gibt nur einen Primärknoten, für Multi-Master-Systeme wird Drittsoftware benötigt. Selbst mit synchronen Repliken dauert es einen Moment, bis die Standby-Knoten die Aktualisierungen der Datenbank übernommen haben, dies kann dazu führen, dass Abfragen mit veralteten Datensätzen beantwortet werden.\cite{PG8} Consistency nach CAP-Theorem ist für PostgreSQLs Master-Slave-Systeme somit nicht mehr einhundertprozentig gegeben.
+Durch Sharding lässt sich die Datenbank in einzelne Knoten aufteilen, die jeweils nur einen Teil der Daten beinhalten. Dies erlaubt es, die Last und benötigte Speicherkapazität pro Knoten weiter zu verringern. Es ist möglich, mehrere Shards vom gleichen Knoten verwalten zu lassen; dies erleichtert die Skalierung, da die Anzahl der Shards flexibel an die technischen Ressourcen des verwaltenden Knoten angepasst werden kann.
 \paragraph{MongoDB}
-MongoDB ist eine dokumentbasierte Datenbank, Daten werden im binären JSON Format (BSON) BSON-Format gespeichert. 'Dokumentdatenbanken kombinieren jeden Schlüssel mit einer komplexen Datenstruktur, dem sogenannten Dokument. Jedes Dokument kann viele verschiedene Schlüssel-Wert-Paare bzw. Schlüssel-Array-Paare und sogar eingebettete Dokumente enthalten.' \cite{MG2} Als Dokumentdatenbank zählt MongoDB zu den NoSQL-Datenbanken. MongoDB bietet durch sharding (jeder Prozess enthält eine Untermenge der Daten) und replica sets (Daten sind als Weiterentwicklung des Master-Slave-System über mehrere Prozesse lesbar) eine horizontale Skalierung.
+benutzt Replica-Sets, welche ähnlich wie das vorgestellte Master-Slave-System von PostgreSQL funktionieren. Der Primärknoten ist der einzige Knoten mit Schreibzugriff und repliziert die Änderungen auf die Sekundärknoten. Alleridngs hat MongoDB ein automatisches System, welches einen Ausfall des Primärknotens abfängt. Alle Knoten teilen den anderen Knoten ihren "Herzschlag" mit, pingen sich gegenseitig an. Sollte der Herzschlag des Primärknotens ausfallen, wählen die Sekundärknoten unter ihnen einen neuen Primärknoten aus, welcher dann die Aufgaben des früheren Primärknotens übernimmt. Es ist möglich, Knoten mit mehr Rechenleistung eine höhere Priorität zuzuweisen, um die Wahrscheinlichkeit zu erhöhen, dass dieser Knoten der nächste Primärknoten wird. Auch ist es möglich, zu verhindern, dass spezielle Knoten Primärknoten werden, dies ist Ratsam für Knoten, die schlechtere Hardware besitzen oder eine höhere Latenz aufweisen. Den Knoten können zudem verschiedene Rollen zugewiesen werden, so können versteckte Knoten für Datenbankauswertungen verwendet werden, während verzögerte Knoten einen historischen Schnappschuss der Datenbank speichern und Aktualisierungen mit einer Verzögerung ausführen und somit als Backup dienen können. \cite{MG10}\cite{MG11}\cite{MG12}\cite{MG13} MongoDB erlaubt auch Systeme mit mehreren Primärknoten, es ist jedoch empfohlen, in den meisten Fällen Optionen wie Sharding zu verwenden. \cite{MG14}
+Shards wiederum können als eigene Replica-Sets eingesetzt werden. Dies erlaubt es, für verschiedene Regionen eigene Shards der Datenbank einzurichten, welche dann wiederum in einem eigenen Replica-Set gesteuert werden.
+%TODO schaubild
+Im Laufe der jahre und mit immer größeren Datenmengen ist die Möglichkeit, horizontal skalieren zu können immer wichtiger geworden. Zur Anfangszeit von PostgreSQL hat es in den meisten Fällen gereicht, vertikal zu skalieren, erst über die Jahre wurden Techniken zur horizontalen Skalierung entwickelt. Für Techniken wie der automatischen Wahl eines neuen Primärknotens oder Multi-Master-Systemen benötigt es Drittsoftware. Horizontale Skalierung war für MongoDB schon immer ein wichtiges Thema und ist als solches stark in die Datenbankinfrastruktur eingebettet. Wir sind der Meinung, dass die von MongoDB verwendeten Lösungen zur horizontalen Skalierung ausgereifter sind und gleichzeitig weniger fachliches Wissen benötigen, damit also schneller durchfürbar sind.
 
-Weltbekannte Firmen wie ebay, Google, EA, coinbase und SAP verwenden MongoDB. \cite{MG1}
+\subsubsection{Flexibilität}\\
+Gerade in der Anfangsphase von Projekten werden Datenbankstrukturen oft umgeworfen, angepasst und verworfen. Dokumente einer Kollection müssen, anders als Spalten einer ORDBMS-Tabelle, nicht die gleiche Struktur aufweisen. Sollten also Änderungen an einem Dokuemtentyp vorgenommen werden, müssen vorherige Daten nicht angepasst und bereinigt werden. Dies erleichtert einen agilen Programmieransatz, kann aber die technischen Schulden des Projektes erhöhen. Wir glauben, dass es im Laufe des Lebenszyklus unseres Projektes oft zu kleineren Anpassungen in Datenbankstrukturen kommen wird und die Flexibilität von MongoDB im Vergleich zu PostgreSQL den Programmieraufwand verringern wird.
 
-\textbf{Aspekte}\\
+\subsubsection{Das CAP-Theorem}
+%TODO gut schreiben
+Brewers CAP-Theorem sagt aus, dass es in verteilten Systemen wie Datenbanken nicht möglich ist, gleichzeitig Consistency (Konsistenz), Availability (Verfügbarkeit) und Partition Tolerance (Partitionstoleranz) zu gewährleisten. Man muss sich für zwei entscheiden. %cite paper
+% https://awoc.wolski.fi/dlib/big-data/GiLy02-CAP.pdf AXIOM
+% https://groups.csail.mit.edu/tds/papers/Gilbert/Brewer2.pdf
+% https://www.researchgate.net/publication/220476881_CAP_Twelve_years_later_How_the_Rules_have_Changed (download CAP-computer)
+%TODO weiter recherchieren https://de.wikipedia.org/wiki/CAP-Theorem
+Dies ist eine starke Simplifizierung, die den heutigen Datenbanken in der Form nicht gerecht wird und zwölf Jahre später von Brewer angepasst wurde. 
+Viele aktuelle Datenbanken erlauben es, in unterschiedlichen Konfigurationen verschiedene Ziele zu erreichen. 
+  
+Wir haben am Fallbeispiel von PostgreSQL zeigen können, dass im Multiknoten-System ein Teil der Konsistenz aufgegeben werden kann, um kürzere Antwortzeiten und Partitionstoleranz (Standby-Knoten dürfen ausfallen) zu gewährleisten. Die Einführung eines Multi-Master-Systems würde eine Erhöhung der Partitionstoleranz (beliebige Knoten dürfen ausfallen) zu Kosten von Konsistenz (gleichzeitige Schreibzugriffe auf verschiedene Knoten) erwirken und somit das System Richtung AP-Datenbank verschieben. Synchrone Replizierung auf Standby-Knoten erhöht die Konsistenz, erhöht aber gleichzeitig die benötigte Zeit einer Operation und verringert somit die Verfügbarkeit, schiebt also somit den Fokus Richtung CP-Datenbank. Diese Funktionen sind in anderen Datenbanken in ähnlicherweise zu finden und erlauben aktuellen Datenbanken, fein auf die Anforderungen des Benutzers angepasst zu werden.
 
-\textbf{Skalierbarkeit}\\
-Sollte unsere Webseite in Zukunft mehr Datenverkehr generieren, gibt es durch die von MongoDB entwickelten Konzepte des sharding und der replica sets native Möglichkeiten, die Rechenkapazität schnell, einfach und effizient zu erhöhen. Horizontale Skalierbarkeit ist ein integraler Bestandteil der MongoDB Infrastruktur und als solches gut mit anderen Diensten und Funktionen abgestimmt.
+\subsubsection{Erfahrung}\\
+Das Entwicklerteam hat in der Vergangenheit bereits Erfahrung in MongoDB sammeln können und ist gut mit der Datenbank zurecht gekommen. Die Entwickler wissen, wie die Datenbank funktioniert und auf was zu achten ist. Dies Verringert das Risiko und spart Zeit, da die Technologie bereits bekannt ist.
 
-\textbf{Flexibilität}\\
-Gerade in der Anfangsphase von Projekten werden Datenbankstrukturen oft umgeworfen, angepasst und verworfen. Dokumente einer Collection müssen, anders als Spalten einer ORDBMS-Tabelle, nicht die gleiche Struktur aufweisen. Sollten also Änderungen an einem Dokuemtentyp vorgenommen werden, müssen vorherige Daten nicht angepasst und bereinigt werden. Dies erleichtert einen agilen Programmieransatz, kann aber die technischen Schulden des Projektes erhöhen.
+\subsubsection{Flexibilität}\\
+Gerade in der Anfangsphase von Projekten werden Datenbankstrukturen oft umgeworfen, angepasst und verworfen. Dokumente einer Kollection müssen, anders als Spalten einer ORDBMS-Tabelle, nicht die gleiche Struktur aufweisen. Sollten also Änderungen an einem Dokuemtentyp vorgenommen werden, müssen vorherige Daten nicht angepasst und bereinigt werden. Dies erleichtert einen agilen Programmieransatz, kann aber die technischen Schulden des Projektes erhöhen. Wir glauben, dass es im Laufe des Lebenszyklus unseres Projektes oft zu kleineren Anpassungen in Datenbankstrukturen kommen wird und die Flexibilität von MongoDB im Vergleich zu PostgreSQL den Programmieraufwand verringern wird.
 
-\textbf{BSON}\\
-MongoDB speichert Daten im "binary JSON"-Format. JSON wiederum steht für 'JavaScript Object Notation' und 'ist ein schlankes Datenaustauschformat, welches für Menschen einfach zu lesen und für Maschinen einfach zu parsen [] ist' \cite{JSON1}. JSON als semistrukturiertes Dateiformat eignet sich gut für Schnittstellendaten. Zudem wird im gewählten MERN-Techstack ausschließlich JavaScript verwendet - das JavaScript native Dateiformat JSON ist daher ohne Umwandlungen direkt verwendbar und der Umgang für unsere Entwickler bereits bekannt. Dies verringert die Gefahr möglicher Komplikationen und spart Lern- und Programmieraufwand.
+\subsubsection{Dateiformat}\\
+MongoDB speichert Daten im \glqq binary JSON\grqq -Format. JSON wiederum steht für \glqq JavaScript Object Notation \grqq und \enquote{ist ein schlankes Datenaustauschformat, welches für Menschen einfach zu lesen und für Maschinen einfach zu parsen [] ist} \cite{JSON1}. JSON als semistrukturiertes Dateiformat eignet sich gut für Schnittstellendaten. Zudem wird im gewählten MERN-Techstack ausschließlich JavaScript verwendet - das JavaScript native Dateiformat JSON ist daher ohne Umwandlungen direkt verwendbar und der Umgang für unsere Entwickler bereits bekannt. Dies verringert die Gefahr möglicher Komplikationen und spart Lern- und Programmieraufwand.
+
+\subsubsection{Beliebtheit}\\
+Eine Datenbank zu wählen, die beliebt ist, hat einige Vorteile. Beliebte Datenbanken werden meist aktiv weiterentwickelt, haben mehr Tools von Drittanbietern, die die Arbeit erleichern und haben eine aktive Programmierergemeinschaft, welche einem bei kleineren Problemen schnell aushelfen kann. Sollten wir uns entscheiden zu expandieren, ist es zudem einfacher, qualifiziertes Fachpersonal für die entsprechenden Datenbanken zu finden.
+Nach dem Ranking von DB-Engines schlagen PostgreSQL und MongoDB ähnlich ab... <Stats raussuchen>
+% https://insights.stackoverflow.com/survey/2020#technology-databases-all-respondents4
+Beide Datenbanken erfreuen sich großer Beliebtheit und werden allen Anschein nach noch etliche Jahre verwendet werden. Im NoSQL-Markt ist MongoDB am beliebtesten, während es im SQL-Markt weitere andere beliebte Datenbanken gibt. Beide Datenbanken sind beliebt genug, dass in diesem Aspekt keine Datenbank Vorteile gegenüber der anderen hat.
+
+\subsubsection{Erfahrung}\\
+Das Entwicklerteam hat in der Vergangenheit bereits Erfahrung in MongoDB sammeln können und ist gut mit der Datenbank zurecht gekommen. Die Entwickler wissen, wie die Datenbank funktioniert und auf was zu achten ist. Dies Verringert das Risiko und spart Zeit, da die Technologie bereits bekannt ist.
+
+\subsubsection{Database-as-a-Service}\\
+Uns Fehlen die Kapazitäten und die Infrastruktur, um selbst die Datenbank zu betreiben. Stattdessen sind wir auf eine DataBase-as-a-Service-Lösung angewiesen. Diese lassen sich schnell einrichten, fallen selten aus und werden automatisch mit Updates versorgt. Es stehen Reportingtools zur Verfügung, die das Auswerten der Datenbank erleichern. DBaaS spart viel administrativen Aufwand und verringert damit die Kosten.
+MongoDB Inc. bietet mit MongoDB Atlas eine Database-as-a-Service Lösung an, die Flexibel auf die Größe und Auslastung des Projektes angepasst werden kann. Dazu gibt es verschiedene Datenbankstufen, die mit höheren Kosten mehr Rechenleistung und weitere Funktionen erhält. Zwischen den Stufen kann flexibel gewechselt werden, um den aktuellen Anforderungen gerecht zu werden. Kostenpflichtige Stufen bieten die Möglichkeit von Backups an, ab Stufe M10 stehen Tools zur Verfügung, die Metriken in Echtzeit anzeigen, automatisch archivieren, Empfehlungen zur Leistungsoptimierung erstellen und langsame Datenbankabfragen zur Diagnose anzeigen. In der Entwicklungsphase haben wir uns für die kostenlose Stufe entschieden, da die Funktionen und Leistung dafür ausreichen. Sollte das Produkt auf den Markt gehen, werden wir die kostengünstigste Stufe wählen, um die Option von Backups zu erhalten. Wenn das Projekt erfolgreich ist und wir viele Nutzer anziehen, wird flexibel, abhängig von benötigter Leistung, eine höhere Stufe gewählt.
+Sowohl die Produktions, als auch die Entwicklungsumgebung werden als eigene Datenbanken von MongoDB Atlas gehosted. Dies verringert das Risiko von Code, der auf der lokalen Maschine funktioniert, aber auf der Produktionsumgebung Fehler wirft (\glqq It works on my machine\grqq). durch gleiche Werkzeuge und gleicher Technologie wird die Werkzeuglücke verringert und dementsprechend die Dev-Prod-Vergleichbarkeit erhöht. \cite{12FA1}
+
+\subsubsection{Fazit}
+%Warum für Mongo entschieden
+MongoDB eignet sich sehr gut für unser Projekt, da...
+
+\section{Schemata}
+\subsection{Nutzer}
+\subsection{Passwort}
+\subsection{Sprache}
+\subsection{Like}
+\subsection{Chat}
+\subsubsection{Nachricht}
+
+\subsubsection{Database-as-a-Service}\\
+Uns Fehlen die Kapazitäten und die Infrastruktur, um selbst die Datenbank zu betreiben. Stattdessen sind wir auf eine DataBase-as-a-Service-Lösung angewiesen. Diese lassen sich schnell einrichten, fallen selten aus und werden automatisch mit Updates versorgt. Es stehen Reportingtools zur Verfügung, die das Auswerten der Datenbank erleichern. DBaaS spart viel administrativen Aufwand und verringert damit die Kosten.
+MongoDB Inc. bietet mit MongoDB Atlas eine Database-as-a-Service Lösung an, die Flexibel auf die Größe und Auslastung des Projektes angepasst werden kann. Dazu gibt es verschiedene Datenbankstufen, die mit höheren Kosten mehr Rechenleistung und weitere Funktionen erhält. Zwischen den Stufen kann flexibel gewechselt werden, um den aktuellen Anforderungen gerecht zu werden. Kostenpflichtige Stufen bieten die Möglichkeit von Backups an, ab Stufe M10 stehen Tools zur Verfügung, die Metriken in Echtzeit anzeigen, automatisch archivieren, Empfehlungen zur Leistungsoptimierung erstellen und langsame Datenbankabfragen zur Diagnose anzeigen. In der Entwicklungsphase haben wir uns für die kostenlose Stufe entschieden, da die Funktionen und Leistung dafür ausreichen. Sollte das Produkt auf den Markt gehen, werden wir die kostengünstigste Stufe wählen, um die Option von Backups zu erhalten. Wenn das Projekt erfolgreich ist und wir viele Nutzer anziehen, wird flexibel, abhängig von benötigter Leistung, eine höhere Stufe gewählt.
+Sowohl die Produktions, als auch die Entwicklungsumgebung werden als eigene Datenbanken von MongoDB Atlas gehosted. Dies verringert das Risiko von Code, der auf der lokalen Maschine funktioniert, aber auf der Produktionsumgebung Fehler wirft (\glqq It works on my machine\grqq). durch gleiche Werkzeuge und gleicher Technologie wird die Werkzeuglücke verringert und dementsprechend die Dev-Prod-Vergleichbarkeit erhöht. \cite{12FA1}
+
+\section{Avatarbilder}
+Statt Bilddateien für Avatare direkt auf der Datenbank zu speichern, speichern wir nur URIs zu den Bildern auf unserer Datenbank. Die Bilder selbst werden auf AWS S3 gehosted, einem Speichersystem, welches für BLOB-Dateien optimiert ist. Dies nimmt der Datenbank Last ab und erhöht die Geschwindigkeit. Entsprechend mussten wir den S3-Speicher so einrichten, dass unser Backend die Berechtigung hat, Dateien zu erstellen und zu löschen. Unsere Datenbank wird mithilfe von GraphQL angesprochen, für S3 hat sich diese Lösung jedoch nicht angeboten. Für das Hochladen von Profilbildern mussten wir entsprechend eine weitere Route im Backend erstellen, die es Nutzern ermöglicht, Bilder hochzuladen. Wir entschieden uns für die npm-Pakete Multer und Multer-S3, welche uns erlauben, zu kontrollieren, ob es sich bei der gewählten Datei um eine Bilddatei handelt und ob diese eine bestimmte Bildgröße nicht übersteigt. 
 
 
-\textbf{Atlas}\\
-% Risiko Professor
-MongoDB Inc. bietet mit MongoDB Atlas eine Database-as-a-Service Lösung an, die flexibel auf die Größe und Auslastung des Projektes angepasst werden kann. Die Einrichtung des Datenbankservers scheint uns recht einfach zu sein und erlaubt uns, unseren Fokus darauf zu legen, das Projekt weiterzubringen. Sollte unser Projekt erfolgreich sein und in kurzer Zeit viele Nutzer generieren, ist es die Sache von ein paar Minuten, ein teureres Abonnement mit stärkerer Rechenleistung zu buchen.Für kleine Projekte und Projekte in der Entwicklungsphase ist das DaaS-Angebot zudem kostenlos. Dies verringert die Kosten in der Entwicklungsphase und verringert somit das Risiko einer Fehlinvestition.
-
-Das Risiko, dass Code auf der lokalen Maschine funktioniert, aber auf der Produktionsumgebung Fehler wirft, wird durch die Verwendung von der gleichen Technologie (Atlas) in der Produktions- und Entwicklungsumgebung stark verringert. Die Dev-Prod-Vergleichbarkeit wird durch die geringere Werkzeuglücke erhöht. \cite{12FA1}
-
-
-
-% TODO Überarbeiten
-\textbf{Denormalisierung}\\
-Während objektrelationale Datenbankmanagesysteme meist nach dem Prinzip der Normalformen normalisiert werden, setzt MongoDB an einigen Stellen auf Denormalisierung für bessere Performance. So ist es neben der klassischen Referenz per ID möglich, einzelne Dokumente oder ganze Arrays in ein Dokument einzubetten. Dies sorgt dafür, dass die Schreibgeschwindigkeit abnimmt, da an mehreren Stellen Daten verändert werden müssen, dafür aber die Lesegeschwindigkeit oft zunimmt - Die Daten befinden sich alle in einem Dokument und müssen nicht durch Joins aus verschiedenen Tabellen zusammengesucht werden.
-Auf einer Online-Plattform wie unserer werden oft Daten gelesen, aber selten geändert oder hinzugefügt, daher eignet sich für die meisten Daten Denormalisierung.
-Auch bei PostgreSQL ist eine Denormalisierung möglich, jedoch glauben wir, dass MongoDB besser dafür ausgelegt ist.
-
-\textbf{Beliebtheit}\\
-Mit X und Y gehört MongoDB zu einer der beliebtesten Datenbanken. Beliebte npm-Pakete wie "mongoose" erleichtern die Verwendung von MongoDB weiter und das npm-Paket "graphql-compose-mongoose" ermöglicht eine autogenerierte, funktionsfähige Schnittstelle durch GraphQL.
-
-\textbf{Erfahrung}\\
-Das Entwicklerteam hat in der Vergangenheit bereits Erfahrung in MongoDB sammeln können und ist gut mit der Datenbank zurecht gekommen. 
-
-Sowohl PostgreSQL als auch MongoDB eigenen sich sehr gut für unser Projekt. Uns ist bei der Recherche jedoch aufgefallen, dass MongoDB in unserem verwendeten Tech-Stack mit Express, React, und Node (MERN) deutlich mehr Verwendung findet als die Alternative mit PostgreSQL. Sollte
-
-
-%TODO AWS
-
-%TODO CAP
-
-%TODO Schlusssatz
