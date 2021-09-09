@@ -1,13 +1,13 @@
 import { useState, React, useContext } from "react"
 import axios from "axios"
-import { Button, Image } from "react-bootstrap"
-import { TOKEN } from "../constants"
-import { AuthContext } from "../App"
+import { Button } from "react-bootstrap"
+import { GlobalContext } from "../App"
+import AvatarImage from "./AvatarImage"
 
 export default function ProfileImage() {
   const [file, setFile] = useState()
   const [errored, setErrored] = useState("")
-  const { token, state, setState } = useContext(AuthContext)
+  const { token, state, setState } = useContext(GlobalContext)
 
   const imageMaxSize = 1_000_000 // 1Mb
   const admittedImageFormats = ["png", "jpg", "jpeg"]
@@ -58,17 +58,14 @@ export default function ProfileImage() {
   }
 
   function fileUploadHandler() {
-    errored
-      ? 
-        disableBtn()
-      : console.log("uploading pic...", file.name)
+    errored ? disableBtn() : console.log("uploading pic...", file.name)
     const fd = new FormData()
     fd.append("avatar", file)
 
     axios
       .post(urlAvatar, fd, {
         headers: {
-          "x-auth-token": TOKEN,
+          "x-auth-token": token,
         },
       })
       /*.catch(() => {
@@ -83,14 +80,9 @@ export default function ProfileImage() {
   }
 
   return (
-    <div className="ProfileImage center">
-      <Image
-        src={state?.avatar}
-        width="300"
-        height="300"
-        alt="That's me"
-        roundedCircle
-      />
+    <div className="center">
+      <AvatarImage avatarUrl={state?.avatar} name={state?.name} size={"300"} />
+
       <br />
       {errored && (
         <small id="loginHelpBlock" className="form-text text-muted">

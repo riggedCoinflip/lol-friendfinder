@@ -1,12 +1,12 @@
 import { Link, useHistory } from "react-router-dom"
 import { useEffect, React, useContext } from "react"
 import { Navbar, Nav } from "react-bootstrap"
-import { AuthContext } from "../App"
+import { GlobalContext } from "../App"
 
 function MyNavbar() {
   const history = useHistory()
 
-  const { token, setToken, setState } = useContext(AuthContext)
+  const { token, setToken, setState } = useContext(GlobalContext)
 
   useEffect(() => {
     console.log("Token changed ", token)

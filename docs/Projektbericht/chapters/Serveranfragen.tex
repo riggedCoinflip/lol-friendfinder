@@ -1,4 +1,5 @@
-\textbf{GraphQL}\\
+\subsection{GraphQL}
+\paragraph{}
 GraphQL ist eine Abfragesprache und Server-Laufzeitumgebung für APIs.
 Ihre Aufgabe ist es, genau die Daten zu liefern, die anfordert werden, und nicht mehr.
 \\
@@ -7,46 +8,55 @@ Mit GraphQL sind APIs schnell, flexibel und einfach für Entwickler.
 Laut dem 2020 State of the API Report von Postman.com steht GrapQL an fünfter Stelle der spannendsten Technologien für 2021.
 % \begin{quote}  {Vgl. u.a. \cite{RH1}} \end{quote}
 
-Im Hinblick auf die Art und Weise, wie Abfragen an den Server mit Hilfe von \\ GraphQL behandelt werden können, sind folgende Aspekte zu beachten.
+Im Hinblick auf die Art und Weise, wie Abfragen an den Server mithilfe von 
+\\ GraphQL behandelt werden können, sind folgende Aspekte zu beachten.
 \\
 \begin{quote}
-    \textbf{Vorteile}\\
+  \textbf{Vorteile}\\
 
-    \begin{itemize}
-        \item
-              GraphQL-Aufrufe werden in einem einzigen Round Trip gehandhabt. Wir bekommen genau die Daten, die angefragt haben (kein Over-Fetching).
+  \begin{itemize}
+    \item
+          GraphQL-Aufrufe werden in einem einzigen Round Trip gehandhabt. Wir bekommen genau die Daten, die angefragt haben (kein Over-Fetching).
 
-        \item
-              Stark definierte Datentypen verringern das Risiko einer Fehlkommunikation zwischen Client und Server.
+    \item
+          Stark definierte Datentypen verringern das Risiko einer Fehlkommunikation zwischen Client und Server.
 
-        \item
-              GraphQL ist introspektiv. So können wir eine Liste der verfügbaren Datentypen anfordern. Dies ist ideal für automatisch erstellte Dokumente.
+    \item
+          GraphQL ist introspektiv. So können wir eine Liste der verfügbaren Datentypen anfordern. Dies ist ideal für automatisch erstellte Dokumente.
 
-        \item
-              Eine Anwendungs-API kann sich mit GraphQL weiterentwickeln, ohne dass bestehende Anfragen beeinträchtigt werden.
-        \item
-              GraphQL schreibt keine spezifische Anwendungsarchitektur vor. Es kann auf einer vorhandenen REST-API installiert und mit aktuellen API-Management-Tools verwendet werden.
-        \item
-              Als Alternative zu REST ermöglicht GraphQL Entwicklern die Erstellung von Abfragen zur Extraktion von Daten aus mehreren Quellen mit einem einzigen API-Abfrage.
+    \item
+          Eine Anwendungs-API kann sich mit GraphQL weiterentwickeln, ohne dass bestehende Anfragen beeinträchtigt werden.
+    \item
+          GraphQL schreibt keine spezifische Anwendungsarchitektur vor. Es kann auf einer vorhandenen REST-API installiert und mit aktuellen API-Management-Tools verwendet werden.
+    \item
+          Als Alternative zu REST ermöglicht GraphQL Entwicklern die Erstellung von Abfragen zur Extraktion von Daten aus mehreren Quellen mit einer einzigen API-Abfrage.
 
-    \end{itemize}
-   
-    \textbf{Nachteile}
-    \begin{itemize}
-        \item
-        Für Entwickler, die sich bereits mit REST-APIs auskennen, bedeutet GraphQL weiteren Lernaufwand.
-     \item 
-     Mit GraphQL verschiebt sich die Funktionalität von Datenabfragen zur Serverseite, was zusätzliche Komplexität für Serverentwickler bedeutet.
+  \end{itemize}
 
-\end{itemize}
+  \textbf{Nachteile}
+  \begin{itemize}
+    \item
+          Für Entwickler, die sich bereits mit REST-APIs auskennen, bedeutet GraphQL weiteren Lernaufwand.
+    \item
+          Mit GraphQL verschiebt sich die Funktionalität von Datenabfragen zur Serverseite, was zusätzliche Komplexität für Serverentwickler bedeutet.
 
-    \footnote{Vgl. u.a. \cite{RH1}}
+  \end{itemize}
+
+  \footnote{Vgl. u.a. \cite{RH1}}
 \end{quote}
 
-\textbf{Wie wurden die Anfragen in unserem Projekt verwaltet?}\\
-Alle Abfragen und Mutations wurden in einem Ordner gesammelt.
+\textbf{Implementierung der Serveranfragen}\\
+Alle Abfragen und Mutationen wurden in einem separaten Ordner gesammelt.
+Damit soll eine saubere Struktur des Codes gewährleistet werden.
 Diese wurden für die spätere Verwendung in den React-Komponenten exportiert.
 
+Beim Einloggen in unseren Account werden die entsprechenden Daten geladen, für die zunächst mithilfe der Apollo Client Hook useQuery Daten gelesen werden.
+In ähnlicher Weise wurde der Schreibprozess mit dem Hook useMutation implementiert.
+\\
+In diesem Kapitel wird erläutert, wie die beiden oben genannten Abfragen implementiert wurden.
+
+
+\subsubsection{Leseabfrage}
 \begin{lstlisting}
     export const GET_MY_INFO = gql`
     {
@@ -66,50 +76,56 @@ Diese wurden für die spätere Verwendung in den React-Komponenten exportiert.
   `
 //Beispiel einer Abfrage
 \end{lstlisting}
-
+Der obige Code zeigt die Felder der userSelf-Anfrage.
+Es ist auch möglich, über GraphQL Playground selbst die automatisch generierte Dokumentation einzusehen.
+Dort sieht man alle verfügbaren Felder und deren Datentyp.
+\includegraphics[scale=0.60]{GraphQL_Playground}
 
 \newpage
 \textbf{Apollo Client}\\
-Nachdem eine Abfrage exportiert wurde, ist sie bereit, in einer React-Komponente importiert \\ und angewendet zu werden.
+%Warum haben wir uns dafür entschieden?
+Nachdem eine Abfrage exportiert wurde, ist sie bereit, in einer React-Komponente importiert \\
+und angewendet zu werden.
 
 \begin{lstlisting}
 import { GET_MY_INFO } from "./GraphQL/Queries"
+import { useQuery } from "@apollo/client"
 
 const { loading, error, data } = useQuery(
 GET_MY_INFO,
 ContextHeader(token),
 )
+//Code-Auszug in frontend/src/App.js
+
 \end{lstlisting}
 Die Konstante ContextHeader enthält das Token in der Struktur, die erforderlich ist, um die Abfrage nur dann stellen zu können, wenn der Benutzer dazu berechtigt ist.
 \\
-Sollte das Token undefined, null oder ungültig sein, wird der Server ein Fehler zurückgegeben.
-\\ 
-
-Der useQuery Hook liefert ein Ergebnisobjekt, das Folgendes enthält.
+Sollte das Token einen undefinierten Wert, null oder ungültig enthalten, wird der Server ein Fehler zurückgegeben.
+\\
+Der useQuery Hook liefert ein Ergebnisobjekt, welches eine der folgenden Optionen zurückgibt.
 \\
 \textbf{loading:}\\
 Ein boolescher Wert, der angibt, ob die Abfrage in Bearbeitung ist.
-Wenn loading true ist, ist die Anfrage noch nicht abgeschlossen. Typischerweise kann diese Information verwendet werden, um einen Lade-Spinner anzuzeigen.
+Wenn loading wahr ist, ist die Anfrage noch nicht abgeschlossen. Typischerweise kann diese Information verwendet werden, um einen Lade-Spinner anzuzeigen.
 \\
-
 \textbf{error:}\\
 Ein Laufzeitfehler mit den Eigenschaften von GraphQL Errors und network Error.
-Dieses enthält Informationen darüber, was bei der Abfrage schief gelaufen ist.
+Dieses enthält Informationen darüber, was bei der Abfrage fehlgeschlagen  ist.
 \\
-
 \textbf{date:}\\
 Ein Objekt, das das Ergebnis der GraphQL-Abfrage enthält.
 \\Es enthält die tatsächlichen Daten vom Server.
 \\
 
+%TODO: AUCH MUTATIONS ZEIGEN\dots
 \newpage
-\textbf{Axios} \\
-Zusätzlich zu den GraphQL-Abfragen, wurde eine Post-Anfrage mit Axios bereitgestellt.
+\subsection{Axios}
+Zusätzlich zu den GraphQL-Abfragen wurde eine Post-Anfrage mit Axios bereitgestellt.
 Mit dieser war es möglich, Bilder auf die S3 Speicher von AWS hochzuladen.
 
 \begin{quote}
-Axios ist ein Promise-basierter HTTP-Client für node.js und den browser. Er ist isomorphisch (= kann auf dem server und im browser verwendet weden). Auf der Server-Seite wir das modul http verwendet, während im Browser XMLHttpRequests (ajax) ausgeführt werden.
-\end{quote}
+  Axios ist ein Promise-basierter HTTP-Client für node.js und den browser. Auf der Server-Seite wir das modul http verwendet, während im Browser XMLHttpRequests (ajax) ausgeführt werden.
+\end{quote}\footnote{Vgl. u.a. \cite{AX1}}
 
 \begin{lstlisting}
     function disableBtn() {
@@ -144,7 +160,7 @@ Axios ist ein Promise-basierter HTTP-Client für node.js und den browser. Er ist
           })
       }\end{lstlisting}
 
-Das HTML-Eingabefeld "input" wurde folgendermaße definiert.
+Das HTML-Eingabefeld „input“ wurde folgendermaßen definiert.
 \begin{lstlisting}
     <input type="file" onChange={fileSelectedHandler} />
 \end{lstlisting}
@@ -155,7 +171,7 @@ Das Format der hochzuladenden Dateien wurde limitiert, damit nur zulässige Date
     const admittedImageFormats = ["png", "jpg", "jpeg"]
 \end{lstlisting}
 
-Die Größe der hochzuladenden Datei wurde um 1Mb abgegrenzt.
+Die Größe der hochzuladenden Datei wurde um 1 MB abgegrenzt.
 Durch die Eigenschaft „size“ der ausgewählten Datei konnten wir auf die Größe der Datei zugreifen.
 \begin{lstlisting}
     const imageSize = e.target.files[0].size

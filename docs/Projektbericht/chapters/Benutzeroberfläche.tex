@@ -1,0 +1,222 @@
+% Wie werden die Informationen die Benutzer gezeigt und wie können sie diese manipulieren
+\paragraph{}
+
+Nachdem die Projektanforderungen definiert waren, wurden verschiedene Optionen für die Entwicklung der Benutzeroberfläche bewertet.
+
+Folgende JavaScript Frameworks wurden berücksichtigt: Angular, Vue und React.
+
+Es war möglich das Projekt auch mit Angular durchgeführt werden können, mit dem Unterschied, dass die Entwicklung mit Angular mehr Zeit gekostet hätte, außerdem ist das Projekt nicht komplex genug, um das Angular-Ökosystem zu benötigen.
+
+\subsection{Überlegungen bei der Verwendung von React}
+\paragraph{}
+Die Entscheidung zwischen Vue und React wurde unter anderem wegen des Unternehmens hinter React getroffen, zwar Facebook. Auch wegen der persönlichen Vorlieben.
+\newline
+\subsubsection{Vorteile} 
+\textbf{Deklarativ} \\
+Mit React ist es leicht, interaktive Benutzeroberflächen zu erstellen. Man kann einfache Ansichten für jeden Zustand der Anwendung. React aktualisiert und rendert effizient genau die richtigen Komponenten, wenn sich deren Daten ändern.
+Durch deklarative Ansichten wird der Code vorhersehbarer und einfacher zu debuggen.
+\newline
+
+\textbf{Komponentenbasiert}\\
+Gekapselte Komponenten, die ihren eigenen Zustand verwalten.
+Da die Komponentenlogik in JavaScript geschrieben wird, kann man problemlos umfangreiche Daten durch die Anwendung leiten und den Zustand aus dem DOM heraushalten.
+\newline
+
+\textbf{Große Entwickler-Community}\\
+React besteht aus rund 56.162 professionellen Entwicklern auf der ganzen Welt.
+
+Laut einer StackOverFlow Umfrage hat React.js im Jahr 2021 jQuery als das am häufigsten verwendete Web-Framework überholt.
+\footnote{ Vgl. \cite{SO01}}
+\newline
+
+\subsubsection{Nachteile}
+Bei der Auswahl des Frameworks wollten wir so unvoreingenommen wie möglich sein, daher listen wir einige Aspekte auf, die bei Projekten mit React zu beachten sind.
+\newline
+
+\textbf{JSX}\\
+Während dies für einige Entwickler ein Nachteil sein könnte, ist es wichtig zu beachten, dass JSX auch seine Vorteile hat und hilft, den Code vor Injektionen zu schützen.
+\newline
+
+\textbf{Ein hohes Entwicklungstempo}\\
+Entwickler, die das Entwicklungstempo als Nachteil sehen, würden argumentieren, dass sie die Arbeit mit React ständig neu erlernen müssen und es schwierig ist, damit Schritt zu halten.
+
+Es ist wichtig festzustellen, dass neue Entwicklungen des Frameworks verbessern und dazu beitragen, dass er ein höheres Leistungsniveau erreicht. 
+\newline
+
+\textbf{Eine zu leichte Dokumentation}\\
+Aufgrund der rasanten Entwicklung ist die Dokumentation in Bezug auf die neuesten Aktualisierungen und Änderungen oft spärlich. 
+\footnote{ Vgl. \cite{R01}}
+
+\paragraph{}
+\textbf{Das Projekt besteht aus Komponenten}\\
+In diesem Kapitel wird der Zweck der einzelnen Komponenten erläutert....
+TO-DO und SOLLTE Ueberhaupt DIESES KAPITEL GESCHRIEBEN WERDEN?
+
+\subsection{React Hooks}
+\paragraph{}
+Beginnend mit 16.8.0, enthält React eine stabile Implementierung von React Hooks.
+
+\subsubsection{useState}
+Der Hook useState gibt uns die Möglichkeit, den Zustand unserer Anwendung zu verwalten. Sie besteht aus mindestens einen Wert und einer Funktion, die die besagte Variable aktualisiert.
+Der Wert bei der Definition kann ein Zahl, ein String, ein Array oder sogar ein Objekt sein.
+Darüber hinaus kann bei der Definition von useState ein Anfangswert festgelegt werden.
+
+\begin{lstlisting}
+const [wert, definiereWert] = useState(Anfangswert);
+\end{lstlisting}
+
+In unserem Projekt haben wir useState verwendet, um alle damit verbundenen Informationen zu manipulieren und dem Benutzer anzuzeigen.
+\begin{lstlisting}
+    const [profile, setProfile] = useState(state)    
+    \end{lstlisting}
+
+\newpage
+Die Variable state enthält die Daten des angemeldeten Benutzers. Diese Daten sind die Antwort auf die an den Server gesendete Anfrage. 
+Hier sind einige Beispieldaten für die Variable state.
+
+\begin{lstlisting}
+    name: "gilo2754"
+    aboutMe: "I like video code video games too"
+    avatar: "https://lol-friendfinder-dev.s3.eu-central-1.amazonaws.com/avatars/a028fd00-e767-4dcb-912b-b4828dbe52e7.jpg"
+    dateOfBirth: "1990-06-01T00:00:00.000Z"
+    gender: "male"
+    ingameRole: (2) ["Fill", "Bot"]
+    languages: (2) ["bm", "de"]
+    friends: []
+    blocked: (6) ["60eb61b33a2481451c1cd7ac", "60eb61b33a2481451c1cd7b0", "60eb61b33a2481451c1cd7b1", "60eb61b33a2481451c1cd7b4", "60eb61b33a2481451c1cd7b7", "60eea5eed7e23b5ef08f68af"]
+\end{lstlisting}
+In späteren Kapiteln wird näher erläutert, wie diese Informationen, die wir durch einen einzigen Aufruf an den Server erhalten, in den Chat- und Benutzerkomponenten genutzt werden können. 
+
+Wie man sieht, gibt es innerhalb des states nicht nur einen Wert, sondern mehrere.
+Es handelt sich eigentlich um ein Objekt. Objekte sind dasselbe wie Variablen in JavaScript, der einzige Unterschied ist, dass ein Objekt mehrere Werte in Form von Eigenschaften und Methoden enthält.
+Objekte können andere Objekte, Strings, Arrays, Zahlen und so weiter enthalten.
+\newpage
+
+\subsubsection{useEffect}
+useEffect ermöglicht es uns, verschiedene Arten von Effekten zu erzeugen, nachdem eine Komponente gerendert wurde. 
+
+Der Hook useEffect entspricht einer Kombination aus componentDidMount, componentDidUpdate und componentWillUnmount.
+
+In unserem Projekt manipulieren wir die Anzeige der Daten abhängig der Änderungen des lokalen Zustands.\\
+Der Zustand profile befindet sich in der Komponente Profile.
+Sie speichert die Änderungen, die der Benutzer an seinen Daten vornimmt, bevor sie in der Datenbank gespeichert werden.
+\\
+Der globale Zustand state ist in der Komponente App enthalten.
+In diesem wird die Antwort von der Datenbankenabfrage gespeichert.
+\\
+Wir definieren den Zustand als Abhängigkeit von useEffect, so dass er bei jeder Änderung in der Benutzeroberfläche aktualisiert wird.
+\\
+\begin{lstlisting}
+useEffect(() => { 
+      setProfile(state)      
+  }, [state])           
+\end{lstlisting}
+
+Es ist möglich, mehrere useEffects in unserem Code zu haben und mit ihrer jeweiligen Abhängigkeiten separat definieren.
+Wenn wir wollen, dass der Code in unserem useEffect nur einmal nach dem ersten Rendering ausgeführt wird, definieren wir ein leeres Array als Abhängigkeit.
+\newpage
+
+\subsubsection{useContext}
+%WELCHES PROBLEM HABEN WIR DAMIT GELÖST?
+useContext hat es uns ermöglicht, Benutzerdaten auf einfache Weise in den Komponenten zu teilen, in denen diese Daten benötigt werden. In frühen Versionen der Anwendung wurde für den gleichen Zweck props verwendet.
+Unserer Erfahrung nach ist useContext eine elegantere und sauberere Lösung für da gleiche Ziel.
+
+%So funktioniert's
+\textbf{useContext Provider} \\
+
+\begin{quote}
+    \begin{lstlisting}
+    <MyContext.Provider value={/* irgendein Wert */}>
+    \end{lstlisting}
+
+    Jedes Context-Objekt kommt mit einer Provider React Komponente, welche konsumierenden Komponenten erlaubt, die Veränderungen von Context zu abonnieren.
+    \footnote{Vgl. u.a. \cite{R02}}
+    \end{quote}
+
+In unserem Projekt haben wir den Provider in der Komponente App folgendermaße definiert.
+
+ \begin{lstlisting}
+    import { React, useState, useEffect, createContext } from "react"
+
+    export const GlobalContext = createContext()
+    export default function App() {
+        const [token, setToken] = useState()
+        const [state, setState] = useState(null)
+        
+        ...
+   
+        return (
+            <GlobalContext.Provider value={{ token, setToken, state, setState, refetch }}>
+              <>
+                <MyNavbar />
+        
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route path="/login" component={() => <Login />} />
+                  <Route path="/signup" component={SignUp} />
+                  <Route exact path="/users" component={() => <Users />} />
+                  <Route exact path="/profile" component={() => <Profile />} />
+                  <Route exact path="/chat" component={() => <Chat />} />
+                  <Route exact path="/ChatMessage" component={() => <ChatMessage />} />
+        
+                  <Route component={NotFound} />
+                </Switch>
+              </>
+            </GlobalContext.Provider>
+          )
+        }
+//Code-Auszug in frontend/src/App.js
+ \end{lstlisting}
+ Mit dem obigen Code sind wir bereit, die Werte innerhalb von value in jeder Komponente innerhalb des Contexts zu verwenden.
+
+ In unserem Fall können die Werte token und state gelesen werden. Darüber hinaus sind die Funktionen setToken, setState und refetch ebenfalls verfügbar.
+
+
+\textbf{useContext Consumer} \\
+Nachfolgend zeigen wir, wie GlobalContext in der Komponente Chat.js verwendet wurde, um die Freunde des angemeldeten Benutzers zu ermitteln.
+
+Die Kennungen der Freunde waren notwendig, um die Kommunikation zu ermöglichen und die zwischen den Freunden ausgetauschten Nachrichten zu laden.
+
+    \begin{lstlisting}
+        import { useContext, useEffect, useState, React } from "react"
+        import { GlobalContext } from "../App"
+        
+        //mit Hilfe von Destrukturierende Zuweisung wurden neue Variablen und Funktionen definiert
+        const { token, state, setState, refetch } = useContext(GlobalContext)
+
+        \dots
+
+        return !token ? (
+
+        \dots
+
+            <div className="user-many">
+            {state?.friends &&
+              state?.friends?.map((item, index) => {
+                return (
+
+//Diese Komponente gibt den Namen und den Avatar des Benutzers auf der Grundlage der eingegebenen ID zurueck.
+                  <FriendList
+                    setUserID={setUserID}
+                    setUserNameChat={setUserNameChat}
+                    setChatAvatar={setChatAvatar}
+                    userId={item.user}
+                    searchUser={searchUser}
+                    setSearchUser={setSearchUser}
+                    key={index + 1}
+                  />
+                )
+              })}
+          </div>
+        )
+
+        \dots
+//Code-Auszug in frontend/src/Chat.js
+
+    \end{lstlisting}
+
+ZEIGE CODE MIT props ??
+
+
+
+

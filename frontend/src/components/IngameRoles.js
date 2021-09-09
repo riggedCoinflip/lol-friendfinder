@@ -1,16 +1,16 @@
 import { React, useContext } from "react"
 import { Dropdown, ListGroup, Badge } from "react-bootstrap"
-import { AuthContext } from "../App"
+import { GlobalContext } from "../App"
 
 export default function IngameRoles() {
-  const { state, setState } = useContext(AuthContext)
+  const { state, setState } = useContext(GlobalContext)
 
   const ingameRoleOptions = ["Top", "Jungle", "Mid", "Bot", "Support", "Fill"]
 
   return (
     <div id="avaliableIngameRoles">
       <Dropdown>
-        <Dropdown.Toggle size="sm" variant="success" id="dropdown-languages">
+        <Dropdown.Toggle size="sm" variant="success" id="dropdown-ingamerole">
           IngameRole
         </Dropdown.Toggle>
 
