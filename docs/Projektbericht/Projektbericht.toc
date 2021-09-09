@@ -46,24 +46,27 @@
 \contentsline {subsubsection}{\numberline {5.2.1}useState}{16}{subsubsection.52}%
 \contentsline {subsubsection}{\numberline {5.2.2}useEffect}{18}{subsubsection.67}%
 \contentsline {subsubsection}{\numberline {5.2.3}useContext}{19}{subsubsection.72}%
-\contentsline {subsubsection}{\numberline {5.2.4}Alternative zu useContext}{21}{subsubsection.143}%
-\contentsline {paragraph}{}{21}{section*.144}%
-\contentsline {section}{\numberline {6}Serveranfragen}{22}{section.145}%
-\contentsline {subsection}{\numberline {6.1}GraphQL}{22}{subsection.146}%
-\contentsline {paragraph}{}{22}{section*.147}%
-\contentsline {subsubsection}{\numberline {6.1.1}Leseabfrage}{23}{subsubsection.149}%
-\contentsline {subsection}{\numberline {6.2}Axios}{25}{subsection.160}%
-\contentsline {section}{\numberline {7}Qualitätssicherung }{27}{section.200}%
-\contentsline {subsection}{\numberline {7.1}Die Testfälle für unser Projekt}{29}{subsection.262}%
-\contentsline {paragraph}{}{29}{section*.263}%
-\contentsline {section}{\numberline {8}Glossar}{32}{section.274}%
-\contentsline {section}{\numberline {9}Zusammenfassung und Ausblick}{34}{section.275}%
-\contentsline {section}{\numberline {10}Literaturverzeichnis}{34}{section.277}%
-\contentsline {section}{\numberline {11}Quellenverzeichnis}{35}{section.278}%
-\contentsline {subsection}{\numberline {11.1}Literatur}{35}{subsection.279}%
-\contentsline {subsection}{\numberline {11.2}Internetquellen}{35}{subsection.281}%
-\contentsline {section}{\numberline {A}Anhang}{37}{section.283}%
-\contentsline {subsection}{\numberline {A.1}Aufwandsverteilung}{37}{subsection.284}%
-\contentsline {subsection}{\numberline {A.2}ANHAND X}{37}{subsection.285}%
-\contentsline {subsection}{\numberline {A.3}Verwendete Technologien und Werkzeuge}{37}{subsection.286}%
-\contentsline {section}{Erklärung über die selbständige Abfassung der Arbeit}{38}{section*.287}%
+\contentsline {subsubsection}{\numberline {5.2.4}Alternative zu useContext}{21}{subsubsection.140}%
+\contentsline {paragraph}{}{21}{section*.141}%
+\contentsline {section}{\numberline {6}Serveranfragen}{22}{section.142}%
+\contentsline {subsection}{\numberline {6.1}GraphQL}{22}{subsection.143}%
+\contentsline {paragraph}{}{22}{section*.144}%
+\contentsline {subsubsection}{\numberline {6.1.1}GraphQL Playground}{23}{subsubsection.146}%
+\contentsline {subsection}{\numberline {6.2}Implementierung der Serveranfragen mit GraphQL}{24}{subsection.147}%
+\contentsline {subsubsection}{\numberline {6.2.1}Leseabfrage}{25}{subsubsection.148}%
+\contentsline {subsubsection}{\numberline {6.2.2}Mutationen}{26}{subsubsection.159}%
+\contentsline {subsection}{\numberline {6.3}Axios}{27}{subsection.160}%
+\contentsline {section}{\numberline {7}Qualitätssicherung }{29}{section.198}%
+\contentsline {subsection}{\numberline {7.1}Die Testfälle für unser Projekt}{30}{subsection.232}%
+\contentsline {paragraph}{}{30}{section*.233}%
+\contentsline {section}{\numberline {8}Glossar}{34}{section.244}%
+\contentsline {section}{\numberline {9}Zusammenfassung und Ausblick}{36}{section.245}%
+\contentsline {section}{\numberline {10}Literaturverzeichnis}{36}{section.247}%
+\contentsline {section}{\numberline {11}Quellenverzeichnis}{37}{section.248}%
+\contentsline {subsection}{\numberline {11.1}Literatur}{37}{subsection.249}%
+\contentsline {subsection}{\numberline {11.2}Internetquellen}{37}{subsection.251}%
+\contentsline {section}{\numberline {A}Anhang}{39}{section.253}%
+\contentsline {subsection}{\numberline {A.1}Aufwandsverteilung}{39}{subsection.254}%
+\contentsline {subsection}{\numberline {A.2}ANHAND X}{39}{subsection.255}%
+\contentsline {subsection}{\numberline {A.3}Verwendete Technologien und Werkzeuge}{39}{subsection.256}%
+\contentsline {section}{Erklärung über die selbständige Abfassung der Arbeit}{40}{section*.257}%
