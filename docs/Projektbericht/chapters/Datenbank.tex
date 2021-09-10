@@ -83,11 +83,6 @@ Viele aktuelle Datenbanken erlauben es, in unterschiedlichen Konfigurationen ver
   
 Wir haben am Fallbeispiel von PostgreSQL zeigen können, dass im Multiknoten-System ein Teil der Konsistenz aufgegeben werden kann, um kürzere Antwortzeiten und Partitionstoleranz (Standby-Knoten dürfen ausfallen) zu gewährleisten. Die Einführung eines Multi-Master-Systems würde eine Erhöhung der Partitionstoleranz (beliebige Knoten dürfen ausfallen) zu Kosten von Konsistenz (gleichzeitige Schreibzugriffe auf verschiedene Knoten) erwirken und somit das System Richtung AP-Datenbank verschieben. Synchrone Replizierung auf Standby-Knoten erhöht die Konsistenz, erhöht aber gleichzeitig die benötigte Zeit einer Operation und verringert somit die Verfügbarkeit, schiebt also somit den Fokus Richtung CP-Datenbank. Diese Funktionen sind in anderen Datenbanken in ähnlicherweise zu finden und erlauben aktuellen Datenbanken, fein auf die Anforderungen des Benutzers angepasst zu werden.
 
-\subsubsection{Erfahrung}
-Das Entwicklerteam hat in der Vergangenheit bereits Erfahrung in MongoDB sammeln können und ist gut mit der Datenbank zurecht gekommen. Die Entwickler wissen, wie die Datenbank funktioniert und auf was zu achten ist. Dies Verringert das Risiko und spart Zeit, da die Technologie bereits bekannt ist.
-
-\subsubsection{Flexibilität}
-Gerade in der Anfangsphase von Projekten werden Datenbankstrukturen oft umgeworfen, angepasst und verworfen. Dokumente einer Kollection müssen, anders als Spalten einer ORDBMS-Tabelle, nicht die gleiche Struktur aufweisen. Sollten also Änderungen an einem Dokuemtentyp vorgenommen werden, müssen vorherige Daten nicht angepasst und bereinigt werden. Dies erleichtert einen agilen Programmieransatz, kann aber die technischen Schulden des Projektes erhöhen. Wir glauben, dass es im Laufe des Lebenszyklus unseres Projektes oft zu kleineren Anpassungen in Datenbankstrukturen kommen wird und die Flexibilität von MongoDB im Vergleich zu PostgreSQL den Programmieraufwand verringern wird.
 
 \subsubsection{Dateiformat}
 MongoDB speichert Daten im \glqq binary JSON\grqq -Format. JSON wiederum steht für \glqq JavaScript Object Notation \grqq und 
