@@ -1,0 +1,155 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\babel@aux[2]{}
+\@nameuse{bbl@beforestart}
+\catcode `"\active 
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\babel@aux{ngerman}{}
+\citation{SW11}
+\@writefile{toc}{\contentsline {section}{Abbildungsverzeichnis}{4}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1}Problemstellung}{5}{section.5}\protected@file@percent }
+\newlabel{kap_problemstellung}{{1}{5}{Problemstellung}{section.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{}{5}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Aufmerksamkeit/Marketing}{5}{subsection.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{}{5}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{}{5}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Das Nutzerkonto}{5}{subsection.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{}{5}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Kontaktsuche}{6}{subsection.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{}{6}{section*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Filter}{6}{subsection.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{}{6}{section*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5}Regeln und Richtlinien}{6}{subsection.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{}{6}{section*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.6}Internationalisierung}{7}{subsection.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.7}Einstellungen}{7}{subsection.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.8}Nachrichten}{7}{subsection.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.9}Sicherheit}{7}{subsection.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.10}Dokumentation}{7}{subsection.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.11}Konto löschen}{8}{subsection.23}\protected@file@percent }
+\citation{BBoJ}
+\citation{BBoJ}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Einleitung}{9}{section.24}\protected@file@percent }
+\newlabel{kap_einleitung}{{2}{9}{Einleitung}{section.24}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Einführung in das Thema (Motivation, zentrale Begriffe etc.)}{9}{subsection.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Hinführung zu den Ergebnissen}{9}{subsection.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Ggf. Angabe des Schwerpunktes}{9}{subsection.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Ggf. Einschränkungen darlegen}{9}{subsection.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Problemstellung}{9}{subsection.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Zielstellung der Arbeit}{9}{subsection.30}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7}Fragestellung der Arbeit}{9}{subsection.31}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.8}Struktur der Arbeit}{9}{subsection.32}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Grundlagen}{11}{section.35}\protected@file@percent }
+\newlabel{kap_grundlagen}{{3}{11}{Grundlagen}{section.35}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Unterabschnitt von Grundlagen}{11}{subsection.36}\protected@file@percent }
+\newlabel{subsec_UabsGrundl}{{3.1}{11}{Unterabschnitt von Grundlagen}{subsection.36}{}}
+\citation{MG1}
+\citation{PG01}
+\citation{PG02}
+\citation{PG11}
+\citation{PG03}
+\citation{MG2}
+\citation{MG1}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Datenbank}{12}{section.37}\protected@file@percent }
+\newlabel{kap_datenbank}{{4}{12}{Datenbank}{section.37}{}}
+\@writefile{toc}{\contentsline {paragraph}{Einleitung}{12}{section*.38}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Wahl der Datenbank}{12}{section*.39}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{PostgreSQL}{12}{section*.40}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{MongoDB}{12}{section*.41}\protected@file@percent }
+\citation{JSON1}
+\citation{12FA1}
+\citation{SO01}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Benutzeroberfläche}{15}{section.42}\protected@file@percent }
+\newlabel{kap_benutzeroberflaeche}{{5}{15}{Benutzeroberfläche}{section.42}{}}
+\@writefile{toc}{\contentsline {paragraph}{}{15}{section*.43}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Überlegungen bei der Verwendung von React}{15}{subsection.44}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{}{15}{section*.45}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}Vorteile}{15}{subsubsection.46}\protected@file@percent }
+\citation{R01}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}Nachteile}{16}{subsubsection.48}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}React Hooks}{16}{subsection.50}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{}{16}{section*.51}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}useState}{16}{subsubsection.52}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}useEffect}{18}{subsubsection.67}\protected@file@percent }
+\citation{R02}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.3}useContext}{19}{subsubsection.72}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.4}Alternative zu useContext}{21}{subsubsection.140}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{}{21}{section*.141}\protected@file@percent }
+\citation{PM1}
+\citation{RH1}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Serveranfragen}{22}{section.142}\protected@file@percent }
+\newlabel{kap_serveranfragen }{{6}{22}{Serveranfragen}{section.142}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}GraphQL}{22}{subsection.143}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{}{22}{section*.144}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.1}GraphQL Playground}{23}{subsubsection.146}\protected@file@percent }
+\newlabel{fig:GraphQL_Playground}{{6.1.1}{23}{GraphQL Playground}{subsubsection.146}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Implementierung der Serveranfragen mit GraphQL}{24}{subsection.147}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.1}Leseabfrage}{25}{subsubsection.148}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.2}Mutationen}{26}{subsubsection.159}\protected@file@percent }
+\citation{AX1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Axios}{27}{subsection.160}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Qualitätssicherung }{29}{section.198}\protected@file@percent }
+\newlabel{kap_QS}{{7}{29}{Qualitätssicherung}{section.198}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Die Testfälle für unser Projekt}{30}{subsection.232}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{}{30}{section*.233}\protected@file@percent }
+\newlabel{fig:Cy_Test_Cases}{{7.1}{30}{}{section*.233}{}}
+\newlabel{fig:Cy_Test_running}{{7.1}{31}{}{section*.233}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Glossar}{34}{section.244}\protected@file@percent }
+\newlabel{kap_glossar}{{8}{34}{Glossar}{section.244}{}}
+\citation{BBoJ}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Zusammenfassung und Ausblick}{36}{section.245}\protected@file@percent }
+\newlabel{kap_zusammfAusbl}{{9}{36}{Zusammenfassung und Ausblick}{section.245}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {10}Literaturverzeichnis}{36}{section.247}\protected@file@percent }
+\newlabel{kap_literaturverzeichnis}{{10}{36}{Literaturverzeichnis}{section.247}{}}
+\bibcite{SW11}{1}
+\bibcite{PG01}{2}
+\bibcite{DB01}{3}
+\bibcite{BBoJ}{1}
+\bibcite{HR08}{2}
+\bibcite{V01}{3}
+\bibcite{R01}{4}
+\bibcite{R02}{5}
+\bibcite{A01}{6}
+\@writefile{toc}{\contentsline {section}{\numberline {11}Quellenverzeichnis}{37}{section.248}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {11.1}Literatur}{37}{subsection.249}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {11.2}Internetquellen}{37}{subsection.251}\protected@file@percent }
+\bibcite{SO01}{7}
+\bibcite{EE1}{8}
+\bibcite{SS1}{9}
+\bibcite{RH1}{10}
+\bibcite{PM1}{11}
+\bibcite{AX1}{12}
+\bibcite{PG11}{13}
+\bibcite{PG12}{14}
+\bibcite{PG13}{15}
+\bibcite{MG1}{16}
+\bibcite{MG2}{17}
+\bibcite{MG3}{18}
+\bibcite{MG2}{19}
+\bibcite{JSON1}{20}
+\bibcite{12FA1}{21}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Anhang}{39}{section.253}\protected@file@percent }
+\newlabel{anhang}{{A}{39}{Anhang}{section.253}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Aufwandsverteilung}{39}{subsection.254}\protected@file@percent }
+\newlabel{subsec_UabsAnhang}{{A.1}{39}{Aufwandsverteilung}{subsection.254}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}ANHAND X}{39}{subsection.255}\protected@file@percent }
+\newlabel{subsec_UabsAnhang}{{A.2}{39}{ANHAND X}{subsection.255}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Verwendete Technologien und Werkzeuge}{39}{subsection.256}\protected@file@percent }
+\newlabel{subsec_UabsAnhang}{{A.3}{39}{Verwendete Technologien und Werkzeuge}{subsection.256}{}}
+\@writefile{toc}{\contentsline {section}{Erklärung über die selbständige Abfassung der Arbeit}{40}{section*.257}\protected@file@percent }
+\gdef \@abspage@last{41}
