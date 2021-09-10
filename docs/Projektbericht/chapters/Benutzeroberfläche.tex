@@ -5,16 +5,16 @@ Nachdem die Projektanforderungen definiert waren, wurden verschiedene Optionen f
 
 Folgende JavaScript Frameworks wurden berücksichtigt: Angular, Vue und React.
 
-Es war möglich das Projekt auch mit Angular durchgeführt werden können, mit dem Unterschied, dass die Entwicklung mit Angular mehr Zeit gekostet hätte, außerdem ist das Projekt nicht komplex genug, um das Angular-Ökosystem zu benötigen.
+Es war möglich das Projekt auch mit Angular durchgeführt werden können, mit dem Unterschied, dass die Entwicklung mit Angular mehr Zeit und Lernaufwand gekostet hätte, außerdem ist das Projekt nicht komplex genug, um das Angular-Ökosystem zu benötigen.
 
 \subsection{Überlegungen bei der Verwendung von React}
 \paragraph{}
-Die Entscheidung zwischen Vue und React wurde unter anderem wegen des Unternehmens hinter React getroffen, zwar Facebook. Auch wegen der persönlichen Vorlieben.
+Die Entscheidung zwischen Vue und React wurde unter anderem wegen des Unternehmens hinter React getroffen, zwar Facebook. Auch für persönliche Vorlieben.
 \newline
 \subsubsection{Vorteile} 
 \textbf{Deklarativ} \\
 Mit React ist es leicht, interaktive Benutzeroberflächen zu erstellen. Man kann einfache Ansichten für jeden Zustand der Anwendung. React aktualisiert und rendert effizient genau die richtigen Komponenten, wenn sich deren Daten ändern.
-Durch deklarative Ansichten wird der Code vorhersehbarer und einfacher zu debuggen.
+Durch deklarative\\ Ansichten wird der Code vorhersehbarer und einfacher zu debuggen.
 \newline
 
 \textbf{Komponentenbasiert}\\
@@ -27,7 +27,7 @@ React besteht aus rund 56.162 professionellen Entwicklern auf der ganzen Welt.
 
 Laut einer StackOverFlow Umfrage hat React.js im Jahr 2021 jQuery als das am häufigsten verwendete Web-Framework überholt.
 \footnote{ Vgl. \cite{SO01}}
-\newline
+\newpage
 
 \subsubsection{Nachteile}
 Bei der Auswahl des Frameworks wollten wir so unvoreingenommen wie möglich sein, daher listen wir einige Aspekte auf, die bei Projekten mit React zu beachten sind.
@@ -82,8 +82,8 @@ Hier sind einige Beispieldaten für die Variable state.
     gender: "male"
     ingameRole: (2) ["Fill", "Bot"]
     languages: (2) ["bm", "de"]
-    friends: []
-    blocked: (6) ["60eb61b33a2481451c1cd7ac", "60eb61b33a2481451c1cd7b0", "60eb61b33a2481451c1cd7b1", "60eb61b33a2481451c1cd7b4", "60eb61b33a2481451c1cd7b7", "60eea5eed7e23b5ef08f68af"]
+    friends:(5) ["60eb61b33a2481451c1cd7ac", "60eb61b33a2481451c1cd7b0", "60eb61b33a2481451c1cd7b1", "60eb61b33a2481451c1cd7b4", "60eb61b33a2481451c1cd7b7"]
+    blocked: (1) ["60eea5eed7e23b5ef08f68af"]
 \end{lstlisting}
 In späteren Kapiteln wird näher erläutert, wie diese Informationen, die wir durch einen einzigen Aufruf an den Server erhalten, in den Chat- und Benutzerkomponenten genutzt werden können. 
 
@@ -98,10 +98,9 @@ useEffect ermöglicht es uns, verschiedene Arten von Effekten zu erzeugen, nachd
 Der Hook useEffect entspricht einer Kombination aus componentDidMount, componentDidUpdate und componentWillUnmount.
 
 In unserem Projekt manipulieren wir die Anzeige der Daten abhängig der Änderungen des lokalen Zustands.\\
-Der Zustand profile befindet sich in der Komponente Profile.
-Sie speichert die Änderungen, die der Benutzer an seinen Daten vornimmt, bevor sie in der Datenbank gespeichert werden.
+Im Zustand „profile“ werden die Änderungen, die der Benutzer an seinen Daten vornimmt, bevor sie in der Datenbank gespeichert werden.
 \\
-Der globale Zustand state ist in der Komponente App enthalten.
+Der globale Zustand „state“ ist in der Komponente App enthalten.
 In diesem wird die Antwort von der Datenbankenabfrage gespeichert.
 \\
 Wir definieren den Zustand als Abhängigkeit von useEffect, so dass er bei jeder Änderung in der Benutzeroberfläche aktualisiert wird.
@@ -116,11 +115,10 @@ Es ist möglich, mehrere useEffects in unserem Code zu haben und mit ihrer jewei
 Wenn wir wollen, dass der Code in unserem useEffect nur einmal nach dem ersten Rendering ausgeführt wird, definieren wir ein leeres Array als Abhängigkeit.
 \newpage
 
-\subsubsection{useContext}
 %WELCHES PROBLEM HABEN WIR DAMIT GELÖST?
 useContext hat es uns ermöglicht, Benutzerdaten auf einfache Weise in den Komponenten zu teilen, in denen diese Daten benötigt werden. In frühen Versionen der Anwendung wurde für den gleichen Zweck props verwendet.
 Unserer Erfahrung nach ist useContext eine elegantere und sauberere Lösung für da gleiche Ziel.
-
+\\
 %So funktioniert's
 \textbf{useContext Provider} \\
 
@@ -170,8 +168,7 @@ In unserem Projekt haben wir den Provider in der Komponente App folgendermaße d
  Mit dem obigen Code sind wir bereit, die Werte innerhalb von value in jeder Komponente innerhalb des Contexts zu verwenden.
 
  In unserem Fall können die Werte token und state gelesen werden. Darüber hinaus sind die Funktionen setToken, setState und refetch ebenfalls verfügbar.
-
-
+\\
 \textbf{useContext Consumer} \\
 Nachfolgend zeigen wir, wie GlobalContext in der Komponente Chat.js verwendet wurde, um die Freunde des angemeldeten Benutzers zu ermitteln.
 
@@ -184,11 +181,11 @@ Die Kennungen der Freunde waren notwendig, um die Kommunikation zu ermöglichen 
         //mit Hilfe von Destrukturierende Zuweisung wurden neue Variablen und Funktionen definiert
         const { token, state, setState, refetch } = useContext(GlobalContext)
 
-        \dots
+        ...
 
         return !token ? (
 
-        \dots
+        ...
 
             <div className="user-many">
             {state?.friends &&
@@ -215,8 +212,8 @@ Die Kennungen der Freunde waren notwendig, um die Kommunikation zu ermöglichen 
 
     \end{lstlisting}
 
-ZEIGE CODE MIT props ??
-
-
-
+\subsubsection{Alternative zu useContext}
+\paragraph{}
+Bei einer früheren Version der kürzlich erläuterten Implementierung haben wir  „props“ verwendet. Dadurch haben wir die gemeinsame Nutzung von Daten zwischen Komponenten ermöglicht. Wir beschlossen, diese Idee zu ändern, da der Code schwieriger zu pflegen war.
+\\
 
