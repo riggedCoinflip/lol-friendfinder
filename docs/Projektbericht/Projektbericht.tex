@@ -9,7 +9,6 @@
 %% Von Ludger Schönfeld, M. Sc.,
 %% 2014-2017                            %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% HEADER                                  %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -27,7 +26,8 @@
 \usepackage[utf8]{inputenc} % Für die direkte Eingabe von Umlauten im Editor u.a.
 \usepackage{fancyhdr} % Für Kopf- und Fußzeilen
 \usepackage{lscape} % Für Querformat
-\usepackage{hyperref} % Für Hyperlinks
+
+%\usepackage{hyperref} % Für Hyperlinks
 
 
 
@@ -132,18 +132,15 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 % an dem der Link umbrochen werden kann.
 % Dies kann mit folgendem Befehl erfolgen (Beispiel):
 % \renewcommand*\UrlBreaks{\do-\do_}
-
 % Das Paket "biblatex" für autom. 
 % Literaturverzeichnisse:
 %\usepackage{csquotes} % Für sprachangepasste Anführungszeichen
 %\usepackage[backend=bibtex,style=alphabetic]  
 %           {biblatex}
 %\addbibresource{bib/literatur.bib}           
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% DOKUMENT                                %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{document}
 % Unbeschriftetes Vorblatt (Leere Seite)
 \pagestyle{empty} % Seite ohne Kopf- und Fußzeilen
@@ -178,7 +175,7 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
     \textsc{Carlo Menjivar} 11117929\\
     \vspace{1cm}
     \begin{tabular}{ll} % Einfache Tabelle ohne Rahmen, mit 2 Spalten erzeugen
-      \textbf{Erster Prüfer:}  & Frau Prof. Birgit Bertelsmeier \\
+      \textbf{Erster Prüfer:}  & Prof. Dr. Birgit Bertelsmeier \\
       \textbf{Zweiter Prüfer:} & <Name des 2. Prüfers> \\
     \end{tabular}
     \vspace{1cm}
@@ -294,11 +291,13 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 
 \newpage
 \section{Grundlagen}\label{kap_grundlagen}
-TEXT FOLGT...
-
-\subsection{Unterabschnitt von Grundlagen}\label{subsec_UabsGrundl}
-%\input{}
-TEXT FOLGT...
+TODO:
+Carlo, to review:
+\subsection{Stack MERN}\label{subsec_UabsGrundl}
+-Was macht dieser Stack so interessant?
+\\
+\subsection{Matching Plattformen}\label{subsec_UabsGrundl}
+-Hier können wir die Logik hinter Swipe/Like erklären und wann wir es Nutzern ermöglichen, Nachrichten miteinander auszutauschen.
 
 %<MERKKASTEN> (für die eigene Verwendung bitte entfernen
 \vspace{1cm}
