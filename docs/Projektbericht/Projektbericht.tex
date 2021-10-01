@@ -27,8 +27,7 @@
 \usepackage[utf8]{inputenc} % Für die direkte Eingabe von Umlauten im Editor u.a.
 \usepackage{fancyhdr} % Für Kopf- und Fußzeilen
 \usepackage{lscape} % Für Querformat
-\usepackage{hyperref} % Für Hyperlinks
-
+\usepackage{csquotes} % Für sprachangepasste Anführungszeichen
 
 
 %% Show code in a better way
@@ -124,7 +123,6 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 
 % Das Paket "biblatex" für autom. 
 % Literaturverzeichnisse:
-%\usepackage{csquotes} % Für sprachangepasste Anführungszeichen
 %\usepackage[backend=bibtex,style=alphabetic]  
 %           {biblatex}
 %\addbibresource{bib/literatur.bib}           
@@ -187,28 +185,28 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
   Platz für das englische Abstract...
 \end{abstract}
 %<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-\vspace{1cm}
-\begin{tcolorbox}[title={Das Abstract}]
-  Bei einem Abstract handelt es sich um eine Art \textit{Zusammenfassung} Ihrer Arbeit. Diese kann in deutscher und/oder englischer Sprache verfasst werden. Mithilfe des Abstracts kann der Leser sich zügig orientieren, in wie fern Ihre Arbeit für ihn Relevanz besitzt.\\                                                                      Sprechen Sie unbedingt mit Ihrer Betreuerin/Ihrem Betreuer, ob Sie für Ihre Arbeit ein Abstract benötigen.\\
-  Ein Abstract beinhaltet folgende Aspekte \footnote{ Vgl. \cite{SW11}, S. 249}:
-  \begin{itemize}
-    \item Ziel der Arbeit
-    \item Fragestellung der Arbeit
-    \item Herangezogener, theoretischer Ansatz ("Quellen")
-    \item \textit{Optional:} Methodik
-  \end{itemize}
-\end{tcolorbox}
+%\vspace{1cm}
+%\begin{tcolorbox}[title={Das Abstract}]
+%  Bei einem Abstract handelt es sich um eine Art \textit{Zusammenfassung} Ihrer Arbeit. Diese kann in deutscher und/oder englischer Sprache verfasst werden. Mithilfe des Abstracts kann der Leser sich zügig orientieren, in wie fern Ihre Arbeit für ihn Relevanz besitzt.\\                                                                      Sprechen Sie unbedingt mit Ihrer Betreuerin/Ihrem Betreuer, ob Sie für Ihre Arbeit ein Abstract benötigen.\\
+%  Ein Abstract beinhaltet folgende Aspekte \footnote{ Vgl. \cite{SW11}, S. 249}:
+%  \begin{itemize}
+%    \item Ziel der Arbeit
+%    \item Fragestellung der Arbeit
+%    \item Herangezogener, theoretischer Ansatz ("Quellen")
+%    \item \textit{Optional:} Methodik
+%  \end{itemize}
+%\end{tcolorbox}
 %</MERKKASTEN>
 
 %<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-\vspace{1cm}
-\begin{tcolorbox}[title={Hinweise zu dieser Dokumentvorlage}]
-  \begin{itemize}
-    \item Es handelt sich hierbei um eine Beispiel-Vorlage für wissenschaftliche Ausarbeitungen.
-          Über die konkrete, formale Ausgestaltung Ihrer wissenschaftlichen Arbeit sprechen Sie unbedingt mit Ihre/m Betreuer/in.
-    \item Unabhängig, ob Sie beispielsweise eine Bachelor-, Master- oder Hausarbeit schreiben müssen. Diese Vorlage kann als eine gute Basis für Ihre Arbeit dienen. Passen Sie einfach die Vorlage Ihren Anforderungen entsprechend an.
-  \end{itemize}
-\end{tcolorbox}
+%\vspace{1cm}
+%\begin{tcolorbox}[title={Hinweise zu dieser Dokumentvorlage}]
+%  \begin{itemize}
+%    \item Es handelt sich hierbei um eine Beispiel-Vorlage für wissenschaftliche Ausarbeitungen.
+%          Über die konkrete, formale Ausgestaltung Ihrer wissenschaftlichen Arbeit sprechen Sie unbedingt mit Ihre/m Betreuer/in.
+%    \item Unabhängig, ob Sie beispielsweise eine Bachelor-, Master- oder Hausarbeit schreiben müssen. Diese Vorlage kann als eine gute Basis für Ihre Arbeit dienen. Passen Sie einfach die Vorlage Ihren Anforderungen entsprechend an.
+%  \end{itemize}
+%\end{tcolorbox}
 %</MERKKASTEN>
 
 \newpage
@@ -275,9 +273,9 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
     \item Zielstellung der Arbeit
     \item Fragestellung der Arbeit
     \item Übersicht über die Kapitel geben:
-          \begin{quotation}
-            Eine Einleitung muss auch durch die Arbeit führen. Sie muss dem Leser helfen, sich in der Arbeit und ihrer Struktur zu Recht zu finden. Für jedes Kapitel sollte eine ganz kurze Inhaltsangabe gemacht werden und ggf. motiviert werden, warum es geschrieben wurde. Oft denkt sich ein Autor etwas bei der Struktur seiner Arbeit, auch solche Beweggründe sind dem Leser zu erklären\footnote{\cite{BBoJ}, S. 6}:.
-          \end{quotation}
+%          \begin{quotation}
+%            Eine Einleitung muss auch durch die Arbeit führen. Sie muss dem Leser helfen, sich in der Arbeit und ihrer Struktur zu Recht zu finden. Für jedes Kapitel sollte eine ganz kurze Inhaltsangabe gemacht werden und ggf. motiviert werden, warum es geschrieben wurde. Oft denkt sich ein Autor etwas bei der Struktur seiner Arbeit, auch solche Beweggründe sind dem Leser zu erklären\footnote{\cite{BBoJ}, S. 6}:.
+%          \end{quotation}
   \end{itemize}
 \end{tcolorbox}
 
@@ -290,18 +288,22 @@ TEXT FOLGT...
 TEXT FOLGT...
 
 %<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-\vspace{1cm}
-\begin{tcolorbox}[title={Das Kapitel/der Abschnitt}]
-  Hierbei handelt es sich um ein Beispiel-Kapitel. Es ist zu empfehlen, dass Sie Kapitel und auch Abschnitte immer mit einer kurzen Einleitung beginnen. In dieser beschreiben Sie kurz, was den Leser in diesem Kapitel/Abschnitt erwartet. Bei einem Kapitel mit Abschnitten nehmen Sie auch inhaltlichen Bezug auf die enthaltenen Abschnitte (inklusive Referenzierung auf die Abschnittsnummerierung).
-\end{tcolorbox}
+%\vspace{1cm}
+%\begin{tcolorbox}[title={Das Kapitel/der Abschnitt}]
+%  Hierbei handelt es sich um ein Beispiel-Kapitel. Es ist zu empfehlen, dass Sie Kapitel und auch Abschnitte immer mit einer kurzen Einleitung beginnen. In dieser beschreiben Sie kurz, was den Leser in diesem Kapitel/Abschnitt erwartet. Bei einem Kapitel mit Abschnitten nehmen Sie auch inhaltlichen Bezug auf die enthaltenen Abschnitte (inklusive Referenzierung auf die Abschnittsnummerierung).
+%\end{tcolorbox}
 %</MERKKASTEN>
 
 %<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-\vspace{1cm}
-\begin{tcolorbox}[title={Abbildungen, Tabellen \& Co.}]
-  Bei Verwendung von Tabellen und auch Abbildungen beachten Sie bitte, dass diese immer Unter-/Überschriften enthalten (inklusive einer Nummer). Im Textfluss erklären/beschreiben Sie die Abbildung bzw. die Tabelle und nehmen Bezug über einen Verweis auf die Nummer.
-\end{tcolorbox}
+%\vspace{1cm}
+%\begin{tcolorbox}[title={Abbildungen, Tabellen \& Co.}]
+%  Bei Verwendung von Tabellen und auch Abbildungen beachten Sie bitte, dass diese immer Unter-/Überschriften enthalten (inklusive einer Nummer). Im Textfluss erklären/beschreiben Sie die Abbildung bzw. die Tabelle und nehmen Bezug über einen Verweis auf die Nummer.
+%\end{tcolorbox}
 %</MERKKASTEN>
+
+\newpage
+\section{Datenbank}\label{kap_datenbank}
+\input{chapters/Datenbank}
 
 \newpage
 \section{Benutzeroberfläche}\label{kap_benutzeroberflaeche}
@@ -331,59 +333,25 @@ Das Ziel, eine echte Plattform zu schaffen, wurde im Zeitraum von Mai 2021 bis M
 Das heißt, ein Team von zwei Studenten mit grundlegenden Programmierkenntnissen war in der Lage, eine funktionelle Plattform zu schaffen, die die Registrierung, die Anmeldung der Benutzer, die Verwaltung von persönlichen Daten, die Interaktion mit anderen Benutzern auf der Grundlage ihrer Präferenzen umfasst und einen auf Textnachrichten basierenden Kommunikationskanal.
 
 %<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-\vspace{1cm}
-\begin{tcolorbox}[title={Inhalte der \textit{Zusammenfassung und Ausblick}}]
-  Das Kapitel \textit{Zusammenfassung und Ausblick} enthält folgende formale Aspekte\footnote{Vgl. \cite{BBoJ},S. 6}:
-  \begin{itemize}
-    \item Kapitelweise Kurzdarstellung der Inhalte (inklusive Referenzierung auf die Kapitelnummerierung) => Nach dem Motto: \textit{Was wurde wo beschrieben?}
-    \item Kurzdarstellung \textit{Problem – Lösungsweg – Ergebnisse}
-    \item Rückkopplung auf die Einleitung: Wurde die Zielstellung der Arbeit und die Fragestellung zufriedenstellend beantwortet?
-    \item Kritische Bewertung (sofern nicht bereits im Hauptteil geschehen)
-    \item Offene Probleme
-    \item Richtung der zukünftigen/möglichen Arbeiten
-    \item Erläuterung, warum welche Aspekte in der Arbeit nicht erläutert wurden
-  \end{itemize}
-\end{tcolorbox}
+%\vspace{1cm}
+%\begin{tcolorbox}[title={Inhalte der \textit{Zusammenfassung und Ausblick}}]
+%  Das Kapitel \textit{Zusammenfassung und Ausblick} enthält folgende formale Aspekte\footnote{Vgl. \cite{BBoJ},S. 6}:
+%  \begin{itemize}
+%    \item Kapitelweise Kurzdarstellung der Inhalte (inklusive Referenzierung auf die Kapitelnummerierung) => Nach dem Motto: \textit{Was wurde wo beschrieben?}
+%    \item Kurzdarstellung \textit{Problem – Lösungsweg – Ergebnisse}
+%    \item Rückkopplung auf die Einleitung: Wurde die Zielstellung der Arbeit und die Fragestellung zufriedenstellend beantwortet?
+%    \item Kritische Bewertung (sofern nicht bereits im Hauptteil geschehen)
+%    \item Offene Probleme
+%    \item Richtung der zukünftigen/möglichen Arbeiten
+%    \item Erläuterung, warum welche Aspekte in der Arbeit nicht erläutert wurden
+%  \end{itemize}
+%\end{tcolorbox}
 %</MERKKASTEN>
 
 % Literaturverzeichnis
-% INFO: Referenzieren auf das Literaturverzeichnis:
-%
-% Befehl: \cite{refmarke}
-%
-% "refmarke" ist die Angabe in den geschweiften Klammern bei
-% \bibitem[]{refmarke}.
 \newpage
-\thispagestyle{empty}
-\section{Quellenverzeichnis}
-\subsection{Literatur}
-\renewcommand{\refname}{} % Literaturverzeichnis ohne Bezeichnung
-% Variante 1: einfaches, manuelles
-% Literaturverzeichnis
-\begin{thebibliography}{SW11} % 2. {...} => Hier die größte /breiteste Nummer (z.B. 99) oder Kurzbeleg angeben.
-  \bibitem[SW11]{SW11} Stickel-Wolf, Christine; Wolf, Joachim (2011): Wissenschaftliches Lernen und Lerntechniken. Erfolgreich studieren–-gewusst wie!. Wiesbaden: Gabler.
-\end{thebibliography}
-
-\subsection{Internetquellen}
-\begin{thebibliography}{HR08} % 2. {...} => Hier die größte/breiteste Nummer (z.B. 99) oder Kurzbeleg angeben.
-  \bibitem[BBoJ]{BBoJ}Bertelsmeier, Birgit (o. J.): Tipps zum Schrei\-b\-en ei\-n\-er Ab\-sch\-luss\-ar\-beit. Fach\-hoch\-schu\-le Köln-Campus Gummersbach, Institut für Informatik. \url{http://lwibs01.gm.fh-koeln.de/blogs/bertelsmeier/files/2008/05/abschlussarbeitsbetreuung.pdf} (29.10.2013).
-  \bibitem[HR08]{HR08} Halfmann, Marion; Rühmann, Hans (2008): Merkblatt zur Anfertigung von Projekt-, Bachelor-, Master- und Diplomarbeiten der Fakultät 10. Fachhochschule Köln-Campus Gummersbach.\url{http://www.f10.fh-koeln.de/imperia/md/content/pdfs/studium/tipps/anleitungda270108.pdf} (29.10.2013).
-  \bibitem [V01]{V01} Offizielle Vue-Website: Vergleich zwischen Vue, React und Angular. \\
-  \url{https://vuejs.org/v2/guide/comparison.html#Preact-and-Other-React-Like-Libraries} (unbekannte Veröffentlichung).
-  \bibitem [R01]{R01}Offizielle React-Website: React Hooks. \url{https://reactjs.org/docs/hooks-faq.html#which-versions-of-react-include-hooks}
-  \bibitem [R02]{R02}Offizielle React-Website: Fortgeschrittene Anleitugen, Context. \url{https://de.reactjs.org/docs/context.html}
-
-  \bibitem [A01]{A01}Offizielle Website Apollo für React. \url{https://www.apollographql.com/docs/react/}
-  \bibitem [SO01]{SO01}StackOverFlow: Developer Survey 2021. \url{https://insights.stackoverflow.com/survey/2021#section-most-popular-technologies-web-frameworks}
-  \bibitem [EE1]{EE1}Elad Elrom: React and Libraries. \url{https://link.springer.com/content/pdf/10.1007%2F978-1-4842-6696-0.pdf}
-  \bibitem [SS1]{SS1}Stoyan Stefanov: Durchstarten mit React. \url{https://content-select.com/media/moz_viewer/5d5fc360-478c-4038-ac17-246bb0dd2d03/language:de}
-  \bibitem [RH1]{RH1}Red Hat: Was ist GraphQL? \url{https://www.redhat.com/de/topics/api/what-is-graphql}
-  \bibitem [PM1]{PM1}Postman: 2020 State of the API Report \url{https://www.postman.com/state-of-api/the-future-of-apis/#the-future-of-apis}
-  \bibitem [AX1]{AX1}Offizielle Website Axios \url{https://axios-http.com/}
-
-
-
-\end{thebibliography}
+\section{Quellenverzeichnis}\label{kap_quellenverzeichnis}
+\input{chapters/Quellenverzeichnis}
 
 % INFO: Biblatex -Ausgabe des
 % Literaturverzeichnisses (Beispiele):
@@ -398,11 +366,11 @@ Das heißt, ein Team von zwei Studenten mit grundlegenden Programmierkenntnissen
 
 % Anhang
 \newpage
-\setcounter{section}{0} % Nummerierung der Gliederungsebene "section" auf 0 setzen
-\renewcommand*\thesection{\Alph{section}} % Nummerierungsart für die Gliederungsebene "section"
+%\setcounter{section}{0} % Nummerierung der Gliederungsebene "section" auf 0 setzen
+%\renewcommand*\thesection{\Alph{section}} % Nummerierungsart für die Gliederungsebene "section"
 % auf Großbuchstaben setzen
-\section{Anhang}\label{anhang}
-\input{chapters/Anhand}
+%\section{Anhang}\label{anhang}
+%\input{chapters/Anhang}
 
 \newpage
 
