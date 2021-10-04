@@ -6,14 +6,13 @@ Ihre Aufgabe ist es, genau die Daten zu liefern, die anfordert werden, und nicht
 Mit GraphQL sind APIs schnell, flexibel und einfach für Entwickler.
 \\ \\
 Laut dem 2020 State of the API Report von Postman.com steht GrapQL an fünfter Stelle der spannendsten Technologien für 2021.
-% \begin{quote}  {Vgl. u.a. \cite{RH1}} \end{quote}
+{Vgl. u.a. \cite{PM1}}
 
 Im Hinblick auf die Art und Weise, wie Abfragen an den Server mithilfe von 
 \\ GraphQL behandelt werden können, sind folgende Aspekte zu beachten.
 \\
 \begin{quote}
   \textbf{Vorteile}\\
-
   \begin{itemize}
     \item
           GraphQL-Aufrufe werden in einem einzigen Round Trip gehandhabt. Wir bekommen genau die Daten, die angefragt haben (kein Over-Fetching).
@@ -45,30 +44,32 @@ Im Hinblick auf die Art und Weise, wie Abfragen an den Server mithilfe von
   \footnote{Vgl. u.a. \cite{RH1}}
 \end{quote}
 
-\textbf{Implementierung der Serveranfragen}\\
+\subsubsection{GraphQL Playground}
+Mit GraphQL Playground haben wir die Möglichkeit, alle Abfragen und Mutationen zu testen. Wir erhalten Zugriff auf relevante Informationen wie verfügbare Felder und deren Datentyp. Diese Informationen werden aktualisiert, wenn der Servercode geändert wurde. Dadurch wurde eine aktuelle API-Dokumentation gewährleistet. Für unser Projekt war es sehr praktisch und hat die Kommunikation als Entwickler effizienter gemacht.
+\\
+\begin{center}
+\includegraphics[scale=0.60]{GraphQL_Playground}\label{fig:GraphQL_Playground}
+\end{center}
+\textbf{Abbildung \autoref{fig:GraphQL_Playground}:}
+Genau derselbe Code wird für die Abfrage von Benutzerinformationen später verwendet.
+\newpage
+
+\subsection{Implementierung der Serveranfragen mit GraphQL}
 Alle Abfragen und Mutationen wurden in einem separaten Ordner gesammelt.
 Damit soll eine saubere Struktur des Codes gewährleistet werden.
 Diese wurden für die spätere Verwendung in den React-Komponenten exportiert.
 
-Beim Einloggen in unseren Account werden die entsprechenden Daten geladen, für die zunächst mithilfe der Apollo Client Hook useQuery Daten gelesen werden.
-In ähnlicher Weise wurde der Schreibprozess mit dem Hook useMutation implementiert.
-\\
-In diesem Kapitel wird erläutert, wie die beiden oben genannten Abfragen implementiert wurden.
-
+Mithilfe der Hooks useQuery bzw. useMutation von Apollo Client wurden die Lese- und Schreibabfragen durchgeführt.
+\\\\
+\textbf{Apollo Client}\\
+Warum haben wir uns für Apollo entschieden? Was ist ApolloClient?
+TODO
+%Coming...
+\newpage
 
 \subsubsection{Leseabfrage}
-
-\includegraphics[scale=0.60]{GraphQL_Playground}\label{fig:GraphQL_Playground}
-\\
-\textbf{Abbildung \autoref{fig:GraphQL_Playground}:}\\ 
-Beim GraphQL Playground: alle verfügbaren Felder und deren Datentyp in Bezug auf eine Beispielabfrage auf.
-
-Genau derselbe Code wurde für die Abfrage von Benutzerinformationen verwendet.
-\newpage
-\textbf{Apollo Client}\\
-%Warum haben wir uns dafür entschieden?
-Nachdem eine Abfrage exportiert wurde, ist sie bereit, in einer React-Komponente importiert \\
-und angewendet zu werden.
+Nachdem eine Abfrage exportiert wurde, ist sie bereit, in einer React-Komponente \\
+importiert und angewendet zu werden.
 
 \begin{lstlisting}
 import { GET_MY_INFO } from "./GraphQL/Queries"
@@ -86,7 +87,7 @@ Die Konstante ContextHeader enthält das Token in der Struktur, die erforderlich
 Sollte das Token einen undefinierten Wert, null oder ungültig enthalten, wird der Server ein Fehler zurückgegeben.
 \\
 Der useQuery Hook liefert ein Ergebnisobjekt, welches eine der folgenden Optionen zurückgibt.
-\\
+\\\\
 \textbf{loading:}\\
 Ein boolescher Wert, der angibt, ob die Abfrage in Bearbeitung ist.
 Wenn loading wahr ist, ist die Anfrage noch nicht abgeschlossen. Typischerweise kann diese Information verwendet werden, um einen Lade-Spinner anzuzeigen.
@@ -99,8 +100,14 @@ Dieses enthält Informationen darüber, was bei der Abfrage fehlgeschlagen  ist.
 Ein Objekt, das das Ergebnis der GraphQL-Abfrage enthält.
 \\Es enthält die tatsächlichen Daten vom Server.
 \\
+\newpage
 
-%TODO: AUCH MUTATIONS ZEIGEN\dots
+%TODO: AUCH MUTATIONS ZEIGEN
+\subsubsection{Mutationen}
+\subsubsection{Subscriptions}
+
+TODO after receiving feedback about the rest.
+
 \newpage
 \subsection{Axios}
 Zusätzlich zu den GraphQL-Abfragen wurde eine Post-Anfrage mit Axios bereitgestellt.
@@ -143,10 +150,10 @@ Mit dieser war es möglich, Bilder auf die S3 Speicher von AWS hochzuladen.
           })
       }\end{lstlisting}
 
-Das HTML-Eingabefeld „input“ wurde folgendermaßen definiert.
-\begin{lstlisting}
-    <input type="file" onChange={fileSelectedHandler} />
-\end{lstlisting}
+%Das HTML-Eingabefeld „input“ wurde folgendermaßen definiert.
+%\begin{lstlisting}
+ %   <input type="file" onChange={fileSelectedHandler} />
+%\end{lstlisting}
 
 
 Das Format der hochzuladenden Dateien wurde limitiert, damit nur zulässige Dateien an den Server gesendet werden.

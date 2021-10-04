@@ -47,14 +47,9 @@ Es ist wichtig festzustellen, dass neue Entwicklungen des Frameworks verbessern 
 Aufgrund der rasanten Entwicklung ist die Dokumentation in Bezug auf die neuesten Aktualisierungen und Änderungen oft spärlich. 
 \footnote{ Vgl. \cite{R01}}
 
-\paragraph{}
-\textbf{Das Projekt besteht aus Komponenten}\\
-In diesem Kapitel wird der Zweck der einzelnen Komponenten erläutert....
-TO-DO und SOLLTE Ueberhaupt DIESES KAPITEL GESCHRIEBEN WERDEN?
-
 \subsection{React Hooks}
 \paragraph{}
-Beginnend mit 16.8.0, enthält React eine stabile Implementierung von React Hooks.
+Beginnend mit 16.8.0, enthält React eine stabile Implementierung von React Hooks. Ab dieser Version wird empfohlen, keine Klassen mehr für die Erstellung von Komponenten zu verwenden.
 
 \subsubsection{useState}
 Der Hook useState gibt uns die Möglichkeit, den Zustand unserer Anwendung zu verwalten. Sie besteht aus mindestens einen Wert und einer Funktion, die die besagte Variable aktualisiert.
@@ -70,7 +65,6 @@ In unserem Projekt haben wir useState verwendet, um alle damit verbundenen Infor
     const [profile, setProfile] = useState(state)    
     \end{lstlisting}
 
-\newpage
 Die Variable state enthält die Daten des angemeldeten Benutzers. Diese Daten sind die Antwort auf die an den Server gesendete Anfrage. 
 Hier sind einige Beispieldaten für die Variable state.
 
@@ -113,9 +107,10 @@ useEffect(() => {
 
 Es ist möglich, mehrere useEffects in unserem Code zu haben und mit ihrer jeweiligen Abhängigkeiten separat definieren.
 Wenn wir wollen, dass der Code in unserem useEffect nur einmal nach dem ersten Rendering ausgeführt wird, definieren wir ein leeres Array als Abhängigkeit.
-\newpage
+%\newpage
 
-%WELCHES PROBLEM HABEN WIR DAMIT GELÖST?
+%WELCHES PROBLEM HABEN WIR DAMIT GELÖST?  
+\subsubsection{useContext}
 useContext hat es uns ermöglicht, Benutzerdaten auf einfache Weise in den Komponenten zu teilen, in denen diese Daten benötigt werden. In frühen Versionen der Anwendung wurde für den gleichen Zweck props verwendet.
 Unserer Erfahrung nach ist useContext eine elegantere und sauberere Lösung für da gleiche Ziel.
 \\
@@ -168,7 +163,9 @@ In unserem Projekt haben wir den Provider in der Komponente App folgendermaße d
  Mit dem obigen Code sind wir bereit, die Werte innerhalb von value in jeder Komponente innerhalb des Contexts zu verwenden.
 
  In unserem Fall können die Werte token und state gelesen werden. Darüber hinaus sind die Funktionen setToken, setState und refetch ebenfalls verfügbar.
-\\
+\\\\
+\newpage
+
 \textbf{useContext Consumer} \\
 Nachfolgend zeigen wir, wie GlobalContext in der Komponente Chat.js verwendet wurde, um die Freunde des angemeldeten Benutzers zu ermitteln.
 
@@ -177,8 +174,7 @@ Die Kennungen der Freunde waren notwendig, um die Kommunikation zu ermöglichen 
     \begin{lstlisting}
         import { useContext, useEffect, useState, React } from "react"
         import { GlobalContext } from "../App"
-        
-        //mit Hilfe von Destrukturierende Zuweisung wurden neue Variablen und Funktionen definiert
+        //mithilfe von Destrukturierende Zuweisung wurden neue Variablen und Funktionen definiert
         const { token, state, setState, refetch } = useContext(GlobalContext)
 
         ...
@@ -192,7 +188,7 @@ Die Kennungen der Freunde waren notwendig, um die Kommunikation zu ermöglichen 
               state?.friends?.map((item, index) => {
                 return (
 
-//Diese Komponente gibt den Namen und den Avatar des Benutzers auf der Grundlage der eingegebenen ID zurueck.
+//Die Komponente FriendList gibt den Namen und den Avatar des Benutzers auf der Grundlage der eingegebenen ID zurueck.
                   <FriendList
                     setUserID={setUserID}
                     setUserNameChat={setUserNameChat}
@@ -206,10 +202,8 @@ Die Kennungen der Freunde waren notwendig, um die Kommunikation zu ermöglichen 
               })}
           </div>
         )
-
-        \dots
+      ...
 //Code-Auszug in frontend/src/Chat.js
-
     \end{lstlisting}
 
 \subsubsection{Alternative zu useContext}
