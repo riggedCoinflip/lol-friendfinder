@@ -94,13 +94,13 @@ MongoDB speichert Daten im \glqq binary JSON\grqq -Format. JSON, die \glqq JavaS
 Eine beliebte Datenbank zu wählen hat einige Vorteile. Beliebte Datenbanken werden meist aktiv weiterentwickelt, haben oft mehr Tools von Drittanbietern welche die Arbeit erleichern und haben meist eine aktive Programmierergemeinschaft, welche bei kleineren Problemen schnell aushelfen kann. Bei der Expandierung des Projekts gibt es zudem eine größere Auswahl an qualifiziertem Fachpersonal.
 Nach dem Ranking von DB-Engines schneiden PostgreSQL und MongoDB ähnlich ab. PostgreSQL ist mit 577,50 Punkten die viertbeliebteste ORDBMS und insgesamt die viertbeliebteste Datenbank. MongoDB ist mit 496,50 Punkten die beliebteste Dokumentdatenbank und damit insgesamt die fünftbeliebteste Datenbank. Platz Eins bis Vier werden von ORDBMS-Datenbanken ein. \cite{DB4}
 In der Entwicklerumfrage 2021 von StackOverflow kommt man auf ähnliche Ergebnisse. Von den 49.537 Befragten gaben 36,1\% an, PostgreSQL zu nutzen, während 26,4\% MongoDB nutzen. PostgreSQL landet damit auf Platz 2, MongoDB auf Platz 4. \cite{DB5}
-Beide Datenbanken erfreuen sich großer Beliebtheit und werden allen Anschein nach noch etliche Jahre verwendet werden. Im NoSQL-Markt ist MongoDB am beliebtesten, während es im SQL-Markt weitere andere beliebte Datenbanken gibt. Beide Datenbanken sind sehr beliebt, in diesem Aspekt hat keine Datenbank Vorteile gegenüber der Anderen.
+Beide Datenbanken erfreuen sich großer Beliebtheit und werden allen Anschein nach noch etliche Jahre verwendet werden. Im NoSQL-Markt ist MongoDB am beliebtesten, während es im SQL-Markt weitere andere beliebte Datenbanken gibt. In diesem Aspekt hat keine Datenbank Vorteile gegenüber der Anderen.
 
 \subsubsection{Fazit}
 Wir haben nach einer Datenbank gesucht, welche bei Leseanfragen schnell antwortet, schnelle Änderungen der Datenstrukturen zulässt, eine hohe Erreichbarkeit aufweist und sich schnell und einfach skalieren lässt. Dafür nehmen wir langsamere Schreibanfragen und Inkonsistenz bei Leseanfragen in Kauf. Wir konnten zeigen, dass sowohl PostgreSQL als auch MongoDB ausgereifte Lösungen sind, sich MongoDB als Gesamtpaket für unsere speziellen Anforderungen besser eignet.
 %Begründen
 
-\section{Schemata}
+\subsection{Schemata}
 Folgende Kollektionen wurden verwendet, um die Daten optimal zu verwalten.
 
 \subsubsection{Nutzer}
@@ -130,7 +130,7 @@ Folgende Kollektionen wurden verwendet, um die Daten optimal zu verwalten.
 Wenn ein Nutzer einen Account erstellt, gibt dieser dessen eMail, den gewünschten Benutzernamen und das gewünschte Passwort an. Durch Indexe wird die Einzigartigkeit von eMail und Benutzername geprüft, das Passwort wird aus Sicherheitsgründen in einer separaten Kollektion gespeichert. Nach der Kontoerstellung kann der Nutzer das Geburtsdatum, die gesprochenen Sprachen, das Geschlecht, die Spielposition und einen Freitext angeben und ein Bild hochladen, welches als Avatarbild dient. Felder wie der normalisierte Name, das Alter und die Rolle werden automatisch generiert. Im Laufe der Nutzung unserer Plattform wird der Nutzer andere Spieler als Freunde hinzufügen - diese werden in einer Freundesliste gespeichert. Auch steht es dem Nutzer frei, Andere zu blockieren - in diesem Fall wird die NutzerID des Blockierten auf die Blockliste hinzugefügt.
 Privatsphäre und damit die Sicherheit der eigenen Daten ist uns wichtig. Wir wollen daher die Anzahl an Daten, die ein Nutzer von sich preisgeben müssen, so gering wie möglich halten. Die Email-Adresse, das Geburtsdatum und Freundes- und Blockliste sind für andere Nutzer nicht einsehbar, bis auf den Benutzernamen muss eine Person keine Daten öffentlich angeben.
 
-\subsection{Sprache}
+\subsubsection{Sprache}
 Damit Nutzer ihre Sprache wählen können, bieten wir die Wahl zwischen 187 Sprachen nach ISO 639-1 Norm an.\cite{ISO639-1} 
 
 \begin{center}
@@ -144,10 +144,10 @@ Damit Nutzer ihre Sprache wählen können, bieten wir die Wahl zwischen 187 Spra
         \hline
     \end{tabular}
 \end{center}
-Normale Objekt-IDs von Mongodb enthalten einen Zeitstempel und einen inkrementellen Zähler.\cite{MG15} Diese Daten halten wir bei Sprachen, also öffentlichen Stammdaten, die sich über einen langen Zeitraum nicht verändern werden, nicht sinnvoll. Stattdessen haben wir den Alpha-2-Code der Sprache als ID gewählt, der auf die Sprache schließen lässt. Nutzerdokumente referenzieren die Sprache per ID, dies erlaubt es uns, direkt im Nutzerdokument anhand der Sprach-ID zu erkennen, welche Sprachen der Nutzer spricht.
+Normale Objekt-IDs von MongoDB enthalten einen Zeitstempel und einen inkrementellen Zähler.\cite{MG15} Diese Daten halten wir bei Sprachen, also öffentlichen Stammdaten, die sich über einen langen Zeitraum nicht verändern werden, nicht sinnvoll. Stattdessen haben wir den Alpha-2-Code der Sprache als ID gewählt, der auf die Sprache schließen lässt. Nutzerdokumente referenzieren die Sprache per ID, dies erlaubt es uns, direkt im Nutzerdokument anhand der Sprach-ID zu erkennen, welche Sprachen der Nutzer spricht.
 Sprachen können sowohl anhand der englischen Schreibweise als auch der nativen Schreibweise gefunden werden. Dies erleichtert Nutzern auch nicht-englischsprachigen Nutzern, ihre Sprache auswählen zu können.
 
-\subsection{Passwort}
+\subsubsection{Passwort}
 \begin{center}
     \begin{tabular}{ |c|c| }
         \hline
@@ -166,7 +166,7 @@ Das Passwort wird durch bcrypt, einem Blowfish-basiertem Hashalgorithmus, auf de
 Um die Wahrscheinlichkeit von Glückstreffern bei Angriffen zu verringern, verlangen wir außerdem, dass das Passwort mindestens aus 8 Zeichen, darunter 1 Großbuchstabe, 1 Kleinbuchstabe und 1 Ziffer erstellt wird. Für mehr Varianz in den Passwörtern sind zudem einige Sonderzeichen erlaubt.
 Durch gewählte Restriktionen besteht eine 1:1-Relation zwischen Passwörtern und Nutzerkonten.
 
-\subsection{Like}
+\subsubsection{Like}
 \begin{center}
     \begin{tabular}{ |c|c| }
         \hline
@@ -184,7 +184,7 @@ Durch gewählte Restriktionen besteht eine 1:1-Relation zwischen Passwörtern un
 Der Name "Like" für diese Datenstruktur ist irreführend, da in der Kollektion sowohl Likes als auch Dislikes (angegeben durch den Status) gespeichert werden.
 Immer wenn ein Nutzer bei der Kontaktsuche angibt, ob er mit einer Person Kontakt aufnehmen oder diesen vermeiden will, wird ein Dokument angelegt. Wenn der Nutzer in Kontakt treten will, wird zusätzlich geprüft, ob bereits ein Datensatz existiert, bei dem Sender und Empfänger vertauscht sind - ob sich also die Nutzer gegenseitig einen Like gegeben haben. Sollte das der Fall sein, werden beide Datensätze gelöscht und die Nutzer zur Freundesliste des jeweils anderen hinzugefügt. in dem Fall können die Nutzer miteinander kommunizieren.
 
-\subsection{Chat}
+\subsubsection{Chat}
 \begin{center}
     \begin{tabular}{ |c|c| }
         \hline
