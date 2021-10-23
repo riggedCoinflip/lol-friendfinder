@@ -1,0 +1,205 @@
+%\appendix
+%\chapter{Anexo I: Ejemplo de hoja técnica}
+% Contenido del anexo I
+%\chapter{Anexo II: Hoja de soluciones}
+% Contenido del anexo II
+
+\subsection{Beispiel einer Antwort auf die an den Server gesendete Anfrage }\label{subsec_UabsAnhang}
+\begin{lstlisting}
+    name: "gilo2754"
+    aboutMe: "I like video code video games too"
+    avatar: "https://lol-friendfinder-dev.s3.eu-central-1.amazonaws.com/avatars/a028fd00-e767-4dcb-912b-b4828dbe52e7.jpg"
+    dateOfBirth: "1990-06-01T00:00:00.000Z"
+    gender: "male"
+    ingameRole: (2) ["Fill", "Bot"]
+    languages: (2) ["bm", "de"]
+    friends:(5) ["60eb61b33a2481451c1cd7ac", "60eb61b33a2481451c1cd7b0", "60eb61b33a2481451c1cd7b1", "60eb61b33a2481451c1cd7b4", "60eb61b33a2481451c1cd7b7"]
+    blocked: (1) ["60eea5eed7e23b5ef08f68af"]
+\end{lstlisting}
+
+
+\subsection{Beispiel eines End-to-End Testfälles}\label{subsec_UabsAnhang}
+\begin{lstlisting}
+    //in constants.js sind Standard-Testdaten
+    import * as c from "../constants.js"
+    
+    const qtyLanguages = 101
+    const qtyGenders = 8
+    
+    describe("Check if all profile elements have been rendered", () => {
+      it("Login with existing account", () => {
+        cy.typeLogin(c.email, c.password)
+      })
+    
+      it("Username was rendered", () => {
+        cy.get('#username').should("be.visible")
+      })
+    
+      it("Gender selection was rendered", () => {
+        cy.get('#dropdown-gender').should(
+          "be.visible")
+      })
+    
+    //Der folgende Test prueft, ob eine Mindestanzahl von Elementen angezeigt wird  
+    it(`Gender options is not empty and >= to ${qtyGenders}`, () => {
+      cy.get('#dropdown-gender').click()
+      cy.get(`.dropdown-menu > :nth-child(${qtyGenders})`).should(
+          "be.visible")
+      //close the dropdown
+      cy.get('#dropdown-gender').click()
+    
+      })
+    ...
+    })
+    
+    \end{lstlisting}
+% #3
+\subsection{Beispiel eines Commands bei Cypress}\label{subsec_UabsAnhang}
+\begin{lstlisting}
+    Cypress.Commands.add("typeLogin", (email, password) => {
+        cy.visit("/login")
+    
+        cy.get("[id=email-input]").type(email).should("have.value", email)
+    
+        cy.get("[id=password-input]").type(password).should("have.value", password)
+    
+        cy.get("[id=btn-submit]").click()
+    })
+\end{lstlisting}
+Es handelt sich in diesem Fall, um eine benutzerdefinierte Funktion, die zwei Parameter, E-Mail und Passwort, erhält. 
+Beide Parameter werden in die entsprechenden Eingabefelder eingetragen, abschließend wird die Eingabetaste gedrückt.
+Diese Funktion kann in jedem anderen Testfall aufgerufen werden, ohne dass sie importiert werden muss.
+
+% #4
+\subsection{Code-Auszug zum Prüfen und Hochladen von einem Bild mit Axios}\label{subsec_UabsAnhang}
+\begin{lstlisting}
+    function disableBtn() {
+        const uploadBtn = document.getElementById("uploadBtn")
+        uploadBtn.disabled = true
+        uploadBtn.style.background = "#000000"
+      }
+    
+      function fileUploadHandler() {
+        errored ? 
+         disableBtn()
+         /*
+        Tritt ein Fehler auf, wird die Abfrage nicht gesendet und der Knopf deaktiviert 
+        Ein Fehler tritt auf, wenn die Datei zu gross ist oder oder wenn sie ein ungueltiges  Format hat
+        */
+        :
+        console.log("uploading pic...", file?.name)
+        const fd = new FormData()
+        /* avatar ist der Name der Datei, die hochgeladen wird
+          file ist der zu sendende  Wert */
+        fd.append("avatar", file)  
+    
+        axios
+          .post(urlAvatar, fd, {
+            headers: {
+              "x-auth-token": TOKEN,
+            },
+          })
+          .then((res) => {
+            setState((state) => ({ ...state, avatar: res?.data?.location }))    
+            //In location finden wir die URL fuer das gerade hochgeladende Bild 
+          })
+      }\end{lstlisting}
+
+%#5
+\subsection{Definition des Providers für das Teilen von Werten mit dem Consumer }\label{subsec_UabsAnhang}
+Dieser Code ermöglicht, die Werte innerhalb von dem Context zu verwenden.
+\begin{lstlisting}
+    import { React, useState, useEffect, createContext } from "react"
+
+    export const GlobalContext = createContext()
+    export default function App() {
+        const [token, setToken] = useState()
+        const [state, setState] = useState(null)
+        
+        ...
+   
+        return (
+            <GlobalContext.Provider value={{ token, setToken, state, setState, refetch }}>
+              <>
+                <MyNavbar />
+        
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route path="/login" component={() => <Login />} />
+                  <Route path="/signup" component={SignUp} />
+                  <Route exact path="/users" component={() => <Users />} />
+                  <Route exact path="/profile" component={() => <Profile />} />
+                  <Route exact path="/chat" component={() => <Chat />} />
+                  <Route exact path="/ChatMessage" component={() => <ChatMessage />} />
+        
+                  <Route component={NotFound} />
+                </Switch>
+              </>
+            </GlobalContext.Provider>
+          )
+        }
+//Code-Auszug in frontend/src/App.js
+ \end{lstlisting}
+
+%#5
+\subsection{GlobalContext, um die Freunde des angemeldeten Benutzers zu zeigen. }\label{subsec_UabsAnhang}
+Nachfolgend wird gezeigt, wie GlobalContext in der Komponente Chat.js verwendet wurde, um die Freunde des angemeldeten Benutzers zu ermitteln.
+
+Die Kennungen der Freunde waren notwendig, um die Kommunikation zu ermöglichen und die zwischen den Freunden ausgetauschten Nachrichten zu laden.
+\begin{lstlisting}
+    import { useContext, useEffect, useState, React } from "react"
+    import { GlobalContext } from "../App"
+    //mithilfe von Destrukturierende Zuweisung wurden neue Variablen und Funktionen definiert
+    const { token, state, setState, refetch } = useContext(GlobalContext)
+
+    ...
+
+    return !token ? (
+
+    ...
+
+        <div className="user-many">
+        {state?.friends &&
+          state?.friends?.map((item, index) => {
+            return (
+
+//Die Komponente FriendList gibt den Namen und den Avatar des Benutzers auf der Grundlage der eingegebenen ID zurueck.
+              <FriendList
+                setUserID={setUserID}
+                setUserNameChat={setUserNameChat}
+                setChatAvatar={setChatAvatar}
+                userId={item.user}
+                searchUser={searchUser}
+                setSearchUser={setSearchUser}
+                key={index + 1}
+              />
+            )
+          })}
+      </div>
+    )
+  ...
+//Code-Auszug in frontend/src/Chat.js
+\end{lstlisting}
+
+\subsection{Links zu den verwendeten Technologien und Werkzeugen}\label{subsec_UabsAnhang}
+NodeJS
+\\
+React
+\\
+Bootstrap
+\\
+GitHub
+\\
+Cypress
+\\
+VSC
+\\
+Heroku
+\\
+LaTeX
+\\
+Cypress
+
+\subsection{Aufwandsverteilung}\label{subsec_UabsAnhang}
+Hier zeigen wir, wie die Aufgaben unter den Autoren des Projekts verteilt wurden.
+TABELLE/Bild KOMMT...
