@@ -1,82 +1,82 @@
 % Wie werden die Informationen die Benutzer gezeigt und wie können sie diese manipulieren
 %\paragraph{}
 \begin{flushleft}
-Dieses Kapitel verdeutlicht die Gründe, die zu der Entscheidung geführt haben, React als Framework für die Entwicklung der Benutzeroberfläche zu wählen.
-\\
-Nachdem die Projektanforderungen definiert wurden, wurden die JavaScript Framework Angular, Vue und React, als Option für die Entwicklung der Benutzeroberfläche bewertet.
-\\
-Die Kriterien, die berücksichtigt wurden, waren:
+  Dieses Kapitel verdeutlicht die Gründe, die zu der Entscheidung geführt haben, React als Framework für die Entwicklung der Benutzeroberfläche zu wählen.
+  \\
+  Nachdem die Projektanforderungen definiert wurden, wurden die JavaScript Framework Angular, Vue und React, als Option für die Entwicklung der Benutzeroberfläche bewertet.
+  \\
+  Die Kriterien, die berücksichtigt wurden, waren:
 
-\begin{itemize}
-  \item
-  Die Lernkurve. Der Schwierigkeitsgrad, um das Framework zu lernen.
-  
-  \item 
-  Die Flexibilität des Frameworks.
-  Der Zwang, Probleme auf eine bestimmte Weise zu lösen, oder die Alternative, eigene Lösungswege zu finden.
-  
-  \item 
-  Anzahl der Nutzer in den letzten Jahren.
-  
-  \item 
-  Anzahl der ungelösten Probleme (open issues).
-  
-  \item 
-  Statistiken von heruntergeladene NPM-Paketen.
-  
-  \item 
-  Akzeptanz bei den Entwicklern auf Github und StackOverflow.
+  \begin{itemize}
+    \item
+          Die Lernkurve. Der Schwierigkeitsgrad, um das Framework zu lernen.
 
-  \item
-  Persönliche Präferenz und Vorkenntnisse des Entwicklungsteams.
-\end{itemize}
+    \item
+          Die Flexibilität des Frameworks.
+          Der Zwang, Probleme auf eine bestimmte Weise zu lösen, oder die Alternative, eigene Lösungswege zu finden.
+
+    \item
+          Anzahl der Nutzer in den letzten Jahren.
+
+    \item
+          Anzahl der ungelösten Probleme (open issues).
+
+    \item
+          Statistiken von heruntergeladene NPM-Paketen.
+
+    \item
+          Akzeptanz bei den Entwicklern auf Github und StackOverflow.
+
+    \item
+          Persönliche Präferenz und Vorkenntnisse des Entwicklungsteams.
+  \end{itemize}
 
 \end{flushleft}
 
 %HIER KÖNNTEN NOCH DIE STATISTEN, DIE DIE POPULARITÄT JEDEN FRAMEWORK PASSEN
 \begin{flushleft}
-\textbf{Developer Survey 2021 - StackOverFlow}\\
-StackOverFlow ist die größte Gemeinschaft von Softwareentwicklern, die Wissen und Fragen zur Softwareentwicklung austauschen.
+  \textbf{Developer Survey 2021 - StackOverFlow}\\
+  StackOverFlow ist die größte Gemeinschaft von Softwareentwicklern, die Wissen und Fragen zur Softwareentwicklung austauschen.
 
-Seit 2011 führt StackOverFlow eine Umfrage zur Softwareentwicklung durch.
+  Seit 2011 führt StackOverFlow eine Umfrage zur Softwareentwicklung durch.
 \end{flushleft}
 
 \begin{figure}
   \centering
-\includegraphics[scale=0.6]
-{Most popular Web Frameworks [Both] 2021.png}
-    \caption{ Which web frameworks and libraries have you done extensive development work in over the past year, and which do you want to work in over the next year? (If you both worked with the framework and want to continue to do so, please check both boxes in that row.) {\cite{SO01}}}
-    
-  \end{figure}
+  \includegraphics[scale=0.6]
+  {Most popular Web Frameworks [Both] 2021.png}
+  \caption{ Which web frameworks and libraries have you done extensive development work in over the past year, and which do you want to work in over the next year? (If you both worked with the framework and want to continue to do so, please check both boxes in that row.) {\cite{SO01}}}
 
- 
- 
-  \newpage
+\end{figure}
+
+\newpage
 \begin{flushleft}
-\textbf{Github}\\
-GitHub ist eine webbasierte Schnittstelle, die Git verwendet, die Open-Source-Software zur Versionskontrolle, mit der mehrere Personen gleichzeitig separate Änderungen an Software-Projekte vornehmen können.
+  \textbf{Github}\\
+  GitHub ist eine webbasierte Schnittstelle, die Git verwendet, die Open-Source-Software zur Versionskontrolle, mit der mehrere Personen gleichzeitig separate Änderungen an Software-Projekte vornehmen können.
 \end{flushleft}
 
 Die Anzahl der Repositories, in denen Code für Angular, React und Vue gespeichert ist, gibt einen Hinweis auf die Beliebtheit dieser Frameworks.
 \\
 \begin{table}[h!]
   \centering
-\begin{tabular}{ |p{3cm}||p{3cm}|p{3.6cm}|p{3.6cm}|  }
-  \hline
-  \multicolumn{4}{|c|}{Github Statistiken}                                                   \\
-  \hline
-  &@angular/core & Vue & React  \\
-  \hline
-  Anzahl von Repositories& 2,011,663 & 2,299,614 & 7,868,546
-  \\
-  \hline
-  Offene Issues& 1,716 & 321 & 634
-  \\
-  \hline
-  Stars& 77.2k & 190k & 170k
-  \\
-\end{tabular}
+  \begin{tabular}{ |p{3cm}||p{3cm}|p{3.6cm}|p{3.6cm}|  }
+    \hline
+    \multicolumn{4}{|c|}{Github Statistiken}                        \\
+    \hline
+                            & Angular/core & Vue       & React     \\
+    \hline
+    Anzahl von Repositories & 2,011,663     & 2,299,614 & 7,868,546
+    \\
+    \hline
+    Offene Issues           & 1,716         & 321       & 634
+    \\
+    \hline
+    Stars                   & 77.2k         & 190k      & 170k
+    \\
+    \hline
+  \end{tabular}
 \end{table}
+
 {\cite{GH01, GH02, GH03}}
 
 %https://risingstars.js.org/2020/es#section-statemanagement
@@ -85,36 +85,36 @@ Die Anzahl der Repositories, in denen Code für Angular, React und Vue gespeiche
 \textbf{NPM Paketen}\\
 NPM verwaltet die Abhängigkeiten eines Angular, React oder Vue Projekts.
 
-Die Anzahl der heruntergeladenen NPM-Pakete gibt einen Hinweis auf die Nutzung der Frameworks.
+Die Anzahl der heruntergeladenen NPM-Pakete gibt einen Hinweis auf die Nutzung des Frameworks.
 
 \begin{center}
   \includegraphics[scale=0.5]{sources/NPM-Trends React_Angular_Vue}\label{fig:NPM-Trends React_Angular_Vue}\\
   \textbf{Abbildung \autoref{fig:NPM-Trends React_Angular_Vue}:} heruntergeladenen NPM-Pakete @angular/core vs react vs vue
-  {\cite{NPM01}}
+    {\cite{NPM01}}
 \end{center}
 
 \textbf{Google Trends}\\
-Laut Google Trends war React im letzten Jahr das am häufigsten konsultierte Framework in Deutschland. 
+Laut Google Trends war React im letzten Jahr das am häufigsten konsultierte Framework in Deutschland.
 Die Daten beziehen sich auf den Zeitraum vom 1.11.2020 bis 26.10.2021.
 \begin{center}
   \includegraphics[scale=0.5]{sources/GoogleTrends Vue React Angular 1.11.2020 26.10.2021}\label{fig:GoogleTrends Vue React Angular 1.11.2020 26.10.2021}\\
   \textbf{Abbildung \autoref{fig:GoogleTrends Vue React Angular 1.11.2020 26.10.2021}:} Google Trends Angular vs React vs Vue
-  {\cite{GO01}}
+    {\cite{GO01}}
 \end{center}
 
 \subsection{Angular}
-Angular ist das TypeScript Entwicklungsplattform von Google für die Entwicklung von Webanwendungen. 
+Angular ist das TypeScript Entwicklungsplattform von Google für die Entwicklung von Webanwendungen.
 
 Die Entscheidung fiel gegen Angular aus den folgenden Gründen:
 \begin{itemize}
-\item
-    Angular ist ein komplexeres Framework als React und Vue.
-\item
-    Angular ist für Unternehmensanwendungen geeignet. 
-\item
-    Angular hat eine steile Lernkurve im Vergleich zu React und Vue.{\cite{E01}}
-\item
-    Angular lässt weniger Spielraum für eigene Entscheidungen darüber, wie der Code entwickelt wird. Deshalb eignet es sich gut für Projekte, bei denen mehrere Entwickler zusammenarbeiten. 
+  \item
+        Angular ist ein komplexeres Framework als React und Vue.
+  \item
+        Angular ist für Unternehmensanwendungen geeignet.
+  \item
+        Angular hat eine steile Lernkurve im Vergleich zu React und Vue.{\cite{E01}}
+  \item
+        Angular lässt weniger Spielraum für eigene Entscheidungen darüber, wie der Code entwickelt wird. Deshalb eignet es sich gut für Projekte, bei denen mehrere Entwickler zusammenarbeiten.
 \end{itemize}
 \subsection{Vue}
 
