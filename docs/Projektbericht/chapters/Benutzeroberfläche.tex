@@ -25,7 +25,7 @@ Die Kriterien, die berücksichtigt wurden, waren:
   Statistiken von heruntergeladene NPM-Paketen.
   
   \item 
-  Akzeptanz bei den Entwicklern auf Github und Stack Overflow.
+  Akzeptanz bei den Entwicklern auf Github und StackOverflow.
 
   \item
   Persönliche Präferenz und Vorkenntnisse des Entwicklungsteams.
@@ -34,27 +34,81 @@ Die Kriterien, die berücksichtigt wurden, waren:
 \end{flushleft}
 
 %HIER KÖNNTEN NOCH DIE STATISTEN, DIE DIE POPULARITÄT JEDEN FRAMEWORK PASSEN
+\begin{flushleft}
 \textbf{Developer Survey 2021 - StackOverFlow}\\
-StackOverFlow ist die größte und vertrauenswürdigste Gemeinschaft von Softwareentwicklern, die Wissen und Fragen zur Softwareentwicklung austauschen.
+StackOverFlow ist die größte Gemeinschaft von Softwareentwicklern, die Wissen und Fragen zur Softwareentwicklung austauschen.
 
 Seit 2011 führt StackOverFlow eine Umfrage zur Softwareentwicklung durch.
-\begin{center}
-  \includegraphics[scale=0.60]{Most popular Web Frameworks 2021}\label{fig:Developer Survey 2021}\\
-  \textbf{Abbildung \autoref{fig:Most popular Web Frameworks 2021}} 
-  Which web frameworks and libraries have you done extensive development work in over the past year, and which do you want to work in over the next year? (If you both worked with the framework and want to continue to do so, please check both boxes in that row.)
-  \end{center}
-  {\cite{SO01}}
+\end{flushleft}
 
+\begin{figure}
+  \centering
+\includegraphics[scale=0.6]
+{Most popular Web Frameworks [Both] 2021.png}
+    \caption{ Which web frameworks and libraries have you done extensive development work in over the past year, and which do you want to work in over the next year? (If you both worked with the framework and want to continue to do so, please check both boxes in that row.) {\cite{SO01}}}
+    
+  \end{figure}
+
+ 
+ 
+  \newpage
+\begin{flushleft}
 \textbf{Github}\\
-https://risingstars.js.org/2020/es#section-statemanagement
+GitHub ist eine webbasierte Schnittstelle, die Git verwendet, die Open-Source-Software zur Versionskontrolle, mit der mehrere Personen gleichzeitig separate Änderungen an Software-Projekte vornehmen können.
+\end{flushleft}
+
+Die Anzahl der Repositories, in denen Code für Angular, React und Vue gespeichert ist, gibt einen Hinweis auf die Beliebtheit dieser Frameworks.
 \\
-https://www.freecodecamp.org/news/angular-react-vue/
-\\
+\begin{table}[h!]
+  \centering
+\begin{tabular}{ |p{3cm}||p{3cm}|p{3.6cm}|p{3.6cm}|  }
+  \hline
+  \multicolumn{4}{|c|}{Github Statistiken}                                                   \\
+  \hline
+  &@angular/core & Vue & React  \\
+  \hline
+  Anzahl von Repositories& 2,011,663 & 2,299,614 & 7,868,546
+  \\
+  \hline
+  Offene Issues& 1,716 & 321 & 634
+  \\
+  \hline
+  Stars& 77.2k & 190k & 170k
+  \\
+\end{tabular}
+\end{table}
+{\cite{GH01, GH02, GH03}}
+
+%https://risingstars.js.org/2020/es#section-statemanagement
+%https://www.freecodecamp.org/news/angular-react-vue/
+
+\textbf{NPM Paketen}\\
+NPM verwaltet die Abhängigkeiten eines Angular, React oder Vue Projekts.
+
+Die Anzahl der heruntergeladenen NPM-Pakete gibt einen Hinweis auf die Nutzung der Frameworks.
+
+\begin{center}
+  \includegraphics[scale=0.5]{sources/NPM-Trends React_Angular_Vue}\label{fig:NPM-Trends React_Angular_Vue}\\
+  \textbf{Abbildung \autoref{fig:NPM-Trends React_Angular_Vue}:} heruntergeladenen NPM-Pakete @angular/core vs react vs vue
+  {\cite{NPM01}}
+\end{center}
+
+\textbf{Google Trends}\\
+Laut Google Trends war React im letzten Jahr das am häufigsten konsultierte Framework in Deutschland. 
+Die Daten beziehen sich auf den Zeitraum vom 1.11.2020 bis 26.10.2021.
+\begin{center}
+  \includegraphics[scale=0.5]{sources/GoogleTrends Vue React Angular 1.11.2020 26.10.2021}\label{fig:GoogleTrends Vue React Angular 1.11.2020 26.10.2021}\\
+  \textbf{Abbildung \autoref{fig:GoogleTrends Vue React Angular 1.11.2020 26.10.2021}:} Google Trends Angular vs React vs Vue
+  {\cite{GO01}}
+\end{center}
+
 \subsection{Angular}
+Angular ist das TypeScript Entwicklungsplattform von Google für die Entwicklung von Webanwendungen. 
+
 Die Entscheidung fiel gegen Angular aus den folgenden Gründen:
 \begin{itemize}
 \item
-    Angular ist ein komplexeres Framework ist als React und Vue ist.
+    Angular ist ein komplexeres Framework als React und Vue.
 \item
     Angular ist für Unternehmensanwendungen geeignet. 
 \item
@@ -62,9 +116,12 @@ Die Entscheidung fiel gegen Angular aus den folgenden Gründen:
 \item
     Angular lässt weniger Spielraum für eigene Entscheidungen darüber, wie der Code entwickelt wird. Deshalb eignet es sich gut für Projekte, bei denen mehrere Entwickler zusammenarbeiten. 
 \end{itemize}
+\subsection{Vue}
+
 %PASSENTHES KAPITELTHEMA´?
-\subsection{Entscheidungsfindung für ein Frontend Framework}
-Die Entscheidung zwischen Vue und React wurde --TO BE COMPLETED-- wegen ---auch für persönliche Vorlieben.
+
+\subsection{Entscheidungsfindung für das Frontend Framework}
+Die Entscheidung zwischen Vue und React wurde --TO BE COMPLETED-- wegen ---auch für persönliche Vorlieben und...
 \newline
 \subsubsection{Vorteile}
 \textbf{Deklarativ} \\
@@ -79,7 +136,6 @@ React ist auf gekapselte Komponenten basiert, die ihren eigenen Zustand verwalte
 
 \textbf{Große Entwickler-Community}\\
 React besteht aus rund 56.162 professionellen Entwicklern auf der ganzen Welt.
-
 Laut einer StackOverFlow Umfrage hat React.js im Jahr 2021 jQuery als das am häufigsten verwendete Web-Framework überholt. {\cite{SO01}}
 \newpage
 
@@ -98,8 +154,7 @@ Es ist wichtig festzustellen, dass neue Entwicklungen des Frameworks verbessern 
 \newline
 
 \textbf{Eine zu leichte Dokumentation}\\
-Aufgrund der rasanten Entwicklung ist die Dokumentation in Bezug auf die neuesten Aktualisierungen und Änderungen oft spärlich.
-\footnote{ Vgl. \cite{R01}}
+Aufgrund der rasanten Entwicklung ist die Dokumentation in Bezug auf die neuesten Aktualisierungen und Änderungen oft spärlich.{\cite{R01}}
 
 \subsection{React Hooks}
 \paragraph{}
@@ -171,9 +226,9 @@ Unserer Erfahrung nach ist useContext eine elegantere und sauberere Lösung für
   \begin{lstlisting}
     <MyContext.Provider value={/* irgendein Wert */}>
     \end{lstlisting}
+  {\cite{R02}}
 
   %QUE QUIERO DECIR AQUI? Jedes Context-Objekt braucht einen Provider, welcher konsumierenden Komponenten erlaubt, die Veränderungen von Context zu abonnieren.
-  \footnote{Vgl. u.a. \cite{R02}}
 \end{quote}
 Wie der Provider im Projekt definiert wurde ist im Anhang 5 zu finden.
 

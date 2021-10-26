@@ -1,87 +1,110 @@
-    % INFO: Biblatex -Ausgabe des  
-  % Literaturverzeichnisses (Beispiele):   
-  % - \printbibliography => Ausgabe ALLER 
-  %   Einträge
-  % - \printbibliography[nottype=online]
-  %   => Ausgabe der Einträge, bis auf die
-  %      "Online"-Einträge
-  % - \printbibliography[type=online]     
-  %   => Ausgabe nur der "Online"-Einträge  
-   %\printbibliography
-
-  
-  % Literaturverzeichnis
-   % INFO: Referenzieren auf das Literaturverzeichnis:
-   %
-   % Befehl: \cite{refmarke}
-   % 
-   % "refmarke" ist die Angabe in den geschweiften Klammern bei 
-   % \bibitem[]{refmarke}. 
-   \newpage
-    \thispagestyle{empty}
-   \section{Quellenverzeichnis}
-     \subsection{Literatur}
-     \renewcommand{\refname}{} % Literaturverzeichnis ohne Bezeichnung
-     % Literaturverzeichnis
-     \begin{thebibliography}{SW11} % 2. {...} => Hier die größte /breiteste Nummer (z.B. 99) oder Kurzbeleg angeben.
-       \bibitem{SW11} Stickel-Wolf, Christine; Wolf, Joachim (2011): Wissenschaftliches Lernen und Lerntechniken. Erfolgreich studieren–-gewusst wie!. Wiesbaden: Gabler. 
-        % TODO cite correctly
-      \end{thebibliography}
-          
-     \subsection{Internetquellen}
-     \begin{thebibliography}{HR08} % 2. {...} => Hier die größte/breiteste Nummer (z.B. 99) oder Kurzbeleg angeben.
-       \bibitem{BBoJ}Bertelsmeier, Birgit (o. J.): Tipps zum Schrei\-b\-en ei\-n\-er Ab\-sch\-luss\-ar\-beit. Fach\-hoch\-schu\-le Köln-Campus Gummersbach, Institut für Informatik. \url{http://lwibs01.gm.fh-koeln.de/blogs/bertelsmeier/files/2008/05/abschlussarbeitsbetreuung.pdf} (29.10.2013).
-        \bibitem{HR08} Halfmann, Marion; Rühmann, Hans (2008): Merkblatt zur Anfertigung von Projekt-, Bachelor-, Master- und Diplomarbeiten der Fakultät 10. Fachhochschule Köln-Campus Gummersbach.\url{http://www.f10.fh-koeln.de/imperia/md/content/pdfs/studium/tipps/anleitungda270108.pdf} (29.10.2013).
-        \bibitem{V01} Offizielle Vue-Website: Vergleich zwischen Vue, React und Angular. \url{https://vuejs.org/v2/guide/comparison.html#Preact-and-Other-React-Like-Libraries} (unbekannte Veröffentlichung).
-        \bibitem{R01}Offizielle React-Website: React Hooks. \url{https://reactjs.org/docs/hooks-faq.html#which-versions-of-react-include-hooks}
-        \bibitem{A01}Offizielle Website Apollo für React. \url{https://www.apollographql.com/docs/react/}
-        \bibitem{SO01}StackOverFlow: Developer Survey 2021. \url{https://insights.stackoverflow.com/survey/2021#section-most-popular-technologies-web-frameworks}
-        \bibitem{EE1}Elad Elrom: React and Libraries. \url{https://link.springer.com/content/pdf/10.1007%2F978-1-4842-6696-0.pdf}, S. 25
-        \bibitem{SS1}Stoyan Stefanov: Durchstarten mit React. \url{https://content-select.com/media/moz_viewer/5d5fc360-478c-4038-ac17-246bb0dd2d03/language:de}
-        \bibitem{E01}Entscheidungshilfe für die Webentwicklung anhand des Vergleichs von drei führenden JavaScript Frameworks: Angular, React and Vue.js \url{https://reposit.haw-hamburg.de/bitstream/20.500.12738/8417/1/BA_Wohlgethan_2176410.pdf}
-        \bibitem{RH1}Red Hat: Was ist GraphQL? \url{https://www.redhat.com/de/topics/api/what-is-graphql}
-        \bibitem{PM1}Postman: 2020 State of the API Report \url{https://www.postman.com/state-of-api/the-future-of-apis/#the-future-of-apis}
-        \bibitem{AX1}Axios Dokumentation \url{https://axios-http.com/docs/intro}
+% INFO: Biblatex -Ausgabe des  
+% Literaturverzeichnisses (Beispiele):   
+% - \printbibliography => Ausgabe ALLER 
+%   Einträge
+% - \printbibliography[nottype=online]
+%   => Ausgabe der Einträge, bis auf die
+%      "Online"-Einträge
+% - \printbibliography[type=online]     
+%   => Ausgabe nur der "Online"-Einträge  
+%\printbibliography
 
 
-        \bibitem{PG1} Michael Stonebraker | Biography, MIT, Facts, \& Turing Award | Britannica \url{https://www.britannica.com/biography/Michael-Stonebraker#ref1245757}
-        \bibitem{PG2} PostgreSQL: The world's most advanced open source database \url{https://www.postgresql.org/}
-        \bibitem{PG3} PostgreSQL: License \url{https://www.postgresql.org/about/licence/}
-        \bibitem{PG4} Microsoft SQL Server vs. MySQL vs. Oracle vs. PostgreSQL Comparison \url{https://db-engines.com/en/system/PostgreSQL%3BMicrosoft+SQL+Server%3BMySQL%3BOracle}
-        \bibitem{PG5} \url{https://www.postgresql.org/docs/9.5/datatype.html}
-        \bibitem{PG6} [Literatur] Seite 51 Zeile 5-6 \url{https://www.researchgate.net/profile/Ciprian-Octavian-Truica/publication/264416935_Asynchronous_Replication_in_Microsoft_SQL_Server_PostgreSQL_and_MySQL/links/53dbe6160cf216e4210c0375/Asynchronous-Replication-in-Microsoft-SQL-Server-PostgreSQL-and-MySQL.pdf}
-        \bibitem{PG7} \url{https://cloud.google.com/community/tutorials/setting-up-postgres-hot-standby}
-        \bibitem{PG8} Multimaster - PostgreSQL wiki \url{https://wiki.postgresql.org/wiki/Multimaster}
+% Literaturverzeichnis
+% INFO: Referenzieren auf das Literaturverzeichnis:
+%
+% Befehl: \cite{refmarke}
+% 
+% "refmarke" ist die Angabe in den geschweiften Klammern bei 
+% \bibitem[]{refmarke}. 
+\newpage
+\thispagestyle{empty}
+\section{Quellenverzeichnis}
+\subsection{Literatur}
+\renewcommand{\refname}{} % Literaturverzeichnis ohne Bezeichnung
+% Literaturverzeichnis
+\begin{thebibliography}{SW11} % 2. {...} => Hier die größte /breiteste Nummer (z.B. 99) oder Kurzbeleg angeben.
+  \bibitem{SW11} Stickel-Wolf, Christine; Wolf, Joachim (2011): Wissenschaftliches Lernen und Lerntechniken. Erfolgreich studieren–-gewusst wie!. Wiesbaden: Gabler.
+  % TODO cite correctly
+\end{thebibliography}
 
-        \bibitem{MG1} MongoDB daddy: My baby beats Google BigTable | The Register \url{https://www.theregister.com/2011/05/25/the_once_and_future_mongodb/}
-        \bibitem{MG2} Die beliebteste Datenbank für moderne Apps | MongoDB \url{https://www.mongodb.com/de-de}
-        \bibitem{MG3} BSON Types — MongoDB Manual \url{https://docs.mongodb.com/manual/reference/bson-types/}
-        \bibitem{MG4} Sharding \url{https://docs.mongodb.com/manual/sharding/}
-        \bibitem{MG5} Replizierung \url{https://docs.mongodb.com/manual/replication/}
-        \bibitem{MG6} [Literatur] Multidocument ACID Transactions Seite 24 / Figure 6 \url{https://webassets.mongodb.com/finalmongodb_multidocument_acid_trnasactions.pdf}
-        \bibitem{MG7} Häufige Fragen | MongoDB: Wie sorgt MongoDB für Konsistenz \url{https://docs.mongodb.com/manual/core/read-isolation-consistency-recency/}
-        \bibitem{MG8} MongoDB Software Lifecycle Schedules \url{https://www.mongodb.com/support-policy/lifecycles}
-        \bibitem{MG9} How to Scale MongoDB: What is vertical scaling in MongoDB? \url{https://www.mongodb.com/basics/scaling}
-        \bibitem{MG10} Replication — MongoDB Manual \url{https://docs.mongodb.com/manual/replication/}
-        \bibitem{MG11} Replica Set Elections — MongoDB Manual \url{https://docs.mongodb.com/manual/core/replica-set-elections/}
-        \bibitem{MG12} Hidden Replica Set Members — MongoDB Manual \url{https://docs.mongodb.com/manual/core/replica-set-hidden-member/#std-label-replica-set-hidden-members}
-        \bibitem{MG13} Delayed Replica Set Members — MongoDB Manual \url{https://docs.mongodb.com/manual/core/replica-set-delayed-member}
-        \bibitem{MG14} Active-Active Application Architectures with MongoDB \url{https://www.mongodb.com/developer/article/active-active-application-architectures/}
+\subsection{Internetquellen}
+\begin{thebibliography}{HR08} % 2. {...} => Hier die größte/breiteste Nummer (z.B. 99) oder Kurzbeleg angeben.
+  \bibitem{BBoJ}Bertelsmeier, Birgit (o. J.): Tipps zum Schrei\-b\-en ei\-n\-er Ab\-sch\-luss\-ar\-beit. Fach\-hoch\-schu\-le Köln-Campus Gummersbach, Institut für Informatik. \url{http://lwibs01.gm.fh-koeln.de/blogs/bertelsmeier/files/2008/05/abschlussarbeitsbetreuung.pdf} (29.10.2013).
+  \bibitem{HR08} Halfmann, Marion; Rühmann, Hans (2008): Merkblatt zur Anfertigung von Projekt-, Bachelor-, Master- und Diplomarbeiten der Fakultät 10. Fachhochschule Köln-Campus Gummersbach.\url{http://www.f10.fh-koeln.de/imperia/md/content/pdfs/studium/tipps/anleitungda270108.pdf} (29.10.2013).
 
-        \bibitem{DB1} \url{https://db-engines.com/de/ranking_definition}
-        \bibitem{DB2} \url{https://db-engines.com/de/ranking}
-        \bibitem{DB3} MongoDB vs PostgreSQL \url{https://www.mongodb.com/compare/mongodb-postgresql}
-        \bibitem{DB4} MongoDB vs. PostgreSQL Vergleich \url{https://db-engines.com/de/system/MongoDB%3BPostgreSQ}
-        
-        \bibitem{JSON1} Einführung in JSON \url{https://www.json.org/json-de.html}
+  \bibitem{GH01}Github Open Issues and Stars · angular/angular
+  \url{ https://github.com/angular/angular/issues }
+  (Abgerufen am 24.10.2021)
 
-        \bibitem{12FA1}The Twelve-Factor-App: X.Dev-Prod-Vergleichbarkeit \url{https://12factor.net/de/}
+  \bibitem{GH02}Github Open Issues and Stars · vuejs/vue
+  \url{ https://github.com/vuejs/vue/issues }
+  (Abgerufen am 24.10.2021)
 
-        %\bibitem{PG12} PostgreSQL: Warum sollte man PostgreSQL verwenden? \url{https://www.postgresql.org/about/}
-        
-        
+  \bibitem{GH03}Github Open Issues and Stars · React
+  \url{https://github.com/facebook/react/issues }
+  (Abgerufen am 26.10.2021)
+
+  \bibitem{GH04}Github Repositories · facebook/react
+  \url{ https://github.com/facebook/react/network/dependents }
+  (Abgerufen am 24.10.2021)
 
 
 
 
-     \end{thebibliography}
+
+  \bibitem{V01} Offizielle Vue-Website: Vergleich zwischen Vue, React und Angular. \url{https://vuejs.org/v2/guide/comparison.html#Preact-and-Other-React-Like-Libraries} (unbekannte Veröffentlichung).
+  \bibitem{R01}Offizielle React-Website: React Hooks. \url{https://reactjs.org/docs/hooks-faq.html#which-versions-of-react-include-hooks}
+  \bibitem{A01}Offizielle Website Apollo für React. \url{https://www.apollographql.com/docs/react/}
+  \bibitem{SO01}StackOverFlow: Developer Survey 2021. \url{https://insights.stackoverflow.com/survey/2021#section-most-popular-technologies-web-frameworks}
+  \bibitem{EE1}Elad Elrom: React and Libraries. \url{https://link.springer.com/content/pdf/10.1007%2F978-1-4842-6696-0.pdf}, S. 25
+  \bibitem{SS1}Stoyan Stefanov: Durchstarten mit React. \url{https://content-select.com/media/moz_viewer/5d5fc360-478c-4038-ac17-246bb0dd2d03/language:de}
+  \bibitem{E01}Entscheidungshilfe für die Webentwicklung anhand des Vergleichs von drei führenden JavaScript Frameworks: Angular, React and Vue.js \url{https://reposit.haw-hamburg.de/bitstream/20.500.12738/8417/1/BA_Wohlgethan_2176410.pdf}
+  \bibitem{RH1}Red Hat: Was ist GraphQL? \url{https://www.redhat.com/de/topics/api/what-is-graphql}
+  \bibitem{PM1}Postman: 2020 State of the API Report \url{https://www.postman.com/state-of-api/the-future-of-apis/#the-future-of-apis}
+  \bibitem{AX1}Axios Dokumentation \url{https://axios-http.com/docs/intro}
+  \bibitem{GO01}Google Trends Vue-React-Angular 1.11.2020-26.10.2021 \url{https://trends.google.com/trends/explore?cat=733&geo=DE&q=React,Vue,Angular}
+
+
+  \bibitem{PG1} Michael Stonebraker | Biography, MIT, Facts, \& Turing Award | Britannica \url{https://www.britannica.com/biography/Michael-Stonebraker#ref1245757}
+  \bibitem{PG2} PostgreSQL: The world's most advanced open source database \url{https://www.postgresql.org/}
+  \bibitem{PG3} PostgreSQL: License \url{https://www.postgresql.org/about/licence/}
+  \bibitem{PG4} Microsoft SQL Server vs. MySQL vs. Oracle vs. PostgreSQL Comparison \url{https://db-engines.com/en/system/PostgreSQL%3BMicrosoft+SQL+Server%3BMySQL%3BOracle}
+  \bibitem{PG5} \url{https://www.postgresql.org/docs/9.5/datatype.html}
+  \bibitem{PG6} [Literatur] Seite 51 Zeile 5-6 \url{https://www.researchgate.net/profile/Ciprian-Octavian-Truica/publication/264416935_Asynchronous_Replication_in_Microsoft_SQL_Server_PostgreSQL_and_MySQL/links/53dbe6160cf216e4210c0375/Asynchronous-Replication-in-Microsoft-SQL-Server-PostgreSQL-and-MySQL.pdf}
+  \bibitem{PG7} \url{https://cloud.google.com/community/tutorials/setting-up-postgres-hot-standby}
+  \bibitem{PG8} Multimaster - PostgreSQL wiki \url{https://wiki.postgresql.org/wiki/Multimaster}
+
+  \bibitem{MG1} MongoDB daddy: My baby beats Google BigTable | The Register \url{https://www.theregister.com/2011/05/25/the_once_and_future_mongodb/}
+  \bibitem{MG2} Die beliebteste Datenbank für moderne Apps | MongoDB \url{https://www.mongodb.com/de-de}
+  \bibitem{MG3} BSON Types — MongoDB Manual \url{https://docs.mongodb.com/manual/reference/bson-types/}
+  \bibitem{MG4} Sharding \url{https://docs.mongodb.com/manual/sharding/}
+  \bibitem{MG5} Replizierung \url{https://docs.mongodb.com/manual/replication/}
+  \bibitem{MG6} [Literatur] Multidocument ACID Transactions Seite 24 / Figure 6 \url{https://webassets.mongodb.com/finalmongodb_multidocument_acid_trnasactions.pdf}
+  \bibitem{MG7} Häufige Fragen | MongoDB: Wie sorgt MongoDB für Konsistenz \url{https://docs.mongodb.com/manual/core/read-isolation-consistency-recency/}
+  \bibitem{MG8} MongoDB Software Lifecycle Schedules \url{https://www.mongodb.com/support-policy/lifecycles}
+  \bibitem{MG9} How to Scale MongoDB: What is vertical scaling in MongoDB? \url{https://www.mongodb.com/basics/scaling}
+  \bibitem{MG10} Replication — MongoDB Manual \url{https://docs.mongodb.com/manual/replication/}
+  \bibitem{MG11} Replica Set Elections — MongoDB Manual \url{https://docs.mongodb.com/manual/core/replica-set-elections/}
+  \bibitem{MG12} Hidden Replica Set Members — MongoDB Manual \url{https://docs.mongodb.com/manual/core/replica-set-hidden-member/#std-label-replica-set-hidden-members}
+  \bibitem{MG13} Delayed Replica Set Members — MongoDB Manual \url{https://docs.mongodb.com/manual/core/replica-set-delayed-member}
+  \bibitem{MG14} Active-Active Application Architectures with MongoDB \url{https://www.mongodb.com/developer/article/active-active-application-architectures/}
+  \bibitem{NPM01} NPM Downloads @angular/core vs react vs vue  \url{https://www.npmtrends.com/react-vs-vue-vs-@angular/core}
+
+  \bibitem{DB1} \url{https://db-engines.com/de/ranking_definition}
+  \bibitem{DB2} \url{https://db-engines.com/de/ranking}
+  \bibitem{DB3} MongoDB vs PostgreSQL \url{https://www.mongodb.com/compare/mongodb-postgresql}
+  \bibitem{DB4} MongoDB vs. PostgreSQL Vergleich \url{https://db-engines.com/de/system/MongoDB%3BPostgreSQ}
+
+  \bibitem{JSON1} Einführung in JSON \url{https://www.json.org/json-de.html}
+
+  \bibitem{12FA1}The Twelve-Factor-App: X.Dev-Prod-Vergleichbarkeit \url{https://12factor.net/de/}
+
+  %\bibitem{PG12} PostgreSQL: Warum sollte man PostgreSQL verwenden? \url{https://www.postgresql.org/about/}
+
+
+
+
+
+
+\end{thebibliography}
