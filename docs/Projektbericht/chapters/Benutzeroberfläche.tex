@@ -2,14 +2,14 @@
 %\paragraph{}
 \begin{flushleft}
   Dieses Kapitel verdeutlicht die Gründe, die zu der Entscheidung geführt haben, React als Framework für die Entwicklung der Benutzeroberfläche zu wählen.
+  Es ist anzumerken, dass die Entwicklung des Projekts mit jedem der drei Frameworks möglich ist.
   \\
   Nachdem die Projektanforderungen definiert wurden, wurden die JavaScript Framework Angular, Vue und React, als Option für die Entwicklung der Benutzeroberfläche bewertet.
   \\
   Die Kriterien, die berücksichtigt wurden, waren:
-
   \begin{itemize}
     \item
-          Die Lernkurve. Der Schwierigkeitsgrad, um das Framework zu lernen.
+          Der Schwierigkeitsgrad, um das Framework zu lernen. Auch Lernkurve genannt.
 
     \item
           Die Flexibilität des Frameworks.
@@ -19,7 +19,7 @@
           Anzahl der Nutzer in den letzten Jahren.
 
     \item
-          Anzahl der ungelösten Probleme (open issues).
+          Anzahl der ungelösten Probleme. Auf Englisch open issues.
 
     \item
           Statistiken von heruntergeladene NPM-Paketen.
@@ -33,12 +33,13 @@
 
 \end{flushleft}
 
+\newpage
 \subsection{Popularität und Statistiken}
 \begin{flushleft}
   \textbf{Developer Survey 2021 - StackOverFlow}\\
-  StackOverFlow ist die größte Gemeinschaft von Softwareentwicklern, die Wissen und Fragen zur Softwareentwicklung austauschen.
+  StackOverFlow ist die größte Gemeinschaft von Softwareentwicklern, wo Wissen und Fragen zur Softwareentwicklung ausgetauscht wird.
 
-  Seit 2011 führt StackOverFlow eine Umfrage zur Softwareentwicklung durch.
+  Seit 2011 führt StackOverFlow eine jährliche Umfrage zur Softwareentwicklung durch.
 \end{flushleft}
 
 \begin{figure}
@@ -52,10 +53,10 @@
 \newpage
 \begin{flushleft}
   \textbf{Github}\\
-  GitHub ist eine webbasierte Schnittstelle, die Git verwendet, die Open-Source-Software zur Versionskontrolle, mit der mehrere Personen gleichzeitig separate Änderungen an Software-Projekte vornehmen können.
+  GitHub ist eine Plattform für die Versionskontrolle von Source-Code. 
 \end{flushleft}
 
-Die Anzahl der Repositories, in denen Code für Angular, React und Vue gespeichert ist, gibt einen Hinweis auf die Beliebtheit dieser Frameworks.
+Die Anzahl der Repositories, in denen Code für Angular, React und Vue gespeichert wird, gibt einen Hinweis auf die Beliebtheit dieses Frameworks.
 \\
 \begin{table}[h!]
   \centering
@@ -65,13 +66,13 @@ Die Anzahl der Repositories, in denen Code für Angular, React und Vue gespeiche
     \hline
                             & Angular/core & Vue       & React     \\
     \hline
-    Anzahl von Repositories & 2,011,663     & 2,299,614 & 7,868,546
+    Anzahl von     Repositories & 2,011,663     & 2,299,614 & 7,868,546
     \\
     \hline
     Offene Issues           & 1,716         & 321       & 634
     \\
     \hline
-    Stars                   & 77.2k         & 190k      & 170k
+    Stars   \footnote{Stars werden auf Github verwendet, um die Popularität eines Repositorys anzuzeigen.}                 & 77.2k         & 190k      & 170k
     \\
     \hline
   \end{tabular}
@@ -89,13 +90,13 @@ Die Anzahl der heruntergeladenen NPM-Pakete gibt einen Hinweis auf die Nutzung d
 
 \begin{center}
   \includegraphics[scale=0.4]{sources/NPM-Trends React_Angular_Vue}\label{fig:NPM-Trends React_Angular_Vue}\\
-  \textbf{Abbildung \autoref{fig:NPM-Trends React_Angular_Vue}:} heruntergeladenen NPM-Pakete @angular/core vs react vs vue
+  \textbf{Abbildung \autoref{fig:NPM-Trends React_Angular_Vue}:} heruntergeladenen NPM-Pakete \\@angular/core vs react vs vue
     {\cite{NPM01}}
 \end{center}
 
 \textbf{Google Trends}\\
 Laut Google Trends war React im letzten Jahr das am häufigsten konsultierte Framework in Deutschland.
-Die Daten beziehen sich auf den Zeitraum vom 1.11.2020 bis 26.10.2021.
+Die Daten beziehen sich auf den Zeitraum vom 01.11.2020 bis 26.10.2021.
 \begin{center}
   \includegraphics[scale=0.5]{sources/GoogleTrends Vue React Angular 1.11.2020 26.10.2021}\label{fig:GoogleTrends Vue React Angular 1.11.2020 26.10.2021}\\
   \textbf{Abbildung \autoref{fig:GoogleTrends Vue React Angular 1.11.2020 26.10.2021}:} Google Trends Angular vs React vs Vue
@@ -103,9 +104,10 @@ Die Daten beziehen sich auf den Zeitraum vom 1.11.2020 bis 26.10.2021.
 \end{center}
 
 \textbf{Jobangebote}\\
-In der Entscheidungsfindung sind ebenfalls die künftige Perspektiven des Entwicklungsteams relevant.
+In der Entscheidungsfindung sind ebenfalls die künftige Perspektiven des \\Entwicklungsteams relevant.
 \\
 Anzahl der Jobangebote bei LinkedIn in Deutschland:
+\\
 Angular: 7.657 Ergebnisse{\cite{LI3}}
 \\
 React: 11.523 Ergebnisse{\cite{LI2}}
@@ -115,7 +117,8 @@ Vue: 2.800 Ergebnisse{\cite{LI1}}
 
 
 \subsection{Angular}
-Angular ist das TypeScript Entwicklungsplattform von Google für die Entwicklung von Webanwendungen.
+Angular ist das TypeScript Entwicklungsplattform von Google für die Entwicklung von
+ Mobil- und Webanwendungen.
 
 Die Entscheidung fiel gegen Angular aus den folgenden Gründen:
 \begin{itemize}
@@ -130,7 +133,7 @@ Die Entscheidung fiel gegen Angular aus den folgenden Gründen:
 \end{itemize}
 
 \subsection{Vue}
-Von den drei Frameworks ist Vue das einzige, das nicht von einem Unternehmen entwickelt wurde. Der Entwickler Evan You hat bei Google gearbeitet und sich mit AngularJS beschäftigt.
+Von den drei Frameworks ist Vue das einzige, das nicht von einem Unternehmen entwickelt wurde. Der Entwickler Evan You hat bei Google gearbeitet und sich mit AngularJS beschäftigt. Das Framework wird von einer Entwicklergemeinschaft gepflegt. Es wird jedoch von Unternehmen wie Alibaba, Nindendo, Expedia und anderen genutzt.
 ...
 %\\
 
@@ -144,11 +147,15 @@ Von den drei Frameworks ist Vue das einzige, das nicht von einem Unternehmen ent
 %PASSENTHES KAPITELTHEMA´?
 
 \subsection{Entscheidungsfindung für das Frontend Framework}
-Die Entscheidung zwischen Vue und React wurde --TO BE COMPLETED-- wegen ---auch für persönliche Vorlieben und...
-\newline
+Bei der endgültigen Entscheidung wurden Vue und React aufgrund ihrer geringen Lernkurve, ihrer guten State Management, ihre große Popularität und ihrer Einfachheit berücksichtigt.
+
+Die Entscheidung fiel für React aufgrund der Vorkenntnisse des Entwicklerteams, der Anzahl an Jobangeboten und der Unterstützung durch ein Unternehmen wie Facebook.
+
+%Die Entwicklung mit Angular hätte mehr Zeit und Lernaufwand gekostet. Außerdem ist das Projekt nicht komplex genug, um das Angular-Ökosystem zu benötigen.
+
 \subsubsection{Vorteile}
 \textbf{Deklarativ} \\
-Mit React ist es möglich, interaktive Benutzeroberflächen, Ansichten für jeden Zustand der Anwendung zu erstellen. React aktualisiert und rendert effizient genau die richtigen Komponenten, wenn sich deren Daten ändern.
+Mit React ist es möglich, interaktive Benutzeroberflächen, Ansichten für jeden Zustand der Anwendung zu erstellen. %React aktualisiert und rendert effizient genau die richtigen Komponenten, wenn sich deren Daten ändern.
 Durch deklarative Ansichten wird der Code vorhersehbarer und einfacher zu debuggen.
 \newline
 
@@ -163,11 +170,10 @@ Laut einer StackOverFlow Umfrage hat React.js im Jahr 2021 jQuery als das am hä
 \newpage
 
 \subsubsection{Nachteile}
-Bei der Auswahl des Frameworks wollten wir so unvoreingenommen wie möglich sein, daher listen wir einige Aspekte auf, die bei Projekten mit React zu beachten sind.
-\newline
+%Bei der Auswahl des Frameworks wollten wir so unvoreingenommen wie möglich sein, daher listen wir einige Aspekte auf, die bei Projekten mit React zu beachten sind.
 
 \textbf{JSX}\\
-Während dies für einige Entwickler ein Nachteil sein könnte, ist es wichtig zu beachten, dass JSX auch seine Vorteile hat und hilft, den Code vor Injektionen zu schützen.
+Während dies für einige Entwickler ein Nachteil sein könnte, ist es wichtig zu beachten, dass JSX auch seine Vorteile hat und hilft, den Code vor Injektionen zu schützen.{\cite{R02}}
 \newline
 
 \textbf{Ein hohes Entwicklungstempo}\\
@@ -180,54 +186,71 @@ Es ist wichtig festzustellen, dass neue Entwicklungen des Frameworks verbessern 
 Aufgrund der rasanten Entwicklung ist die Dokumentation in Bezug auf die neuesten Aktualisierungen und Änderungen oft spärlich.{\cite{R01}}
 
 \subsection{React Hooks}
-\paragraph{}
-Beginnend mit 16.8.0, enthält React eine stabile Implementierung von React Hooks. Ab dieser Version wird empfohlen, keine Klassen mehr für die Erstellung von Komponenten zu verwenden.
+
+Beginnend mit 16.8.0, enthält React eine stabile Implementierung von React Hooks.
+
+Ab dieser Version wird empfohlen, keine Klassen mehr für die Erstellung von Komponenten zu verwenden.
 
 \subsubsection{useState}
-Der Hook useState gibt uns die Möglichkeit, den Zustand unserer Anwendung zu verwalten. Sie besteht aus mindestens einen Wert und einer Funktion, die die besagte Variable aktualisiert.
-Der Wert bei der Definition kann ein Zahl, ein String, ein Array oder sogar ein Objekt sein.
-Darüber hinaus kann bei der Definition von useState ein Anfangswert festgelegt werden.
-
+Der Hook useState bietet die Möglichkeit an, den Zustand einer Anwendung zu verwalten. Sie besteht aus mindestens einen Wert (value) und einer Funktion (updateValue), die den Wert aktualisiert.
+Der Wert kann ein Zahl, ein String, ein Array oder sogar ein Objekt sein.
+Optional kann ein Anfangswert (initialValue) definiert werden.
 \begin{lstlisting}
-const [wert, definiereWert] = useState(Anfangswert);
+Allgemeine Struktur von useState:
+
+  const [value, updateValue] = useState(initialValue);  
 \end{lstlisting}
 
-In unserem Projekt haben wir useState verwendet, um alle damit verbundenen Informationen zu manipulieren und dem Benutzer anzuzeigen.
+In unserem Projekt wurde useState verwendet, um alle Benutzerdaten zu manipulieren und dem Benutzer anzuzeigen.
 %\begin{lstlisting}
 %    const [profile, setProfile] = useState(state)    
 %   \end{lstlisting}
 
-Die Variable state enthält die Daten des angemeldeten Benutzers.
-Diese Daten sind die Antwort auf die an den Server gesendete Anfrage.
-Ein Beispiel für diese Daten befindet sich im Anhang 1.
+Diese Benutzerdaten sind die Antwort auf die an den Server gesendete Abfrage.
+Ein Beispiel von einer Server-Antwort befindet sich im Anhang 1.
+Eine genauere Funktionsweise der Serverabfragen folgt in Kapitel Serverabfragen.
 \\
-In späteren Kapiteln wird näher erläutert, wie diese Informationen, die wir durch einen einzigen Aufruf an den Server erhalten, in den Chat- und Benutzerkomponenten genutzt werden.
+%In späteren Kapiteln wird näher erläutert, wie diese Informationen, die durch einen einzigen Abfrage an den Server erhalten werden, in den Chat- und Benutzerkomponenten genutzt werden.
 
-Wie man sieht, gibt es innerhalb des states nicht nur einen Wert, sondern mehrere.
-Es handelt sich eigentlich um ein Objekt. Objekte sind dasselbe wie Variablen in JavaScript, der einzige Unterschied ist, dass ein Objekt mehrere Werte in Form von Eigenschaften und Methoden enthält.
-Objekte können andere Objekte, Strings, Arrays, Zahlen und so weiter enthalten.
+%Wie man sieht, gibt es innerhalb des states nicht nur einen Wert, sondern mehrere.
+%Es handelt sich eigentlich um ein Objekt. Objekte sind dasselbe wie Variablen in JavaScript, der einzige Unterschied ist, dass ein Objekt mehrere Werte in Form von Eigenschaften und Methoden enthält.
+%Objekte können andere Objekte, Strings, Arrays, Zahlen und so weiter enthalten.
 \newpage
 
 \subsubsection{useEffect}
-useEffect ermöglicht es uns, verschiedene Arten von Effekten zu erzeugen, nachdem eine Komponente gerendert wurde.
+useEffect ermöglicht es, verschiedene Arten von Effekten zu erzeugen, nachdem eine Komponente gerendert wurde.
+
+Folgendes ist mit useEffect möglich:\\\\
+\\-Aktualisieren des DOM,
+\\-Abrufen und Konsumieren von Daten von einer Server-API,
+\\-Einrichten eines Abonnements, usw.
+%https://www.javatpoint.com/react-hooks
 \\
 \begin{flushleft}
   Der Hook useEffect entspricht einer Kombination aus componentDidMount, componentDidUpdate und componentWillUnmount.
 
-  In unserem Projekt manipulieren wir die Anzeige der Daten abhängig der Änderungen des lokalen Zustands.
+  Bei diesem Projekt wird die Anzeige der Daten abhängig der Änderungen des lokalen Zustands manipuliert.
 \end{flushleft}
 
-Im Zustand „profile“ werden die Änderungen, die der Benutzer an seinen Daten vornimmt, bevor sie in der Datenbank gespeichert werden.
+Im Bereich Profil werden die Änderungen erstmal zwischengespeichert, bevor sie in der Datenbank gespeichert werden. 
 \\
-Der globale Zustand „state“ ist in der Komponente App enthalten.
-In diesem wird die Antwort von der Datenbankenabfrage gespeichert.
+Die Abfrage zur Aktualisierung der Daten wird in dem Moment an den Server gesendet, in dem der Benutzer auf die Taste „Save/Speichern“ drückt.
 \\
-Wir definieren den Zustand als Abhängigkeit von useEffect, so dass er bei jeder Änderung in der Benutzeroberfläche aktualisiert wird.
+Zu diesem Zeitpunkt wird die Benutzeroberfläche durch useEffect aktualisiert, da sich eine der Abhängigkeitsvariablen geändert hat.
+%\\
+%Der globale Zustand „state“ ist in der Komponente App enthalten.
+%In diesem wird die Antwort von der Datenbankenabfrage gespeichert.
+%Wir definieren den Zustand als Abhängigkeit von useEffect, so dass er bei jeder Änderung in der Benutzeroberfläche aktualisiert wird.
 \\
 \begin{lstlisting}
+ Allgemeine Struktur von useEffect:
+
 useEffect(() => { 
-      setProfile(state)      
-  }, [state])           
+      
+      side effects
+
+  }, 
+  [optionalDependency])           
 \end{lstlisting}
 
 \begin{flushleft}
@@ -237,39 +260,37 @@ useEffect(() => {
 %\newpage
 
 %WELCHES PROBLEM HABEN WIR DAMIT GELÖST?  
-\subsubsection{props}
-TO COMPLETE/DELETE
+%\subsubsection{props}
+%TO COMPLETE/DELETE
 \subsubsection{useContext}
-useContext hat es uns ermöglicht, Benutzerdaten auf einfache Weise in den Komponenten zu teilen, in denen diese Daten benötigt werden. In frühen Versionen des Projekts wurde für den gleichen Zweck props verwendet.
-Unserer Erfahrung nach ist useContext eine elegantere und sauberere Lösung für da gleiche Ziel.
+useContext ermöglicht Daten innerhalb bestimmte Komponenten zu teilen.
+
+In diesem Projekt war useContext eingesetzt, um die Benutzerdaten und den Authentifizierungstoken über die Komponenten  „Profile“, „Chat“, „Users“ (to swipe) zu teilen.
+\\
+In frühen Versionen des Projekts wurde für den gleichen Zweck props verwendet.  {\cite{R03}}
+UseContext bietet eine weitere Lösung, um Daten zwischen Komponenten auszutauschen.{\cite{R04}}
 \\
 %So funktioniert's
-\textbf{useContext Provider} \\
+\begin{comment}
+Allgemeine Struktur von useContext:
+
+\textbf{useContext Provider} \\% und Consumer
 \begin{quote}
   \begin{lstlisting}
     <MyContext.Provider value={/* irgendein Wert */}>
     \end{lstlisting}
-  {\cite{R02}}
-
+  
   %QUE QUIERO DECIR AQUI? Jedes Context-Objekt braucht einen Provider, welcher konsumierenden Komponenten erlaubt, die Veränderungen von Context zu abonnieren.
 \end{quote}
-Wie der Provider im Projekt definiert wurde ist im Anhang 5 zu finden.
+\end{comment}
 
-In diesem Fall können die Werte token und state gelesen werden. Darüber hinaus sind die Funktionen setToken, setState und refetch ebenfalls verfügbar.
-\\\\
-\newpage
+Im Anhang 5 und 6 befidet sich der Code mit dem den Authentifizierungstoken und die Benutzerdaten global  mithilfe von useContext verwaltet wird.
 
-\textbf{useContext Consumer} \\
-WAS MACHT useContext Consumer?
-Code-Auszug in Anhang 6
+%\newpage
 
+%\textbf{useContext Consumer} \\
 
+%\subsubsection{Alternative zu useContext}
+%Bei einer früheren Version der kürzlich erläuterten Implementierung haben wir  „props“ verwendet. Dadurch haben wir die gemeinsame Nutzung von Daten zwischen Komponenten ermöglicht. Wir beschlossen, diese Idee zu ändern, da der Code schwieriger zu pflegen war.
 
-\subsubsection{Alternative zu useContext}
-\paragraph{}
-Bei einer früheren Version der kürzlich erläuterten Implementierung haben wir  „props“ verwendet. Dadurch haben wir die gemeinsame Nutzung von Daten zwischen Komponenten ermöglicht. Wir beschlossen, diese Idee zu ändern, da der Code schwieriger zu pflegen war.
-\\
-
-\subsubsection{Konklusion}
-Es wäre möglich gewesen, das Projekt mit jedem der drei Frameworks durchzuführen.
-Die Entwicklung mit Angular hätte mehr Zeit und Lernaufwand gekostet. Außerdem ist das Projekt nicht komplex genug, um das Angular-Ökosystem zu benötigen.
+%\subsubsection{Konklusion}
