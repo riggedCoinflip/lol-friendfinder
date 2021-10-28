@@ -6,9 +6,9 @@ Ihre Aufgabe ist es, genau die Daten zu liefern, die anfordert werden, und nicht
 Mit GraphQL sind APIs schnell, flexibel und einfach für Entwickler.
 \\ \\
 Laut dem 2020 State of the API Report von Postman.com steht GrapQL an fünfter Stelle der spannendsten Technologien für 2021.
-{Vgl. u.a. \cite{PM1}}
+  {Vgl. u.a. \cite{PM1}}
 
-Im Hinblick auf die Art und Weise, wie Abfragen an den Server mithilfe von 
+Im Hinblick auf die Art und Weise, wie Abfragen an den Server mithilfe von
 \\ GraphQL behandelt werden können, sind folgende Aspekte zu beachten.
 \\
 \begin{quote}
@@ -24,7 +24,7 @@ Im Hinblick auf die Art und Weise, wie Abfragen an den Server mithilfe von
           GraphQL ist introspektiv. So können wir eine Liste der verfügbaren Datentypen anfordern. Dies ist ideal für automatisch erstellte Dokumente.
 
     \item
-          Eine Anwendungs-API kann sich mit GraphQL weiterentwickeln, ohne dass bestehende Anfragen beeinträchtigt werden.
+          Eine Anwendungs-API kann sich mit GraphQL weiterentwickeln, ohne dass bestehende Abfragen beeinträchtigt werden.
     \item
           GraphQL schreibt keine spezifische Anwendungsarchitektur vor. Es kann auf einer vorhandenen REST-API installiert und mit aktuellen API-Management-Tools verwendet werden.
     \item
@@ -48,13 +48,13 @@ Im Hinblick auf die Art und Weise, wie Abfragen an den Server mithilfe von
 Mit GraphQL Playground haben wir die Möglichkeit, alle Abfragen und Mutationen zu testen. Wir erhalten Zugriff auf relevante Informationen wie verfügbare Felder und deren Datentyp. Diese Informationen werden aktualisiert, wenn der Servercode geändert wurde. Dadurch wurde eine aktuelle API-Dokumentation gewährleistet. Für unser Projekt war es sehr praktisch und hat die Kommunikation als Entwickler effizienter gemacht.
 \\
 \begin{center}
-\includegraphics[scale=0.60]{GraphQL_Playground}\label{fig:GraphQL_Playground}
+  \includegraphics[scale=0.60]{GraphQL_Playground}\label{fig:GraphQL_Playground}
 \end{center}
 \textbf{Abbildung \autoref{fig:GraphQL_Playground}:}
 Genau derselbe Code wird für die Abfrage von Benutzerinformationen später verwendet.
 \newpage
 
-\subsection{Implementierung der Serveranfragen mit GraphQL}
+\subsection{Implementierung der Serverabfragen mit GraphQL}
 Alle Abfragen und Mutationen wurden in einem separaten Ordner gesammelt.
 Damit soll eine saubere Struktur des Codes gewährleistet werden.
 Diese wurden für die spätere Verwendung in den React-Komponenten exportiert.
@@ -110,59 +110,24 @@ TODO after receiving feedback about the rest.
 
 \newpage
 \subsection{Axios}
-Zusätzlich zu den GraphQL-Abfragen wurde eine Post-Anfrage mit Axios bereitgestellt.
-Mit dieser war es möglich, Bilder auf die S3 Speicher von AWS hochzuladen.
-
+\begin{comment}
 \begin{quote}
-  Axios ist ein Promise-basierter HTTP-Client für node.js und den browser. Auf der Server-Seite wir das modul http verwendet, während im Browser XMLHttpRequests (ajax) ausgeführt werden.
+  Axios ist ein Promise-basierter HTTP-Client für node.js und den browser. Auf der Server-Seite wir das modul HTTP verwendet, während im Browser XMLHttpRequests (ajax) ausgeführt werden.
 \end{quote}\footnote{Vgl. u.a. \cite{AX1}}
+\end{comment}
 
-\begin{lstlisting}
-    function disableBtn() {
-        const uploadBtn = document.getElementById("uploadBtn")
-        uploadBtn.disabled = true
-        uploadBtn.style.background = "#000000"
-      }
-    
-      function fileUploadHandler() {
-        errored ? 
-         disableBtn()
-         /*
-        Tritt ein Fehler auf, wird die Abfrage nicht gesendet und der Knopf deaktiviert 
-        Ein Fehler tritt auf, wenn die Datei zu gross ist oder oder wenn sie ein ungueltiges  Format hat
-        */
-        :
-        console.log("uploading pic...", file?.name)
-        const fd = new FormData()
-        /* avatar ist der Name der Datei, die hochgeladen wird
-          file ist der zu sendende  Wert */
-        fd.append("avatar", file)  
-    
-        axios
-          .post(urlAvatar, fd, {
-            headers: {
-              "x-auth-token": TOKEN,
-            },
-          })
-          .then((res) => {
-            setState((state) => ({ ...state, avatar: res?.data?.location }))    
-            //In location finden wir die URL fuer das gerade hochgeladende Bild 
-          })
-      }\end{lstlisting}
+Zusätzlich zu den GraphQL-Abfragen wurde eine Post-Anfrage mit Axios bereitgestellt.
+Mit dieser war es möglich, Bilder auf eine S3 Speichereinheit von Amazon Web Services hochzuladen.
+\\
+Ein Auszug aus dem zu diesem Zweck verwendeten Code findet sich in Anhang 4.
 
 %Das HTML-Eingabefeld „input“ wurde folgendermaßen definiert.
 %\begin{lstlisting}
- %   <input type="file" onChange={fileSelectedHandler} />
+%   <input type="file" onChange={fileSelectedHandler} />
 %\end{lstlisting}
 
-
-Das Format der hochzuladenden Dateien wurde limitiert, damit nur zulässige Dateien an den Server gesendet werden.
-\begin{lstlisting}
-    const admittedImageFormats = ["png", "jpg", "jpeg"]
-\end{lstlisting}
-
+\begin{flushleft}
+Das Format der hochzuladenden Dateien wurde auf .png, .jpg und .jpeg beschränkt, damit nur zulässige Dateien an den Server gesendet werden.
+\\
 Die Größe der hochzuladenden Datei wurde um 1 MB abgegrenzt.
-Durch die Eigenschaft „size“ der ausgewählten Datei konnten wir auf die Größe der Datei zugreifen.
-\begin{lstlisting}
-    const imageSize = e.target.files[0].size
-\end{lstlisting}
+\end{flushleft}

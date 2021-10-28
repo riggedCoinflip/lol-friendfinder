@@ -1,13 +1,13 @@
-    % INFO: Biblatex -Ausgabe des  
-  % Literaturverzeichnisses (Beispiele):   
-  % - \printbibliography => Ausgabe ALLER 
-  %   Einträge
-  % - \printbibliography[nottype=online]
-  %   => Ausgabe der Einträge, bis auf die
-  %      "Online"-Einträge
-  % - \printbibliography[type=online]     
-  %   => Ausgabe nur der "Online"-Einträge  
-   %\printbibliography
+% INFO: Biblatex -Ausgabe des
+% Literaturverzeichnisses (Beispiele):
+% - \printbibliography => Ausgabe ALLER
+%   Einträge
+% - \printbibliography[nottype=online]
+%   => Ausgabe der Einträge, bis auf die
+%      "Online"-Einträge
+% - \printbibliography[type=online]
+%   => Ausgabe nur der "Online"-Einträge
+%\printbibliography
 
   
   % Literaturverzeichnis
@@ -23,40 +23,56 @@
      \subsection{Literatur}
      \renewcommand{\refname}{} % Literaturverzeichnis ohne Bezeichnung
      % Literaturverzeichnis
-     \begin{thebibliography}{2} % 2. {...} => Hier die größte /breiteste Nummer (z.B. 99) oder Kurzbeleg angeben.
-        \bibitem{SW11} Stickel-Wolf, Christine; Wolf, Joachim (2011): Wissenschaftliches Lernen und Lerntechniken. Erfolgreich studieren–-gewusst wie!. Wiesbaden: Gabler. 
-        \bibitem{MG1} vgl. MongoDB (2019). Multidocument ACID Transactions (S.4/24). URL: \url{https://webassets.mongodb.com/finalmongodb_multidocument_acid_trnasactions.pdf} [30.09.2021]
-        \bibitem{PG6} Truicǎ; Boicea; Rǎdulescu (2013):Asynchronous Replication in Microsoft SQL Server, PostgreSQL and MySQL (S.51, Z.5f.). URL: \url{https://www.researchgate.net/profile/Ciprian-Octavian-Truica/publication/264416935_Asynchronous_Replication_in_Microsoft_SQL_Server_PostgreSQL_and_MySQL/links/53dbe6160cf216e4210c0375/Asynchronous-Replication-in-Microsoft-SQL-Server-PostgreSQL-and-MySQL.pdf} [30.09.2021]
+     \begin{thebibliography}{SW11} % 2. {...} => Hier die größte /breiteste Nummer (z.B. 99) oder Kurzbeleg angeben.
+       \bibitem{SW11} Stickel-Wolf, Christine; Wolf, Joachim (2011): Wissenschaftliches Lernen und Lerntechniken. Erfolgreich studieren–-gewusst wie!. Wiesbaden: Gabler.
       \end{thebibliography}
           
      \subsection{Internetquellen}
-     \begin{thebibliography}{2} % 2.\url{...} => Hier die größte/breiteste Nummer (z.B. 99) oder Kurzbeleg angeben.
-       \bibitem{BBoJ}Bertelsmeier, Birgit (o. J.): Tipps zum Schrei\-b\-en ei\-n\-er Ab\-sch\-luss\-ar\-beit. Fach\-hoch\-schu\-le Köln-Campus Gummersbach, Institut für Informatik. \url{http://lwibs01.gm.fh-koeln.de/blogs/bertelsmeier/files/2008/05/abschlussarbeitsbetreuung.pdf} (29.10.2013).
-        \bibitem{HR08} Halfmann, Marion; Rühmann, Hans (2008): Merkblatt zur Anfertigung von Projekt-, Bachelor-, Master- und Diplomarbeiten der Fakultät 10. Fachhochschule Köln-Campus Gummersbach.\url{http://www.f10.fh-koeln.de/imperia/md/content/pdfs/studium/tipps/anleitungda270108.pdf} (29.10.2013).
-        \bibitem{V01} Offizielle Vue-Website: Vergleich zwischen Vue, React und Angular. \url{https://vuejs.org/v2/guide/comparison.html#Preact-and-Other-React-Like-Libraries} (unbekannte Veröffentlichung).
-        \bibitem{R01}Offizielle React-Website: React Hooks. \url{https://reactjs.org/docs/hooks-faq.html#which-versions-of-react-include-hooks}
-        \bibitem{A01}Offizielle Website Apollo für React. \url{https://www.apollographql.com/docs/react/}
-        \bibitem{SO01}StackOverFlow: Developer Survey 2021. \url{https://insights.stackoverflow.com/survey/2021#section-most-popular-technologies-web-frameworks}
-        \bibitem{EE1}Elad Elrom: React and Libraries. \url{https://link.springer.com/content/pdf/10.1007%2F978-1-4842-6696-0.pdf}
-        \bibitem{SS1}Stoyan Stefanov: Durchstarten mit React. \url{https://content-select.com/media/moz_viewer/5d5fc360-478c-4038-ac17-246bb0dd2d03/language:de}
-        \bibitem{RH1}Red Hat: Was ist GraphQL? \url{https://www.redhat.com/de/topics/api/what-is-graphql}
-        \bibitem{PM1}Postman: 2020 State of the API Report \url{https://www.postman.com/state-of-api/the-future-of-apis/#the-future-of-apis}
-        \bibitem{AX1}Offizielle Website Axios \url{https://axios-http.com/}
+     \begin{thebibliography}{HR08} % 2. {...} => Hier die größte/breiteste Nummer (z.B. 99) oder Kurzbeleg angeben.
+         \bibitem{BBoJ}Bertelsmeier, Birgit (o. J.): Tipps zum Schrei\-b\-en ei\-n\-er Ab\-sch\-luss\-ar\-beit. Fach\-hoch\-schu\-le Köln-Campus Gummersbach, Institut für Informatik. \url{http://lwibs01.gm.fh-koeln.de/blogs/bertelsmeier/files/2008/05/abschlussarbeitsbetreuung.pdf} (29.10.2013).
+         \bibitem{HR08} Halfmann, Marion; Rühmann, Hans (2008): Merkblatt zur Anfertigung von Projekt-, Bachelor-, Master- und Diplomarbeiten der Fakultät 10. Fachhochschule Köln-Campus Gummersbach.\url{http://www.f10.fh-koeln.de/imperia/md/content/pdfs/studium/tipps/anleitungda270108.pdf} (29.10.2013).
 
-        \bibitem{MG2} \url{https://docs.mongodb.com/manual/core/replica-set-elections/#std-label-replica-set-elections}
-        \bibitem{MG3} \url{https://docs.mongodb.com/manual/core/replica-set-elections/#non-voting-members}
-        \bibitem{MG4} \url{https://docs.mongodb.com/manual/reference/replica-configuration/#mongodb-rsconf-rsconf.members-n-.priority}
-        \bibitem{MG5} \url{https://docs.mongodb.com/manual/core/replica-set-rollbacks/}
-        \bibitem{MG6} \url{https://docs.mongodb.com/manual/core/read-preference/}
-        \bibitem{MG7} \url{https://docs.mongodb.com/realm/mongodb/specify-cluster-read-preference/}
-        \bibitem{MG8} PostgreSQL vs. MongoDB Scalability \url{https://www.openlogic.com/blog/postgresql-vs-mongodb}
-        \bibitem{MG9} vgl. The Register: MongoDB daddy: My baby beats Google BigTable, URL: \url{https://www.theregister.com/2011/05/25/the_once_and_future_mongodb/} [30.09.2021]
-        \bibitem{MG10} vgl. MongoDB: Active-Active Application Architectures with MongoDB, URL: \url{https://www.mongodb.com/developer/article/active-active-application-architectures/} [30.09.2021]
-        \bibitem{MG11} vgl. MongoDB: ObjectId — MongoDB Manual, URL: \url{https://docs.mongodb.com/manual/reference/method/ObjectId/} [30.09.2021]
-        \bibitem{PG1} \url{https://www.postgresql.org/docs/current/wal-intro.html}
-        \bibitem{MS1} vgl. Microsoft Azure: Was ist Datenbanksharding?, URL: \url{https://azure.microsoft.com/de-de/overview/what-is-database-sharding/} [30.09.2021]
-        \bibitem{JSON1} JSON.org: Einführung in JSON, URL: \url{https://www.json.org/json-de.html} [30.09.2021]
-        \bibitem{12FA-10} vgl. 12Factor.net: The Twelve-Factor-App: X.Dev-Prod-Vergleichbarkeit, URL: \url{https://12factor.net/de/} [30.09.2021]
-        \bibitem{ISO639-1} vgl. ISO: ISO 639-1:2002 - Codes for the representation of names of languages — Part 1: Alpha-2 code, URL: \url{https://www.iso.org/standard/22109.html} [30.09.2021]
-\end{thebibliography}
+         \bibitem{GH05} Github Repositories · vuejs/vue \url{ https://github.com/vuejs/vue/network/dependents?package_id=UGFja2FnZS00OTM3Mjg3MDY\%3D}
+         (Abgerufen am 24.10.2021)
 
+         \bibitem{GH06} Github Repositories · angular/angular \url{https://github.com/angular/angular/network/dependents?package_id=UGFja2FnZS00NTE2NDYyMzQ%3D}
+         (Abgerufen am 24.10.2021)
+
+         \bibitem{V01} Offizielle Vue-Website: Vergleich zwischen Vue, React und Angular. \url{https://vuejs.org/v2/guide/comparison.html#Preact-and-Other-React-Like-Libraries} (unbekannte Veröffentlichung).
+         \bibitem{V02} Vue-Team \url{https://vuejs.org/v2/guide/team.html} (Abgerufen am 26.10.2021)
+         \bibitem{GH01}Github Open Issues and Stars · angular/angular \url{ https://github.com/angular/angular/issues }  (Abgerufen am 24.10.2021)
+         \bibitem{GH02} Github Open Issues and Stars · vuejs/vue. \url{ https://github.com/vuejs/vue/issues }  (Abgerufen am 24.10.2021)
+         \bibitem{GH03} Github Open Issues and Stars · React \url{https://github.com/facebook/react/issues} (Abgerufen am 26.10.2021)
+         \bibitem{GH04} Github Repositories · facebook/react \url{ https://github.com/facebook/react/network/dependents } (Abgerufen am 24.10.2021)
+         \bibitem{R01} Offizielle React-Website: React Hooks. \url{https://reactjs.org/docs/hooks-faq.html#which-versions-of-react-include-hooks}
+         \bibitem{R02} Das React Framework – von Anwendungen, Funktionen und den Vor- & Nachteilen der Komponenten. \url{https://kruschecompany.com/de/react-framework/}
+         \bibitem{R03} React Components and Props \url{https://reactjs.org/docs/components-and-props.html}
+         \bibitem{R04} React Context vs Props \url{https://medium.com/geekculture/props-drilling-v-s-context-api-which-one-is-the-best-75c503d21a65}
+
+         \bibitem{A01}Offizielle Website Apollo für React. \url{https://www.apollographql.com/docs/react/}
+         \bibitem{SO01}StackOverFlow: Developer Survey 2021. \url{https://insights.stackoverflow.com/survey/2021#section-most-popular-technologies-web-frameworks}
+         \bibitem{EE1}Elad Elrom: React and Libraries. \url{https://link.springer.com/content/pdf/10.1007%2F978-1-4842-6696-0.pdf}, S. 25
+         \bibitem{SS1}Stoyan Stefanov: Durchstarten mit React. \url{https://content-select.com/media/moz_viewer/5d5fc360-478c-4038-ac17-246bb0dd2d03/language:de}
+         \bibitem{E01}Entscheidungshilfe für die Webentwicklung anhand des Vergleichs von drei führenden JavaScript Frameworks: Angular, React and Vue.js \url{https://reposit.haw-hamburg.de/bitstream/20.500.12738/8417/1/BA_Wohlgethan_2176410.pdf}
+         \bibitem{RH1}Red Hat: Was ist GraphQL? \url{https://www.redhat.com/de/topics/api/what-is-graphql}
+         \bibitem{PM1}Postman: 2020 State of the API Report \url{https://www.postman.com/state-of-api/the-future-of-apis/#the-future-of-apis}
+         \bibitem{AX1}Axios Dokumentation \url{https://axios-http.com/docs/intro}
+         \bibitem{GO01}Google Trends Vue-React-Angular 1.11.2020-26.10.2021 \url{https://trends.google.com/trends/explore?cat=733&geo=DE&q=React,Vue,Angular}
+
+
+         \bibitem{MG2} \url{https://docs.mongodb.com/manual/core/replica-set-elections/#std-label-replica-set-elections}
+         \bibitem{MG3} \url{https://docs.mongodb.com/manual/core/replica-set-elections/#non-voting-members}
+         \bibitem{MG4} \url{https://docs.mongodb.com/manual/reference/replica-configuration/#mongodb-rsconf-rsconf.members-n-.priority}
+         \bibitem{MG5} \url{https://docs.mongodb.com/manual/core/replica-set-rollbacks/}
+         \bibitem{MG6} \url{https://docs.mongodb.com/manual/core/read-preference/}
+         \bibitem{MG7} \url{https://docs.mongodb.com/realm/mongodb/specify-cluster-read-preference/}
+         \bibitem{MG8} PostgreSQL vs. MongoDB Scalability \url{https://www.openlogic.com/blog/postgresql-vs-mongodb}
+         \bibitem{MG9} vgl. The Register: MongoDB daddy: My baby beats Google BigTable, URL: \url{https://www.theregister.com/2011/05/25/the_once_and_future_mongodb/} [30.09.2021]
+         \bibitem{MG10} vgl. MongoDB: Active-Active Application Architectures with MongoDB, URL: \url{https://www.mongodb.com/developer/article/active-active-application-architectures/} [30.09.2021]
+         \bibitem{MG11} vgl. MongoDB: ObjectId — MongoDB Manual, URL: \url{https://docs.mongodb.com/manual/reference/method/ObjectId/} [30.09.2021]
+         \bibitem{PG1} \url{https://www.postgresql.org/docs/current/wal-intro.html}
+         \bibitem{MS1} vgl. Microsoft Azure: Was ist Datenbanksharding?, URL: \url{https://azure.microsoft.com/de-de/overview/what-is-database-sharding/} [30.09.2021]
+         \bibitem{JSON1} JSON.org: Einführung in JSON, URL: \url{https://www.json.org/json-de.html} [30.09.2021]
+         \bibitem{12FA-10} vgl. 12Factor.net: The Twelve-Factor-App: X.Dev-Prod-Vergleichbarkeit, URL: \url{https://12factor.net/de/} [30.09.2021]
+         \bibitem{ISO639-1} vgl. ISO: ISO 639-1:2002 - Codes for the representation of names of languages — Part 1: Alpha-2 code, URL: \url{https://www.iso.org/standard/22109.html} [30.09.2021]
+     \end{thebibliography}

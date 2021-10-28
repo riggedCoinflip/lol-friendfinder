@@ -1,61 +1,29 @@
-\textbf{Software Testing }\\
-Obwohl unser Projekt relativ klein ist, wollten wir, wo immer möglich, automatisierte Testfälle einbeziehen.
+\textbf{Software Testing }
+\begin{flushleft}
+Obwohl das Projekt relativ klein ist, wurde die Wichtigkeit von automatisierten Tests nicht unterschätzt.
+\\
+Für das Frontend wurden End-to-End Testfälle mit Cypress geschrieben.
+Auf diese Weise ist es möglich in Sekundenschnelle festzustellen, ob etwas in unserer Anwendung defekt ist.
 
-Für das Frontend haben wir End-to-End Testfälle mit Cypress geschrieben.
+Ein Szenario, in dem dies hilfreich ist, ist, wenn eine Unterkomponente in anderen Komponenten verwendet wird.
 
-So können wir in Sekundenschnelle feststellen, ob etwas in unserer Anwendung defekt ist.
-
-Ein mögliches Szenario ist, dass eine Komponente, die in anderen Komponenten verwendet wird, geändert wurde, ohne zu berücksichtigen, dass sie in einer anderen Komponente für einen anderen Zweck verwendet wurde.
-
+Durch die Änderung der Unterkomponente kann sich diese in einer unerwünschten Weise verhalten.
+\\
 Das ist der Fall bei der Komponente AvatarImage.
-%---
 Dies ist eine Funktionskomponente, die 3 Parameter erhält: Größe des Bildes, Bild-URL und Benutzername.
 
 Zu Beginn des Projekts wurde nicht daran gedacht, die Größe des Bildes über einen Parameter dieser Funktion zu steuern. Im Laufe des Projekts wurde uns klar, dass wir die Logik in diesem Element wiederverwenden konnten.
-
+\\
 Innerhalb der Komponente wird geprüft, ob eine URL existiert, und wenn ja, wird das mit dem Link verbundene Bild gezeichnet. Falls es keine URL  angegeben wurde, werden die ersten beiden Buchstaben des Benutzernamens verwendet, um ein Standardsymbol zu erzeugen.
 
 In der aktuellen Version des Codes wird diese Komponente in vier anderen Komponenten wieder verwendet.
-Wenn das Projekt weiter wachsen würde, würde auch die Möglichkeit von Fehlern im Code zunehmen. Und es wäre schwieriger, sie zu finden.
+Wenn das Projekt weiter wachsen würde, würde auch die Möglichkeit von Fehlern im Code zunehmen. Fehler zu finden, wäre in dem Fall aufwändiger.
 
-Ohne automatisierte Tests müssten Sie normalerweise manuell prüfen, ob die übergeordneten Komponenten noch wie erwartet funktionieren.
+Ohne automatisierte Tests, ist manuelles Testing nötig.
+\\
+Im Anhang 2 befindet sich ein Code-Auszug eines Testfälles End-to-End. 
+\end{flushleft}
 
-
-%code
-\begin{lstlisting}
-//in constants.js sind Standard-Testdaten
-import * as c from "../constants.js"
-
-const qtyLanguages = 101
-const qtyGenders = 8
-
-describe("Check if all profile elements have been rendered", () => {
-  it("Login with existing account", () => {
-    cy.typeLogin(c.email, c.password)
-  })
-
-  it("Username was rendered", () => {
-    cy.get('#username').should("be.visible")
-  })
-
-  it("Gender selection was rendered", () => {
-    cy.get('#dropdown-gender').should(
-      "be.visible")
-  })
-
-//Der folgende Test prueft, ob eine Mindestanzahl von Elementen angezeigt wird  
-it(`Gender options is not empty and >= to ${qtyGenders}`, () => {
-  cy.get('#dropdown-gender').click()
-  cy.get(`.dropdown-menu > :nth-child(${qtyGenders})`).should(
-      "be.visible")
-  //close the dropdown
-  cy.get('#dropdown-gender').click()
-
-  })
-...
-})
-
-\end{lstlisting}
 
 %%POSIBLEMENTE ESTE NO ES ELMEJOR EJ PUESTO QUE NO SE ESTA PROBANDO EL TAMANIO LAS IMAGENES EN LAS PRUEBAS DE CYPRESS
 %% SIN EMBARGO EL HECHO DE REUTILIZAR LOGICA DE CIERTOS ELEMENTOS ES MUY RELEVANTE Y DEBERIA SER INCLUIDA EN OTRA PARTE %DEL REPORTE
@@ -70,9 +38,10 @@ Nachstehend einer Überblick über die Testfälle bei Cypress.
 \textbf{Abbildung \autoref{fig:Cy_Test_Cases}:} Testfälle in Cypress
 \end{center}
 
-
-\includegraphics[scale=0.50]{Cy_Test_running}\label{fig:Cy_Test_running}
+\begin{center}
+\includegraphics[scale=0.40]{Cy_Test_running}\label{fig:Cy_Test_running}
 \textbf{Abbildung \autoref{fig:Cy_Test_running}:} Grafische Darstellung der verschiedenen Tests in Cypress
+\end{center}
 
 \newpage
 \textbf{home.spec.js}\\
@@ -85,7 +54,7 @@ Mit diesem Testfall wird überprüft, ob nach der Vergabe von einem „Like“ o
 Hier wird der Wert des JSON-Web-Tokens zu verschiedenen Zeitpunkten überprüft.
 Die Erwartung ist, dass das Token null ist, wenn der Benutzer nicht angemeldet ist.
 Dieses Token wird in localStorage gespeichert.
-Es besteht auch die Möglichkeit, dass das Token abgelaufen ist, wodurch alle Anfragen an den Server, die eine Authentifizierung erfordern, unmöglich werden.
+Es besteht auch die Möglichkeit, dass das Token abgelaufen ist, wodurch alle Abfragen an den Server, die eine Authentifizierung erfordern, unmöglich werden.
 \\\\
 \textbf{profileElements.spec.js}\\
 Der Testfall prüft, ob die Elemente und Komponenten der Komponente Profil gerendert wurden und sichtbar sind. Diese Elemente sind userName, Gender und AboutMe. Die Komponenten sind Language und InGameRole.
@@ -95,21 +64,14 @@ Außerdem wird überprüft, ob Komponenten, ein Element „Dropdown“ enthalten
 Dieser Testfall erstellt einen neuen Benutzer mit einer zufälligen E-Mail und einem zufälligen Benutzernamen.  \\
 \\
 \textbf{Commands bei Cypress}\\
+\begin{flushleft}
 In den Testfällen gibt es Aktionen, die sich immer wieder wiederholen, zum Beispiel die Anmeldung eines Nutzers.
+\\
 Zu diesem Zweck wurde in Cypress ein wiederverwendbarer Befehl definiert.
-\begin{lstlisting}
-    Cypress.Commands.add("typeLogin", (email, password) => {
-        cy.visit("/login")
-    
-        cy.get("[id=email-input]").type(email).should("have.value", email)
-    
-        cy.get("[id=password-input]").type(password).should("have.value", password)
-    
-        cy.get("[id=btn-submit]").click()
-    })
-\end{lstlisting}
-Mit anderen Worten, es handelt sich um eine Funktion, die zwei Parameter, E-Mail und Passwort, erhält. 
-Beide Parameter werden in die entsprechenden Eingabefelder eingetragen, abschließend wird die Eingabetaste gedrückt.
-Diese Funktion kann in jedem anderen Testfall aufgerufen werden, ohne dass sie importiert werden muss.
+\\
+Diese setzen sich aus nativen Cypress-Befehlen zusammen. Es handelt sich praktisch um benutzerdefinierte Funktionen, die häufig bei Tests verwendet werden.
+
+Ein Beispiel ist im Anhang 3 zu finden.
+\end{flushleft}
 
 %Ergebnise der ganzen Testlauf

@@ -9,7 +9,6 @@
 %% Von Ludger Schönfeld, M. Sc.,
 %% 2014-2017                            %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% HEADER                                  %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -27,6 +26,10 @@
 \usepackage[utf8]{inputenc} % Für die direkte Eingabe von Umlauten im Editor u.a.
 \usepackage{fancyhdr} % Für Kopf- und Fußzeilen
 \usepackage{lscape} % Für Querformat
+
+%\usepackage{hyperref} % Für Hyperlinks
+%Mehrere Bilder auf einmal
+\usepackage{subfig}
 \usepackage{csquotes} % Für sprachangepasste Anführungszeichen
 
 
@@ -83,7 +86,7 @@ footskip=1cm,headheight=14.599pt]{geometry} % Einrichtung der Seite
 % => Ausgabeformat: PDF-Dokument:
 %    Es können die folgenden (Graphik-)formate eingebunden
 %    werden: .jpg, .png, .pdf, .mps
-%
+% 
 % => Ausgabeformat: DVI/PS:
 %    Folgende (Graphik-)formate werden unterstützt:
 %    .eps, .ps, .bmp, .pict, .pntg
@@ -131,17 +134,15 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 % an dem der Link umbrochen werden kann.
 % Dies kann mit folgendem Befehl erfolgen (Beispiel):
 % \renewcommand*\UrlBreaks{\do-\do_}
-
 % Das Paket "biblatex" für autom. 
 % Literaturverzeichnisse:
+%\usepackage{csquotes} % Für sprachangepasste Anführungszeichen
 %\usepackage[backend=bibtex,style=alphabetic]  
 %           {biblatex}
 %\addbibresource{bib/literatur.bib}           
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% DOKUMENT                                %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{document}
 % Unbeschriftetes Vorblatt (Leere Seite)
 \pagestyle{empty} % Seite ohne Kopf- und Fußzeilen
@@ -272,23 +273,23 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 \section{Einleitung}\label{kap_einleitung}
 \input{chapters/Einleitung}
 
-\vspace{1cm}
-\begin{tcolorbox}[title={Die Einleitung(DELETE AFTER CHECK WE COMPLETE ALL POINTS)}]
-  Die Einleitung umfasst folgende Elemente\footnote{Vgl. u.a. \cite{BBoJ}, S. 5-6}:
-  \begin{itemize}
-    \item Einführung in das Thema (Motivation, zentrale Begriffe etc.)
-    \item Hinführung zu den Ergebnissen
-    \item Ggf. Angabe des Schwerpunktes
-    \item Ggf. Einschränkungen darlegen
-    \item Problemstellung
-    \item Zielstellung der Arbeit
-    \item Fragestellung der Arbeit
-    \item Übersicht über die Kapitel geben:
+%\vspace{1cm}
+%\begin{tcolorbox}[title={Die Einleitung(DELETE AFTER CHECK WE COMPLETE ALL POINTS)}]
+%  Die Einleitung umfasst folgende Elemente\footnote{Vgl. u.a. \cite{BBoJ}, S. 5-6}:
+%  \begin{itemize}
+%    \item Einführung in das Thema (Motivation, zentrale Begriffe etc.)
+%    \item Hinführung zu den Ergebnissen
+%    \item Ggf. Angabe des Schwerpunktes
+%    \item Ggf. Einschränkungen darlegen
+%    \item Problemstellung
+%    \item Zielstellung der Arbeit
+%    \item Fragestellung der Arbeit
+%    \item Übersicht über die Kapitel geben:
 %          \begin{quotation}
 %            Eine Einleitung muss auch durch die Arbeit führen. Sie muss dem Leser helfen, sich in der Arbeit und ihrer Struktur zu Recht zu finden. Für jedes Kapitel sollte eine ganz kurze Inhaltsangabe gemacht werden und ggf. motiviert werden, warum es geschrieben wurde. Oft denkt sich ein Autor etwas bei der Struktur seiner Arbeit, auch solche Beweggründe sind dem Leser zu erklären\footnote{\cite{BBoJ}, S. 6}:.
 %          \end{quotation}
-  \end{itemize}
-\end{tcolorbox}
+%  \end{itemize}
+%\end{tcolorbox}
 
 \newpage
 \section{Grundlagen}\label{kap_grundlagen}
@@ -323,8 +324,8 @@ Carlo, to review:
 \input{chapters/Benutzeroberfläche}
 
 \newpage
-\section{Serveranfragen}\label{kap_serveranfragen }
-\input{chapters/Serveranfragen}
+\section{Serverabfragen }\label{kap_Serverabfragen  }
+\input{chapters/Serverabfragen }
 
 \newpage
 \section{Qualitätssicherung }\label{kap_QS}
