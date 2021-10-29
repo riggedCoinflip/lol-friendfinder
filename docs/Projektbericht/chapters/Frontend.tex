@@ -1,9 +1,15 @@
 % Wie werden die Informationen die Benutzer gezeigt und wie können sie diese manipulieren
 %\paragraph{}
 \begin{flushleft}
-In diesem Kapitel werden Angular, Vue und React für die Entwicklung des Frontends bewertet.
+In diesem Kapitel werden Angular, Vue und React für die Entwicklung des Frontends bewertet. 
 \\
-Es wurden die die oben genannten Technologien ausgewählt, weil diese an den ersten drei Stellen in diversen Ranglisten auftauchen{\cite{SO01, JS1}}.
+Alle drei Technologien haben unter anderem die Vorteile, gut dokumentiert zu sein und große Gemeinschaften zu haben. Dies begünstigt den Lernprozess und verschleunigt mögliche Problembehebungen.
+
+\begin{flushleft}
+Sie haben die Unterstützung von Unternehmen wie Facebook, Google und Alibaba. Sie sind komponentenbasiert, was ihre Testbarkeit erleichtert.
+\\
+Es wurden die oben genannten Technologien ausgewählt, weil diese an den ersten drei Stellen in diversen Ranglisten auftauchen{\cite{SO01}}.
+\end{flushleft}
 
   Folgende Kriterien wurden berücksichtigt:
   \begin{itemize}
@@ -14,46 +20,45 @@ Es wurden die die oben genannten Technologien ausgewählt, weil diese an den ers
     % Die Flexibilität des Frameworks.
     % Der Zwang, Probleme auf eine bestimmte Weise zu lösen, oder die Alternative, eigene Lösungswege zu finden.
 
-    \item
-          Anzahl der ungelösten Probleme\footnote{Open issues.}. 
+  %  \item
+  %  Anzahl der ungelösten Probleme\footnote{Open issues}. 
 
     \item
-          Statistiken von heruntergeladene NPM-Paketen.
+          Die Akzeptanz bei den Entwicklern und die Anzahl von heruntergeladenen NPM-Paketen sind relevant, weil vermehrte Nutzung dazu führen kann, dass Probleme schneller identifiziert und gelöst werden.{\cite{LIN1}}
 
-    \item
-          Akzeptanz bei den Entwicklern auf Github und StackOverflow. 
-          Diese ist es relevant, weil je mehr Nutzer für ein Framework hat, desto 
+          %da Probleme generell schneller identifuíyiert und potentiell gelost werden, wenn mehr menschen mit fachwissen mit den technologien Arbeiten. 
           
-          wahrscheinlicher ist, eine Lösung für mögliche Probleme zu finden.
-
+          %weil je mehr Nutzer ein Framework benutzen, desto wahrscheinlicher ist es, dass eine Lösung für mögliche Probleme gefunden wird. 
+      
     \item
-          Persönliche Präferenz und Vorkenntnisse des Entwicklungsteams.
+          Persönliche Präferenz und Vorkenntnisse des Entwicklungsteams. 
   \end{itemize}
 
 \end{flushleft}
 
 \newpage    
 \subsection{Popularität und Statistiken}
+Die Informationen unten geben Hinweise auf den Nutzen und die Beliebtheit der Open-Source-Projekten React, Angular und Vue. Diese Indikatoren sind wichtig, denn je mehr Menschen an einem Open-Source-Projekt beteiligt sind, desto mehr Menschen tragen dazu bei, Fragen zu beantworten und Probleme\footnote{Code issues} zu lösen {\cite{LIN1}}.
 \begin{flushleft}
   \textbf{Developer Survey 2021 - StackOverFlow}\\
   StackOverFlow ist die größte Gemeinschaft von Softwareentwicklern, wo Wissen und Fragen zur Softwareentwicklung ausgetauscht wird.
 
   Seit 2011 führt StackOverFlow eine jährliche Umfrage zur Softwareentwicklung durch.
-\end{flushleft}
 
-\begin{figure}
+\begin{figure}[h]
   \centering
   \includegraphics[scale=0.5]
   {Most popular Web Frameworks [Both] 2021.png}
   \caption{ Which web frameworks and libraries have you done extensive development work in over the past year, and which do you want to work in over the next year? (If you both worked with the framework and want to continue to do so, please check both boxes in that row.) {\cite{SO01}}}
 
 \end{figure}
+\end{flushleft}
 
 \newpage
 
 \begin{flushleft}
   \textbf{Github}\\
-  GitHub ist eine Plattform für die Versionskontrolle von Source-Code. 
+  GitHub ist die Plattform für die Versionskontrolle von Source-Code, wo mehr als 238 Millionen Repositories\footnote{Ablage wo Quellkode gespeichert wird} verwaltet werden{\cite{GH07}}.  
 \end{flushleft}
 
 Die Anzahl der Repositories, in denen Code für Angular, React und Vue gespeichert wird, gibt einen Hinweis auf die Beliebtheit dieses Frameworks.
@@ -78,7 +83,7 @@ Die Anzahl der Repositories, in denen Code für Angular, React und Vue gespeiche
   \end{tabular}
 \end{table}
 
-{\cite{GH01, GH02, GH03}}
+{\cite{GH04, GH05, GH06}}
 
 %https://risingstars.js.org/2020/es#section-statemanagement
 %https://www.freecodecamp.org/news/angular-react-vue/
@@ -95,8 +100,7 @@ Die Anzahl der heruntergeladenen NPM-Pakete gibt einen Hinweis auf die Nutzung d
 \end{center}
 
 \textbf{Google Trends}\\
-Laut Google Trends war React im letzten Jahr das am häufigsten konsultierte Frontend Technologie in Deutschland.
-Die Daten beziehen sich auf den Zeitraum vom 01.11.2020 bis 26.10.2021.
+Laut Google Trends war React zwischen 01.11.2020 und 26.10.2021 das am häufigsten konsultierte Frontend Technologie in Deutschland.
 \\
 Diese Metrik ist ein weiterer Aspekt für die Beliebtheit von Frameworks
 \begin{center}
@@ -106,9 +110,11 @@ Diese Metrik ist ein weiterer Aspekt für die Beliebtheit von Frameworks
 \end{center}
 
 \textbf{Jobangebote}\\
-In der Entscheidungsfindung sind ebenfalls künftige Perspektiven relevant.
-Aus diesem Grund ist als angehende Informatiker den Arbeitsmarkt berücksichtigt.    
-\\
+Als angehende Informatiker sind berüfliche Perspektiven relevant, deswegen wurde den Arbeitsmarkt in der Entscheidungsfindung berücksichtigt.
+
+%In der Entscheidungsfindung sind ebenfalls künftige Perspektiven relevant.
+%Aus diesem Grund ist als angehende Informatiker den Arbeitsmarkt berücksichtigt.    
+\begin{flushleft}
 Anzahl der Jobangebote bei LinkedIn in Deutschland:
 \\
 Angular: 7.657 Ergebnisse{\cite{LI3}}
@@ -116,24 +122,21 @@ Angular: 7.657 Ergebnisse{\cite{LI3}}
 React: 11.523 Ergebnisse{\cite{LI2}}
 \\
 Vue: 2.800 Ergebnisse{\cite{LI1}}
-
-
+\end{flushleft}
 
 \subsection{Angular}
-Angular ist das TypeScript Entwicklungsplattform von Google für die Entwicklung von
- Mobil- und Webanwendungen.
+Angular ist das TypeScript Entwicklungsplattform von Google für Mobil- und Webanwendungen.
 
-Die Entscheidung fiel gegen Angular aus den folgenden Gründen:
-\begin{itemize}
-  \item
-        Angular ist ein komplexeres Framework als React und Vue.
-  %\item
-   %     Angular ist für Unternehmensanwendungen geeignet.
-  \item
-        Angular hat eine steile Lernkurve im Vergleich zu React und Vue.{\cite{E01}}
-  \item
-        Angular lässt weniger Spielraum für eigene Entscheidungen darüber, wie der Code entwickelt wird. Deshalb eignet es sich gut für Projekte, bei denen mehrere Entwickler zusammenarbeiten.
-\end{itemize}
+
+Angular hat eine steile Lernkurve im Vergleich zu React und Vue.{\cite{E01}}, S.25.
+\\
+Angular lässt weniger Spielraum für eigene Entscheidungen darüber, wie der Code entwickelt wird. Deshalb eignet sich Angular besser für Projekte, wo mehrere Entwickler zusammenarbeiten. 
+
+%Der Code wird mit Angular nach der Ri in einer vorgegebenen Art geschrieben werden sollte, um Einheitlichkeit zu schaffen.
+
+Zu beachten ist, dass Angular nicht JS als Hauptprogrammiersprache verwendet, sondern TypeScript. Dies würde einen zusätzlichen Aufwand für das Erlernen des Frameworks bedeuten.
+
+%Angular ist ein komplexeres Framework als React und Vue.
 
 \subsection{Vue}
 Von den drei Frameworks ist Vue das einzige, das nicht von einem Unternehmen entwickelt wurde. Der Entwickler Evan You hat bei Google gearbeitet und sich mit AngularJS beschäftigt. Das Framework wird von einer Entwicklergemeinschaft gepflegt. Es wird jedoch von Unternehmen wie Alibaba, Nindendo, Expedia und anderen genutzt.
@@ -191,13 +194,14 @@ Es ist wichtig festzustellen, dass neue Entwicklungen des Frameworks verbessern 
 Aufgrund der rasanten Entwicklung ist die Dokumentation in Bezug auf die neuesten Aktualisierungen und Änderungen oft spärlich.{\cite{R01}}
 
 \subsection{React Hooks}
+%https://www.javatpoint.com/react-hooks
 Beginnend mit 16.8.0, enthält React eine stabile Implementierung von React Hooks.
 
 Ab dieser Version wird React empfohlen, keine Klassen mehr für die Erstellung von Komponenten zu verwenden.
 Mit Klassen geschriebene Komponenten werden weiterhin unterstützt und müssen nicht neu geschrieben werden.
 {\cite{R05}}
 
-\textbf{{useState}
+\textbf{useState}
 Der Hook useState bietet die Möglichkeit an, den Zustand einer Anwendung zu verwalten. Sie besteht aus mindestens einen Wert (value) und einer Funktion (updateValue), die den Wert aktualisiert.
 %Der Wert kann ein Zahl, ein String, ein Array oder sogar ein Objekt sein.
 %Optional kann ein Anfangswert (initialValue) definiert werden.
@@ -261,4 +265,4 @@ Im Anhang 5 und 6 befidet sich der Code mit dem den Authentifizierungstoken und 
 
 \subsection{Fazit}
 Es ist anzumerken, dass die Entwicklung des Projekts mit jedem der drei Frameworks möglich war.
-.......
+...
