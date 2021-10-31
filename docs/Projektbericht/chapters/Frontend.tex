@@ -137,35 +137,34 @@ Als angehende Informatiker sind berüfliche Perspektiven relevant, deswegen wurd
   %\\
   %Vue: 2.800 Ergebnisse{\cite{LI1}}
 \end{flushleft}
-AB HIER ÜBERARBEITEN:
 
 \subsection{Framework vs Bibliothek}
 \begin{flushleft}
 In dieser Arbeit stehen ein Framework und eine Bibliothek zur Auswahl.
 \\
-Beide Technologien wurden für die Entwiklung von SPAs\footnote{Single-page application {\cite{MO1}}} konzipiert.
+Beide Technologien, sowohl React als auch Angular, wurden für die Entwiklung von SPAs\footnote{Single-page application {\cite{MO1}}} konzipiert.
 
-Eine Bibliothek wie React bietet mehr Kontroll darauf, wie der Code entwickelt werden kann und erlaubt die Applikation mit anderer Bibliotheken zu erweitern. Für das State-Management wird zum Beispiel häufig Redux{\cite{RE1}} verwendet.
+Eine Bibliothek wie React bietet mehr Kontroll darauf, wie der Code entwickelt werden kann und erlaubt Applikationen mit anderer Bibliotheken zu erweitern. Für das State-Management wird zum Beispiel häufig Redux{\cite{RE1}} verwendet.
 
-Andererseits das Framework von Angular gibt genauer vor, wie der Code entwickelt werden muss.
+Andererseits das Framework von Angular gibt genauer vor, wie der Code entwickelt werden muss\footnote{{\cite{AN1}}, Seite 27}.
 \\
 In dieser Arbeit wird nicht näher auf den Unterschied zwischen einer Bibliothek und einem Framework eingegangen, da beide die Anforderungen des Projekts abdecken.
 \end{flushleft}
 
 \subsection{Angular}
 Angular ist das Framework von Google für Mobil- und Webanwendungen.
-
-Angular hat eine steile Lernkurve im Vergleich zu React.{\cite{E01}}, S.25.
 \\
 %STIMMT DAS? Angular lässt weniger Spielraum für eigene Entscheidungen darüber, wie der Code entwickelt wird. Deshalb eignet sich Angular besser für Projekte, wo mehrere Entwickler zusammenarbeiten. 
 
 %Der Code wird mit Angular nach der Ri in einer vorgegebenen Art geschrieben werden sollte, um Einheitlichkeit zu schaffen.
 
-Zu beachten ist, dass Angular nicht JavaScript als Hauptprogrammiersprache verwendet, sondern TypeScript. Dies bedeutet zusätzlichen Aufwand für das Erlernen des Frameworks. Dieses Framework ist besonders geeignet für fortgeschrittene, umfangreiche Projekte.
-QUELLE?
+Zu beachten ist, dass Angular nicht JavaScript als Hauptprogrammiersprache verwendet, sondern TypeScript. Dies bedeutet zusätzlichen Aufwand für das Erlernen des Frameworks. Dieses Framework ist besonders geeignet für fortgeschrittene, umfangreiche Projekte\footnote{{\cite{AN1}}, Seite 30}.
 
-%Angular ist ein komplexeres Framework als React.
-
+Angular ist komplex und hat eine steile Lernkurve im Vergleich zu React.{\cite{E01}}. Die Entwicklung mit dem Framework kann viel Zeit in Anspruch nehmen.
+\begin{quote}
+  „Beispielsweise werden je nach Entwicklungsart bis zu fünf Dateien für eine einzelne Komponente benötigt, es müssen Abhängigkeiten eingefügt und die Komponenten in Modulen hinzugefügt werden. Infolgedessen wird ein Großteil der Entwicklungs-zeit in Angular für sich wiederholende Aufgaben aufgewendet.” 
+  \footnote{{\cite{AN1}, Seite 33}}
+    \end{quote}
 %CHECK THIS
 %https://merehead.com/blog/angular-vs-react-vs-vue-best-choice-2022/
 
@@ -180,12 +179,9 @@ Bei der endgültigen Entscheidung wurden React aufgrund ihrer geringen Lernkurve
 React besteht aus rund 56.162 professionellen Entwicklern auf der ganzen Welt.
 Laut einer StackOverFlow Umfrage hat React.js im Jahr 2021 jQuery als das am häufigsten verwendete Web-Framework überholt. {\cite{SO01}}
 \\
-Die Entscheidung fiel für React aufgrund der Vorkenntnisse des Entwicklerteams und der Anzahl an Jobangeboten.
+Die Vorkenntnisse des Entwicklerteams und der Anzahl an Jobangeboten haben in diesem Projekt für React eine bedeutende Rolle gespielt.
 
 %Die Entwicklung mit Angular hätte mehr Zeit und Lernaufwand gekostet. Außerdem ist das Projekt nicht komplex genug, um das Angular-Ökosystem zu benötigen.
-
-\subsubsection{Nachteile}
-%Bei der Auswahl des Frameworks wollten wir so unvoreingenommen wie möglich sein, daher listen wir einige Aspekte auf, die bei Projekten mit React zu beachten sind.
 
 \subsection{React Hooks}
 %https://www.javatpoint.com/react-hooks
@@ -194,16 +190,27 @@ Beginnend mit 16.8.0, enthält React eine stabile Implementierung von React Hook
 Ab dieser Version wird React empfohlen, keine Klassen mehr für die Erstellung von Komponenten zu verwenden.
 Mit Klassen geschriebene Komponenten werden weiterhin unterstützt und müssen nicht neu geschrieben werden.
   {\cite{R05}}
+\\
 
 \textbf{useState}
-Der Hook useState bietet die Möglichkeit an, den Zustand einer Anwendung zu verwalten. Sie besteht aus mindestens einen Wert (value) und einer Funktion (updateValue), die den Wert aktualisiert.
+\\
+Der Hook useState bietet die Möglichkeit an, den Zustand einer Anwendung zu verwalten. 
+
+%Sie besteht aus mindestens einen Wert (value) und einer Funktion (updateValue), die den Wert aktualisiert.
 %Der Wert kann ein Zahl, ein String, ein Array oder sogar ein Objekt sein.
 %Optional kann ein Anfangswert (initialValue) definiert werden.
 
-In unserem Projekt wurde useState verwendet, um alle Benutzerdaten zu manipulieren und dem Benutzer anzuzeigen.
+In diesem Projekt wurde useState verwendet, um alle Benutzerdaten zu manipulieren und lokal zwischen zu speichern.
 
-Diese Benutzerdaten sind die Antwort auf die an den Server gesendete Abfrage.
-Ein Beispiel von einer Server-Antwort befindet sich im Anhang 1.
+Nachdem der Klient eine gültige Anfrage an den Server gesendet hat, werden die Daten in den durch useState definierten Variablen gespeichert.
+\begin{center}
+  \includegraphics[scale=0.4]
+  {sources/Server-Abfrage-Antwort}\label{fig:Server-Abfrage-Antwort}\\
+  \textbf{Abbildung \autoref{fig:Server-Abfrage-Antwort}:} Server-Abfrage-Antwort
+\end{center}
+
+Die Anfrage an den Server für die Anmeldung gibt das JWT-Token\footnote{JSON Web Token{\cite{JWT1}}} zurück, das es dem Benutzer ermöglicht, eine aktive Sitzung aufrechtzuerhalten. Dieses Token wird für künftige Anfragen benötigt, um den Zugriff auf die Informationen des Nutzers zu ermöglichen.
+\\
 Eine genauere Funktionsweise der Serverabfragen folgt in Kapitel Serverabfragen.
 \\
 %In späteren Kapiteln wird näher erläutert, wie diese Informationen, die durch einen einzigen Abfrage an den Server erhalten werden, in den Chat- und Benutzerkomponenten genutzt werden.
@@ -214,49 +221,61 @@ Eine genauere Funktionsweise der Serverabfragen folgt in Kapitel Serverabfragen.
 \newpage
 
 \textbf{useEffect}
+\\
 useEffect ermöglicht es, verschiedene Arten von Effekten zu erzeugen, nachdem eine Komponente gerendert wurde.
 
-Unter anderem ist mit useEffect folgenden möglich:\\\\
-\\-Aktualisieren des DOM,
-\\-Abrufen und Konsumieren von Daten von einer Server-Schnittstelle,
-\\-Einrichten eines Abonnements, usw.
-%https://www.javatpoint.com/react-hooks
+Unter Effekte sind zu verstehen, die Art und Weise, in der die Daten angezeigt werden. useEffect kümmert sich um die Aktualisierung des HTML-DOM\footnote{Document Object Model {\cite{MO2}}}, wenn dies erforderlich ist. Die Aktualisierung des HTML-DOM erfolgt auf Komponentenebene. Nur die Komponenten, die aktualisiert werden müssen, werden neu geladen. 
 \\
-\begin{flushleft}
-  %  Der Hook useEffect entspricht einer Kombination aus componentDidMount, componentDidUpdate und componentWillUnmount.
+Dies ist möglich, indem  das virtuelle React-DOM{\cite{R06}} und das HTML-DOM im Browser vergliechen wird.\footnote{{\cite{AN1}, Seite 22}}.
+\\\\
 
-  Bei diesem Projekt wird die Anzeige der Daten abhängig der Änderungen des lokalen Zustands manipuliert.
-\end{flushleft}
+%Unter anderem ist mit useEffect folgenden möglich:
+%\\-Aktualisieren des DOM,
+%\\-Abrufen und Konsumieren von Daten von einer Server-Schnittstelle,
+%\\-Einrichten eines Abonnements, usw.
+%https://www.javatpoint.com/react-hooks
+%\\
+%\begin{flushleft}
+  %  Der Hook useEffect entspricht einer Kombination aus componentDidMount, %componentDidUpdate und componentWillUnmount.
+%  Bei diesem Projekt wird die Anzeige der Daten abhängig der Änderungen des lokalen Zustands manipuliert.
+%\end{flushleft}
 
-Im Bereich Profil werden die Änderungen erstmal zwischengespeichert, bevor sie in der Datenbank gespeichert werden.
+Im Benutzerprofil werden die Änderungen erstmal in der Variable „state” zwischengespeichert, bevor sie in der Datenbank gespeichert werden.
 \\
 Die Abfrage zur Aktualisierung der Daten wird in dem Moment an den Server gesendet, in dem der Benutzer auf die Taste „Save/Speichern“ drückt.
 \\
-Zu diesem Zeitpunkt wird die Benutzeroberfläche durch useEffect aktualisiert, da sich eine der Abhängigkeitsvariablen geändert hat.
-%\\
-%Der globale Zustand „state“ ist in der Komponente App enthalten.
-%In diesem wird die Antwort von der Datenbankenabfrage gespeichert.
-%Wir definieren den Zustand als Abhängigkeit von useEffect, so dass er bei jeder Änderung in der Benutzeroberfläche aktualisiert wird.
-\\
-
-\begin{flushleft}
-  Es ist möglich, mehrere useEffects zu einstellen und mit ihrer jeweiligen Abhängigkeiten separat definieren.
-  Wenn es erfordelich ist, dass der Code innerhalb dem useEffect nur einmal nach dem ersten Rendering(deutsches WORT) ausgeführt wird, muss ein leeres Array als Abhängigkeit definiert werden.
-\end{flushleft}
-
-%WELCHES PROBLEM HABEN WIR DAMIT GELÖST?  
+Zu diesem Zeitpunkt wird die Benutzeroberfläche durch useEffect aktualisiert, da sich die Variable „state” als Abhängigkeit von useEffect festgelegt ist und diese neue Informationen enthalten.
+\\\\
+Ein Beispiel dafür ist, wenn der Benutzer die Sprachen, die er/sie spricht, aktualisiert. Beim Speichern der Änderungen wird nur die Komponente, die mit der vorgenommenen Änderung zusammenhängt, wieder in das HTML-DOM geladen.
+\\\\
 
 \textbf{useContext}
+\\
 useContext ermöglicht Daten innerhalb bestimmte Komponenten zu teilen.
 
-In diesem Projekt war useContext eingesetzt, um die Benutzerdaten und den Authentifizierungstoken über die Komponenten  „Profile“, „Chat“, „Users“ (to swipe) zu teilen.
+In diesem Projekt war useContext eingesetzt, um die Benutzerdaten und den Authentifizierungstoken über die Komponenten  „Profile“, „Chat“, „Users“ zu teilen.
+\\\\
+%In frühen Versionen des Projekts wurde für den gleichen Zweck props verwendet.  {\cite{R03}}
+UseContext bietet eine Lösung, um Daten zwischen Komponenten auszutauschen.{\cite{R04}}
 \\
-In frühen Versionen des Projekts wurde für den gleichen Zweck props verwendet.  {\cite{R03}}
-UseContext bietet eine weitere Lösung, um Daten zwischen Komponenten auszutauschen.{\cite{R04}}
-\\
+In diesem Projekt war es nötig, Daten über mehrere Komponenten zu teilen, weil die Benutzerdaten in mehrere Komponenten konsumiert wurden.
+
+\newpage
+Zum Beispiel, die Kennung\footnote{User id} der Freunde eines Benutzers, sind in der Variable „state” enthalten. Diese Informationen werden in der Komponente „Chat” verwendet, um Einzelheiten über die Freunde des angemeldeten Benutzers bereitzustellen. 
+ 
+Zusätzlich befindet sich auch die Kennung der Nachrichten\footnote{Chat id} pro Benutzer. Diese wurde verwendet, um die Nachrichten abzufragen, die die Benutzer untereinander ausgetausch haben.
+\begin{center}
+  \includegraphics[scale=0.55]
+  {sources/Friends_in_Chat}\label{fig:Friends_in_Chat}\\
+  \textbf{Abbildung \autoref{fig:Friends_in_Chat}
+  Einzelheiten der Freunden}
+\end{center}
+AB HIER ÜBERARBEITEN:
 
 Im Anhang 5 und 6 befidet sich der Code mit dem den Authentifizierungstoken und die Benutzerdaten global  mithilfe von useContext verwaltet wird.
 
 \subsection{Fazit}
 Es ist anzumerken, dass die Entwicklung des Projekts mit jedem der beiden Frameworks möglich war.
+\\
+Die folgende Abbildung fasst die wichtigsten Unterschiede und Gemeinsamkeiten zwischen React und Angular zusammen.
 ...
