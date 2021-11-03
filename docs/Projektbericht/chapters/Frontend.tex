@@ -1,44 +1,24 @@
 % Wie werden die Informationen die Benutzer gezeigt und wie können sie diese manipulieren
-%\paragraph{}
-\begin{flushleft}
-  Das Frontend ist für die Datenvisualisierung zuständig und erleichtert dem Endbenutzer die Datenmanipulation.
-  \\
-  In diesem Kapitel werden Angular und React für die Entwicklung des Frontends bewertet.
-  \\
-  Beide Technologien haben unter anderem die Vorteile, gut dokumentiert zu sein und große Gemeinschaften zu haben. Dies begünstigt den Lernprozess und verschleunigt mögliche Problembehebungen.
-
-  \begin{flushleft}
-    Sie haben die Unterstützung von Unternehmen wie Facebook und Google. Sie sind komponentenbasiert, was ihre Testbarkeit erleichtert.
-    \\
-    Es wurden die oben genannten Technologien ausgewählt, weil diese an den ersten Stellen in diversen Ranglisten auftauchen{\cite{SO01}}.
-  \end{flushleft}
+\subsection{Wahl der Frontendtechnologie}
+  Das Frontend ist für die Datenvisualisierung zuständig und erleichtert dem Endbenutzer die Datenmanipulation.\\
+  In diesem Kapitel werden Angular und React für die Entwicklung des Frontends bewertet. Beide Technologien haben unter anderem die Vorteile, gut dokumentiert zu sein und große Entwicklergemeinschaften zu haben. Dies begünstigt den Lernprozess und verschleunigt mögliche Problembehebungen. Große Entwicklergemeinschaften, bestehend aus Einzelpersonen und Unternehmen entwickeln die Frameworks weiter, wobei Angular von Google und React von Meta (ehemals Facebook) betreut wird. Die Technologien sind komponentenbasiert, was ihre Testbarkeit erleichtert. Maßgeblich an der Wahl der Technologien zum Vergleich verantwortlich war ihre Popularität - sie belegen in diversen Ranglisten die ersten Plätze.\cite{SO01}
 
   Folgende Kriterien wurden berücksichtigt:
   \begin{itemize}
     \item
-          Der Schwierigkeitsgrad, um die Technologie zu lernen.
-          Die Lernkurve ist wichtig, weil das Entwicklungsteam begrenzte Zeit für die Entwicklung des Projekts hat.
-          %\item
+          Der Schwierigkeitsgrad, um die Technologie zu lernen. Eine einfachere Technologie erlaubt es, früher mit der Durchführung des Projektes anzufangen und spart so Zeit und Kosten und damit wiederum das finanzielle Risiko.
+    \item
+          Die Akzeptanz bei den Entwicklern und die Anzahl von heruntergeladenen NPM-Paketen. Vermehrte Nutzung von Paketen erhöht die Wahrscheinlichkeit, dass Probleme in diesen schnell identifiziert und gelöst werden.\cite{LIN1}
+    \item
+          Persönliche Präferenz und Vorkenntnisse des Entwicklungsteams.
+              %\item
           % Die Flexibilität des Frameworks.
           % Der Zwang, Probleme auf eine bestimmte Weise zu lösen, oder die Alternative, eigene Lösungswege zu finden.
 
           %  \item
           %  Anzahl der ungelösten Probleme\footnote{Open issues}. 
-
-    \item
-          Die Akzeptanz bei den Entwicklern und die Anzahl von heruntergeladenen NPM-Paketen sind relevant, weil vermehrte Nutzung dazu führen kann, dass Probleme schneller identifiziert und gelöst werden.{\cite{LIN1}}
-
-          %da Probleme generell schneller identifuíyiert und potentiell gelost werden, wenn mehr menschen mit fachwissen mit den technologien Arbeiten. 
-
-          %weil je mehr Nutzer ein Framework benutzen, desto wahrscheinlicher ist es, dass eine Lösung für mögliche Probleme gefunden wird. 
-
-    \item
-          Persönliche Präferenz und Vorkenntnisse des Entwicklungsteams.
   \end{itemize}
 
-\end{flushleft}
-
-\newpage
 \subsection{Popularität und Statistiken}
 Diese Indikatoren sind wichtig, denn je mehr Menschen an einem Open-Source-Projekt beteiligt sind, desto mehr Menschen tragen dazu bei, Fragen zu beantworten und Probleme\footnote{Code issues} zu lösen {\cite{LIN1}}.
 \\
@@ -66,7 +46,7 @@ Im folgenden wird die Beliebtheit und die Nutzung von React und Angular anhand v
   GitHub ist die Plattform für die Versionskontrolle von Source-Code, wo mehr als 238 Millionen Repositories\footnote{Ablage wo Quellkode gespeichert wird} verwaltet werden{\cite{GH07}}.
 \end{flushleft}
 
-Die Anzahl der Repositories, in denen Code für Angular und, React gespeichert wird, gibt einen Hinweis auf die Beliebtheit dieses Frameworks.
+Die Anzahl der Repositories, in denen Code für Angular und React gespeichert wird, gibt einen Hinweis auf die Beliebtheit dieses Frameworks.
 \\
 \begin{table}[h!]
   \centering
@@ -113,9 +93,9 @@ Die Anzahl der heruntergeladenen NPM-Pakete gibt einen Hinweis auf die Nutzung d
 
 \begin{flushleft}
 \textbf{Google Trends}\\
-Laut Google Trends war React zwischen 01.11.2020 und 26.10.2021 das am häufigsten konsultierte Frontend Technologie in Deutschland.
+Laut Google Trends war React zwischen 01.11.2020 und 26.10.2021 die am häufigsten konsultierte Frontend Technologie in Deutschland.
 \\
-Diese Metrik ist ein weiterer Aspekt für die Beliebtheit von Framework.
+Diese Metrik ist ein weiterer Aspekt für die Beliebtheit des Frameworks.
 \end{flushleft}
 
 \begin{center}
@@ -127,7 +107,7 @@ Diese Metrik ist ein weiterer Aspekt für die Beliebtheit von Framework.
 
 \begin{flushleft}
 \textbf{Jobangebote}\\
-Als angehende Informatiker sind berüfliche Perspektiven relevant, deswegen wurde den Arbeitsmarkt in der Entscheidungsfindung berücksichtigt.
+Als angehende Informatiker sind berufliche Perspektiven relevant, deswegen wurde den Arbeitsmarkt in der Entscheidungsfindung berücksichtigt.
 \\
 %In der Entscheidungsfindung sind ebenfalls künftige Perspektiven relevant.
 %Aus diesem Grund ist als angehende Informatiker den Arbeitsmarkt berücksichtigt.    
@@ -168,7 +148,7 @@ Angular ist das Framework von Google für Mobil- und Webanwendungen.
 
 Zu beachten ist, dass Angular nicht JavaScript als Hauptprogrammiersprache verwendet, sondern TypeScript. Dies bedeutet zusätzlichen Aufwand für das Erlernen des Frameworks. Dieses Framework ist besonders geeignet für fortgeschrittene, umfangreiche Projekte\footnote{{\cite{AN1}}, Seite 30}.
 
-Angular ist komplex und hat eine steile Lernkurve im Vergleich zu React.{\cite{E01}}. Die Entwicklung mit dem Framework kann viel Zeit in Anspruch nehmen.
+Im Vergleich zu React ist Angular komplex und hat eine steile Lernkurve {\cite{E01}}. Die Entwicklung mit dem Framework kann viel Zeit in Anspruch nehmen.
 \begin{quote}
   „Beispielsweise werden je nach Entwicklungsart bis zu fünf Dateien für eine einzelne Komponente benötigt, es müssen Abhängigkeiten eingefügt und die Komponenten in Modulen hinzugefügt werden. Infolgedessen wird ein Großteil der Entwicklungs-zeit in Angular für sich wiederholende Aufgaben aufgewendet.” 
   \footnote{{\cite{AN1}, Seite 33}}
