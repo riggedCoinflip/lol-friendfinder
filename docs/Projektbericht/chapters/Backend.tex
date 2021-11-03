@@ -1,0 +1,55 @@
+wofür backend
+
+\subsection{Node}
+NodeJS ist eine JavaScript Laufzeit, welche es ermöglicht, JavaScript Code auf einem Server auszuführen. Dieser Server beantwortet die Anfragen, welche der Nutzer über das Frontend verschickt und verwaltet die Routen der Domäne, um den gewünschten Inhalt anzuzeigen. Mit der Hilfe von Paketverwaltungswerkzeugen wie npm ist es möglich, Programmierpakete in das Projekt einzubinden.
+
+Wie in \textit{package.json} definiert, handelt es sich bei der Datei \textit{server.js} um das Main-Programm. Wenn der Kommandozeilenbefehl \textit{node start} ausgeführt wird, wird der in \textit{server.js} definierte Quellcode ausgeführt.
+
+Nachdem benötigte Pakete geladen wurden, werden mit der Hilfe von \textit{dotenv} Umgebungsvariablen definiert. Dies hat den Vorteil, dass privat zu haltende Informationen wie beispielsweise Passwörter und Schlüssel in einer weiteren Datei ausgelagert werden können, welche nicht durch git verfolgt wird. Dies erhöht die Sicherheit, da sich sonst unautorisierte Personen Zugriff zum System machen könnten. Außerdem können damit für Entwicklungs und Produktionsumgebung verschiedene Umgebungsvariablen verwendet werden, ohne dass verschiedene Zweige im git-System notwendig sind.
+
+Danach verbindet sich der Node-Server mit der Datenbank, welche über MongoDB Atlas gehosted wird. Das verwendete Mongoose-Paket erlaubt mit Hilfe einer URI, welche den Anmeldeschlüssel enthält, die Autorisierung des Servers. Nachdem der Server erfolgreich verbunden wurde, wird geprüft, ob es sich bei der Node-Umgebung um die Entwicklungsumgebung handelt. In diesem Fall werden potenziell Pseudo-Daten für die Datenbank erstellt, um es dem Entwickler zu vereinfachen zu prüfen, ob sein Quellcode funktioniert.
+
+Zudem werden die Express- und Apollo-Applikation gestartet und der Server danach endgültig aktiviert.
+
+\subsection{Express}
+HTTP-Anfragen an den Server werden durch Express verwaltet. Dabei gibt es Weiterleitungen (Routen) und Middleware.
+
+\subsubsection{Middleware}
+Middlewarefunktionen sind Funktionen, die als Teil einer HTTP-Anfrage ausgelöst werden, wenn sie für die angefrage Route aktiviert sind. Middlewarefunktionen werden hintereinander verkettet, sobald die erste Funktion ausgeführt wurde und keinen Fehler zurückgegeben hat, wird die nächste Middlewarefunktion ausgeführt, bis zum Schluss die Routenfunktion antwortet. Middlewarefunktionen können genutzt werden, um Protokoll über die Webseitenzugriffe zu führen, Anfragen zu autorisieren oder Fehlerhafte Anfragen zu blockieren.
+
+\paragraph{CORS}
+Um Anfragen des Frontends an das Backend zu erlauben, ist CORS (Cross-Origin Resource Sharing) notwendig. Per Same-Origin-Poicy (SOP) wären Zugriffe von einer Domäne auf die andere normalerweise nicht gestattet, CORS ermöglicht es, Anfragen vom Frontend - welches eine andere Domäne besitzt - zu ermöglichen. Die Miskonfiguration von CORS gefährdet die Integrität der Webseite, es ist daher ratsam, nur für spezielle Domänen - in diesem Fall die Domäne des Frontends - CORS zu erlauben. Aktuell ist CORS für alle Anfragen erlaubt, um die Webseite sicherer zu gestalten muss in Zukunft die CORS-Richtlinie restriktiver eingestellt werden. Wenn die CORS-Regeln verletzt werden, wird eine Fehlermeldung ausgegeben und keine weiteren Funktionen der Kette zum Beantworten der HTTP-Anfrage ausgeführt.
+
+\paragraph{JWT}
+Einige Daten der Schnittstelle sind öffentlich. Andere Daten, wie zum Beispiel private Nutzerdaten, benötigen stattdessen eine Anfrage des jeweiligen Nutzers. Um die Autorität des Nutzers zu bestätigen wird beim Anmeldeprozess ein JSON Web Token (JWT) nach RFC 7519 Standard an den Klienten verschickt\cite{RFC7519}. Bei allen Folgeabfragen, so auch einer Abfrage der privaten Nutzerdaten, wird das Token als Teil des Anfragekopfes (request header) an das Backend gesendet. Durch Middleware wird das Token kontrolliert und der Nutzer authentifiziert und autorisiert. Das entschlüsselte Token wird an die folgenden Funktionen weitergeleitet und kann von diesen genutzt werden, um den anfragenden Benutzer herauszufinden. Sollte zum Beispiel eine Anfrage an die GraphQL-Schnittstelle gesendet werden, wird zuerst das JWT Token entschlüsselt und der Nutzer in die Abfrage hinzugefügt. Ohne die Middleware wäre die Datenbankschnittstelle, welche das Profil des aktuellen Nutzers anzeigt, nicht verwendbar.
+
+\subsubsection{Routen}
+Routen geben an, welcher Inhalt bei einer HTTP-Anfrage zurückgegeben werden soll.
+
+\paragraph{Root ("/")}
+Um zu testen, ob das Backend generell auf Abfragen reagiert, soll zunächst die Antwort bei der Abfrage des Stammverzeichnisses beantwortet werden.
+\begin{lstlisting}
+    app.get("/", (request, response) => {
+        response.send("Hello")
+    })
+\end{lstlisting}
+Bei einer GET-Anfrage des Stammverzeichnisses wird in diesem Fall mit \textit{"Hello"} geantwortet.
+
+\paragraph{/graphql}
+Eine Anfrage an die Route \textit{/graphql} wird von Apollo, dem gewählten Framework für GraphQL beantwortet. Der Großteil aller Anfragen an das Backend gehen an diesen Endpunkt. Genauere Informationen zu GraphQL und Apollo sind in dem entsprechenden Kapitel zu finden. Durch die gewählten Optionen ist der GraphQL-Playground aktiviert, eine graphische Oberfläche die es einem benutzer der API ermöglicht, seine Anfragen direkt auf der Webseite in einem Texteditor zu schreiben. Durch das Erlauben von Introspektion steht zudem eine Umfangreiche Dokumentation der möglichen Anfragen und dessen Datentypen zur Verfügung, welche es dem Entwickler vereinfachen, seine eigenen Anfragen zu testen.
+
+\paragraph{/api}
+Das Hochladen von Bildern ließ sich über GraphQL nicht zur Zufriedenheit lösen. Es wurde daher eine klassische, REST-basierte Lösung entwickelt, welche es mit Hilfe von Multer - einer Node Middleware zum behandeln von Multipart-Daten, worunter Bilddateien zählen - ermöglicht, Bilddateien auf AWS hochzuladen und die URI des hochgeladenen Bildes in MongoDB zu speichern.
+%TODO mehr details
+
+
+
+
+
+Kurz alles erklären
+
+NODE
+Express
+Middleware
+Routing
+Models - Die in der Datenbank definierten Schemata sind in Mongoose definiert.
