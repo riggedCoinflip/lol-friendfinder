@@ -39,17 +39,15 @@ Bei einer GET-Anfrage des Stammverzeichnisses wird in diesem Fall mit \textit{"H
 Eine Anfrage an die Route \textit{/graphql} wird von Apollo, dem gewählten Framework für GraphQL beantwortet. Der Großteil aller Anfragen an das Backend gehen an diesen Endpunkt. Genauere Informationen zu GraphQL und Apollo sind in dem entsprechenden Kapitel zu finden. Durch die gewählten Optionen ist der GraphQL-Playground aktiviert, eine graphische Oberfläche die es einem benutzer der API ermöglicht, seine Anfragen direkt auf der Webseite in einem Texteditor zu schreiben. Durch das Erlauben von Introspektion steht zudem eine Umfangreiche Dokumentation der möglichen Anfragen und dessen Datentypen zur Verfügung, welche es dem Entwickler vereinfachen, seine eigenen Anfragen zu testen.
 
 \paragraph{/api}
-Das Hochladen von Bildern ließ sich über GraphQL nicht zur Zufriedenheit lösen. Es wurde daher eine klassische, REST-basierte Lösung entwickelt, welche es mit Hilfe von Multer - einer Node Middleware zum behandeln von Multipart-Daten, worunter Bilddateien zählen - ermöglicht, Bilddateien auf AWS hochzuladen und die URI des hochgeladenen Bildes in MongoDB zu speichern.
-%TODO mehr details
+Das Hochladen von Bildern ließ sich über GraphQL nicht zur Zufriedenheit lösen. Es wurde daher eine klassische, REST-basierte Lösung entwickelt, welche es mit Hilfe von Multer - einer Node Middleware zum behandeln von Multipart-Daten, worunter Bilddateien zählen - ermöglicht, Bilddateien auf AWS hochzuladen und die URI des hochgeladenen Bildes in MongoDB zu speichern. Dazu werden mit Hilfe des \textit{aws-sdk} Paketes die verwendeten Umgebungsvariablen für die Autorisierung bei AWS und der Wahl der Region und Schnittstellenversion verwendet. 
+
+Wenn ein Nutzer ein Profilbild hochladen will, wird dafür Subroute \textit{/avatar}, im vollen also \textit{/api/avatar} verwendet. Durch verschiedene Regeln wird mit Hilfe von Multer getestet, ob es sich bei der vom Nutzer gesendeten Ladung des Paketes (Payload) um eine Datei handelt, diese in einem akzeptierten Bildvormat ist und die maximale Dateigröße nicht überschritten wurde. Sollten alle Tests erfolgreich sein, wird das Bild mit einem durch UUID Version 4 generierten Namen auf S3 hochgeladen. Um das Bild öffentlich anbieten zu können, wird die Zugriffskontrollliste auf öffentlich lesbar gestellt. Schlussendlich wird der durch S3 generierte Link der Datei auf der Datenbank dem entsprechenden Nutzer zugewiesen.
+
+Die Route \textit{/avatar} steht nur für POST, aber nicht für GET Anfragen zur Verfügung. Für das Abfragen des Profilbilds wird stattdessen die GraphQL-Schnittstelle verwendet, die auch sonst für die meisten Abfragen verwendet wird. GET Anfragen der Bilddateien stellen kein Problem dar, da die Datenbank lediglich einen Link des Bildes speichert und S3 beim öffnen dieses Links das Bild zurück gibt.
+
+Falls benötigt können in Zukunft weitere Subrouten für \textit{/api} erstellt werden, die mit oder ohne Multer oder auch mit Hilfe von völlig anderen Paketen - oder ohne Pakete - in der Lage sind, Auf Schnittstellenanfragen zu antworten. So könnte in einer späteren Version der Nutzer in der Lage sein, Bilder in Nachrichtenverläufen zu versenden, in diesem Fall würde, ähnlich wie bei \textit{/avatar} die Route \textit{/chat} mit Hilfe von AWS S3 und Multer zum Hochladen von Bildern dienen.
 
 
-
-
-
-Kurz alles erklären
 
 NODE
-Express
-Middleware
-Routing
 Models - Die in der Datenbank definierten Schemata sind in Mongoose definiert.
