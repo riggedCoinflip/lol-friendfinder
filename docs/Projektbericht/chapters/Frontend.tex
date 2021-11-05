@@ -177,20 +177,16 @@ Mit Klassen geschriebene Komponenten werden weiterhin unterstützt und müssen n
 \\
 Der Hook useState bietet die Möglichkeit an, den Zustand einer Anwendung zu verwalten. 
 
-%Sie besteht aus mindestens einen Wert (value) und einer Funktion (updateValue), die den Wert aktualisiert.
-%Der Wert kann ein Zahl, ein String, ein Array oder sogar ein Objekt sein.
-%Optional kann ein Anfangswert (initialValue) definiert werden.
-
 In diesem Projekt wurde useState verwendet, um alle Benutzerdaten zu manipulieren und lokal zwischen zu speichern.
 
-Nachdem der Klient eine gültige Anfrage an den Server gesendet hat, werden die Daten in den durch useState definierten Variablen gespeichert.
+Nachdem der Klient eine gültige Abfrage an den Server gesendet hat, werden die Daten in den durch useState definierten Variablen gespeichert.
 \begin{center}
   \includegraphics[scale=0.4]
   {sources/Server-Abfrage-Antwort}\label{fig:Server-Abfrage-Antwort}\\
   \textbf{Abbildung \autoref{fig:Server-Abfrage-Antwort}:} Server-Abfrage-Antwort
 \end{center}
 
-Die Anfrage an den Server für die Anmeldung gibt das JWT-Token\footnote{JSON Web Token{\cite{JWT1}}} zurück, das es dem Benutzer ermöglicht, eine aktive Sitzung aufrechtzuerhalten. Dieses Token wird für künftige Anfragen benötigt, um den Zugriff auf die Informationen des Nutzers zu ermöglichen.
+Die Abfrage an den Server für die Anmeldung gibt das JWT-Token\footnote{JSON Web Token{\cite{JWT1}}} zurück, das es dem Benutzer ermöglicht, eine aktive Sitzung aufrechtzuerhalten. Dieses Token wird für künftige Abfragen benötigt, um den Zugriff auf die Informationen des Nutzers zu ermöglichen.
 \\
 Eine genauere Funktionsweise der Serverabfragen folgt in Kapitel Serverabfragen.
 \\
@@ -207,36 +203,22 @@ useEffect ermöglicht es, verschiedene Arten von Effekten zu erzeugen, nachdem e
 
 Unter Effekte sind zu verstehen, die Art und Weise, in der die Daten angezeigt werden. useEffect kümmert sich um die Aktualisierung des HTML-DOM\footnote{Document Object Model {\cite{MO2}}}, wenn dies erforderlich ist. Die Aktualisierung des HTML-DOM erfolgt auf Komponentenebene. Nur die Komponenten, die aktualisiert werden müssen, werden neu geladen. 
 \\
-Dies ist möglich, indem  das virtuelle React-DOM{\cite{R06}} und das HTML-DOM im Browser vergliechen wird.\footnote{{\cite{AN1}, Seite 22}}.
+Dies ist möglich, indem  das virtuelle React-DOM{\cite{R06}} und das HTML-DOM im Browser vergliechen werden\footnote{{\cite{AN1}, Seite 22}}.
 \\\\
-
-%Unter anderem ist mit useEffect folgenden möglich:
-%\\-Aktualisieren des DOM,
-%\\-Abrufen und Konsumieren von Daten von einer Server-Schnittstelle,
-%\\-Einrichten eines Abonnements, usw.
-%https://www.javatpoint.com/react-hooks
-%\\
-%\begin{flushleft}
-  %  Der Hook useEffect entspricht einer Kombination aus componentDidMount, %componentDidUpdate und componentWillUnmount.
-%  Bei diesem Projekt wird die Anzeige der Daten abhängig der Änderungen des lokalen Zustands manipuliert.
-%\end{flushleft}
-
-Im Benutzerprofil werden die Änderungen erstmal in der Variable „state” zwischengespeichert, bevor sie in der Datenbank gespeichert werden.
+Wenn der Benutzer Änderungen im Bereich Benutzerprofil vornimmt, werden diese erstmal in der Variable „state” zwischengespeichert, bevor sie in der Datenbank gespeichert werden.
 \\
 Die Abfrage zur Aktualisierung der Daten wird in dem Moment an den Server gesendet, in dem der Benutzer auf die Taste „Save/Speichern“ drückt.
 \\
 Zu diesem Zeitpunkt wird die Benutzeroberfläche durch useEffect aktualisiert, da sich die Variable „state” als Abhängigkeit von useEffect festgelegt ist und diese neue Informationen enthalten.
 \\\\
-Ein Beispiel dafür ist, wenn der Benutzer die Sprachen, die er/sie spricht, aktualisiert. Beim Speichern der Änderungen wird nur die Komponente, die mit der vorgenommenen Änderung zusammenhängt, wieder in das HTML-DOM geladen.
+Ein Beispiel dafür ist, wenn der Benutzer das Feld Sprachen aktualisiert. Beim Speichern der Änderungen werden nur die Komponente, die mit der vorgenommenen Änderung zusammenhängt, wieder in das HTML-DOM geladen.
 \\\\
 
 \textbf{useContext}
 \\
 useContext ermöglicht Daten innerhalb bestimmte Komponenten zu teilen.
-
 In diesem Projekt war useContext eingesetzt, um die Benutzerdaten und den Authentifizierungstoken über die Komponenten  „Profile“, „Chat“, „Users“ zu teilen.
 \\\\
-%In frühen Versionen des Projekts wurde für den gleichen Zweck props verwendet.  {\cite{R03}}
 UseContext bietet eine Lösung, um Daten zwischen Komponenten auszutauschen.{\cite{R04}}
 \\
 In diesem Projekt war es nötig, Daten über mehrere Komponenten zu teilen, weil die Benutzerdaten in mehrere Komponenten konsumiert wurden.
