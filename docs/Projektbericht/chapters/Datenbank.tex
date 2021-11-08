@@ -107,24 +107,24 @@ Folgende Kollektionen wurden verwendet, um die Daten optimal zu verwalten.
 \paragraph{Nutzer}
 \begin{center}
     \begin{tabularx}{\textwidth}{ |X|X|X| } 
-     %\hline
-     %Feld & Beschreibung & Beispiel \\ 
-     %\hline
-     % _id & Standardmäßige MongoId & \\
-     % Benutzername & einzigartiger, öffentlicher Name & MaxMustermann \\ 
-     % normalisierter Name & Name in Kleinbuchstaben. Wird verwendet, um die Einzigartigkeit von Namen zu gewährleisten & maxmustermann \\ 
-     % Email & private eMail des Nutzers & mustermann@email.de \\
-     % Rolle & Gibt an, ob der Nutzer autorisiert ist - Moderatoren und Administratorkonten haben mehr Rechte. Automatisch generiert & Nutzer \\ 
-     % Geburtsdatum & privates Geburtsdatum des Nutzers & 01.01.2000 \\ 
-     % Alter & Alter des Nutzers. Wird automatisch mit Geburtsdatum berechnet & 21 \\ 
-     % Sprachen & Array von Sprachen, die der Nutzer sprechen kann & [de, en] \\
-     % Geschlecht & gesellschaftliches Geschlecht des Nutzers. & Männlich \\ 
-     % Spielposition & Bis zu 2 Lieblingspositionen des Spielers in League of Legends & [Mid, Jungle] \\ 
-     % Freitext & kurzer Text, in dem der Nutzer sich beschreiben kann. & Ich bin ein toller Nutzer! \\
-     % Avatar & URI [GLOSSAR!] vom Avatarbild des Nutzers & https://<s3-name>.s3.eu-central-1.amazonaws.com/avatars/<UUID>.jpg \\ 
-     % Freunde & Array von allen Freunden des Nutzers. Beinhaltet die NutzerID und die ChatID & [[_id1, NutzerID1, ChatID1], [_id2, NutzerID2, ChatID2]]\\ 
-     % Geblockt & Array von NutzerIDs der Nutzer, die geblockt wurden & [NutzerID3, NutzerID4] \\ 
-     %\hline
+     \hline
+     Feld & Beschreibung & Beispiel \\ 
+     \hline
+      \_id & Standardmäßige MongoId & \\
+      Benutzername & einzigartiger, öffentlicher Name & MaxMustermann \\ 
+      normalisierter Name & Name in Kleinbuchstaben. Wird verwendet, um die Einzigartigkeit von Namen zu gewährleisten & maxmustermann \\ 
+      Email & private eMail des Nutzers & mustermann@email.de \\
+      Rolle & Gibt an, ob der Nutzer autorisiert ist - Moderatoren und Administratorkonten haben mehr Rechte. Automatisch generiert & Nutzer \\ 
+      Geburtsdatum & privates Geburtsdatum des Nutzers & 01.01.2000 \\ 
+      Alter & Alter des Nutzers. Wird automatisch mit Geburtsdatum berechnet & 21 \\ 
+      Sprachen & Array von Sprachen, die der Nutzer sprechen kann & {[de, en]} \\
+      Geschlecht & gesellschaftliches Geschlecht des Nutzers. & Männlich \\ 
+      Spielposition & Bis zu 2 Lieblingspositionen des Spielers in League of Legends & {[Mid, Jungle]} \\ 
+      Freitext & kurzer Text, in dem der Nutzer sich beschreiben kann. & Ich bin ein toller Nutzer! \\
+      Avatar & URI vom Avatarbild des Nutzers & \url{https://<s3-name>.s3.eu-central-1.amazonaws.com/avatars/<UUID>.jpg} \\ 
+      Freunde & Array von allen Freunden des Nutzers. Beinhaltet die NutzerID und die ChatID & {[[\_id1, NutzerID1, ChatID1], [\_id2, NutzerID2, ChatID2]]}\\ 
+      Geblockt & Array von NutzerIDs der Nutzer, die geblockt wurden & {[NutzerID3, NutzerID4]} \\ 
+     \hline
     \end{tabularx}
 \end{center}
 
