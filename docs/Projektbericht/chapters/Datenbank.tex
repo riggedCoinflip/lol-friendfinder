@@ -47,7 +47,7 @@ Sharding stellt PostgreSQL vor eine Herausforderung, da komplexe JOIN-Anweisunge
 MongoDB setzt auf Dokumente, welche in den meisten Fällen nicht auf Referenzen zu anderen Dokumenten angewiesen sind. JOIN-artige Anweisungen werden eher selten verwendet, Dokumente besitzen oft eine flachere Datenstruktur als die Pendants der SQL-Tabellen. Infolgedessen entstehen weniger komplexe Abfragen, es müssen seltener Dokumente verschiedener Shards kombiniert werden, die Datenbank wird weniger beansprucht. Sharding in MongoDB ist mit niedrigen Kosten verbunden und benötigt selten eine exakt konzipierte Struktur; es ist verhältnismäßig einfach, mit Sharding eine MongoDB Datenbank zu skalieren.\\
 Zusätzlich erlaubt Sharding bei international angelegten Projekten durch geschickte Wahl der Position der Datenbankknoten, die Latenzzeit bei Abfragen zu minimieren (siehe Schaubild).
 
-\begin{figure}[ht]
+\begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/MongoDB_sharded.png}\cite{MG10}
 	\caption{Regionale Shards mit Replikatgruppen. Sekundärknoten befinden sich für niedrigere Latenzzeiten bei Lesezugriffen in anderen Regionen}
