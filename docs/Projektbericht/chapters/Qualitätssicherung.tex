@@ -1,5 +1,60 @@
 \textbf{Software Testing }
-\begin{flushleft}
+%WARUM SOLLTE GETESTET WERDEN´?
+%WIESO END2END UND UNIT TEST?
+%PROJEKTE SCHREITERN WEGEN MANGELHAFTE TESTING \%
+
+In den letzten x Jahren hat das Software-Testing an Bedeutung gewonnen, unter anderem weil man erkannt hat, dass die Kosten für das Überspringen von Testaktivitäten sehr hoch sein können. Unternehmen waren gezwungen, ihren Betrieb zu unterbrechen, und haben aufgrund von Fehlern in ihren Anwendungen Kunden verloren. [BEISPIELE/QUELLE].
+Beispiele dazu finden in den Fällen von...: 
+Nissan musste für... und COP hat xx verloren(Geld) für....
+Neben der Verringerung des Risikos der oben genannten Situationen bietet das Software-Testing weitere Vorteile. Durch das Testing ...
+Um einige Vorteile zu nennen: Es wird qualitativ hochwertigerer Code erstellt, Verringerung der Wahrscheinlichkeit, dass Fehler in den Code einfließen… [VERVOLLSTÄNDIGEN ].
+
+Aus diesem Grund haben wir Unit-Tests für das Backend und End2End für das Frontend vorgesehen. Diese testen die Funktionalität des Systems separat.
+\\
+
+\textbf{Unit test}\\
+Jest is the most liked Framework for JS...
+%Before/after all; damit der Zustand zurücksetzen kann.
+%Ein TF darf nur 1 Sache testen. 
+%1 Beispiel erläutern (User)
+%Screenshot von Ergebnisse
+%Beschreibung von Screenshot: 1. Zeile gibt an
+
+\textbf{End-to-End Testfälle}\\
+\textbf{Testautomatisierung}\\
+Die Automatisierung von Testfällen maximiert die Effizienz, wenn Testfälle in den Kontinuierliche-Integration(Continuous integration) Workflows einbezieht werden. Neuer Code kann automatisch getestet werden, z. B. jedes Mal, wenn ein neues Pull-Request erstellt wird.
+
+\begin{figure}[ht]
+	\centering
+    \includegraphics[width=\textwidth]{sources/Gitlab-CI.png}\cite{MG10}
+	\caption{Gitlab-CI}
+	\label{Continuous integration workflow } {\cite{GLAB1}}
+\end{figure}
+
+
+\subsection{Die Testfälle für unser Projekt}
+\paragraph{}
+Nachstehend einer Überblick über die Testfälle bei Cypress.
+\\
+\begin{center}
+\includegraphics[scale=0.60]{Cy_Test_Cases}\label{fig:Cy_Test_Cases}\\
+\textbf{Abbildung \autoref{fig:Cy_Test_Cases}:} Testfälle in Cypress
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.40]{Cy_Test_running}\label{fig:Cy_Test_running}
+\textbf{Abbildung \autoref{fig:Cy_Test_running}:} Grafische Darstellung der verschiedenen Tests in Cypress
+\end{center}
+
+
+%Ergebnise der ganzen Testlauf
+
+\subsection{Unit test (Backend)}
+To-Do
+
+
+
+\begin{comment}
 Obwohl das Projekt relativ klein ist, wurde die Wichtigkeit von automatisierten Tests nicht unterschätzt.
 \\
 Für das Frontend wurden End-to-End Testfälle mit Cypress geschrieben.
@@ -22,56 +77,8 @@ Wenn das Projekt weiter wachsen würde, würde auch die Möglichkeit von Fehlern
 Ohne automatisierte Tests, ist manuelles Testing nötig.
 \\
 Im Anhang 2 befindet sich ein Code-Auszug eines Testfälles End-to-End. 
-\end{flushleft}
-
-
+\end{comment}
 %%POSIBLEMENTE ESTE NO ES ELMEJOR EJ PUESTO QUE NO SE ESTA PROBANDO EL TAMANIO LAS IMAGENES EN LAS PRUEBAS DE CYPRESS
 %% SIN EMBARGO EL HECHO DE REUTILIZAR LOGICA DE CIERTOS ELEMENTOS ES MUY RELEVANTE Y DEBERIA SER INCLUIDA EN OTRA PARTE %DEL REPORTE
 %BUSCAR OTRO EJ. DONDE EL TESTING COBRA MAS RELEVANCIA
 
-\subsection{Die Testfälle für unser Projekt}
-\paragraph{}
-Nachstehend einer Überblick über die Testfälle bei Cypress.
-\\
-\begin{center}
-\includegraphics[scale=0.60]{Cy_Test_Cases}\label{fig:Cy_Test_Cases}\\
-\textbf{Abbildung \autoref{fig:Cy_Test_Cases}:} Testfälle in Cypress
-\end{center}
-
-\begin{center}
-\includegraphics[scale=0.40]{Cy_Test_running}\label{fig:Cy_Test_running}
-\textbf{Abbildung \autoref{fig:Cy_Test_running}:} Grafische Darstellung der verschiedenen Tests in Cypress
-\end{center}
-
-\newpage
-\textbf{home.spec.js}\\
-Prüfen Sie, ob die Startseite „Home“ gerendert wurde.
-\\\\
-\textbf{likeUsers.spec.js}\\
-Mit diesem Testfall wird überprüft, ob nach der Vergabe von einem „Like“ oder einem „Dislike“ ein anderer Nutzer angezeigt wird.
-\\\\
-\textbf{Testfall localStorage Token}\\
-Hier wird der Wert des JSON-Web-Tokens zu verschiedenen Zeitpunkten überprüft.
-Die Erwartung ist, dass das Token null ist, wenn der Benutzer nicht angemeldet ist.
-Dieses Token wird in localStorage gespeichert.
-Es besteht auch die Möglichkeit, dass das Token abgelaufen ist, wodurch alle Abfragen an den Server, die eine Authentifizierung erfordern, unmöglich werden.
-\\\\
-\textbf{profileElements.spec.js}\\
-Der Testfall prüft, ob die Elemente und Komponenten der Komponente Profil gerendert wurden und sichtbar sind. Diese Elemente sind userName, Gender und AboutMe. Die Komponenten sind Language und InGameRole.
-Außerdem wird überprüft, ob Komponenten, ein Element „Dropdown“ enthalten, eine Mindestanzahl von Elementen enthalten, die angezeigt werden müssen. 
-\\\\
-\textbf{signUp.spec.js}\\
-Dieser Testfall erstellt einen neuen Benutzer mit einer zufälligen E-Mail und einem zufälligen Benutzernamen.  \\
-\\
-\textbf{Commands bei Cypress}\\
-\begin{flushleft}
-In den Testfällen gibt es Aktionen, die sich immer wieder wiederholen, zum Beispiel die Anmeldung eines Nutzers.
-\\
-Zu diesem Zweck wurde in Cypress ein wiederverwendbarer Befehl definiert.
-\\
-Diese setzen sich aus nativen Cypress-Befehlen zusammen. Es handelt sich praktisch um benutzerdefinierte Funktionen, die häufig bei Tests verwendet werden.
-
-Ein Beispiel ist im Anhang 3 zu finden.
-\end{flushleft}
-
-%Ergebnise der ganzen Testlauf
