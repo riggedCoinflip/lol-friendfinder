@@ -1,0 +1,62 @@
+-------------------------------|---------|----------|---------|---------|-------------------
+File                           | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------------------|---------|----------|---------|---------|-------------------
+All files                      |   95.87 |    79.29 |   92.63 |   96.79 |
+ graphql                       |     100 |      100 |     100 |     100 |
+  index.js                     |     100 |      100 |     100 |     100 |
+  language.js                  |     100 |      100 |     100 |     100 |
+ graphql/chat                  |     100 |      100 |     100 |     100 |
+  chat.js                      |     100 |      100 |     100 |     100 |
+  chat.test.queries.js         |     100 |      100 |     100 |     100 |
+ graphql/like                  |     100 |      100 |     100 |     100 |
+  like.js                      |     100 |      100 |     100 |     100 |
+  like.test.queries.js         |     100 |      100 |     100 |     100 |
+ graphql/user                  |   97.06 |    84.21 |     100 |     100 |
+  user.js                      |   96.77 |    84.21 |     100 |     100 | 176-183
+  user.test.queries.js         |     100 |      100 |     100 |     100 |
+ middleware/jwt                |     100 |    85.71 |     100 |     100 |
+  isAuth.js                    |     100 |      100 |     100 |     100 |
+  requireAuthentication.js     |     100 |      100 |     100 |     100 |
+  requireAuthorization.js      |     100 |    66.67 |     100 |     100 | 12
+ models/chat                   |     100 |      100 |     100 |     100 |
+  chat.js                      |     100 |      100 |     100 |     100 |
+ models/language               |     100 |      100 |     100 |     100 |
+  language.js                  |     100 |      100 |     100 |     100 |
+ models/like                   |     100 |      100 |     100 |     100 |
+  like.js                      |     100 |      100 |     100 |     100 |
+ models/password               |     100 |    83.33 |     100 |     100 |
+  password.js                  |     100 |    83.33 |     100 |     100 | 7,40
+ models/user                   |   97.37 |    91.67 |     100 |     100 |
+  user.js                      |    97.3 |    91.67 |     100 |     100 | 114
+  user.test.data.js            |     100 |      100 |     100 |     100 |
+ routes                        |   81.82 |    76.92 |   85.71 |   81.82 |
+  avatar.js                    |   81.82 |    76.92 |   85.71 |   81.82 | 77-91
+ utils                         |   93.94 |    66.67 |   85.71 |   93.75 |
+  createApolloServer.js        |     100 |      100 |     100 |     100 |
+  createExpressApp.js          |   85.71 |      100 |      50 |   85.71 | 14-15
+  createMongoData.js           |     100 |      100 |     100 |     100 |
+  launchServer.js              |     100 |        0 |     100 |     100 | 1
+ utils/language                |     100 |      100 |     100 |     100 |
+  createLanguages.js           |     100 |      100 |     100 |     100 |
+ utils/like                    |     100 |      100 |     100 |     100 |
+  createDummyLikes.js          |     100 |      100 |     100 |     100 |
+ utils/password                |     100 |      100 |     100 |     100 |
+  createPasswords.js           |     100 |      100 |     100 |     100 |
+ utils/shared_utils            |   66.67 |     7.69 |      50 |   66.67 |
+  index.js                     |   66.67 |     7.69 |      50 |   66.67 | 68-123
+ utils/test-utils              |   96.92 |       80 |     100 |     100 |
+  createMatch.js               |   85.71 |       50 |     100 |     100 | 8-9
+  db-handler.js                |     100 |      100 |     100 |     100 |
+  fullyFunctionalTestClient.js |     100 |      100 |     100 |     100 |
+  graphqlTestClient.js         |     100 |      100 |     100 |     100 |
+  validators.js                |     100 |      100 |     100 |     100 |
+ utils/user                    |     100 |       75 |     100 |     100 |
+  createDummyUsers.js          |     100 |       75 |     100 |     100 | 11
+-------------------------------|---------|----------|---------|---------|-------------------
+
+Test Suites: 9 passed, 9 total
+Tests:       2 skipped, 52 passed, 54 total
+Snapshots:   0 total
+Time:        78.435 s
+Ran all test suites.
+PS D:\Users\Spiel\Dokumente\_code\WebstormProjects\lol-friendfinder\backend>
