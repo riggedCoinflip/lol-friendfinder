@@ -1,26 +1,38 @@
-\textbf{Software Testing }
+\textbf{Software Testing 14:11}
 %WARUM SOLLTE GETESTET WERDEN´?
 %WIESO END2END UND UNIT TEST?
 %PROJEKTE SCHREITERN WEGEN MANGELHAFTE TESTING \%
 
-In den letzten x Jahren hat das Software-Testing an Bedeutung gewonnen, unter anderem weil man erkannt hat, dass die Kosten für das Überspringen von Testaktivitäten sehr hoch sein können. Unternehmen waren gezwungen, ihren Betrieb zu unterbrechen, und haben aufgrund von Fehlern in ihren Anwendungen Kunden verloren. [BEISPIELE/QUELLE].
-Beispiele dazu finden in den Fällen von...: 
-Nissan musste für... und COP hat xx verloren(Geld) für....
-Neben der Verringerung des Risikos der oben genannten Situationen bietet das Software-Testing weitere Vorteile. Durch das Testing ...
-Um einige Vorteile zu nennen: Es wird qualitativ hochwertigerer Code erstellt, Verringerung der Wahrscheinlichkeit, dass Fehler in den Code einfließen… [VERVOLLSTÄNDIGEN ].
+%In den letzten x Jahren hat d
+Das Software-Testing hat an Bedeutung gewonnen. 
+Einer der Gründe dafür ist, dass das Risiko, gar nicht oder zu wenig zu testen, erkannt wurde.
+%Unter anderem, weil es klar/verstanden wurde, wie riskant ist, Testaktivitäten zu überspringen oder nicht genug Testing durchzuführen.
 
-Aus diesem Grund haben wir Unit-Tests für das Backend und End2End für das Frontend vorgesehen. Diese testen die Funktionalität des Systems separat.
+In der Vergangenheit waren Unternehmen gezwungen, ihren Betrieb zu unterbrechen, oder haben aufgrund von Fehlern in ihren Anwendungen Kunden verloren. 
+
+Beispiele dazu sind Starbucks im Jahr 2015, der gezwungen war, etwa 60 \% der Filialen in den USA und Kanada wegen eines Softwarefehlers in seinem Kassensystem zu schließen{\cite{QS1}} oder Nissan im Jahr 2014 als fast 1 Million Fahrzeuge wegen eines Softwarefehlers in den Airbag-Sensoriksystemen zurückgeziehen musste{\cite{QS2}}. 
+
+Neben der Verringerung des Risikos der oben genannten Situationen bietet das Software-Testing weitere Vorteile. 
+Zu diesen Vorteilen gehören eine Erhöhung der Softwarequalität, die 
+Trennung der zwischen Software-Testing und -entwicklung, bessere Chancen, Fehler zu entdecken, bevor die Kunden sie entdecken und vieles mehr.
+
+Aus diesem Grund wurden Unit-Tests für das Backend und End2End für das Frontend vorgesehen. 
 \\
 
-\textbf{Unit test}\\
-Jest is the most liked Framework for JS...
+\textbf{Unittest}\\
+Auch als Komponententest bekannt, wird diese geschrieben, um die richtige Funktionsweise einer Codeeinheit zu prüfen. In den meisten Programmiersprachen ist das eine Funktion, ein Unterprogramm oder eine Methode.
+
+Für dieses Projekt wurde das Jest Framework verwendet. 
+Sowohl Cypress als auch Jest stehen an der Spitze der Liste, wenn es um Test-Frameworks geht{\cite{QS3}}.
 %Before/after all; damit der Zustand zurücksetzen kann.
 %Ein TF darf nur 1 Sache testen. 
 %1 Beispiel erläutern (User)
 %Screenshot von Ergebnisse
 %Beschreibung von Screenshot: 1. Zeile gibt an
-
+\\
 \textbf{End-to-End Testfälle}\\
+Cypress IO ist ein Testautomatisierungswerkzeug für End-to-End-Tests und UI-Tests. 
+\\
 \textbf{Testautomatisierung}\\
 Die Automatisierung von Testfällen maximiert die Effizienz, wenn Testfälle in den Kontinuierliche-Integration(Continuous integration) Workflows einbezieht werden. Neuer Code kann automatisch getestet werden, z. B. jedes Mal, wenn ein neues Pull-Request erstellt wird.
 
