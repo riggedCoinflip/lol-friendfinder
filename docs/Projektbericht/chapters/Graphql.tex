@@ -1,184 +1,111 @@
-Unsere Webseite besteht aus statischen Inhalten wie beispielsweise der Menuführung, die offen im HTML-Dokument liegen und Inhalten, die dynamisch mit Daten aus der Datenbank gefüllt werden: Profile, Chats, Nachrichten. Um diese Daten bereitstellen zu können, ist eine Schnittstelle zwischen Datenbank und Frontend notwendig. 
+\subsection{Anforderungen und Technologiewahl}
+Die Webseite besteht aus statischen Inhalten wie beispielsweise der Menuführung, die offen im HTML-Dokument liegen und Inhalten, die dynamisch mit Daten aus der Datenbank gefüllt werden: Profile, Chats, Nachrichten. Um diese Daten bereitstellen zu können, ist eine Schnittstelle zwischen Datenbank und Frontend notwendig. 
 
-Wir haben uns für GraphQL entschieden, weil... %TODO fill
+Es wurde sich für GraphQL statt einer standardmäßigen REST-Schnittstelle entschieden, da GraphQL verschiedene Verbesserungen bietet, wie zum Beispiel Leistungsoptimierungen durch Overfetching und Underfetching, Stabilität durch ein Typenschema und Selbstdokumentation.
 
-\section{GraphQL erklärt}
-https://www.youtube.com/watch?v=eIQh02xuVw4
-
-\section{Overfetching und Underfetching}
-Unter Overfetching versteht man, dass bei einer Anfrage mehr Daten zurückgegeben werden, als benötigt werden.
-Beim Underfetching werden von einem Endpunkt nicht genug Daten zur verfügung gestellt, wodurch mehrere Anfragen erstellt werden müssen.
+\subsection{Overfetching und Underfetching}
+Antworten von REST-Schnittstellen sind dafür bekannt, zu viele Daten (Overfetching) oder zu wenige Daten (Underfetching) zu beinhalten.
 In beiden Fällen entstehen - durch mehr benötigte Bandbreite oder mehr Anfragen - Leistungseinbuße, die als Folge längere Antwortzeiten und höhere Serverkosten beinhalten.
+Das Problem ist mit REST-Schnittstellen schwer zu umgehen, eine perfekte Konfiguration würde exakt die Endpunkte beinhalten, die genau die angefragen Daten liefern. Dies ist jedoch praxisfern, da sich die Anforderungen in einem Projekt ständig verändern und jeder Endpunkt für dessen Betrieb Ressourcen benötigt und gewartet und getestet werden muss.
 
-In klassischen REST-APIs muss für jede Anfrage ein eigener Endpunkt erstellt werden. In einer perfekten Konfiguration bestehen genau die Endpunkte, um exakt die benötigten Daten abfragen zu können. Diese perfekte Konfiguration ist jedoch praxisfern, Anforderungen und damit angefragte Daten verändern sich in einem Projekt dauernd, zudem kostet es Ressourcen, jeden einzelnen Endpunkt zu betreiben und zu warten. 
+GraphQL löst das Problem, indem bei jeder Anfrage genau definiert wird, welche Daten von welchen Endpunkten erfragt werden. Dies entlastet die Datenbank, da diese weniger Daten zur Verfügung stellen muss und erleichtert auch die Arbeit des Frontends, da nur eine Abfrage erstellt werden muss und irrelevante Daten bereits in der Abfrage aussortiert werden. REST fokussiert sich auf die verschiedenen Endpunkte, während bei GraphQL den Fokus auf die einzelnen Aufgaben legt. Die Applikation entscheidet über die Daten die es erhält, nicht der Server.
+Mehrere Abfragen können in eine einzige Schnittstellenabfrage gebündelt werden, der Client erhält somit zusammenhängende Daten und die Datenbank wird durch präzise Abfragen geschont.
 
-GraphQL löst dieses Problem, da bei jeder Anfrage genau definiert werden kann, welche Daten erfragt werden sollen und welche Endpunkte dafür verwendet werden. 
-%TODO Beispiel-Bild von GQL-Afrage
+\subsection{Stabilität}
+Durch GraphQls Typenschemata wird definiert, welche Abfragen und Mutationen möglich sind. Sollte bei einer Abfrage die Datenbank einen anderen Datentyp als durch das Typenschema definiert liefern, wirft GraphQL einen Fehler.  Der Klient kann somit bei einer Abfrage damit rechnen, Daten in den angegebenen Datentypen zu erhalten, Ausnahmen für andere Datentypen müssen nicht definiert werden. Genauso wird eine Abfrage mit nicht erlaubten Datentypen direkt mit einer Fehlermeldung beantwortet, die genau auf den falschen Datentyp hinweist. Dadurch werden Inkonsistenzen der Datenbank oder weitere Datentypenkontrollen durch Design bereits stark mitigiert.
 
-\section{Typisierung}
-Stark definierte Datentypen verringern das Risiko einer Fehlkommunikation zwischen Client und Server.
+\subsection{Dokumentation}
+GraphQL selbstdokumentiert jeden Endpunkt durch die vorliegenden Datentypen. Bei Änderungen an der Schnittstelle wird die Dokumentation automatisch aktualisiert. Weiterhin kann manuell eine Beschreibung des Endpunkts hinzugefügt werden.
+Dies erleichtert es dem Frontend, die richtigen Endpunkte und Datentypen für ihre Abfragen und Mutationen zu verwenden. Durch die angegebenen Datentypen ist das Frontend somit in der Lage, direkt zu erkennen, welche Datentypen in der entsprechenden Abfrage oder Mutation zu verwenden sind und kann damit Zeit sparen. Gleichzeitig fällt Zeit weg, die für das manuelle Dokumentieren der Schnittstelle angefallen wäre.
 
-\section{Dokumentation}
-GraphQL erlaubt es, jeden Endpunkt und jedes Anfragefeld zu dokumentieren. Dies erleichtert es dem Frontend, die richtigen Endpunkte für ihre Anfrage zu verwenden.
+\subsection{GraphiQL}
+Mit GraphiQL liefert GraphQL einen Webeditor, der das Schreiben von Abfragen und Mutationen vereinfacht. Der Editor liefert einige Funktionen, die den Umgang einfacher machen, wie zum Beispiel automatisches Komplettieren von Variablennamen oder das Formatieren in eine lesbarere Struktur. Der Editor hat außerdem Zugriff auf die Typenschemata und Dokumentation und kann damit Abfragen auf syntaktische Fehler untersuchen, noch bevor diese abgeschickt werden.
+Der Editor steht unter der Route \textit{/graphql} für jeden Nutzer zur freien Verfügung und erleichtert somit die Arbeit für alle Programmierer, die unsere Schnittstelle verwenden. Im Projekt konnte durch die Nutzung des Editors beim Erstellen von Datentypdefinitionen, Abfragen und Mutationen Programmierzeit gespart werden.
 
-\section{GraphiQL}
-GraphiQL ist eine browserbasierte Programmierumgebung, mit der Programmierer Zugriff auf die GraphQL-Dokumentation der Webseite haben. Dies erleichtert die Programmierung im Frontend.
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{sources/graphiql.png}\cite{}
+	\caption{GraphiQL Benutzeroberfläche. Links: Zwei Endpunkte werden durch eine Abfrage gebündelt abgefragt. Mitte: Antwort der Endpunkte. Rechts: Dokumentation und Typendefinition des Endpunkts \texitit{userSelf}.}
+	\label{fig1}
+\end{figure}
 
-\section{}
-
-
-
-
-
-
-
-Schnittstelle zur Kommunikation zwischen Datenbank und frontend
-
-Graphql vs REST
-
-Verwendete packages
-Apollo
-Graphql Playground
-graphql-compose(-mongoose)
-
-Für einige Daten Authentifizierung und Autorisierung benötigt
-
-Fazit
+\subsection{Resolver}
+Durch die Pakete \textit{graphql-compose} und \textit{graphql-compose-mongoose} werden aus den bestehenden Datenbankmodellen Typenschemata entsprechend der Datentypen erstellt, die in GraphQL weiterverwendet werden können. 
+Resolver ("to resolve", etw. auflösen/abwickeln/klären) beantworten Abfragen und Mutationen. Sie bilden das Bindeglied zwischen Schnittstellenabfrage und Datenbankantwort. So wird beispielsweise eine Schnittstellenabfrage, welche nach dem Namen, Alter und Freitext des Nutzers "Foobar" fragt, durch einen Resolver in die entsprechende Datenbankabfrage übersetzt und die Antwort der Datenbank wiederum so editiert, dass diese der gewünschten Datenstruktur der Abfrage entspricht. Simplere Resolver, welche zum Beispiel einen einzelnen Datenbankeintrag durch die ID identifizieren (\textit{findOne}) oder anhand der bestehenden Datenstruktur einen Datenbankeintrag erstellen (\textit{createOne}), werden durch die verwendeten Pakete bereit gestellt und lassen sich in das Projekt integrieren, für komplexere Resolver lassen sich bestehende anpassen oder gänzlich neue erstellen.
+Die verwendeten Resolver und Typenschemata werden dem \textit{schemaComposer} bereit gestellt, welcher aus den bestehenden Daten die Dokumentation generiert.
 
 
-Mit GraphQL sind APIs schnell, flexibel und einfach für Entwickler.
-\\ \\
-Laut dem 2020 State of the API Report von Postman.com steht GrapQL an fünfter Stelle der spannendsten Technologien für 2021.
-{Vgl. u.a. \cite{PM1}}
+\subsection{Verwendete Abfragen und Mutationen}
+Nachfolgend werden einige der verwendeten Abfragen und Mutationen exemplarisch vorgestellt.
 
-Im Hinblick auf die Art und Weise, wie Abfragen an den Server mithilfe von 
-\\ GraphQL behandelt werden können, sind folgende Aspekte zu beachten.
+Für den Registrierungsvorgang wird die Mutation \textit{signup} verwendet. Durch die Angabe von Email, gewünschtem Namen und Passwort wird ein Nutzerkonto erstellt. In Zukunft kann durch Angabe von Namen und Passwort mit der \textit{login} Abfrage ein Authentifizierungstoken erstellt werden, welches bei Abfragen, die eine Authentifizierung oder Authorisierung verlangen, benötigt wird.
 
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{sources/graphiql_signup.png}\cite{}
+	\caption{Registrierung des neuen Nutzers \textit{MyName}}
+	\label{fig2}
 
-  \end{itemize}
+\end{figure}\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{sources/}\cite{}
+	\caption{Anmeldung des Nutzers. Die Antwort enthält das JSON Web Token, welches für bestimmte Abfragen zur Authentifizierung und Autorisierung dient.}
+	\label{fig3}
+\end{figure}
 
-  \footnote{Vgl. u.a. \cite{RH1}}
-\end{quote}
+Alle weiteren vorgestellten Endpunkte benötigen zur eindeitugen Indentifizierung ein valides Authentifizierungstoken.
 
-\subsubsection{GraphQL Playground}
-Mit GraphQL Playground haben wir die Möglichkeit, alle Abfragen und Mutationen zu testen. Wir erhalten Zugriff auf relevante Informationen wie verfügbare Felder und deren Datentyp. Diese Informationen werden aktualisiert, wenn der Servercode geändert wurde. Dadurch wurde eine aktuelle API-Dokumentation gewährleistet. Für unser Projekt war es sehr praktisch und hat die Kommunikation als Entwickler effizienter gemacht.
-\\
-\begin{center}
-\includegraphics[scale=0.60]{GraphQL_Playground}\label{fig:GraphQL_Playground}
-\end{center}
-\textbf{Abbildung \autoref{fig:GraphQL_Playground}:}
-Genau derselbe Code wird für die Abfrage von Benutzerinformationen später verwendet.
-\newpage
+Um das eigene Profil anzuzeigen, wird die \textit{userSelf} Abfrage verwendet. Diese zeigt Daten entsprechend des Datenbankschemas an. Einige dieser Daten sind veränderbar, so zum Beispiel der Freitext. Zum Verändern der Daten ist die Mutation \textit{userUpdateSelf} vonnöten.
 
-\subsection{Implementierung der Serveranfragen mit GraphQL}
-Alle Abfragen und Mutationen wurden in einem separaten Ordner gesammelt.
-Damit soll eine saubere Struktur des Codes gewährleistet werden.
-Diese wurden für die spätere Verwendung in den React-Komponenten exportiert.
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{sources/graphiql_userUpdateSelf.png}\cite{}
+	\caption{Das Geschlecht, Sprachen, Rolle etc. für den aktiven Nuter werden gesetzt. Unten: Ausschnitt des Autorisierungstokens. Durch das Token wird der aktive Nutzer identifiziert.}
+	\label{fig4}
+\end{figure}
 
-Mithilfe der Hooks useQuery bzw. useMutation von Apollo Client wurden die Lese- und Schreibabfragen durchgeführt.
-\\\\
-\textbf{Apollo Client}\\
-Warum haben wir uns für Apollo entschieden? Was ist ApolloClient?
-TODO
-%Coming...
-\newpage
+Zum Finden von neuen Nutzern wird die Abfrage \texit{userManyToSwipe} verwendet. Dabei werden dem abfragendem Nutzer durch einen Algorithmus die Profile von mehreren Nutzern geladen, die sich nicht bereits in der Freundesliste befinden oder vom aktiven Nutzer blockiert wurden. Nutzer, welche dem aktiven Nutzer eine Freundesanfrage geschickt haben, werden präferiert gezeigt, um die Chance neuer Freundschaften zu erhöhen. Es ist möglich, durch Filter die Menge der potenziellen Nuter zu reduzieren. Im Frontend werden die Profile nacheinander angezeigt. Hier hätte man überlegen können, mit jeder Abfrage nur einen einzelnen Nutzer anzuzeigen, da das Laden von mehreren Nutzern pro Abfrage jedoch die Zahl der Abfragen stark erhöht wurde sich dagegen entschieden.
+Mit der Mutation \textit{swipe} kann dann eine Freundschaftsanfrage an den angegebenen Nutzer geschickt werden.
 
-\subsubsection{Leseabfrage}
-Nachdem eine Abfrage exportiert wurde, ist sie bereit, in einer React-Komponente \\
-importiert und angewendet zu werden.
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{sources/graphiql_userManyToSwipe.png}\cite{}
+	\caption{Abfrage nach mehreren Nutzern mit userManyToSwipe. Durch den Filter werden nur Nutzer im Alter zwischen 20 und 30 Jahren angezeigt.}
+	\label{fig5}
+\end{figure}
 
-\begin{lstlisting}
-import { GET_MY_INFO } from "./GraphQL/Queries"
-import { useQuery } from "@apollo/client"
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{sources/graphiql_swipe.png}\cite{}
+	\caption{Der aktive Nutzer versendet einen Like an den durch \textit{recipient} definierten Nutzer}
+	\label{fig6}
+\end{figure}
 
-const { loading, error, data } = useQuery(
-GET_MY_INFO,
-ContextHeader(token),
-)
-//Code-Auszug in frontend/src/App.js
+Die Nachrichten eines Chats können durch die Abfrage \textit{getChat} gelesen werden. Dazu ist die ID des Chat anzugeben. Der optionale Parameter "Seite" gibt an, welche Nachrichten zurückgegeben werden sollen. Auf jeder Seite befinden sich 20 Nachrichten, beginnend bei "Seite=1" mit den neuesten 20 Nachrichten. Sollte der Seitenparameter nicht angegeben werden, wird nur die neueste Nachricht geladen, dies wird bei der Vorschau des Chats für die Freundesliste verwendet.
 
-\end{lstlisting}
-Die Konstante ContextHeader enthält das Token in der Struktur, die erforderlich ist, um die Abfrage nur dann stellen zu können, wenn der Benutzer dazu berechtigt ist.
-\\
-Sollte das Token einen undefinierten Wert, null oder ungültig enthalten, wird der Server ein Fehler zurückgegeben.
-\\
-Der useQuery Hook liefert ein Ergebnisobjekt, welches eine der folgenden Optionen zurückgibt.
-\\\\
-\textbf{loading:}\\
-Ein boolescher Wert, der angibt, ob die Abfrage in Bearbeitung ist.
-Wenn loading wahr ist, ist die Anfrage noch nicht abgeschlossen. Typischerweise kann diese Information verwendet werden, um einen Lade-Spinner anzuzeigen.
-\\\\
-\textbf{error:}\\
-Ein Laufzeitfehler mit den Eigenschaften von GraphQL Errors und network Error.
-Dieses enthält Informationen darüber, was bei der Abfrage fehlgeschlagen  ist.
-\\\\
-\textbf{date:}\\
-Ein Objekt, das das Ergebnis der GraphQL-Abfrage enthält.
-\\Es enthält die tatsächlichen Daten vom Server.
-\\
-\newpage
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{sources/graphiql_getChat.png}\cite{}
+	\caption{Durch den Parameter \texit{page: 1} werden die bis zu 20 letzten Nachrichten geladen. Da der Chat nur 4 Nachrichten beinhaltet werden nur diese geladen. Unten: Das Authentifizierungstoken \texitit{x-auth-token} befindet sich in dem HTTP-Header der Abfrage.}
+	\label{fig7}
+\end{figure}
 
-%TODO: AUCH MUTATIONS ZEIGEN
-\subsubsection{Mutationen}
-\subsubsection{Subscriptions}
+Mit \textit{sendMessage} können Nachrichten versendet werden. Dazu ist die ID des Chats notwendig. Der im Parameter \textit{Inhalt} definierte Text wird dann in den Chat als neueste Nachricht versendet.
+Sollte ein Nutzer eine Nachricht editieren oder löschen wollen, ist dazu die Mutation \textit{editOrDeleteMessage} zu verwenden. Zusätzlich zur Chat-ID ist die Nachrichten-ID der zu verändernden Nachricht anzugeben. Der optionale Parameter \textit{content} gibt im Falle einer Änderung den neuen Nachrichteninhalt an. Sollte \textit{content} nicht definiert sein, wird die gewählte Nachricht stattdessen gelöscht. 
 
-TODO after receiving feedback about the rest.
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{sources/graphiql_editMessage.png}\cite{}
+	\caption{Die bestehende Nachricht (Siehe Abfrage \textit{getChat}) wird durch den in \textit{content} definierten Text ersetzt.}
+	\label{fig8}
+\end{figure}
 
-\newpage
-\subsection{Axios}
-Zusätzlich zu den GraphQL-Abfragen wurde eine Post-Anfrage mit Axios bereitgestellt.
-Mit dieser war es möglich, Bilder auf die S3 Speicher von AWS hochzuladen.
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{sources/graphiql_deleteMessage.png}\cite{}
+	\caption{Die soeben editierte Nachricht wird gelöscht.}
+	\label{fig9}
+\end{figure}
 
-\begin{quote}
-  Axios ist ein Promise-basierter HTTP-Client für node.js und den browser. Auf der Server-Seite wir das modul http verwendet, während im Browser XMLHttpRequests (ajax) ausgeführt werden.
-\end{quote}\footnote{Vgl. u.a. \cite{AX1}}
-
-\begin{lstlisting}
-    function disableBtn() {
-        const uploadBtn = document.getElementById("uploadBtn")
-        uploadBtn.disabled = true
-        uploadBtn.style.background = "#000000"
-      }
-    
-      function fileUploadHandler() {
-        errored ? 
-         disableBtn()
-         /*
-        Tritt ein Fehler auf, wird die Abfrage nicht gesendet und der Knopf deaktiviert 
-        Ein Fehler tritt auf, wenn die Datei zu gross ist oder oder wenn sie ein ungueltiges  Format hat
-        */
-        :
-        console.log("uploading pic...", file?.name)
-        const fd = new FormData()
-        /* avatar ist der Name der Datei, die hochgeladen wird
-          file ist der zu sendende  Wert */
-        fd.append("avatar", file)  
-    
-        axios
-          .post(urlAvatar, fd, {
-            headers: {
-              "x-auth-token": TOKEN,
-            },
-          })
-          .then((res) => {
-            setState((state) => ({ ...state, avatar: res?.data?.location }))    
-            //In location finden wir die URL fuer das gerade hochgeladende Bild 
-          })
-      }\end{lstlisting}
-
-%Das HTML-Eingabefeld „input“ wurde folgendermaßen definiert.
-%\begin{lstlisting}
- %   <input type="file" onChange={fileSelectedHandler} />
-%\end{lstlisting}
-
-
-Das Format der hochzuladenden Dateien wurde limitiert, damit nur zulässige Dateien an den Server gesendet werden.
-\begin{lstlisting}
-    const admittedImageFormats = ["png", "jpg", "jpeg"]
-\end{lstlisting}
-
-Die Größe der hochzuladenden Datei wurde um 1 MB abgegrenzt.
-Durch die Eigenschaft „size“ der ausgewählten Datei konnten wir auf die Größe der Datei zugreifen.
-\begin{lstlisting}
-    const imageSize = e.target.files[0].size
-\end{lstlisting}
+\subsection{Fazit}
+Mit Hilfe von GraphQL konnten Endpunkte für Abfragen geschaffen werden, welche sich auf der Webseite unter der Benutzeroberfläche befinden. ...
