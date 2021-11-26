@@ -25,8 +25,8 @@ Der Editor steht unter der Route \textit{/graphql} für jeden Nutzer zur freien 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql.png}\cite{}
-	\caption{GraphiQL Benutzeroberfläche. Links: Zwei Endpunkte werden durch eine Abfrage gebündelt abgefragt. Mitte: Antwort der Endpunkte. Rechts: Dokumentation und Typendefinition des Endpunkts \texitit{userSelf}.}
-	\label{fig1}
+	\caption{GraphiQL Benutzeroberfläche. Links: Zwei Endpunkte werden durch eine Abfrage gebündelt abgefragt. Mitte: Antwort der Endpunkte. Rechts: Dokumentation und Typendefinition des Endpunkts \textit{userSelf}.}
+	\label{figGQL1}
 \end{figure}
 
 \subsection{Resolver}
@@ -44,13 +44,14 @@ Für den Registrierungsvorgang wird die Mutation \textit{signup} verwendet. Durc
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_signup.png}\cite{}
 	\caption{Registrierung des neuen Nutzers \textit{MyName}}
-	\label{fig2}
+	\label{figGQL2}
+\end{figure}
 
-\end{figure}\begin{figure}
+\begin{figure}
 	\centering
-    \includegraphics[width=\textwidth]{sources/}\cite{}
+    \includegraphics[width=\textwidth]{sources/graphiql_login.png}\cite{}
 	\caption{Anmeldung des Nutzers. Die Antwort enthält das JSON Web Token, welches für bestimmte Abfragen zur Authentifizierung und Autorisierung dient.}
-	\label{fig3}
+	\label{figGQL3}
 \end{figure}
 
 Alle weiteren vorgestellten Endpunkte benötigen zur eindeitugen Indentifizierung ein valides Authentifizierungstoken.
@@ -61,24 +62,24 @@ Um das eigene Profil anzuzeigen, wird die \textit{userSelf} Abfrage verwendet. D
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_userUpdateSelf.png}\cite{}
 	\caption{Das Geschlecht, Sprachen, Rolle etc. für den aktiven Nuter werden gesetzt. Unten: Ausschnitt des Autorisierungstokens. Durch das Token wird der aktive Nutzer identifiziert.}
-	\label{fig4}
+	\label{figGQL4}
 \end{figure}
 
-Zum Finden von neuen Nutzern wird die Abfrage \texit{userManyToSwipe} verwendet. Dabei werden dem abfragendem Nutzer durch einen Algorithmus die Profile von mehreren Nutzern geladen, die sich nicht bereits in der Freundesliste befinden oder vom aktiven Nutzer blockiert wurden. Nutzer, welche dem aktiven Nutzer eine Freundesanfrage geschickt haben, werden präferiert gezeigt, um die Chance neuer Freundschaften zu erhöhen. Es ist möglich, durch Filter die Menge der potenziellen Nuter zu reduzieren. Im Frontend werden die Profile nacheinander angezeigt. Hier hätte man überlegen können, mit jeder Abfrage nur einen einzelnen Nutzer anzuzeigen, da das Laden von mehreren Nutzern pro Abfrage jedoch die Zahl der Abfragen stark erhöht wurde sich dagegen entschieden.
+Zum Finden von neuen Nutzern wird die Abfrage \textit{userManyToSwipe} verwendet. Dabei werden dem abfragendem Nutzer durch einen Algorithmus die Profile von mehreren Nutzern geladen, die sich nicht bereits in der Freundesliste befinden oder vom aktiven Nutzer blockiert wurden. Nutzer, welche dem aktiven Nutzer eine Freundesanfrage geschickt haben, werden präferiert gezeigt, um die Chance neuer Freundschaften zu erhöhen. Es ist möglich, durch Filter die Menge der potenziellen Nuter zu reduzieren. Im Frontend werden die Profile nacheinander angezeigt. Hier hätte man überlegen können, mit jeder Abfrage nur einen einzelnen Nutzer anzuzeigen, da das Laden von mehreren Nutzern pro Abfrage jedoch die Zahl der Abfragen stark erhöht wurde sich dagegen entschieden.
 Mit der Mutation \textit{swipe} kann dann eine Freundschaftsanfrage an den angegebenen Nutzer geschickt werden.
 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_userManyToSwipe.png}\cite{}
 	\caption{Abfrage nach mehreren Nutzern mit userManyToSwipe. Durch den Filter werden nur Nutzer im Alter zwischen 20 und 30 Jahren angezeigt.}
-	\label{fig5}
+	\label{figGQL5}
 \end{figure}
 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_swipe.png}\cite{}
 	\caption{Der aktive Nutzer versendet einen Like an den durch \textit{recipient} definierten Nutzer}
-	\label{fig6}
+	\label{figGQL6}
 \end{figure}
 
 Die Nachrichten eines Chats können durch die Abfrage \textit{getChat} gelesen werden. Dazu ist die ID des Chat anzugeben. Der optionale Parameter "Seite" gibt an, welche Nachrichten zurückgegeben werden sollen. Auf jeder Seite befinden sich 20 Nachrichten, beginnend bei "Seite=1" mit den neuesten 20 Nachrichten. Sollte der Seitenparameter nicht angegeben werden, wird nur die neueste Nachricht geladen, dies wird bei der Vorschau des Chats für die Freundesliste verwendet.
@@ -86,8 +87,8 @@ Die Nachrichten eines Chats können durch die Abfrage \textit{getChat} gelesen w
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_getChat.png}\cite{}
-	\caption{Durch den Parameter \texit{page: 1} werden die bis zu 20 letzten Nachrichten geladen. Da der Chat nur 4 Nachrichten beinhaltet werden nur diese geladen. Unten: Das Authentifizierungstoken \texitit{x-auth-token} befindet sich in dem HTTP-Header der Abfrage.}
-	\label{fig7}
+	\caption{Durch den Parameter \textit{page: 1} werden die bis zu 20 letzten Nachrichten geladen. Da der Chat nur 4 Nachrichten beinhaltet werden nur diese geladen. Unten: Das Authentifizierungstoken \textit{x-auth-token} befindet sich in dem HTTP-Header der Abfrage.}
+	\label{figGQL7}
 \end{figure}
 
 Mit \textit{sendMessage} können Nachrichten versendet werden. Dazu ist die ID des Chats notwendig. Der im Parameter \textit{Inhalt} definierte Text wird dann in den Chat als neueste Nachricht versendet.
@@ -97,14 +98,14 @@ Sollte ein Nutzer eine Nachricht editieren oder löschen wollen, ist dazu die Mu
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_editMessage.png}\cite{}
 	\caption{Die bestehende Nachricht (Siehe Abfrage \textit{getChat}) wird durch den in \textit{content} definierten Text ersetzt.}
-	\label{fig8}
+	\label{figGQL8}
 \end{figure}
 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_deleteMessage.png}\cite{}
 	\caption{Die soeben editierte Nachricht wird gelöscht.}
-	\label{fig9}
+	\label{figGQL9}
 \end{figure}
 
 \subsection{Fazit}
