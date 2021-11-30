@@ -8,29 +8,17 @@
 In der Vergangenheit haben Unternehmen das Risiko bei der Entwicklung ihrer Projekte unterschätzt. 
 %Einer der Gründe dafür ist, dass das Risiko, gar nicht oder zu wenig zu testen, erkannt wurde.
 %Unter anderem, weil es klar/verstanden wurde, wie riskant ist, Testaktivitäten zu überspringen oder nicht genug Testing durchzuführen.
-
-Die waren gezwungen, ihren Betrieb zu unterbrechen, oder haben aufgrund von Fehlern in ihren Anwendungen Kunden verloren. 
-
-Beispiele dazu sind Starbucks im Jahr 2015, der gezwungen war, etwa 60 \% der Filialen in den USA und Kanada wegen eines Softwarefehlers in seinem Kassensystem zu schließen{\cite{QS1}} oder Nissan im Jahr 2014 als fast 1 Million Fahrzeuge wegen eines Softwarefehlers in den Airbag-Sensoriksystemen zurückgeziehen musste{\cite{QS2}}. 
-
-Neben der Verringerung des Risikos der oben genannten Situationen bietet das Software-Testing weitere Vorteile. 
-Zu diesen Vorteilen gehören eine Erhöhung der Softwarequalität, die 
-Trennung der zwischen Software-Testing und -entwicklung, bessere Chancen, Fehler zu entdecken, bevor die Kunden sie entdecken und vieles mehr.
-
-Aus diesem Grund wurden Unit-Tests für das Backend und End2End für das Frontend vorgesehen. 
+Die waren gezwungen, ihren Betrieb zu unterbrechen, oder haben aufgrund von Fehlern in ihren Anwendungen Kunden verloren. Beispiele dazu sind Starbucks im Jahr 2015, der gezwungen war, etwa 60 \% der Filialen in den USA und Kanada wegen eines Softwarefehlers in seinem Kassensystem zu schließen{\cite{QS1}} oder Nissan im Jahr 2014 als fast 1 Million Fahrzeuge wegen eines Softwarefehlers in den Airbag-Sensoriksystemen zurückgeziehen musste{\cite{QS2}}. Neben der Verringerung des Risikos der oben genannten Situationen bietet das Software-Testing weitere Vorteile. Zu diesen Vorteilen gehören eine Erhöhung der Softwarequalität, die Trennung der zwischen Software-Testing und -entwicklung, bessere Chancen, Fehler zu entdecken, bevor die Kunden sie entdecken und vieles mehr. Aus diesem Grund wurden Unit-Tests für das Backend und End2End für das Frontend vorgesehen. 
 \\
-
 \textbf{Unittest}\\
-Auch als Komponententest bekannt, wird diese geschrieben, um die richtige Funktionsweise einer Codeeinheit zu prüfen. In den meisten Programmiersprachen ist das eine Funktion, ein Unterprogramm oder eine Methode.
-
-Für dieses Projekt wurde das Jest Framework verwendet. 
+Auch als Komponententest bekannt, wird diese geschrieben, um die richtige Funktionsweise einer Codeeinheit zu prüfen. In den meisten Programmiersprachen ist das eine Funktion, ein Unterprogramm oder eine Methode. Für dieses Projekt wurde das Jest Framework verwendet. 
 Sowohl Cypress als auch Jest stehen an der Spitze der Liste, wenn es um Test-Frameworks geht{\cite{QS3}}.
 %Before/after all; damit der Zustand zurücksetzen kann.
 %Ein TF darf nur 1 Sache testen. 
 %1 Beispiel erläutern (User)
 %Screenshot von Ergebnisse
 %Beschreibung von Screenshot: 1. Zeile gibt an
-\\
+\\\\
 \textbf{End-to-End Testfälle}\\
 Cypress IO ist ein Testautomatisierungswerkzeug für End-to-End-Tests und UI-Tests. 
 \\
@@ -41,7 +29,7 @@ Die Automatisierung von Testfällen maximiert die Effizienz, wenn Testfälle in 
 	\centering
     \includegraphics[width=\textwidth]{sources/Gitlab-CI.png}\cite{MG10}
 	\caption{Gitlab-CI}
-	\label{Continuous integration workflow } {\cite{GLAB1}}
+	\label{fig:Continuous_integration_workflow } {\cite{GLAB1}}
 \end{figure}
 
 
@@ -49,8 +37,10 @@ Die Automatisierung von Testfällen maximiert die Effizienz, wenn Testfälle in 
 \paragraph{}
 Nachstehend einer Überblick über die Testfälle bei Cypress.
 \\
+Die \autoref{fig:Continuous_integration_workflow} zeigt den Ablauf, wenn ein neuer Branch erstellt wird und in diesen neuer Code eingebettet wird.
 \begin{center}
-\includegraphics[scale=0.60]{Cy_Test_Cases}\label{fig:Cy_Test_Cases}\\
+\includegraphics[scale=0.60]{Cy_Test_Cases}
+\label{fig:Cy_Test_Cases}\\
 \textbf{Abbildung \autoref{fig:Cy_Test_Cases}:} Testfälle in Cypress
 \end{center}
 
@@ -64,8 +54,6 @@ Nachstehend einer Überblick über die Testfälle bei Cypress.
 
 \subsection{Unit test (Backend)}
 To-Do
-
-
 
 \begin{comment}
 Obwohl das Projekt relativ klein ist, wurde die Wichtigkeit von automatisierten Tests nicht unterschätzt.
