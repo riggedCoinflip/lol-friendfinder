@@ -31,7 +31,7 @@ Dies benötigt jedoch eine umfassende Umstrukturierung der bestehenden Daten, ka
 
 \paragraph{}
 MongoDB speichert Dokumente im JSON-Format und ermöglicht es, mehrere Werte für einen Schlüssel in Form eines Arrays zu hinterlegen.
-Auch ist es möglich, Dokumente in andere Dokumente einzubetten. %TODO Quelle
+Auch ist es möglich, Dokumente in andere Dokumente einzubetten. \cite{mongo:embeddedDocuments}
 Dies beschleunigt Leseabfragen, da die angeforderten Daten meist bereits in einem Dokument vorliegen.
 Allerdings verringert sich die Schreibgeschwindigkeit, da Daten meist redundant in mehreren eingebetteten Dokumenten vorliegen und bei einer Änderung an mehreren Stellen überschrieben werden müssen.
 Anders als PostgreSQL ist MongoDB auf Grundlage dieser Art der Denormalisierung entworfen und ändert bei einem Schreibzugriff automatisch alle Instanzen des gleichen Dokumentes als Teil einer atomaren (Alles-oder-Nichts-)Transaktion. %TODO quelle

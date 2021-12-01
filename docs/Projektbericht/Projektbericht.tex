@@ -37,6 +37,10 @@
 \usepackage{listings}
 \usepackage{xcolor}
 
+%Cite
+\usepackage[style=ieee]{biblatex}
+\bibliography{refs} % Entries are in the refs.bib file
+
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
@@ -367,9 +371,11 @@ Das heißt, ein Team von zwei Studenten mit grundlegenden Programmierkenntnissen
 %</MERKKASTEN>
 
 % Literaturverzeichnis
-\newpage
-\section{Quellenverzeichnis}\label{kap_quellenverzeichnis}
-\input{chapters/Quellenverzeichnis}
+%\newpage
+%\section{Quellenverzeichnis}\label{kap_quellenverzeichnis}
+%\input{chapters/Quellenverzeichnis}
+\printbibliography
+
 
 % INFO: Biblatex -Ausgabe des
 % Literaturverzeichnisses (Beispiele):
