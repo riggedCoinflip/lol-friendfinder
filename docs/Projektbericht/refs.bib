@@ -1,3 +1,5 @@
+%EXAMPLES; delete later
+
 @online{muster,
   author = {},
   title = {},
@@ -8,7 +10,6 @@
 
 % Um zB. Firmennamen zusammen zu halten:  author = {{MongoDB Inc.}}, (teil der in Klammern ist wird nicht getrennt)
 
-%EXAMPLES; delete later
 @book{texbook,
   author = {Donald E. Knuth},
   year = {1986},
@@ -56,20 +57,235 @@
   year={1977},
   address={Dallas, Texas}
 }
+%END EXAMPLES
 
 %%%%%%%%%%%%%%%
 %%% ENTRIES %%%
 %%%%%%%%%%%%%%%
-@online{mongo:embeddedDocuments,
+
+%%%%%%%%%%%%
+%%% TIMO %%%
+%%%%%%%%%%%%
+
+@online{db:denormalization,
+  author = {SAP},
+  title = {Denormalization - SAP Help Portal},
+  url = {https://help.sap.com/viewer/9de0171a6027400bb3b9bee385222eff/2.0.04/en-US/f245a002c2a5478fade7c4d322da9812.html#:~:text=In%20terms%20of%20relational%20theory,inconsistencies%2C%20and%20even%20data%20loss.},
+  urldate = {2021-12-01}
+}
+
+@online{db:mongoEmbeddedDocuments,
   author = {{MongoDB Inc.}},
-  title = {Model One-to-Many Relationships with Embedded Documents — MongoDB Manual},
-  url = {https://docs.mongodb.com/manual/tutorial/model-embedded-one-to-many-relationships-between-documents/},
+  title = {Model One-to-One Relationships with Embedded Documents — MongoDB Manual},
+  url = {https://docs.mongodb.com/manual/tutorial/model-embedded-one-to-one-relationships-between-documents/},
+  urldate = {2021-12-01}
+}
+
+@online{db:mongoAcidCompliance,
+  author = {{MongoDB Inc.}},
+  title = {ACID Transactions Basics | MongoDB},
+  url = {https://www.mongodb.com/basics/acid-transactions#:~:text=How%20do%20ACID%20transactions%20work%20in%20MongoDB%3F},
+  urldate = {2021-12-01}
+}
+
+@online{db:postgresAlterTable,
+  author = {{PostgreSQL Global Development Group}},
+  title = {PostgreSQL: Documentation: 14: ALTER TABLE},
+  url = {https://www.postgresql.org/docs/14/sql-altertable.html},
+  urldate = {2021-12-01}
+}
+
+@online{db:mongoCollection,
+  author = {{MongoDB Inc.}},
+  title = {Collections — MongoDB Compass},
+  url = {https://docs.mongodb.com/compass/current/collections/#:~:text=Documents%20within%20a%20collection%20can%20have%20different%20fields.},
+  urldate = {2021-12-01}
+}
+
+@online{db:networkEffect,
+  author = {Prof. Dr. Hermann Simon and Dr. Gunnar Clausen and Dr. Georg Tacke},
+  title = {Revision von Netzwerkeffekte vom Fr., 16.02.2018 - 15:34 • Definition | Gabler Wirtschaftslexikon},
+  year = {2018},
+  publisher = {Springer Gabler},
+  url = {https://wirtschaftslexikon.gabler.de/definition/netzwerkeffekte-51385/version-274556},
+  urldate = {2021-12-01}
+}
+
+@online{db:networkEffectExponential,
+  author = {Andrei Hagiu, Simon Rothman},
+  title = {Network Effects Aren’t Enough},
+  year = {2016},
+  publisher = {Harvard Business Review},
+  url = {https://hbr.org/2016/04/network-effects-arent-enough#:~:text=Once%20marketplaces%20reach%20a%20critical%20inflection%20point%2C%20network%20effects%20kick%20in%20and%20growth%20follows%20an%20exponential%2C%20rather%20than%20linear%2C%20trajectory.},
+  urldate = {2021-12-01}
+}
+
+@online{db:verticalScaling,
+  author = {{MongoDB Inc.}},
+  title = {What is Database Scaling? | MongoDB},
+  url = {https://www.mongodb.com/databases/scaling#:~:text=and%20Vertical%20Scaling%3F-,What%20is%20Vertical%20Scaling%3F,-Vertical%20scaling%20refers},
+  urldate = {2021-12-01}
+}
+
+@online{db:mongoReplicaSetElections,
+  author = {{MongoDB Inc.}},
+  title = {Replica Set Elections — MongoDB Manual},
+  url = {https://docs.mongodb.com/manual/core/replica-set-elections/#non-voting-members},
+  urldate = {2021-12-01}
+}
+
+@online{db:mongoHiddenReplicaSetMembers,
+  author = {{MongoDB Inc.}},
+  title = {Hidden Replica Set Members — MongoDB Manual},
+  url = {https://docs.mongodb.com/manual/core/replica-set-hidden-member/},
+  urldate = {2021-12-01}
+}
+
+@online{db:mongoDelayedReplicaSetMembers,
+  author = {{MongoDB Inc.}},
+  title = {Delayed Replica Set Members — MongoDB Manual},
+  url = {https://docs.mongodb.com/manual/core/replica-set-delayed-member/},
+  urldate = {2021-12-01}
+}
+
+@online{db:mongoReplicaSetArbiter,
+  author = {{MongoDB Inc.}},
+  title = {Replica Set Arbiter — MongoDB Manual},
+  url = {https://docs.mongodb.com/manual/core/replica-set-arbiter/},
+  urldate = {2021-12-01}
+}
+
+@online{db:sharding,
+  author = {{Microsoft Azure}},
+  title = {Was ist Datenbanksharding? | Microsoft Azure},
+  url = {https://azure.microsoft.com/de-de/overview/what-is-database-sharding/},
+  urldate = {2021-12-01}
+}
+
+@online{db:mongoVsPostgres,
+  author = {William Crowell},
+  title = {PostgreSQL vs. MongoDB: Key Features and Benefits | OpenLogic by Perforce},
+  publisher = {OpenLogic},
+  year = {2021},
+  url = {https://www.openlogic.com/blog/postgresql-vs-mongodb#:~:text=Scaling%20is%20inherently%20built%20into%20MongoDB%2C%20but%20with%20PostgreSQL%C2%A0an%20extension%20is%20required%20to%20add%20that%20capability.},
+  urldate = {2021-12-01}
+}
+
+@online{db:mongoActiveActiveImage,
+  author = {{MongoDB Inc.}},
+  title = {Active-Active Application Architectures with MongoDB},
+  url = {https://www.mongodb.com/developer/article/active-active-application-architectures/#:~:text=Figure%205%20%2D%20Active%20Active%20architecture%20with%20sharded%20database},
+  urldate = {2021-12-01}
+}
+
+@online{db:mongoReplicaSetMembers,
+  author = {{MongoDB Inc.}},
+  title = {Replica Set Members — MongoDB Manual},
+  url = {https://docs.mongodb.com/manual/core/replica-set-members/#:~:text=The%20minimum%20recommended%20configuration%20for%20a%20replica%20set%20is%20a%20three%20member%20replica%20set%20with%20three%20data%2Dbearing%20members%3A%20one%20primary%20and%20two%20secondary%20members.},
+  urldate = {2021-12-01}
+}
+
+@online{db:postgresHighAvailability,
+  author = {{PostgreSQL Global Development Group}},
+  title = {PostgreSQL: Documentation: 14: Chapter 27. High Availability, Load Balancing, and Replication},
+  url = {https://www.postgresql.org/docs/14/high-availability.html#:~:text=Some%20solutions%20are,be%20too%20slow.},
+  urldate = {2021-12-01}
+}
+
+@online{db:postgresWriteAheadLogging,
+  author = {{PostgreSQL Global Development Group}},
+  title = {PostgreSQL: Documentation: 14: 30.3. Write-Ahead Logging (WAL)},
+  url = {https://www.postgresql.org/docs/current/wal-intro.html},
+  urldate = {2021-12-01}
+}
+
+@online{db:mongoElectionTimeout,
+  author = {{MongoDB Inc.}},
+  title = {Replication — MongoDB Manual},
+  url = {https://docs.mongodb.com/manual/replication/#:~:text=The%20median%20time%20before%20a%20cluster%20elects%20a%20new%20primary%20should%20not%20typically%20exceed%2012%20seconds%2C%20assuming%20default%20replica%20configuration%20settings.},
+  urldate = {2021-12-01}
+}
+
+@online{db:mongoElectionPriority,
+  author = {{MongoDB Inc.}},
+  title = {Replica Set Configuration — MongoDB Manual},
+  url = {https://docs.mongodb.com/manual/reference/replica-configuration/#:~:text=Specify%20higher%20values%20to%20make%20a%20member%20more%20eligible%20to%20become%20primary%2C%20and%20lower%20values%20to%20make%20the%20member%20less%20eligible.%20A%20member%20with%20a%20members%5Bn%5D.priority%20of%200%20is%20ineligible%20to%20become%20primary.},
   urldate = {2021-12-01}
 }
 
 
+@online{db:mongoReplicaSetMembersLimit,
+  author = {{MongoDB Inc.}},
+  title = {Replica Set Members — MongoDB Manual},
+  url = {https://docs.mongodb.com/manual/core/replica-set-members/#:~:text=A%20replica%20set%20can%20have%20up%20to%2050%20members%20but%20only%207%20voting%20members.},
+  urldate = {2021-12-01}
+}
 
+@online{db:mongoRollback,
+  author = {{MongoDB Inc.}},
+  title = {Rollbacks During Replica Set Failover — MongoDB Manual},
+  url = {https://docs.mongodb.com/manual/core/replica-set-rollbacks/},
+  urldate = {2021-12-01}
+}
 
+@online{db:json,
+  author = {{JSON Org.}},
+  title = {JSON},
+  url = {https://www.json.org/json-de.html#:~:text=JSON%20(JavaScript%20Object%20Notation)%20ist%20ein%20schlankes%20Datenaustauschformat%2C%20das%20f%C3%BCr%20Menschen%20einfach%20zu%20lesen%20und%20zu%20schreiben%20und%20f%C3%BCr%20Maschinen%20einfach%20zu%20parsen%20(Analysieren%20von%20Datenstrukturen)%20und%20zu%20generieren%20ist.},
+  urldate = {2021-12-01}
+}
 
+@online{db:mongoHistory,
+  author = {Cade Metz},
+  title = {MongoDB daddy: My baby beats Google BigTable • The Register},
+  publisher = {The Register},
+  year = {2011},
+  url = {https://www.theregister.com/2011/05/25/the_once_and_future_mongodb/},
+  urldate = {2021-12-01}
+}
 
+@techreport{db:iso639-1,
+  institution = {International Organization for Standardization},
+  title = {Codes for the representation of names of languages — Part 1: Alpha-2 code},
+  number = {ISO 639-1:2002},
+  year = {2019},
+  url = {https://www.iso.org/standard/22109.html},
+  urldate = {2021-12-01}
+}
 
+@online{db:mongoObjectId,
+  author = {{MongoDB Inc.}},
+  title = {ObjectId — MongoDB Manual},
+  url = {https://docs.mongodb.com/manual/reference/method/ObjectId/#description},
+  urldate = {2021-12-01}
+}
+
+//TODO Da Übersetzung, richtige Quellen?
+@online{db:devProdParity,
+  author = {martinruopp and Carsten Lamm and Dan Brubaker},
+  title = {The Twelve-Factor App Dies ist eine Übersetzung.},
+  publisher = {Heroku},
+  year = {2015-2017},
+  url = {https://12factor.net/de/dev-prod-parity},
+  urldate = {2021-12-01}
+}
+
+@online{muster,
+  author = {},
+  title = {},
+  year = {},
+  url = {},
+  urldate = {2021-12-01}
+}
+
+%%%%%%%%%%%%%
+%%% CARLO %%%
+%%%%%%%%%%%%%
+
+@online{muster,
+  author = {},
+  title = {},
+  year = {},
+  url = {},
+  urldate = {2021-12-01}
+}

@@ -22,20 +22,22 @@ Wartezeiten bei Leseanfragen können daher nicht maskiert werden.\\
 Um in einem späteren Entwicklungsschritt die Reduzierung der Wartezeiten durch eine optimistische Benutzeroberfläche zu ermöglichen, werden daher langsamere Schreibgeschwindigkeiten in Kauf genommen, wenn sich mit dieser Entscheidung die Lesegeschwindigkeit erhöht.
 
 \paragraph{}
-SQL-Datenbanken wie PostgreSQL liegen meist in einer Normalform vor, um das Aktualisieren und Einfügen von Daten zu beschleunigen und die Konsistenz und Integrität gemäß ACID zu wahren. %TODO QUELLE
+Es bietet sich an, SQL-Datenbanken wie PostgreSQL in eine Normalform zu bringen, um das Aktualisieren und Einfügen von Daten zu beschleunigen und die Konsistenz und Integrität gemäß ACID zu wahren.
 Neben diesen Vorteilen entstehen jedoch Nachteile, die sich negativ auf die Lesegeschwindigkeit auswirken.
 Daten in einer Normalform befinden sich in verschiedenen Tabellen, die bei Abfragen oft zusammengeführt werden müssen.
 Die Anfragen werden dadurch komplexer und die Effizienz von Indexen nimmt ab.
 Um die Lesegeschwindigkeit zu erhöhen kann Denormalisierung verwendet werden, bei denen die Daten für verschiedene Tabellen dupliziert werden.
-Dies benötigt jedoch eine umfassende Umstrukturierung der bestehenden Daten, kann zu Anomalien in Datensätzen führen und benötigt weitere Schritte, um die Veränderung von Daten auf andere Tabellen zu übertragen. %TODO Quelle % TODO Fazit:Wir halten dies für einen hohen Aufwand, der mit Risiko und hohen Kosten verbunden ist. 
+Dabei muss darauf geachtet werden, dass bei einer Aktualisierung der Datensätze alle Kopien aktualisiert werden, um Anomalien und Datenverlust zu vermeiden \cite{db:denormalization}.
+Dies führt zu mehr Aufwand im Schreiben des Quellcodes und sorgt damit für Zeitaufwand.
+
 
 \paragraph{}
 MongoDB speichert Dokumente im JSON-Format und ermöglicht es, mehrere Werte für einen Schlüssel in Form eines Arrays zu hinterlegen.
-Auch ist es möglich, Dokumente in andere Dokumente einzubetten. \cite{mongo:embeddedDocuments}
+Auch ist es möglich, Dokumente in andere Dokumente einzubetten. \cite{db:mongoEmbeddedDocuments}
 Dies beschleunigt Leseabfragen, da die angeforderten Daten meist bereits in einem Dokument vorliegen.
-Allerdings verringert sich die Schreibgeschwindigkeit, da Daten meist redundant in mehreren eingebetteten Dokumenten vorliegen und bei einer Änderung an mehreren Stellen überschrieben werden müssen.
-Anders als PostgreSQL ist MongoDB auf Grundlage dieser Art der Denormalisierung entworfen und ändert bei einem Schreibzugriff automatisch alle Instanzen des gleichen Dokumentes als Teil einer atomaren (Alles-oder-Nichts-)Transaktion. %TODO quelle
-Auch Multi-Dokument-Transaktionen über verschiedene Shards und Replikatgruppen sind optional atomar. \cite{MG1}
+Allerdings verringert sich die Schreibgeschwindigkeit, da Daten meist redundant in mehreren eingebetteten Dokumenten vorliegen und bei einer Änderung an mehreren Stellen überschrieben werden müssen.\\
+Anders als PostgreSQL ist MongoDB auf Grundlage dieser Art der Denormalisierung entworfen und ändert bei einem Schreibzugriff automatisch alle Instanzen des gleichen Dokumentes als Teil einer atomaren (Alles-oder-Nichts-)Transaktion.
+Auch Multi-Dokument-Transaktionen über verschiedene Shards und Replikatgruppen sind optional atomar. \cite{db:mongoAcidCompliance}
 
 \subsubsection{Flexible Datenstrukturen}
 Im Rahmen des MVPs stehen die Projektanforderungen fest, allerdings soll im späteren Verlauf des Projektes auf die Wünsche der Nutzer geachtet und entsprechende Anpassungen an der Webseite getätigt werden.
@@ -45,13 +47,14 @@ Sollte sich das Teilprojekt als erfolgreich erweisen, kann in einem späteren En
 Eine Datenbank, die sich flexibel verändern lässt, ermöglicht es, schneller Anpassungen durchzuführen und verkürzt damit die Entwicklungszeit.
 
 \paragraph{}
-Tabellen in PostgreSQL können mit DDL-Befehlen wie ALTER TABLE verändert werden. %TODO Quelle
+Tabellen in PostgreSQL können mit DDL-Befehlen wie ALTER TABLE verändert werden. \cite{db:postgresAlterTable}
 Spalten können hinzugefügt, entfernt oder verändert werden, durch bestehende Constraints (\enquote{Zwangsbedingungen} / \enquote{Beschränkungen}) wird das Entfernen oder Ändern spezieller Spalten in einigen Fällen von der Datenbank verhindert, um die Integrität der Daten zu gewährleisten. 
 Das Ändern des Datentyps einer Spalte ist in der Regel nur möglich, wenn die Datentypen zueinander kompatibel sind (z.B Wechsel eines Ganzzahl-Datentyps zu einem anderen, der mehr Speicherkapazität bietet) oder die Spalte für alle Datensätze leer ist.
 Das Ändern von bestehenden Spalten kann, unter anderem durch Constraints, zu Problemen führen, die mit einem weiteren Zeitaufwand einher gehen.
 
 \paragraph{}
-MongoDB speichert Dokumente in Kollektionen, Dokumente der gleichen Kollektion müssen nicht die gleiche Struktur aufweisen, da das Dokument dessen Struktur nach JSON-Spezifikation (durch die Angabe der Schlüssel-Wert-Paare) selbst beinhaltet. %TODO Quelle
+MongoDB speichert Dokumente in Kollektionen, Dokumente der gleichen Kollektion müssen nicht die gleiche Struktur aufweisen. \cite{db:mongoCollection}
+Dies ist möglich, da das Dokument dessen Struktur nach JSON-Spezifikation (durch die Angabe der Schlüssel-Wert-Paare) selbst beinhaltet.
 Dem\-entsprechend können Dokumente mit neuen, anderen oder fehlenden Attributen direkt zu bestehenden Kollektionen hinzugefügt werden.
 Dies erlaubt es, bei der Weiterentwicklung von Kollektionen direkt die neuen Dokumente in bestehende Kollektionen einzufügen, ohne bestehende Dokumente verändern zu müssen.
 Es wird Zeit gespart und im Falle eines Fehlers lässt sich die Transaktion zurückrollen.
@@ -62,21 +65,21 @@ Es sollte Wert auf die Abwärtskompatibilität gelegt werden, damit bestehende S
 \subsubsection{Skalierbarkeit}
 Mit jedem neuen Nutzer der Plattform steigt die Diversität und somit die Chance, dass sich zwei Nutzer finden, welche zusammenpassen und sich anfreunden.
  Je mehr Teilnehmer dem Netzwerk angehören, desto höher ist die Anzahl der potenziellen Kommunikationspartner und somit der Nutzen und Wert der Plattform.
-Es handelt sich somit um einen positiven direkten Netzwerkeffekt. %TODO Qelle
+Es handelt sich somit um einen positiven direkten Netzwerkeffekt. \cite{db:networkEffect}
 Je größer der Nutzen der Plattform, desto eher werden Webseitenbesucher weiteren potenziellen Besuchern von der Webseite erzählen, wodurch die Plattform weiter wächst und ihren Nutzen weiter ausbaut.
-Dies kann zu exponentiellem Wachstum führen. %TODO Quelle https://hbr.org/2016/04/network-effects-arent-enough
+Dies kann zu exponentiellem Wachstum führen. \cite{db:networkEffectExponential}
 Desweiteren können große Persönlichkeiten der sozialen Medien (\enquote{Influencer}) mit einer einzigen Bemerkung tausende Personen davon überzeugen, einen Blick auf die Webseite zu werfen. \\
 Eine kurzfristige, rapide Vergrößerung der Nutzerbasis und exponentielles Wachstum stellen Datenbanken vor eine Herausforderung, die sich mit Skalierung lösen lässt.
 Auch sollen die Kapazitäten der Datenbank flexibel verringert werden können, um in Zeiten, in denen die Datenbank nicht ausgelastet ist, finanzielle Mittel zu sparen.
 Zur Skalierung wird eine Kombination aus vertikaler Skalierung (leistungsfähigere Hardware) und horizontaler Skalierung (mehr Geräte nebeneinander betrieben) gewählt.
-Vertikale Skalierung stößt auf Limitierungen, da der Preis von leistungsfähiger Hardware exponentiell skaliert. %TODO Quelle
-Weitere Skalierung ist dann nicht mehr rentabel.
-Bei horizontaler Skalierung müssen die einzelnen Knoten miteinander kommunizieren. \\
+Vertikale Skalierung stößt auf Limitierungen, da der Preis von leistungsfähiger Hardware exponentiell skaliert. \cite{db:verticalScaling}
+Weitere Skalierung ist dann nicht mehr rentabel. \\
+Bei horizontaler Skalierung müssen die einzelnen Knoten miteinander kommunizieren.
 Die für die Kommunikation benötigten Ressourcen steigen mit jedem weiteren Knoten.
-Aus diesem Grund limitieren manche Datenbanken die Maximalanzahl an Knoten in einer Replikatgruppe. \cite{MG3}\\
+Aus diesem Grund limitieren manche Datenbanken die Maximalanzahl an Knoten in einer Replikatgruppe. \cite{db:mongoReplicaSetElections}\\
 Desweiteren kann Datenbanksharding, eine Art der Datenbankpartitionierung, betrieben werden, bei dem eine Datenbank in mehrere Splitter bzw. Scherben aufgeteilt wird, welche jeweils einen Teil der Daten verwalten.
-Jeder dieser Splitter bildet wiederum eine eigene Replikatgruppe mit Primärknoten, Sekundärknoten und optional weiteren Knoten für Backups, Reportingtools und weitere. %TODO Quelle
-Durch diese Verfahren können Datenmengen verarbeitet werden, welche die Kapazität einer einzelnen Replikatgruppe übertreffen würde. \cite{MS1}
+Jeder dieser Splitter bildet wiederum eine eigene Replikatgruppe mit Primärknoten, Sekundärknoten und optional weiteren Knoten für Backups, Reportingtools und weitere. \cite{db:mongoHiddenReplicaSetMembers} \cite{db:mongoDelayedReplicaSetMembers} \cite{db:mongoReplicaSetArbiter}
+Durch diese Verfahren können Datenmengen verarbeitet werden, welche die Kapazität einer einzelnen Replikatgruppe übertreffen würde. \cite{db:sharding}
 
 \paragraph{Vertikale Skalierung\\}
 Sowohl PostgreSQL als auch MongoDB lassen sich mit leistungsfähiger Hardware vertikal skalieren.
@@ -84,7 +87,7 @@ Zwischen den beiden Datenbanken gibt es dahingehend keine nennenswerten Untersch
 
 \paragraph{Horizontale Skalierung\\}
 Beide Datenbanken erlauben das Erstellen von Replikatgruppen mit einem Primärknoten, welcher für Lese- und Schreibzugriffe zur Verfügung steht und Sekundär- bzw. Standbyknoten, die je nach Einstellung entweder nur als Ausfallsicherheit dienen oder für Lesezugriffe zur Verfügung stehen.
-MongoDB unterstützt horizontale Skalierung nativ, während für PostgreSQL weitere Pakete benötigt werden. \cite{MG8}
+MongoDB unterstützt horizontale Skalierung nativ, während für PostgreSQL weitere Pakete benötigt werden. \cite{db:mongoVsPostgres}
 Das Aufsetzen von MongoDB gestaltet sich entsprechend einfacher.
 
 \paragraph{Sharding\\}
@@ -104,7 +107,7 @@ Zusätzlich erlaubt Sharding bei international angelegten Projekten durch geschi
 
 \begin{figure}
 	\centering
-    \includegraphics[width=\textwidth]{sources/MongoDB_sharded.png}\cite{MG10}
+    \includegraphics[width=\textwidth]{sources/MongoDB_sharded.png}\cite{db:mongoActiveActiveImage}
 	\caption{Regionale Shards mit Replikatgruppen. Sekundärknoten befinden sich für niedrigere Latenzzeiten bei Lesezugriffen in anderen Regionen}
 	\label{figDB1}
 \end{figure}
@@ -121,12 +124,12 @@ Diese Teile machen den Großteil der Webseite aus.
 Jede Minute, in der die Datenbank ausfällt, ist die Plattform bis auf ein paar statische Seiten, wie die Homepage oder das Impressum, nicht verwendbar.
 Es bietet sich eine Datenbank mit Hochverfügbarkeit an, um das Risiko eines Ausfalls unserer Plattform so weit wie möglich zu verringern.\\
 Um die Erreichbarkeit der Datenbank zu gewährleisten, bietet es sich an, Replikatgruppen zu erstellen.
-Eine Replikatgruppe besteht aus mehreren Datenbankprozessen, auch Knoten genannt, welche den gleichen Datensatz verwalten. %TODO
+Eine Replikatgruppe besteht aus mehreren Datenbankprozessen (Knoten), welche den gleichen Datensatz verwalten. \cite{db:mongoReplicaSetMembers}
 Sollten durch Hardwarefehler einzelne Knoten ausfallen oder Softwarefehler Knoten dazu zwingen, neu gestartet zu werden, ist die Datenbank, wenn auch mit verringerter Leistung, weiterhin erreichbar.
 Die dadurch erreichte Fehlertoleranz schafft Sicherheit und verringert drastisch die Chance, dass die Datenbank komplett ausfällt.\\
 In der gewählten Konfiguration hat nur ein Prozess der Replikatgruppe Schreibrechte, um die Konsistenz bei gleichzeitigen Schreibzugriffen zu wahren.
 Neben diesem Primärknoten existieren oft mehrere Sekundärknoten, welche die Schreibvorgänge des Primärknotens kopieren und für Lesezugriffe zur Verfügung stehen.\\
-Es existieren andere Architekturen mit mehreren Primärknoten, die gleichzeitige Schreibzugriffe erlauben und besondere Herausforderungen bei der Datenkonsistenz stellen.
+Es existieren andere Architekturen mit mehreren Primärknoten, die gleichzeitige Schreibzugriffe erlauben und besondere Herausforderungen bei der Datenkonsistenz stellen (\enquote{Multi-Master-Systeme}).
 Diese werden hier nicht betrachtet.
 
 \paragraph{}
@@ -134,10 +137,9 @@ PostgreSQL bietet verschiedene Lösungsansätze.
 Bei synchronen Lösungen muss ein Schreibauftrag von allen Knoten durchgeführt sein, um als bestätigt zu gelten.
 Asynchrone Lösungen erlauben einen Puffer zwischen dem Bestätigen eines Schreibauftrags und dessen Kopie auf andere Knoten.
 Dadurch kann das Wechseln zu einem Backupknoten zu Datenverlust führen und Sekundärknoten können bei Lesezugriffen ein leicht veraltetes Ergebnis liefern.
-Dafür gewinnt eine asynchrone Lösung an Performanz, da sich die Wartezeit stark verringert.
-Außerdem werden die anderen Knoten seltener befragt und damit weniger belastet.
-Um die Knoten auf dem gleichen Stand zu halten und im Fall eines Ausfalls Daten wiederherstellen zu können, wird ein \textit{Write-Ahead Log} (WAL) angelegt, welcher unmittelbar nach jedem Commit die Transaktion in einen Transaktionslog schreibt.
-Dieser wird dann von anderen Knoten ausgelesen und die Transaktion wird kopiert. \cite{PG1}\\
+Dafür gewinnt eine asynchrone Lösung an Performanz, da sich die Wartezeit verringert. \cite{db:postgresHighAvailability}\\
+Um die Knoten auf dem gleichen Stand zu halten und im Fall eines Ausfalls Daten wiederherstellen zu können, wird ein \textit{Write-Ahead-Log} (WAL) angelegt, welcher unmittelbar nach jedem Commit die Transaktion in einen Transaktionslog schreibt.
+Dieser wird dann von anderen Knoten ausgelesen und die Transaktion wird kopiert. \cite{db:postgresWriteAheadLogging}\\
 Sollte der Primärknoten ausfallen, muss dies detektiert werden und ein Sekundärknoten mit so wenig Verzögerung wie möglich als neuer Primärknoten ausgewählt werden.
 PostgreSQL bietet keine automatische Ausfallsicherung.
 Es muss daher eine Drittanbietersoftware verwendet oder ein eigenes Skript geschrieben werden.
@@ -147,14 +149,13 @@ PostgreSQL selbst bietet keine native Lastverteilung, daher werden Lösungen wie
 \paragraph{}
 Knoten in MongoDBs Replikatgruppen teilen sich gegenseitig durch Ping-Befehle ihren \enquote{Herzschlag} mit, um zu ermitteln, ob ein Knoten ausgefallen ist.
 Sollte der Primärknoten \enquote{sterben}, wählen die \enquote{überlebenden} Knoten in einer Abstimmung den nächsten Primärknoten, welcher die Schreibaufträge des vorigen Primärknotens übernimmt.
-Der Prozess einer Wahl sollte in der Regel nicht länger als 12 Sekunden dauern und passiert vollautomatisch.
-Einem Knoten mit mehr Leistung kann eine höhere Priorität zugewiesen werdem, um diesen als präferierten Primärknoten zu definieren.
+Der Prozess einer Wahl sollte in der Regel durchschnittlich nicht länger als 12 Sekunden dauern und passiert vollautomatisch \cite{db:mongoElectionTimeout}.
+Einem Knoten mit mehr Leistung kann eine höhere Priorität zugewiesen werdem, um diesen als präferierten Primärknoten zu definieren \cite{db:mongoElectionPriority}.
 Auch eignet es sich, Knoten in anderen Regionen für die Rolle des Primärknoten als unwählbar zu definieren, da sich die Latenz ansonsten drastisch erhöhen würde.
-Ein Replikset kann aus maximimal 50 Knoten bestehen, wovon bis zu 7 zum Primärknoten wählbar sind. \cite{MG3} \cite{MG4}
+Ein Replikset kann aus maximimal 50 Knoten bestehen, wovon bis zu 7 zum Primärknoten wählbar sind \cite{db:mongoReplicaSetMembersLimit}.
 Diese Zahl ist vermutlich groß genug, um einen gleichzeitigen Ausfall aller Knoten aus technischer Sicht nahezu unmöglich zu gestalten, wenn sich die Knoten zusätzlich auf verschiedenen physischen Geräten befinden.\\
-In seltenen Fällen kann es vorkommen, dass der Primärknoten ausfällt und vor seinem Ausfall Schreibaufträge bestätigt, diese aber nicht an die Standbyknoten weiterleiten kann. Wenn der frühere Primärknoten der Replikatgruppe wieder beitritt, in diesem Fall als Sekundärknoten, unterscheidet sich dessen Schreibhistorie von der anderer Knoten. Die Historie des früheren Primärknoten wird zurückgerollt und die bestätigten Schreibaufträge sind verloren.\\
-MongoDB versucht durch verschiedene Techniken, Rollbacks zu vermeiden und erlaubt es unter Verlust von Effizienz, mit Schreibbestätigungen erst zu antworten, wenn der Großteil der Replikatgruppe diese bestätigt hat.
-Sollte es trotzdem zu einem Rollback kommen, müssen einzelne Schreibaufträge oft manuell nach bestem Gewissen der Datenbankexperten wiederholt werden. \cite{MG5}\\
+In seltenen Fällen kann es vorkommen, dass der Primärknoten ausfällt und vor seinem Ausfall Schreibaufträge bestätigt, diese aber nicht an die Standbyknoten weiterleiten kann. Wenn der frühere Primärknoten der Replikatgruppe wieder beitritt, in diesem Fall als Sekundärknoten, unterscheidet sich dessen Schreibhistorie von der anderer Knoten. Die Historie des früheren Primärknoten wird zurückgerollt und die bestätigten Schreibaufträge sind verloren. 
+MongoDB versucht durch verschiedene Techniken, Rollbacks zu vermeiden und erlaubt es unter Verlust von Effizienz, mit Schreibbestätigungen erst zu antworten, wenn der Großteil der Replikatgruppe diese bestätigt hat. \cite{db:mongoRollback}\\
 Leseanfragen werden per Standardkonfiguration an den Primärknoten gestellt, um möglichst aktuelle Daten liefern zu können.
 Diese Präferenz lässt sich ändern, um den Primärknoten zu entlasten, auf speziell eingerichtete Knoten mit optimisierten Indexen zugreifen zu können, die Latenz zu verringern oder beim Ausfall des Primärknotens weiterhin Lesezugriffe zu ermöglichen. \\
 Auch ist eine Wahl zwischen asynchronen und synchronen Operationen möglich.
@@ -168,7 +169,7 @@ Es wird vermutet, dass mit MongoDB eine Datenbank eingerichtet werden kann, die 
 
 \subsubsection{Dateiformat}
 MongoDB speichert Daten im JSON-Format. 
-JSON, die \enquote{JavaScript Object Notation}, ist \enquote{ein schlankes Datenaustauschformat, welches für Menschen einfach zu lesen und für Maschinen einfach zu parsen [\dots] ist} \cite{JSON1}. 
+\enquote{JSON (JavaScript Object Notation) ist ein schlankes Datenaustauschformat, welches für Menschen einfach zu lesen und für Maschinen einfach zu parsen [\dots] ist} \cite{db:json}. 
 JSON als semistrukturiertes Dateiformat eignet sich daher gut für Schnittstellendaten.\\
 Desw Weiteren wird im gewählten MERN-Techstack ausschließlich JavaScript verwendet - das JavaScript native Dateiformat JSON ist daher ohne Umwandlungen direkt verwendbar und der Umgang für das Entwicklerteam bereits bekannt.
 Dies verringert die Gefahr möglicher Komplikationen und spart Lern- und Programmieraufwand.
@@ -196,7 +197,7 @@ Für dieses Projekt hat jedoch MongoDB einige Vorteile, die sich darauf zurückf
 Die 2007 neu gegründete Firma 10Gen, mittlerweile bekannt als MongoDB Inc., benötigte eine Datenbank, welche den Anforderungen ihrer quelloffenen Plattform-as-a-Service Cloud-Architektur gerecht werden würde.
 Das Team suchte nach einer Datenbank, die elastisch, skalierbar, einfach zu verwalten und für Entwickler und Anwender einfach zu benutzen ist.
 Unzufrieden mit den zu der Zeit auf dem Markt verfügbaren Datenbanksystemen wurde MongoDB, eine dokumentbasierte Datenbank, entwickelt.
-Als das Team das Potenzial der Datenbank realisierte, wurde die Idee der Cloud-Plattform eingestellt und die Entwicklung von MongoDB gefördert.\cite{MG9}\\
+Als das Team das Potenzial der Datenbank realisierte, wurde die Idee der Cloud-Plattform eingestellt und die Entwicklung von MongoDB gefördert.\cite{db:mongoHistory}\\
 Aufgrund von MongoDBs Historie sind automatische Ausfallsicherung, horizontale Skalierung und Sharding native Funktionen, die sich mit wenig Entwicklungsaufwand einstellen und skalieren lassen.
 Auf der Plattform ist es gut denkbar, dass auf einen komplexen Schreibzugriff dutzende oder hunderte Lesezugriffe kommen, die höhere Geschwindigkeit ist bemerkbar. Auch integriert sich das von MongoDB gewählte Dateiformat JSON gut mit der weiteren Architektur des verwendeten MERN-Techstacks.
 Aus den genannten Gründen fällt die Wahl für das Projekt auf MongoDB.
@@ -241,7 +242,7 @@ Die Email-Adresse, das Geburtsdatum und Freundes- und Blockliste sind für ander
 Bis auf den Benutzernamen, bei welchem es sich um einen Fantasienamen handeln kann, muss eine Person keine Daten öffentlich angeben.
 
 \paragraph{Sprache\\}
-Damit Nutzer ihre gesprochenen Sprachen wählen können, bieten wir die Wahl zwischen 187 Sprachen nach ISO 639-1 Norm an.\cite{ISO639-1}\\
+Damit Nutzer ihre gesprochenen Sprachen wählen können, bieten wir die Wahl zwischen 187 Sprachen nach ISO 639-1 Norm an.\cite{db:iso639-1}\\
 
 \begin{center}
     \begin{tabular}{ |c|c|c| }
@@ -254,7 +255,7 @@ Damit Nutzer ihre gesprochenen Sprachen wählen können, bieten wir die Wahl zwi
         \hline
     \end{tabular}
 \end{center}
-Standardmäßige Objekt-IDs von MongoDB enthalten einen Zeitstempel und einen inkrementellen Zähler \cite{MG11}.
+Standardmäßige Objekt-IDs von MongoDB enthalten einen Zeitstempel und einen inkrementellen Zähler \cite{db:mongoObjectId}.
  Diese Daten sind bei Sprachen - öffentlichen Stammdaten, die sich über einen langen Zeitraum nicht verändern werden - nicht relevant.
 Stattdessen wurde der Alpha-2-Code der Sprache als ID gewählt, der in den meisten Fällen auf die Sprache schließen lässt.
 Nutzerdokumente referenzieren die Sprache per ID.
@@ -359,7 +360,7 @@ Sollte das Produkt auf den Markt gehen, wird auf eine kostengünstigste Stufe ge
 Sollte das Projekt erfolgreich sein und viele Nutzer anziehen, wird flexibel, abhängig von der benötigten Leistung, eine teurere Stufe mit mehr Leistung gewählt.\\
 Sowohl die Produktions-, als auch die Entwicklungsumgebung werden als eigene Datenbanken von MongoDB Atlas gehosted (host = Gastgeber, Betrieb der Datenbank durch MongoDB Atlas, Zugriff auf diese über das Internet).
 Dies verringert das Risiko von Code, der auf der lokalen Maschine funktioniert, aber auf der Produktionsumgebung Fehler wirft.
-Durch die Nutzung gleicher Werkzeuge und gleicher Technologie wird die Werkzeuglücke verringert und dementsprechend die Dev-Prod-Vergleichbarkeit erhöht. \cite{12FA-10}
+Durch die Nutzung gleicher Werkzeuge und gleicher Technologie wird die Werkzeuglücke verringert und dementsprechend die Dev-Prod-Vergleichbarkeit erhöht. \cite{db:devProdParity}
 
 \subsection{Avatarbilder}
 Statt Bilddateien für Avatare direkt auf der Datenbank zu speichern, was mit langen Wartezeiten auf die Datenbank einhergehen würde, werden nur die URIs zu den Bildern auf der Datenbank gespeichert.
