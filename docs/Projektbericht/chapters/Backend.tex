@@ -1,55 +1,104 @@
-Das Backend ist dafür verantwortlich, die Webseitenanfragen zu verarbeiten und mit den richtigen Daten zu antworten. Es verwaltet die Abfragen auf verschiedenen Routen, prüft, ob der Nutzer autentifiziert und autorisiert ist und stellt eine Schnittstelle bereit, die die Abfragen des Klienten mit den korrekten HTTP-Seiten und Datenbanken verbindet.
+Das Backend stellt Endpunkte bereit, die in der Lage sind, auf HTTP-Anfragen zu antworten.
+Damit dient das Backend unter anderem als Bindeglied zwischen Frontend und Datenbank.
+Auch können durch verschiedene Funktionen Nutzer autentifiziert und autorisiert werden.
+Dies ist für manche Datenbankabfragen, wie zum Beispiel das Ändern des eigenen Profils, Voraussetzung.
 
 \subsection{Node}
-NodeJS ist eine JavaScript Laufzeitumgebung, die es ermöglicht, JavaScript Code auf einem Server auszuführen. Der Server beantwortet die Abfragen, welche vom Nutzer über das Frontend verschickt werden und verwaltet die Routen der Domäne, um den gewünschten Inhalt anzeigen zu können. Mit der Hilfe von Paketverwaltungswerkzeugen wie npm ist es möglich, Programmierpakete in das Projekt einzubinden.\\
+\paragraph{}
+NodeJS ist eine JavaScript Laufzeitumgebung, die es ermöglicht, JavaScript Code auf einem Server auszuführen \cite{be:node}.
+Der Server beantwortet die Abfragen, welche vom Nutzer über das Frontend verschickt werden und verwaltet die Routen der Domäne, um den gewünschten Inhalt anzeigen zu können.
+Mit der Hilfe von Paketverwaltungswerkzeugen wie npm ist es möglich, Programmierpakete in das Projekt einzubinden \cite{be:npm}.\\
 
-Wie in \textit{package.json} definiert, handelt es sich bei der Datei \textit{server.js} um das Main-Programm. Wenn der Kommandozeilenbefehl \textit{node start} ausgeführt wird, wird der in \textit{server.js} definierte Quellcode ausgeführt.
-Nachdem benötigte Pakete geladen wurden, werden mit der Hilfe von \textit{dotenv} Umgebungsvariablen definiert. Dies hat den Vorteil, dass privat zu haltende Informationen wie beispielsweise Passwörter und Schlüssel in einer weiteren Datei ausgelagert werden können, welche nicht durch git verfolgt wird und auch von den Benutzern nicht einsehbar ist. Dies erhöht die Sicherheit, da sich sonst unautorisierte Personen leicht Zugriff zum System verschaffen könnten. Außerdem können damit für Entwicklungs- und Produktionsumgebung verschiedene Umgebungsvariablen verwendet werden, ohne dass verschiedene Zweige im git-System notwendig sind.\\
+\paragraph{}
+Der Kommandozeilenbefehl \textit{node start} wird ausgeführt, um das Hauptprogramm \textit{server.js} auszuführen.
+Das verwendete \textit{dotenv}-Paket erlaubt es, eine Datei mit dem Namen \textit{.env} zu erstellen, mit der Umgebungsvariablen definiert werden \cite{be:dotenv}.
+Die Datei wird nicht durch git verfolgt, da sonst geheime Informationen wie Passwörter und Zugriffsschlüssel öffentlich wären.
+Diese komprommitierten Daten würden Angreifern leichten Zugriff in das System geben.
+Durch die Verwendung des Paketes können zudem verschiedene Umgebungsvariablen für Entwicklungs-, Test- und Produktionsumgebung verwendet werden.\cite{be:dotenv2}\\
 
-Danach verbindet sich der Node-Server mit der Datenbank, welche über MongoDB Atlas gehosted wird. Das verwendete Mongoose-Paket erlaubt mit Hilfe einer URI, welche den Anmeldeschlüssel enthält, die Autorisierung des Servers. Nachdem der Server erfolgreich verbunden wurde, wird geprüft, ob es sich bei der Node-Umgebung um die Produktiv- oder die Entwicklungsumgebung handelt. In der Entwicklungsumgebung werden Pseudo-Daten für die Datenbank erstellt, die es dem Entwickler vereinfachen zu prüfen, ob sein Quellcode funktioniert.
-
-Zuletzt werden die Express- und Apollo-Applikation gestartet und der Server danach endgültig aktiviert.
+\paragraph{}
+Nach der Definition der Umgebungsvariablen verbindet sich der Node-Server mit der Mongo-Datenbank.
+Dazu wird im verwendeten Paket \text{Mongoose} eine URL angegeben, welche einen Anmeldeschlüssel enthält \cite{be:mongoose}.
+Zuletzt werden die Express- und Apollo-App gestartet und der Server danach endgültig aktiviert.
 
 \subsection{Express}
-HTTP-Abfragen an den Server werden durch Express verwaltet. Dabei gibt Routen und Middlewarefunktionen.
-
-\subsubsection{Middleware}
-Middlewarefunktionen sind Funktionen, die als Teil einer HTTP-Anfrage ausgelöst werden, wenn sie für die angefrage Route aktiviert sind. Middlewarefunktionen werden hintereinander verkettet, sobald die erste Funktion ausgeführt wurde und keinen Fehler zurückgegeben hat, wird die nächste Middlewarefunktion ausgeführt, bis zum Schluss die Routenfunktion antwortet. Middlewarefunktionen können genutzt werden, um Protokoll über die Webseitenzugriffe zu führen, Abfragen zu autorisieren oder fehlerhafte Abfragen zu blockieren.
-
-\paragraph{CORS\\}
-Um Abfragen des Frontends an das Backend zu erlauben, ist CORS (Cross-Origin Resource Sharing) notwendig. Per Same-Origin-Poicy (SOP) wären Zugriffe von einer Domäne auf die andere normalerweise nicht gestattet, CORS ermöglicht es, Abfragen vom Frontend - welches eine andere Domäne besitzt - zu ermöglichen. Die Miskonfiguration von CORS gefährdet die Integrität der Webseite, es ist daher ratsam, nur für spezielle Domänen - in diesem Fall die Domäne des Frontends - CORS zu erlauben. Aktuell ist CORS für alle Abfragen erlaubt, um die Webseite sicherer zu gestalten muss in Zukunft die CORS-Richtlinie restriktiver eingestellt werden. Wenn die CORS-Regeln verletzt werden, wird eine Fehlermeldung ausgegeben und keine weiteren Funktionen der Kette zum Beantworten der HTTP-Anfrage ausgeführt.
-
-\paragraph{JWT\\}
-Einige Daten der Schnittstelle sind öffentlich. Andere Daten, wie zum Beispiel private Nutzerdaten, benötigen stattdessen eine Anfrage des jeweiligen Nutzers. Um die Autorität des Nutzers zu bestätigen wird beim Anmeldeprozess ein JSON Web Token (JWT) nach RFC-7519 Standard an den Klienten verschickt\cite{RFC7519}. Bei allen Folgeabfragen, so auch einer Abfrage der privaten Nutzerdaten, wird das Token als Teil des Anfragekopfes (request header) an das Backend gesendet. Durch Middleware wird das Token kontrolliert und der Nutzer authentifiziert und autorisiert. Das entschlüsselte Token wird an die folgenden Funktionen weitergeleitet und kann von diesen genutzt werden, um den abfragenden Benutzer herauszufinden. Sollte zum Beispiel eine Anfrage an die GraphQL-Schnittstelle gesendet werden, wird zuerst das JWT entschlüsselt und der Nutzer in die Abfrage hinzugefügt. Ohne die Middleware wäre die Datenbankschnittstelle, welche das Profil des aktuellen Nutzers anzeigt, nicht verwendbar.
+Das minimalistische
+Paket ExpressJS erlaubt die Definition von Routen und Middleware \cite{be:express}\cite{be:expressRouting}\cite{be:expressMiddleware}. \\
 
 \subsubsection{Routen}
 Routen geben an, welcher Inhalt bei einer HTTP-Anfrage zurückgegeben werden soll.
+Die Express-Funtkionen definieren, auf welche REST-Methode (GET,POST,\dots) und auf welchem Pfad diese ausgeführt werden sollen.
+Die Funktion hat Zugriff auf die Anfrage des Nutzers (request) und erstellt daraufhin eine Antwort (response).
+
 
 \paragraph{Root ('/')\\}
-Um zu prüfen, ob das Backend generell auf Abfragen reagiert, soll zunächst die Antwort bei der Abfrage des Stammverzeichnisses beantwortet werden.
+Bei einer GET-Anfrage auf das Stammverzeichnis wird mit \enquote{Hello World!} geantwortet.
 \begin{lstlisting}
     app.get('/', (request, response) => {
-        response.send('Hello')
+        response.send('Hello World!')
     })
 \end{lstlisting}
-Bei einer GET-Anfrage des Stammverzeichnisses wird in diesem Fall mit \textit{\glqq Hallo \grqq} geantwortet. In Zukunft wird die Webseite hier mit der Homepage antworten, auf der grndlegende Informationen zur Seite zu finden sein werden.
+In Zukunft wird hier mit der Homepage geantwortet werden, auf der das Projekt beschrieben wird.
+Aktuell dient die Route als Platzhalter.
 
 \paragraph{/graphql\\}
-Eine Anfrage an die Route \textit{/graphql} wird von Apollo, dem gewählten Framework für GraphQL beantwortet. Der Großteil aller Abfragen an das Backend gehen an diesen Endpunkt. Genauere Informationen zu GraphQL und Apollo sind in dem entsprechenden Kapitel zu finden. Durch die gewählten Optionen ist der GraphQL-Playground aktiviert, eine graphische Oberfläche die es einem benutzer der API ermöglicht, seine Abfragen direkt auf der Webseite in einem Texteditor zu schreiben. Durch das Erlauben von Introspektion steht zudem eine umfangreiche Dokumentation der möglichen Abfragen und deren Datentypen zur Verfügung, welche es dem Entwickler vereinfachen, seine eigenen Abfragen zu testen.
+Eine Anfrage an die Route \textit{/graphql} wird von Apollo, dem gewählten Framework für GraphQL, beantwortet.
+Der Großteil aller Abfragen an das Backend gehen an diesen Endpunkt.
+Durch die für Apollo getätigten Einstellungen ist GraphiQL aktiviert, eine graphische Oberfläche, die die Benutzung der Datenbankschnittstelle erleichtert.
+Durch Introspektion (eine Apollo-Einstellung) steht eine umfangreiche Dokumentation der möglichen Abfragen und deren Datentypen zur Verfügung.
+Dies erleichtert das Schreiben von Schnittstellenabfragen.
+Genauere Informationen zu GraphQL und Apollo sind in dem entsprechenden Kapitel zu finden.
+
+\paragraph{/api\\}
+GraphQL unterstützt nativ nur eingeschränkte Möglichkeiten zum Hochladen von Multipart-Dateien wie Bildern \cite{be:graphQlTypes}.
+ES wurde sich daher für einen klassischen REST-Endpunkt entschieden.
+Mit Hilfe des Paketes Multer werden die Bilddateien auf AWS S3 gespeichert \cite{be:multer}\cite{be:multerS3}.
+Die Autorisierung von AWS wird dabei durch das Paket \textit{aws-sdk} gelöst.\\
+
+Zum Erstellen von Profilbildern wird die Subroute \textit{/avatar} verwendet.
+Mit Hilfe von Multer werden verschiedene Regeln definiert, welche testen, ob es sich bei der hochgeladenen Datei auch wirklich um ein Bild handelt und die maximale Dateigröße nicht überschritten wird.
+Sollten alle Tests erfolgreich sein, wird das Bild mit einem durch UUID Version 4 generiertem Dateinamen auf S3 hochgeladen.
+Um das Bild öffentlich verfügbar zu machen, muss die Zugriffskontrollliste von AWS für dieses Bild auf \enquote{öffentlich lesbar} gesetzt werden.
+Zum Schluss wird die URL des generierten Bildes im Nutzerdokument abgelegt, um eine Referenz auf das Bild zu erhalten.\\
+
+Die Route \textit{/avatar} steht nur für POST-Anfragen zur Verfügung.
+Für die Äquivalente GET-Abfrage wird die GraphQL-Schnittstelle verwendet.
+Dies ist möglich, da nur die URL der AWS-Datei, aber nicht das Bild selbst zurückgegeben wird.
+Die URL wird dann im HTML-Dokument vom Nutzer geöffnet.\\
+
+In Zukunft können weitere Subrouten für \textit{/api} erstellt werden, die zum Beispiel mit \textit{Multer} in der Lage sind, auf Schnittstellenabfragen zu antworten.
+Eine mögliche Funktionalität wäre das Hochladen von Bildern in Chats.
+Hier würden AWS S3 und Multer wieder zur Verwendung kommen, da die Anforderungen denen von \textit{/avatar} größtenteils entsprechen.
+
+\subsubsection{Middleware}
+\enquote{Middlewarefunktionen sind Funktionen, die Zugriff auf das Anforderungsobjekt (req), das Antwortobjekt (res) und die nächste Middlewarefunktion im Anforderung/Antwort-Zyklus der Anwendung haben. Die nächste Middlewarefunktion wird im Allgemeinen durch die Variable next bezeichnet.}\cite{be:expressMiddlewareQuote}
+Middlewarefunktionen lassen sich sowohl auf Anwendungsebene als auch für einzelne Routen definieren.
+Mögliche Ziele der Funktionen sind: Die Protokollierung von Webseitenzugriffen, die Autorisierung von Anfragen und die Blockierung von fehlerhafte Anfragen.
+
+\paragraph{CORS\\}
+Per Same-Origin-Poicy (SOP) sind Zugriffe von einer Domäne auf die andere normalerweise nicht gestattet \cite{be:mdnSop}.
+Dies unterbindet Abfragen des Frontends an das Backend, da Frontend und Backend unter verschiedenen Servern laufen.
+Durch CORS (Cross-Origin Recource Sharing) können Ausnahmen für SOP erstellt werden \cite{be:mdnCors}.
+Eine vom Express-Paket gelieferte Middleware wird verwendet, welche es erlaubt, CORS zu aktivieren \cite{be:expressMiddlewareCors}.
+
+\paragraph{JWT\\}
+Einige Daten der Datenbankschnittstelle sind öffentlich verfügbar.
+Manche Daten, wie zum Beispiel private Nutzerdaten, benötigen stattdessen eine Autorisierung für den Zugriff.
+Um die Autorität des Nutzers zu bestätigen, wird beim Anmeldeprozess ein JSON Web Token (JWT) nach RFC-7519 Standard an den Klienten verschickt\cite{be:rfc7519}.
+Bei allen Folgeabfragen, so auch einer Abfrage der privaten Nutzerdaten, wird das Token als Teil des Anfragekopfes (request header) an das Backend gesendet.
+Eine Middlewarefunktion validiert und entschlüsselt das Token und fügt der Anfrage die Daten des entschlüsselten Tokens hinzu.
+Die Datenbankschnittstelle nutzt die Daten des entschlüsselten Tokens um zu entscheiden, ob der Nutzer für die Abfrage autorisiert ist.
 
 %Grafik?
 
-\paragraph{/api\\}
-Das Hochladen von Bildern ließ sich über GraphQL nicht zur Zufriedenheit lösen. Es wurde daher eine klassische, REST-basierte Lösung entwickelt, welche es mit Hilfe von Multer - einer Node Middleware zum behandeln von Multipart-Daten, worunter Bilddateien zählen - ermöglicht, Bilddateien auf AWS hochzuladen und die URI des hochgeladenen Bildes in MongoDB zu speichern. Dazu werden mit Hilfe des \textit{aws-sdk} Paketes die verwendeten Umgebungsvariablen für die Autorisierung bei AWS und der Wahl der Region und Schnittstellenversion verwendet. 
-
-Wenn ein Nutzer ein Profilbild hochladen will, wird dafür die Subroute \textit{/avatar}, im vollen also \textit{/api/avatar} verwendet. Durch verschiedene Regeln wird mit Hilfe von Multer getestet, ob es sich bei der vom Nutzer gesendeten Ladung des Paketes (Payload) um eine Datei handelt, diese in einem akzeptierten Bildvormat ist und die maximale Dateigröße nicht überschritten wurde. Sollten alle Tests erfolgreich sein, wird das Bild mit einem durch UUID Version 4 generierten Namen auf S3 hochgeladen, ansonsten wird der entsprechende HTTP-Fehlercode angezeigt (4xx). Um das Bild öffentlich anbieten zu können, wird die Zugriffskontrollliste auf öffentlich lesbar gestellt. Schlussendlich wird der durch S3 generierte Link der Datei auf der Datenbank dem entsprechenden Nutzer zugewiesen.
-
-Die Route \textit{/avatar} steht nur für POST-, aber nicht für GET-Afragen zur Verfügung. Für das Abfragen des Profilbilds wird stattdessen die GraphQL-Schnittstelle verwendet, die auch sonst für die meisten Abfragen verwendet wird. GET-Abfragen der Bilddateien stellen kein Problem dar, da die Datenbank lediglich einen Link des Bildes speichert und S3 beim öffnen dieses Links das Bild zurück gibt.
-
-In Zukunft können weitere Subrouten für \textit{/api} erstellt werden, die zum Beispiel mit Multer in der Lage sind, auf Schnittstellenabfragen zu antworten. So könnte in einer späteren Version der Nutzer in der Lage sein, Bilder in Nachrichtenverläufen zu versenden, in diesem Fall würde, ähnlich wie bei \textit{/avatar}, die Route \textit{/chat} mit Hilfe von AWS S3 und Multer zum Hochladen von Bildern dienen.
-
 \subsection{Mongoose}
-Die im Kapitel Datenbanken beschriebenen Schemata werden in Mongoose definiert. Dazu wird mit \textit{new mongoose.Schema} ein neues Schema erstellt, in welchem die verschiedenen Felder sowie deren Datentypen und Restriktionen, wie eine minimale/maximale Länge einer Zeichenkette, Einzigartigkeit oder Validierungsfunktionen, welche das Feld erfüllen muss, gewählt werden. Nach der Definition des Schemas können komplexere Funktionen erstellt werden. Mit einer Funktion \textit{UserSchema.pre('save', function (next) {...})} wird so beispielsweise geprüft, ob der Benutzer den selben Nutzer beim Speichern einer Änderung danach mehrmals in der Freundesliste haben würde - in diesem Fall werden Duplikate gelöscht, bevor das Dokument final verändert wird.
+Die im Kapitel Datenbanken beschriebenen Schemata werden in Mongoose definiert.
+Dazu wird mit \textit{new mongoose.Schema} ein neues Schema erstellt, welches die Datentypen und mögliche Restriktionen (minimale/maximale Länge, Einzigartigkeit,\dots) definiert\cite{be:mongooseSchema}.
+Das Schema gibt an, welche Struktur die Dokumente der entsprechenden Kollektion aufweisen sollen.\\
+Mongoose erlaubt die Definition von Middlewarefunktionen, die zum Beispiel beim Speichern oder Aktualisieren eines Dokumentes feuern sollen\cite{be:mongooseMiddleware}.
+Damit wird unter anderem geprüft, ob sich zwei Nuter gegenseitig einen \textit{like} gegeben haben, um diese dann zu befreunden.
 
 \subsection{GraphQL}
-Um Mongoose mit der GraphQL-Schnittstelle zu verbinden, wird das Paket \textit{graphql-compose-mongoose} verwendet. Das Paket erlaubt es, auf Basis des erstellten Schemas mit dem Befehl \textit{composeMongoose} die korrespondierenden GraphQL Typen und einige der meist verwendeten Abfragen und Mutationen automatisch zu generieren. Dies spart Arbeitszeit und hat den Vorteil, dass sich der GraphQL-Endpunkt automatisch anpasst, wenn Aktualisierungen am darunterliegenden Datenbankschema durchgeführt werden.
+Um Mongoose mit der GraphQL-Schnittstelle zu verbinden, werden die Pakete \textit{graphql-compose} und \textit{graphql-compose-mongoose} verwendet.
+Dies erlaubt es, auf Basis des erstellten Schemas mit dem Befehl \textit{composeMongoose} die korrespondierenden GraphQL Typen und einige der meist verwendeten Abfragen und Mutationen automatisch zu generieren\cite{be:graphqlComposeMongoose}.
+Dies spart Arbeitszeit und hat den Vorteil, dass sich der GraphQL-Endpunkt automatisch anpasst, wenn Aktualisierungen am darunterliegenden Datenbankschema durchgeführt werden.

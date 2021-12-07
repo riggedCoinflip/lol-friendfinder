@@ -1,26 +1,49 @@
 \subsection{Anforderungen und Technologiewahl}
-Die Webseite besteht aus statischen Inhalten wie beispielsweise der Menuführung, die offen im HTML-Dokument liegen und Inhalten, die dynamisch mit Daten aus der Datenbank gefüllt werden: Profile, Chats, Nachrichten. Um diese Daten bereitstellen zu können, ist eine Schnittstelle zwischen Datenbank und Frontend notwendig. 
+Die Webseite besteht aus statischen und dynamischen Inhalten.
+Statische Inhalte wie beispielsweise die Menuführung, liegen offen in einem HTML-Dokument und werden bei Abfrage der Webseite gesendet. 
+Dynamische Inhalte, unter anderem Profile, Chats und Nachrichten, werden mit Daten aus der Datenbank gefüllt.
+Um diese Daten bereitstellen zu können, ist eine Schnittstelle zwischen Datenbank und Frontend notwendig. 
 
-Es wurde sich für GraphQL statt einer standardmäßigen REST-Schnittstelle entschieden, da GraphQL verschiedene Verbesserungen bietet, wie zum Beispiel Leistungsoptimierungen durch Overfetching und Underfetching, Stabilität durch ein Typenschema und Selbstdokumentation.
+Es wurde sich für GraphQL statt einer standardmäßigen REST-Schnittstelle entschieden.
+GraphQL bietet verschiedene Verbesserungen, wie zum Beispiel Leistungsoptimierungen durch Overfetching und Underfetching, Stabilität durch ein Typenschema und Selbstdokumentation.
 
 \subsection{Overfetching und Underfetching}
+\paragraph{}
 Antworten von REST-Schnittstellen sind dafür bekannt, zu viele Daten (Overfetching) oder zu wenige Daten (Underfetching) zu beinhalten.
-In beiden Fällen entstehen - durch mehr benötigte Bandbreite oder mehr Anfragen - Leistungseinbuße, die als Folge längere Antwortzeiten und höhere Serverkosten beinhalten.
-Das Problem ist mit REST-Schnittstellen schwer zu umgehen, eine perfekte Konfiguration würde exakt die Endpunkte beinhalten, die genau die angefragen Daten liefern. Dies ist jedoch praxisfern, da sich die Anforderungen in einem Projekt ständig verändern und jeder Endpunkt für dessen Betrieb Ressourcen benötigt und gewartet und getestet werden muss.
+In beiden Fällen entstehen - durch mehr benötigte Bandbreite oder mehr Anfragen - Leistungseinbuße, die als Folge längere Antwortzeiten und höhere Serverkosten beinhalten. \\  %TODO cite
+Das Problem ist mit REST-Schnittstellen schwer zu umgehen.
+Eine perfekte Konfiguration würde exakt die Endpunkte beinhalten, die genau die angefragen Daten liefern.
+Dies ist jedoch praxisfern, da sich die Anforderungen in einem Projekt ständig verändern und jeder Endpunkt für dessen Betrieb Ressourcen benötigt und gewartet und getestet werden muss.
 
-GraphQL löst das Problem, indem bei jeder Anfrage genau definiert wird, welche Daten von welchen Endpunkten erfragt werden. Dies entlastet die Datenbank, da diese weniger Daten zur Verfügung stellen muss und erleichtert auch die Arbeit des Frontends, da nur eine Abfrage erstellt werden muss und irrelevante Daten bereits in der Abfrage aussortiert werden. REST fokussiert sich auf die verschiedenen Endpunkte, während bei GraphQL den Fokus auf die einzelnen Aufgaben legt. Die Applikation entscheidet über die Daten die es erhält, nicht der Server.
+\paragraph{}
+GraphQL löst das Problem, indem bei jeder Anfrage genau definiert wird, welche Daten von welchen Endpunkten erfragt werden.
+Dies entlastet die Datenbank, da diese weniger Daten zur Verfügung stellen muss.
+Auch wird die Arbeit des Frontends erleichtert, da nur eine einzige Abfrage erstellt werden muss und irrelevante Daten gar nicht erst abgefragt und somit nicht geliefert werden müssen.\\
+REST fokussiert sich auf die verschiedenen Endpunkte, während GraphQL den Fokus auf die einzelnen Aufgaben legt.
+In GraphQL entscheidet die Applikation über die Daten die es erhält, nicht der Server.
 Mehrere Abfragen können in eine einzige Schnittstellenabfrage gebündelt werden, der Client erhält somit zusammenhängende Daten und die Datenbank wird durch präzise Abfragen geschont.
 
 \subsection{Stabilität}
-Durch GraphQls Typenschemata wird definiert, welche Abfragen und Mutationen möglich sind. Sollte bei einer Abfrage die Datenbank einen anderen Datentyp als durch das Typenschema definiert liefern, wirft GraphQL einen Fehler.  Der Klient kann somit bei einer Abfrage damit rechnen, Daten in den angegebenen Datentypen zu erhalten, Ausnahmen für andere Datentypen müssen nicht definiert werden. Genauso wird eine Abfrage mit nicht erlaubten Datentypen direkt mit einer Fehlermeldung beantwortet, die genau auf den falschen Datentyp hinweist. Dadurch werden Inkonsistenzen der Datenbank oder weitere Datentypenkontrollen durch Design bereits stark mitigiert.
+Durch GraphQls Typenschemata wird definiert, welche Abfragen und Mutationen möglich sind.
+Sollte bei einer Abfrage die Datenbank einen anderen Datentyp als durch das Typenschema definiert liefern, wirft GraphQL einen Fehler.
+Der Klient kann somit bei einer Abfrage damit rechnen, Daten in den angegebenen Datentypen zu erhalten, Ausnahmen für andere Datentypen müssen nicht definiert werden.
+Genauso wird eine Abfrage mit nicht erlaubten Datentypen direkt mit einer Fehlermeldung beantwortet, die genau auf den falschen Datentyp hinweist.
+Dadurch werden Inkonsistenzen der Datenbank oder weitere Datentypenkontrollen durch Design bereits stark mitigiert.
+%TODO cite
 
 \subsection{Dokumentation}
-GraphQL selbstdokumentiert jeden Endpunkt durch die vorliegenden Datentypen. Bei Änderungen an der Schnittstelle wird die Dokumentation automatisch aktualisiert. Weiterhin kann manuell eine Beschreibung des Endpunkts hinzugefügt werden.
-Dies erleichtert es dem Frontend, die richtigen Endpunkte und Datentypen für ihre Abfragen und Mutationen zu verwenden. Durch die angegebenen Datentypen ist das Frontend somit in der Lage, direkt zu erkennen, welche Datentypen in der entsprechenden Abfrage oder Mutation zu verwenden sind und kann damit Zeit sparen. Gleichzeitig fällt Zeit weg, die für das manuelle Dokumentieren der Schnittstelle angefallen wäre.
+GraphQL selbstdokumentiert jeden Endpunkt durch die vorliegenden Datentypen.
+Bei Änderungen an der Schnittstelle wird die Dokumentation automatisch aktualisiert. Auch kann manuell eine Beschreibung des Endpunkts hinzugefügt werden. \\
+Dies erleichtert es dem Frontend, die richtigen Endpunkte und Datentypen für Abfragen und Mutationen zu verwenden.
+Durch die angegebenen Datentypen ist das Frontend in der Lage, direkt zu erkennen, welche Datentypen in der entsprechenden Abfrage oder Mutation zu verwenden sind und kann damit Zeit sparen.
+Gleichzeitig fällt Zeit weg, die für das manuelle Dokumentieren der Schnittstelle angefallen wäre.
 
 \subsection{GraphiQL}
-Mit GraphiQL liefert GraphQL einen Webeditor, der das Schreiben von Abfragen und Mutationen vereinfacht. Der Editor liefert einige Funktionen, die den Umgang einfacher machen, wie zum Beispiel automatisches Komplettieren von Variablennamen oder das Formatieren in eine lesbarere Struktur. Der Editor hat außerdem Zugriff auf die Typenschemata und Dokumentation und kann damit Abfragen auf syntaktische Fehler untersuchen, noch bevor diese abgeschickt werden.
-Der Editor steht unter der Route \textit{/graphql} für jeden Nutzer zur freien Verfügung und erleichtert somit die Arbeit für alle Programmierer, die unsere Schnittstelle verwenden. Im Projekt konnte durch die Nutzung des Editors beim Erstellen von Datentypdefinitionen, Abfragen und Mutationen Programmierzeit gespart werden.
+Mit GraphiQL liefert GraphQL einen Webeditor, der das Schreiben von Abfragen und Mutationen vereinfacht.
+Der Editor liefert einige Funktionen, die den Umgang einfacher machen, wie zum Beispiel automatisches Komplettieren von Variablennamen oder das Formatieren in eine lesbarere Struktur.
+Der Editor hat außerdem Zugriff auf die Typenschemata und Dokumentation und kann damit Abfragen auf syntaktische Fehler untersuchen, noch bevor diese abgeschickt werden.
+Der Editor steht unter der Route \textit{/graphql} für jeden Nutzer zur freien Verfügung und erleichtert somit die Arbeit für alle Programmierer, die unsere Schnittstelle verwenden.
+Im Projekt konnte durch die Nutzung des Editors beim Erstellen von Datentypdefinitionen, Abfragen und Mutationen Programmierzeit gespart werden.
 
 \begin{figure}
 	\centering
@@ -31,14 +54,23 @@ Der Editor steht unter der Route \textit{/graphql} für jeden Nutzer zur freien 
 
 \subsection{Resolver}
 Durch die Pakete \textit{graphql-compose} und \textit{graphql-compose-mongoose} werden aus den bestehenden Datenbankmodellen Typenschemata entsprechend der Datentypen erstellt, die in GraphQL weiterverwendet werden können. 
-Resolver ("to resolve", etw. auflösen/abwickeln/klären) beantworten Abfragen und Mutationen. Sie bilden das Bindeglied zwischen Schnittstellenabfrage und Datenbankantwort. So wird beispielsweise eine Schnittstellenabfrage, welche nach dem Namen, Alter und Freitext des Nutzers "Foobar" fragt, durch einen Resolver in die entsprechende Datenbankabfrage übersetzt und die Antwort der Datenbank wiederum so editiert, dass diese der gewünschten Datenstruktur der Abfrage entspricht. Simplere Resolver, welche zum Beispiel einen einzelnen Datenbankeintrag durch die ID identifizieren (\textit{findOne}) oder anhand der bestehenden Datenstruktur einen Datenbankeintrag erstellen (\textit{createOne}), werden durch die verwendeten Pakete bereit gestellt und lassen sich in das Projekt integrieren, für komplexere Resolver lassen sich bestehende anpassen oder gänzlich neue erstellen.
+Resolver ("to resolve", etw. auflösen/abwickeln/klären) beantworten Abfragen und Mutationen.
+Sie bilden das Bindeglied zwischen Schnittstellenabfrage und Datenbankantwort.
+So wird beispielsweise eine Schnittstellenabfrage, welche nach dem Namen, Alter und Freitext des Nutzers "Foobar" fragt, durch einen Resolver in die entsprechende Datenbankabfrage übersetzt und die Antwort der Datenbank wiederum so editiert, dass diese der gewünschten Datenstruktur der Abfrage entspricht. %TODO schaubild stattdessen
+Simplere Resolver, welche zum Beispiel einen einzelnen Datenbankeintrag durch die ID identifizieren (\textit{findOne}) oder anhand der bestehenden Datenstruktur einen Datenbankeintrag erstellen (\textit{createOne}), werden durch die verwendeten Pakete bereit gestellt und lassen sich in das Projekt integrieren.
+Für komplexere Resolver lassen sich bestehende Resolver anpassen oder gänzlich neue erstellen.
 Die verwendeten Resolver und Typenschemata werden dem \textit{schemaComposer} bereit gestellt, welcher aus den bestehenden Daten die Dokumentation generiert.
 
 
 \subsection{Verwendete Abfragen und Mutationen}
+\paragraph{}
 Nachfolgend werden einige der verwendeten Abfragen und Mutationen exemplarisch vorgestellt.
 
-Für den Registrierungsvorgang wird die Mutation \textit{signup} verwendet. Durch die Angabe von Email, gewünschtem Namen und Passwort wird ein Nutzerkonto erstellt. In Zukunft kann durch Angabe von Namen und Passwort mit der \textit{login} Abfrage ein Authentifizierungstoken erstellt werden, welches bei Abfragen, die eine Authentifizierung oder Authorisierung verlangen, benötigt wird.
+\paragraph{}
+Für den Registrierungsvorgang wird die Mutation \textit{signup} verwendet.
+Durch die Angabe von Email, gewünschtem Namen und Passwort wird ein Nutzerkonto erstellt.
+In Zukunft kann durch Angabe von Namen und Passwort mit der \textit{login} Abfrage ein Authentifizierungstoken erstellt werden.
+Das Token wird bei Abfragen, die eine Authentifizierung oder Authorisierung verlangen, verwendet
 
 \begin{figure}
 	\centering
@@ -54,9 +86,14 @@ Für den Registrierungsvorgang wird die Mutation \textit{signup} verwendet. Durc
 	\label{figGQL3}
 \end{figure}
 
-Alle weiteren vorgestellten Endpunkte benötigen zur eindeitugen Indentifizierung ein valides Authentifizierungstoken.
+\paragraph{}
+Alle weiteren vorgestellten Endpunkte benötigen zur eindeutigen Indentifizierung ein valides Authentifizierungstoken.
 
-Um das eigene Profil anzuzeigen, wird die \textit{userSelf} Abfrage verwendet. Diese zeigt Daten entsprechend des Datenbankschemas an. Einige dieser Daten sind veränderbar, so zum Beispiel der Freitext. Zum Verändern der Daten ist die Mutation \textit{userUpdateSelf} vonnöten.
+\paragraph{}
+Um das eigene Profil anzuzeigen, wird die \textit{userSelf} Abfrage verwendet.
+Diese zeigt Daten entsprechend des Datenbankschemas an.
+Einige dieser Daten sind veränderbar, so zum Beispiel der Freitext.
+Zum Verändern der Daten ist die Mutation \textit{userUpdateSelf} vonnöten.
 
 \begin{figure}
 	\centering
@@ -65,7 +102,12 @@ Um das eigene Profil anzuzeigen, wird die \textit{userSelf} Abfrage verwendet. D
 	\label{figGQL4}
 \end{figure}
 
-Zum Finden von neuen Nutzern wird die Abfrage \textit{userManyToSwipe} verwendet. Dabei werden dem abfragendem Nutzer durch einen Algorithmus die Profile von mehreren Nutzern geladen, die sich nicht bereits in der Freundesliste befinden oder vom aktiven Nutzer blockiert wurden. Nutzer, welche dem aktiven Nutzer eine Freundesanfrage geschickt haben, werden präferiert gezeigt, um die Chance neuer Freundschaften zu erhöhen. Es ist möglich, durch Filter die Menge der potenziellen Nuter zu reduzieren. Im Frontend werden die Profile nacheinander angezeigt. Hier hätte man überlegen können, mit jeder Abfrage nur einen einzelnen Nutzer anzuzeigen, da das Laden von mehreren Nutzern pro Abfrage jedoch die Zahl der Abfragen stark erhöht wurde sich dagegen entschieden.
+Zum Finden von neuen Nutzern wird die Abfrage \textit{userManyToSwipe} verwendet. Dabei werden dem abfragendem Nutzer durch einen Algorithmus die Profile von mehreren Nutzern geladen, die sich nicht bereits in der Freundesliste befinden oder vom aktiven Nutzer blockiert wurden.
+Nutzer, welche dem aktiven Nutzer eine Freundesanfrage geschickt haben, werden präferiert gezeigt, um die Chance neuer Freundschaften zu erhöhen.
+Es ist möglich, durch Filter die Menge der potenziellen Nuter zu reduzieren.
+Im Frontend werden die Profile nacheinander angezeigt.
+Es wäre möglich gewesen,  mit jeder Abfrage nur einen einzelnen Nutzer anzuzeigen.
+Da das Laden von mehreren Nutzern pro Abfrage jedoch die Zahl der Abfragen stark erhöht, wurde sich dagegen entschieden.
 Mit der Mutation \textit{swipe} kann dann eine Freundschaftsanfrage an den angegebenen Nutzer geschickt werden.
 
 \begin{figure}
@@ -82,7 +124,12 @@ Mit der Mutation \textit{swipe} kann dann eine Freundschaftsanfrage an den angeg
 	\label{figGQL6}
 \end{figure}
 
-Die Nachrichten eines Chats können durch die Abfrage \textit{getChat} gelesen werden. Dazu ist die ID des Chat anzugeben. Der optionale Parameter "Seite" gibt an, welche Nachrichten zurückgegeben werden sollen. Auf jeder Seite befinden sich 20 Nachrichten, beginnend bei "Seite=1" mit den neuesten 20 Nachrichten. Sollte der Seitenparameter nicht angegeben werden, wird nur die neueste Nachricht geladen, dies wird bei der Vorschau des Chats für die Freundesliste verwendet.
+Die Nachrichten eines Chats können durch die Abfrage \textit{getChat} gelesen werden.
+Dazu ist die ID des Chat anzugeben.
+Der optionale Parameter "Seite" gibt an, welche Nachrichten zurückgegeben werden sollen.
+Auf jeder Seite befinden sich 20 Nachrichten, beginnend bei \enquote{Seite=1} mit den neuesten 20 Nachrichten.
+Sollte der Seitenparameter nicht angegeben werden, wird nur die neueste Nachricht geladen.
+Dies wird bei der Vorschau des Chats für die Freundesliste verwendet.
 
 \begin{figure}
 	\centering
@@ -91,8 +138,11 @@ Die Nachrichten eines Chats können durch die Abfrage \textit{getChat} gelesen w
 	\label{figGQL7}
 \end{figure}
 
-Mit \textit{sendMessage} können Nachrichten versendet werden. Dazu ist die ID des Chats notwendig. Der im Parameter \textit{Inhalt} definierte Text wird dann in den Chat als neueste Nachricht versendet.
-Sollte ein Nutzer eine Nachricht editieren oder löschen wollen, ist dazu die Mutation \textit{editOrDeleteMessage} zu verwenden. Zusätzlich zur Chat-ID ist die Nachrichten-ID der zu verändernden Nachricht anzugeben. Der optionale Parameter \textit{content} gibt im Falle einer Änderung den neuen Nachrichteninhalt an. Sollte \textit{content} nicht definiert sein, wird die gewählte Nachricht stattdessen gelöscht. 
+Mit \textit{sendMessage} können Nachrichten versendet werden. Dazu ist die ID des Chats notwendig.
+Der im Parameter \textit{Inhalt} definierte Text wird dann in den Chat als neueste Nachricht versendet.
+Um eine Nachricht zu editieren  oder zu löschen, ist die Mutation \textit{editOrDeleteMessage} zu verwenden.
+Zusätzlich zur Chat-ID ist die Nachrichten-ID der zu verändernden Nachricht anzugeben. Der optionale Parameter \textit{content} gibt im Falle einer Änderung den neuen Nachrichteninhalt an.
+Sollte \textit{content} nicht definiert sein, wird die gewählte Nachricht stattdessen gelöscht. 
 
 \begin{figure}
 	\centering
@@ -109,4 +159,4 @@ Sollte ein Nutzer eine Nachricht editieren oder löschen wollen, ist dazu die Mu
 \end{figure}
 
 \subsection{Fazit}
-Mit Hilfe von GraphQL konnten Endpunkte für Abfragen geschaffen werden, welche sich auf der Webseite unter der Benutzeroberfläche befinden. ...
+Mit Hilfe von GraphQL konnten Endpunkte für Abfragen geschaffen werden, welche sich auf der Webseite unter der Benutzeroberfläche befinden. ... % TODO Fazit
