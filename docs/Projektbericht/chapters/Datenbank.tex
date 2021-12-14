@@ -1,4 +1,3 @@
-% Welche Datenbank wurde verwendet und warum,...
 \subsection{Anforderungen}
 \paragraph{}
 Es wird eine moderne Plattform entwickelt, auf der sich Nutzer ähnlich Social Media Profile anderer Nutzer anschauen und miteinander Chats führen.
@@ -60,8 +59,6 @@ Dies erlaubt es, bei der Weiterentwicklung von Kollektionen direkt die neuen Dok
 Es wird Zeit gespart und im Falle eines Fehlers lässt sich die Transaktion zurückrollen.
 Es sollte Wert auf die Abwärtskompatibilität gelegt werden, damit bestehende Schnittstellen ohne Veränderung weiter funktionieren.
 
-% MongoDB bietet mehr Optionen der Flexibilität und eignet sich daher in diesem Punkt für das Projekt besser.
-
 \subsubsection{Skalierbarkeit}
 Mit jedem neuen Nutzer der Plattform steigt die Diversität und somit die Chance, dass sich zwei Nutzer finden, welche zusammenpassen und sich anfreunden.
  Je mehr Teilnehmer dem Netzwerk angehören, desto höher ist die Anzahl der potenziellen Kommunikationspartner und somit der Nutzen und Wert der Plattform.
@@ -92,31 +89,26 @@ Das Aufsetzen von MongoDB gestaltet sich entsprechend einfacher.
 
 \paragraph{Sharding\\}
 \paragraph{}
-Sharding stellt PostgreSQL vor eine Herausforderung, da komplexe JOIN-Anweisungen meist Daten von verschiedenen Shards erfragen, welche untereinander kommunizieren müssen.
-Diese Abfragen benötigen unverhältnismäßig viele Ressourcen und machen Performanzgewinne des Shardings zunichte. %TODO Quelle
-Es ist folglich schwer, Sharding mit den Tabellenstrukturen und der Normalisierung von SQL-Datenbanken zu vereinen.
-Daher sollte darauf geachtet werden, Shards so zu konzipieren, dass Abfragen, welche Informationen von verschiedenen Shards erfragen, so selten wie möglich gestellt werden.
+Als SQL Datenbank werden bei PostgreSQL für komplexe DQL-Anweisungen \gls{DQL}, die Daten von mehreren Tabellen abfragen, JOIN-Answeisungen verwendet.
+In einigen Fällen kann dies dazu führen, dass sich die abgefragen Spalten in verschiedenen Shards befinden.
+Dies kann zu erhöhtem Aufwand bei Abfragen führen.
+Um diesen Nachteil zu verringern, sollte darauf geachtet werden, wie die Shards konzipiert sind.
+Durch eine kluge Aufteilung der Daten kann dafür gesorgt werden, dass bei einer Abfrage möglichst wenige verschiedene Shards abgefragt werden müssen.
 
 \paragraph{}
 MongoDB setzt auf Dokumente, welche in den meisten Fällen nicht auf Referenzen zu anderen Dokumenten angewiesen sind.
-JOIN-artige Anweisungen werden eher selten verwendet, Dokumente besitzen oft eine flachere Datenstruktur als die Pendants der SQL-Tabellen.
+Dies wird unter anderem durch die Möglichkeit geschaffen, Dokumente in andere Dokumente einbetten zu können.
 Infolgedessen entstehen weniger komplexe Abfragen, es müssen seltener Dokumente verschiedener Shards kombiniert werden.
 Die Datenbank wird weniger beansprucht.
-Sharding in MongoDB ist mit niedrigen Kosten verbunden und benötigt selten eine exakt konzipierte Struktur; es ist verhältnismäßig einfach, mit Sharding eine MongoDB Datenbank zu skalieren.\\
-Zusätzlich erlaubt Sharding bei international angelegten Projekten durch geschickte Wahl der Position der Datenbankknoten, die Latenzzeit bei Abfragen zu minimieren (siehe Abbildung 1) %TODO link zu abbildung, abbildung direkt dadrunter.
+Auch erscheint das Erstellen von Shards mit MongoDB leichter als mit PostgreSQL.\\
+Zusätzlich erlaubt Sharding bei international angelegten Projekten durch geschickte Wahl der Position der Datenbankknoten, die Latenzzeit bei Abfragen zu minimieren \autoref{fig:mongoActiveActive}.
 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/MongoDB_sharded.png}\cite{db:mongoActiveActiveImage}
 	\caption{Regionale Shards mit Replikatgruppen. Sekundärknoten befinden sich für niedrigere Latenzzeiten bei Lesezugriffen in anderen Regionen}
-	\label{figDB1}
+	\label{fig:mongoActiveActive}
 \end{figure}
-
-\paragraph{Fazit\\} %TODO remove?
-Beide Datenbanken liefern ausgereifte Methoden, um mit immer größer werdenden Datenmengen zurecht zu kommen.
-Für kleine bis mittlere Projekte sollten PostgreSQLs Skalierungsmöglichkeiten ausreichen, während sich große Projekte durch bessere Möglichkeiten des Shardings in MongoDB noch weiter skalieren lassen.
-Auch scheint sich MongoDB mit weniger Arbeitsaufwand horizontal skalieren zu lassen, während bei PostgreSQL zuerst Anpassungen getätigt werden müssen. %TODO Quelle/Behauptung
-Damit wird MongoDB für dieses Projekt leicht präferiert.
 
 \subsubsection{Hochverfügbarkeit}
 Für den Anmeldevorgang, die Registrierung und alle Seiten der Plattform, die einen angemeldeten Nutzer voraussetzen, ist eine Datenbankanbindung zwingend erforderlich.
