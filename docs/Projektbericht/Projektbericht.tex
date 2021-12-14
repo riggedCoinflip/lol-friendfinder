@@ -27,7 +27,6 @@
 \usepackage{fancyhdr} % Für Kopf- und Fußzeilen
 \usepackage{lscape} % Für Querformat
 
-%\usepackage{hyperref} % Für Hyperlinks
 %Mehrere Bilder auf einmal
 \usepackage{subfig}
 \usepackage{csquotes} % Für sprachangepasste Anführungszeichen
@@ -36,10 +35,6 @@
 %% Show code in a better way
 \usepackage{listings}
 \usepackage{xcolor}
-
-%Cite
-\usepackage[style=ieee]{biblatex}
-\bibliography{refs} % Entries are in the refs.bib file
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -143,7 +138,18 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 %\usepackage{csquotes} % Für sprachangepasste Anführungszeichen
 %\usepackage[backend=bibtex,style=alphabetic]  
 %           {biblatex}
-%\addbibresource{bib/literatur.bib}           
+%\addbibresource{bib/literatur.bib}      #
+
+%Glossary
+\usepackage[toc]{glossaries}
+\makeglossaries
+\loadglsentries{Glossar}
+
+
+%Cite
+\usepackage[style=ieee]{biblatex}
+\bibliography{refs} % Entries are in the refs.bib file
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% DOKUMENT                                %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -339,11 +345,6 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 \section{Qualitätssicherung }\label{kap_QS}
 \input{chapters/Qualitätssicherung}
 
-%Temporär, danach sollten wir das Package glossaries benutzen
-\newpage
-\section{Glossar}\label{kap_glossar}
-\input{chapters/Glossar}
-
 \newpage
 \section{Zusammenfassung und Ausblick}\label{kap_zusammfAusbl}
 %\input{}
@@ -370,23 +371,10 @@ Das heißt, ein Team von zwei Studenten mit grundlegenden Programmierkenntnissen
 %\end{tcolorbox}
 %</MERKKASTEN>
 
-% Literaturverzeichnis
-%\newpage
-%\section{Quellenverzeichnis}\label{kap_quellenverzeichnis}
-%\input{chapters/Quellenverzeichnis}
-\printbibliography
-
-
-% INFO: Biblatex -Ausgabe des
-% Literaturverzeichnisses (Beispiele):
-% - \printbibliography => Ausgabe ALLER
-%   Einträge
-% - \printbibliography[nottype=online]
-%   => Ausgabe der Einträge, bis auf die
-%      "Online"-Einträge
-% - \printbibliography[type=online]
-%   => Ausgabe nur der "Online"-Einträge
-%\printbibliography
+\newpage
+\printglossaries
+\newpage
+\printbibliography[heading=bibintoc]
 
 % Anhang
 \newpage
