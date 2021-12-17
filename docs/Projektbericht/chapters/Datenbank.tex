@@ -136,7 +136,10 @@ Sollte der Primärknoten ausfallen, muss dies detektiert werden und ein Sekundä
 PostgreSQL bietet keine automatische Ausfallsicherung.
 Es muss daher eine Drittanbietersoftware verwendet oder ein eigenes Skript geschrieben werden.
 Um die Belastung der einzelnen Knoten möglichst gleich zu halten, sollte ein Prozess zur Lastverteilung existieren.
-PostgreSQL selbst bietet keine native Lastverteilung, daher werden Lösungen wie die kostenlose Open-Source Software HAProxy (High Availability Proxy) verwendet. %TODO quelle postgre lastverteilung
+Für die Lastverteilung stehen einige Lösungen von Drittanbietern zur Verfügung.
+Nach weitreichender Recherche konnte nicht ermittelt werden, ob PostgreSQL native Lastverteilung anbietet.
+Allerdings gibt es verschiedene Projekte, welche Lösungen zur Lastverteilung anbieten. \cite{db:postgresLoadBalancing}
+
 
 \paragraph{}
 Knoten in MongoDBs Replikatgruppen teilen sich gegenseitig durch Ping-Befehle ihren \enquote{Herzschlag} mit, um zu ermitteln, ob ein Knoten ausgefallen ist.
@@ -169,20 +172,23 @@ Diesen Vorteil besitzt PostgreSQL nicht.
 Abfrageergebnisse müssen für die Schnittstelle zuerst in JSON-Dateien geändert werden, was einen zusätzlichen Programmierschritt bedeutet.
 
 \subsubsection{Fazit}
-\begin{center} %TODO quellen? I guess? Feedback Krys warten
-    \begin{tabularx}{\linewidth}{ |X|X|X| } 
-        \hline
-        Kriterien & PostgreSQL & MongoDB  \\ 
-        \hline
-        Lesegeschwindigkeit & Mittel & Hoch \\
-        Schreibgeschwindigkeit & Mittel & Langsam - Mittel \\
-        Datenstrukturen & Strenges Tabellenschema & Schemafrei durch selbstbeschreibende JSON-Dokumente \\
-        Skalierbarkeit & Meist vertikal, horizontal benötigt erweitertes Setup & Meist horizontal, unterstützt nativ Sharding \\
-        Hochverfügbarkeit & Replikatgruppen, Lastverteilung und automatische Ausfallsicherung meist über Drittsoftware & native Replikatgruppen und automatische Ausfallsicherung, Lastverteilung bei Wahl eines Sekundärknotens, automatische Wahl des nächsten Primärknotens bei Ausfall \\
-        Dateiformat & internes Format, wird bei Abfragen in lesbaren Tabellen ausgegeben & JSON \\
-        \hline
-    \end{tabularx}
-\end{center}
+\begin{table}
+\centering
+\begin{tabularx}{\linewidth}{ |X|X|X| } 
+    \hline
+    Kriterien & PostgreSQL & MongoDB  \\ 
+    \hline
+    Lesegeschwindigkeit & Mittel & Hoch \\
+    Schreibgeschwindigkeit & Mittel & Langsam - Mittel \\
+    Datenstrukturen & Strenges Tabellenschema & Schemafrei durch selbstbeschreibende JSON-Dokumente \\
+    Skalierbarkeit & Meist vertikal, horizontal benötigt erweitertes Setup & Meist horizontal, unterstützt nativ Sharding \\
+    Hochverfügbarkeit & Replikatgruppen, Lastverteilung und automatische Ausfallsicherung meist über Drittsoftware & native Replikatgruppen und automatische Ausfallsicherung, Lastverteilung bei Wahl eines Sekundärknotens, automatische Wahl des nächsten Primärknotens bei Ausfall \\
+    Dateiformat & internes Format, wird bei Abfragen in lesbaren Tabellen ausgegeben & JSON \\
+    \hline
+\end{tabularx}
+\caption{Vergleich PostgreSQL und MongoDB}
+\label{db:table:comparisonPostgresMongo}
+\end{table}
 
 Es konnte gezeigt werden, dass beide Datenbanken eine ausgereifte Architektur besitzen und sich daher beide gut für Projekte eignen.
 Für dieses Projekt hat jedoch MongoDB einige Vorteile, die sich darauf zurückführen lassen, aus welchem Beweggrund MongoDB entstanden ist.\\ %TODO Krys feedback
@@ -199,28 +205,31 @@ Aus den genannten Gründen fällt die Wahl für das Projekt auf MongoDB.
 Folgende Kollektionen wurden verwendet, um die Daten optimal zu verwalten.
 
 \paragraph{Nutzer}
-\begin{center}
+\begin{table}
+    \centering
     \begin{tabularx}{\textwidth}{ |X|X|X| } 
-     \hline
-     Feld & Beschreibung & Beispiel \\ 
-     \hline
-      \_id & Standardmäßige MongoId & \\
-      Benutzername & einzigartiger, öffentlicher Name & MaxMustermann \\ 
-      normalisierter Name & Name in Kleinbuchstaben. Wird verwendet, um die Einzigartigkeit von Namen zu gewährleisten & maxmustermann \\ 
-      Email & private eMail des Nutzers & mustermann@email.de \\
-      Rolle & Gibt an, ob der Nutzer autorisiert ist - Moderatoren und Administratorkonten haben mehr Rechte. Automatisch generiert & Nutzer \\ 
-      Geburtsdatum & privates Geburtsdatum des Nutzers & 01.01.2000 \\ 
-      Alter & Alter des Nutzers. Wird automatisch mit Geburtsdatum berechnet & 21 \\ 
-      Sprachen & Array von Sprachen, die der Nutzer sprechen kann & {[de, en]} \\
-      Geschlecht & gesellschaftliches Geschlecht des Nutzers. & Männlich \\ 
-      Spielposition & Bis zu 2 Lieblingspositionen des Spielers in League of Legends & {[Mid, Jungle]} \\ 
-      Freitext & kurzer Text, in dem der Nutzer sich beschreiben kann. & Ich bin ein toller Nutzer! \\
-      Avatar & URI vom Avatarbild des Nutzers & \url{https://<s3-name>.s3.eu-central-1.amazonaws.com/avatars/<UUID>.jpg} \\ 
-      Freunde & Array von allen Freunden des Nutzers. Beinhaltet die NutzerID und die ChatID & {[[\_id1, NutzerID1, ChatID1], [\_id2, NutzerID2, ChatID2]]}\\ 
-      Geblockt & Array von NutzerIDs der Nutzer, die geblockt wurden & {[NutzerID3, NutzerID4]} \\ 
-     \hline
+        \hline
+        Feld & Beschreibung & Beispiel \\ 
+        \hline
+        id & Standardmäßige MongoId & \\
+        Benutzername & einzigartiger, öffentlicher Name & MaxMustermann \\ 
+        normalisierter Name & Name in Kleinbuchstaben. Wird verwendet, um die Einzigartigkeit von Namen zu gewährleisten & maxmustermann \\ 
+        Email & private eMail des Nutzers & mustermann@email.de \\
+        Rolle & Gibt an, ob der Nutzer autorisiert ist - Moderatoren und Administratorkonten haben mehr Rechte. Automatisch generiert & Nutzer \\ 
+        Geburtsdatum & privates Geburtsdatum des Nutzers & 01.01.2000 \\ 
+        Alter & Alter des Nutzers. Wird automatisch mit Geburtsdatum berechnet & 21 \\ 
+        Sprachen & Array von Sprachen, die der Nutzer sprechen kann & {[de, en]} \\
+        Geschlecht & gesellschaftliches Geschlecht des Nutzers. & Männlich \\ 
+        Spielposition & Bis zu 2 Lieblingspositionen des Spielers in League of Legends & {[Mid, Jungle]} \\ 
+        Freitext & kurzer Text, in dem der Nutzer sich beschreiben kann. & Ich bin ein toller Nutzer! \\
+        Avatar & URI vom Avatarbild des Nutzers & \url{https://<s3-name>.s3.eu-central-1.amazonaws.com/avatars/<UUID>.jpg} \\ 
+        Freunde & Array von allen Freunden des Nutzers. Beinhaltet die NutzerID und die ChatID & {[[id1, NutzerID1, ChatID1], [id2, NutzerID2, ChatID2]]}\\ 
+        Geblockt & Array von NutzerIDs der Nutzer, die geblockt wurden & {[NutzerID3, NutzerID4]} \\ 
+        \hline
     \end{tabularx}
-\end{center}
+    \caption{Schema Nutzer}
+    \label{db:table:nutzer}
+\end{table}
 
 Wenn ein Nutzer einen Account erstellt, gibt dieser seine Email-Adresse, den gewünschten Benutzernamen und das gewünschte Passwort an. 
 Durch Indexe wird die Einzigartigkeit von eMail und Benutzername geprüft, das Passwort wird aus Sicherheitsgründen in einer separaten Kollektion gespeichert.
@@ -236,9 +245,10 @@ Bis auf den Benutzernamen, bei welchem es sich um einen Fantasienamen handeln ka
 \paragraph{Sprache\\}
 Damit Nutzer ihre gesprochenen Sprachen wählen können, bieten wir die Wahl zwischen 187 Sprachen nach ISO 639-1 Norm an.\cite{db:iso639-1}\\
 
-\begin{center}
+\begin{table}
+    \centering
     \begin{tabular}{ |c|c|c| }
-        \hline
+    \hline
         Feld & Beschreibung & Beispiel \\
         \hline
         id & Alpha-2 Code der Sprache & en, de, fr \\
@@ -246,7 +256,10 @@ Damit Nutzer ihre gesprochenen Sprachen wählen können, bieten wir die Wahl zwi
         nativer Name & native Schreibweise der Sprache & English, Deutsch, français \\
         \hline
     \end{tabular}
-\end{center}
+    \caption{Schema Sprache}
+    \label{db:table:sprache}
+\end{table}
+
 Standardmäßige Objekt-IDs von MongoDB enthalten einen Zeitstempel und einen inkrementellen Zähler \cite{db:mongoObjectId}.
  Diese Daten sind bei Sprachen - öffentlichen Stammdaten, die sich über einen langen Zeitraum nicht verändern werden - nicht relevant.
 Stattdessen wurde der Alpha-2-Code der Sprache als ID gewählt, der in den meisten Fällen auf die Sprache schließen lässt.
@@ -257,7 +270,8 @@ Sprachen können sowohl anhand der englischen Schreibweise als auch der nativen 
 Dies erleichtert auch nicht-englischsprachigen Nutzern, ihre Sprache auswählen zu können.
 
 \paragraph{Passwort\\}
-\begin{center}
+\begin{table}
+    \centering
     \begin{tabular}{ |c|c| }
         \hline
         Feld & Beschreibung  \\
@@ -267,24 +281,27 @@ Dies erleichtert auch nicht-englischsprachigen Nutzern, ihre Sprache auswählen 
         NutzerID & MongoId des zugehörigen Nutzers \\
         \hline
     \end{tabular}
-\end{center}
+    \caption{Schema Passwort}
+    \label{db:table:passwort}
+\end{table}
 
 Das Passwort wird nicht im Nutzerdokument gespeichert.
 Wenn das Passwort im Nutzerdokument gespeichert werden würde, könnten schon kleine Programmierfehler dazu führen, dass normale Nutzer das gehashte Passwort anderer Nutzer ermitteln könnten.
 Um dieses Sicherheitsproblem direkt zu eliminieren, wird daher für jedes Passwort ein eigenes, vom Nutzerdokument isoliertes Dokument verwendet.\\
-Das Passwort wird durch bcrypt, einem Blowfish-basierten Hashalgorithmus, auf der Datenbank als Hash mit Salt gespeichert.
-Die Komplexität des Hashes ist frei wählbar.
+Das Passwort wird durch bcrypt, einem Blowfish-basierten Einweg-Hashalgorithmus, auf der Datenbank als Hash mit Salt gespeichert.
+Die Komplexität des Hashes ist frei wählbar und neben Versionsnummer, Salt und dem Hash an sich in der Zeichenkette gespeichtert.\cite{db:bcrypt}\\
 Bei der Wahl der Komplexität ist die Sicherheit gegen Rechengeschwindigkeit abzuwägen.
 Eine höhere Komplexität erhöht die benötigte Zeit pro Versuch eines Angreifers, das Passwort zu knacken.
 Gleichzeitig wird aber auch die Zeit, die unser Server benötigt, um ein neues Passwort zu generieren oder den Anmeldeversuch eines ehrlichen Nutzers zu bestätigen, erhöht.
 Eine zu hohe Komplexität kann daher den Server stark verlangsamen und macht Angriffszenarien per (D)DOS ((distributed) denial of service, Überlastung des Servers durch übermäßigen Datenverkehr) gefährlicher, da gezielte Anmeldeversuche viel Last auf dem Server erzeugen.
 In Zukunft werden weitere Limitierungen auf Seiten des Backends erstellt, um wiederholte Anmeldeversuche zu bremsen.\\
 Um die Wahrscheinlichkeit von Glückstreffern bei Angriffen zu verringern, wird verlangt, dass das Passwort mindestens aus 8 Zeichen, darunter 1 Großbuchstabe, 1 Kleinbuchstabe und 1 Ziffer erstellt wird.
-Für mehr Varianz in den Passwörtern sind zudem einige Sonderzeichen erlaubt.
+Für mehr Varianz in den Passwörtern sind zudem einige Sonderzeichen erlaubt. %TODO anforderungen?
 Durch gewählte Restriktionen besteht eine 1:1-Relation zwischen Passwörtern und Nutzerkonten.
 
-\paragraph{Like\\}
-\begin{center}
+\paragraph{Verhältnis\\}
+\begin{table}
+    \centering
     \begin{tabular}{ |c|c| }
         \hline
         Feld & Beschreibung  \\
@@ -295,9 +312,10 @@ Durch gewählte Restriktionen besteht eine 1:1-Relation zwischen Passwörtern un
         Status & Gibt an, ob es sich um einen Like oder Dislike handelt. \\
         \hline
     \end{tabular}
-\end{center}
+    \caption{Schema Verhältnis}
+    \label{db:table:like}
+\end{table}
 
-\textit{Anmerkung: Der Name \enquote{Like} für diese Datenstruktur kann irreführend sein, da in der Kollektion sowohl Likes als auch Dislikes (angegeben durch den Status) gespeichert werden.\\}
 Immer wenn ein Nutzer bei der Kontaktsuche angibt, ob er mit einer Person Kontakt aufnehmen oder diesen vermeiden will, wird ein Dokument angelegt. 
 Wenn der Nutzer in Kontakt treten möchte, wird zusätzlich geprüft, ob bereits ein Datensatz existiert, bei dem Sender und Empfänger vertauscht sind - ob sich also die Nutzer gegenseitig einen Like gegeben haben. 
 In diesem Fall werden beide Datensätze gelöscht und die Nutzer zur Freundesliste des jeweils anderen hinzugefügt und ein Dokument der Kollektion Chat erstellt. 
@@ -305,7 +323,8 @@ Die Nutzer können ab dann miteinander kommunizieren.
 Dislikes sorgen dafür, dass ein Kontakt in Zukunft nicht mehr möglich ist.
 
 \paragraph{Chat\\}
-\begin{center}
+\begin{table}
+    \centering
     \begin{tabular}{ |c|c| }
         \hline
         Feld & Beschreibung  \\
@@ -314,10 +333,13 @@ Dislikes sorgen dafür, dass ein Kontakt in Zukunft nicht mehr möglich ist.
         Teilnehmer & Array von NutzerIDs, die dem Chat beiwohnen. Aktuell maximal 2. \\
         Nachrichten & Array von Nachrichten, die die Nutzer untereinander ausgetauscht haben. \\
         \hline
-    \end{tabular}
-\end{center}
+    \end{tabular}    
+    \caption{Schema Chat}
+    \label{db:table:chat}
+\end{table}
+
 Sollten sich zwei Nutzer befreunden, wird zwischen diesen ein Chat erstellt.
-Wenn ein Nutzer die Freundschaft beendet, verlässt Dieser gleichzeitig den Chat. 
+Wenn ein Nutzer die Freundschaft beendet, verlässt dieser gleichzeitig den Chat. 
 Mit der gewählten Struktur sind auch Gruppenchats ohne Änderung der Datenbank möglich, falls dies in Zukunft eine erwünschte Funktionalität sein sollte.\\
 Um Ressourcen zu sparen, wird bei der Standard-Datenbankabfrage nur die neueste Nachricht geladen.
 Diese Abfrage dient für Vorschaubilder des Chats in der Kontaktliste.
@@ -327,7 +349,9 @@ Diese Methoden verringern die Serverlast, da in vielen Fällen nicht mehr als di
 \subparagraph{Nachricht\\}
 Nachrichten sind eingebettete Dokumente eines Chats.
 Sie weisen folgende Datenstruktur auf:
-\begin{center}
+
+\begin{table}
+    \centering
     \begin{tabular}{ |c|c| }
         \hline
         Feld & Beschreibung  \\
@@ -337,7 +361,9 @@ Sie weisen folgende Datenstruktur auf:
         Autor & NutzerID des Verfassers der Nachricht \\
         \hline
     \end{tabular}
-\end{center}
+    \caption{Eingebettetes Schema Nachricht}
+    \label{db:table:nachricht}
+\end{table}
 
 \subsection{Database-as-a-Service}
 Um eine Datenbank selbst zu betreiben fehlt es dem Projekt an fachlichen Kapazitäten und einer Infrastruktur, welche physische Datenbankserver unterstützt.
