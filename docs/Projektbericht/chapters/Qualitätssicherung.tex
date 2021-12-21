@@ -49,7 +49,24 @@ Die \autoref{fig:Continuous_integration_workflow} zeigt den Ablauf, wenn ein neu
 %Ergebnise der ganzen Testlauf
 
 \subsection{Unit test (Backend)}
-To-Do
+Für das Unit-Testing im Backend wird das Testingframework \textit{Jest} verwendet.
+Dazu werden die Testkomponenten mit der Funktion \textit{describe} definiert.
+Innerhalb einer Komponente werden die Testfälle selbst mit \textit{test} oder dem alias \textit{it} definiert.
+Außerdem lassen sich Funktionen definieren, die nach oder vor jedem oder allen Testfällen ausgeführt werden sollen.
+Dies ermöglicht atomare Tests, dessen Ergebnisse nicht durch andere Testfälle verfälscht werden und.
+Die Testqualität wird somit erhöht.
+
+Die Datenbankschemata werden mit Hilfe von \textit{mongodb-memory-server} getestet.
+Dies erlaubt die Erstellung einer nicht-persistenten Datenbank im Speicher.
+Die Datenbank ist initial leer und wird nach jedem Testfall gesäubert, um die Atomarität zu gewährleisten.
+Durch Tests der Datenstruktur wird gewährleistet, dass es keine Abweichungen gibt zwischen den Daten, die erwartet werden und denen, die erhalten werden.
+Tests der Middlewarefunktionen von Mongoose prüfen, ob komplexere Anwendungen, wie das Hashen des Passworts bei dessen Speicherung wie gewünscht ausgeführt werden.
+
+Die Tests der GraphQl-Schnittstelle setzen voraus, dass die Datenbank wie gewünscht funktioniert und die gewünschten Daten liefert und speichert.
+In verschiedenen Testfällen werden dazu die entsprechenden Resolver geprüft.
+Dazu wird mit dem Paket \textit{apollo-server-integration-testing} ein Testclient erstellt, der mit \textit{query-} und \textit{mutation-}Abfragen ähnlich wie der richtige Klient abgefragt werden kann.
+Der Testclient unterstützt keine Express-Middleware, welche im Projekt den Nutzer autorisiert und authentifiziert.
+Diese Funktion musste daher Nachgeahmt werden. 
 
 \begin{comment}
 Obwohl das Projekt relativ klein ist, wurde die Wichtigkeit von automatisierten Tests nicht unterschätzt.

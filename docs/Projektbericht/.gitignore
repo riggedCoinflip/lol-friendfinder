@@ -303,3 +303,6 @@ TSWLatexianTemp*
 
 #Do not track automatically generated pdfs
 *.pdf
+
+# extension
+__latexindent_temp.tex
