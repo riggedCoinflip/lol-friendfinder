@@ -1,4 +1,25 @@
-\subsection{Anforderungen und Technologiewahl}
+\paragraph{}
+GraphQL ist eine Abfragesprache und Server-Laufzeitumgebung für APIs. Diese dient dazu, die Daten zu liefern, die anfordert werden.
+\\\\
+Im Hinblick auf die Art und Weise, wie Abfragen an den Server mithilfe von GraphQL behandelt werden können, sind folgende Aspekte zu beachten.
+\subsubsection*{Eigenschaften}
+  \begin{itemize}
+    \item
+          GraphQL-Aufrufe werden in einem einzigen Round Trip gehandhabt.% Wir bekommen genau die Daten, die angefragt haben (kein Over-Fetching).
+
+    \item
+          Stark definierte Datentypen, welche das Risiko einer Fehlkommunikation zwischen Client und Server verringern.
+
+    \item
+          Eine Anwendungs-API kann sich mit GraphQL weiterentwickeln, ohne dass bestehende Abfragen beeinträchtigt werden.
+    \item
+          GraphQL schreibt keine spezifische Anwendungsarchitektur vor. Es kann auf einer vorhandenen REST-API installiert und mit aktuellen API-Management-Tools verwendet werden.
+    \item
+          Als Alternative zu REST ermöglicht GraphQL Entwicklern die Erstellung von Abfragen zur Extraktion von Daten aus mehreren Quellen mit einer einzigen API-Abfrage.
+
+  \end{itemize}
+  
+  \subsection{Anforderungen und Technologiewahl}
 Die Webseite besteht aus statischen und dynamischen Inhalten.
 Statische Inhalte wie beispielsweise die Menuführung, liegen offen in einem HTML-Dokument und werden bei Abfrage der Webseite gesendet. 
 Dynamische Inhalte, unter anderem Profile, Chats und Nachrichten, werden mit Daten aus der Datenbank gefüllt.
@@ -33,9 +54,7 @@ Dadurch werden Inkonsistenzen der Datenbank oder weitere Datentypenkontrollen du
 
 \subsection{Dokumentation}
 GraphQL selbstdokumentiert jeden Endpunkt durch die vorliegenden Datentypen.
-Bei Änderungen an der Schnittstelle wird die Dokumentation automatisch aktualisiert. Auch kann manuell eine Beschreibung des Endpunkts hinzugefügt werden. \\
-Dies erleichtert es dem Frontend, die richtigen Endpunkte und Datentypen für Abfragen und Mutationen zu verwenden.
-Durch die angegebenen Datentypen ist das Frontend in der Lage, direkt zu erkennen, welche Datentypen in der entsprechenden Abfrage oder Mutation zu verwenden sind und kann damit Zeit sparen.
+Bei Änderungen an der Schnittstelle wird die Dokumentation automatisch aktualisiert. Auch kann manuell eine Beschreibung des Endpunkts hinzugefügt werden. Dies erleichtert es dem Frontend, die richtigen Endpunkte und Datentypen für Abfragen und Mutationen zu verwenden. Durch die angegebenen Datentypen ist das Frontend in der Lage, direkt zu erkennen, welche Datentypen in der entsprechenden Abfrage oder Mutation zu verwenden sind und kann damit Zeit sparen.
 Gleichzeitig fällt Zeit weg, die für das manuelle Dokumentieren der Schnittstelle angefallen wäre.
 
 \subsection{GraphiQL}
@@ -69,20 +88,19 @@ Nachfolgend werden einige der verwendeten Abfragen und Mutationen exemplarisch v
 \paragraph{}
 Für den Registrierungsvorgang wird die Mutation \textit{signup} verwendet.
 Durch die Angabe von Email, gewünschtem Namen und Passwort wird ein Nutzerkonto erstellt.
-In Zukunft kann durch Angabe von Namen und Passwort mit der \textit{login} Abfrage ein Authentifizierungstoken erstellt werden.
-Das Token wird bei Abfragen, die eine Authentifizierung oder Authorisierung verlangen, verwendet
+In Zukunft kann durch Angabe von Namen und Passwort mit der \textit{login} Abfrage ein Authentifizierungstoken erstellt werden. Das Token wird bei Abfragen, die eine Authentifizierung oder Authorisierung verlangen, verwendet.
 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_signup.png}
-	\caption{Registrierung des neuen Nutzers \textit{MyName}}
+	\caption{Registrierung des neuen Nutzers \textit{MyName}. Eigene Darstellung.}
 	\label{fig:gql:2}
 \end{figure}
 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_login.png}
-	\caption{Anmeldung des Nutzers. Die Antwort enthält das JSON Web Token, welches für bestimmte Abfragen zur Authentifizierung und Autorisierung dient.}
+	\caption{Anmeldung des Nutzers. Die Antwort enthält das JSON Web Token, welches für bestimmte Abfragen zur Authentifizierung und Autorisierung dient. Eigene Darstellung.}
 	\label{fig:gql:3}
 \end{figure}
 
@@ -98,7 +116,7 @@ Zum Verändern der Daten ist die Mutation \textit{userUpdateSelf} vonnöten.
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_userUpdateSelf.png}
-	\caption{Das Geschlecht, Sprachen, Rolle etc. für den aktiven Nuter werden gesetzt. Unten: Ausschnitt des Autorisierungstokens. Durch das Token wird der aktive Nutzer identifiziert.}
+	\caption{Das Geschlecht, Sprachen, Rolle etc. für den aktiven Nuter werden gesetzt. Unten: Ausschnitt des Autorisierungstokens. Durch das Token wird der aktive Nutzer identifiziert. Eigene Darstellung.}
 	\label{fig:gql:4}
 \end{figure}
 
@@ -113,20 +131,20 @@ Mit der Mutation \textit{swipe} kann dann eine Freundschaftsanfrage an den angeg
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_userManyToSwipe.png}
-	\caption{Abfrage nach mehreren Nutzern mit userManyToSwipe. Durch den Filter werden nur Nutzer im Alter zwischen 20 und 30 Jahren angezeigt.}
+	\caption{Abfrage nach mehreren Nutzern mit userManyToSwipe. Durch den Filter werden nur Nutzer im Alter zwischen 20 und 30 Jahren angezeigt. Eigene Darstellung.}
 	\label{fig:gql:5}
 \end{figure}
 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_swipe.png}
-	\caption{Der aktive Nutzer versendet einen Like an den durch \textit{recipient} definierten Nutzer}
+	\caption{Der aktive Nutzer versendet einen Like an den durch \textit{recipient} definierten Nutzer. Eigene Darstellung.}
 	\label{fig:gql:6}
 \end{figure}
 
 Die Nachrichten eines Chats können durch die Abfrage \textit{getChat} gelesen werden.
 Dazu ist die ID des Chat anzugeben.
-Der optionale Parameter "Seite" gibt an, welche Nachrichten zurückgegeben werden sollen.
+Der optionale Parameter „Seite“ gibt an, welche Nachrichten zurückgegeben werden sollen.
 Auf jeder Seite befinden sich 20 Nachrichten, beginnend bei \enquote{Seite=1} mit den neuesten 20 Nachrichten.
 Sollte der Seitenparameter nicht angegeben werden, wird nur die neueste Nachricht geladen.
 Dies wird bei der Vorschau des Chats für die Freundesliste verwendet.
@@ -134,7 +152,7 @@ Dies wird bei der Vorschau des Chats für die Freundesliste verwendet.
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_getChat.png}
-	\caption{Durch den Parameter \textit{page: 1} werden die bis zu 20 letzten Nachrichten geladen. Da der Chat nur 4 Nachrichten beinhaltet werden nur diese geladen. Unten: Das Authentifizierungstoken \textit{x-auth-token} befindet sich in dem HTTP-Header der Abfrage.}
+	\caption{Durch den Parameter \textit{page: 1} werden die bis zu 20 letzten Nachrichten geladen. Da der Chat nur 4 Nachrichten beinhaltet werden nur diese geladen. Unten: Das Authentifizierungstoken \textit{x-auth-token} befindet sich in dem HTTP-Header der Abfrage. Eigene Darstellung.}
 	\label{fig:gql:7}
 \end{figure}
 
@@ -147,14 +165,14 @@ Sollte \textit{content} nicht definiert sein, wird die gewählte Nachricht statt
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_editMessage.png}\cite{}
-	\caption{Die bestehende Nachricht (Siehe Abfrage \textit{getChat}) wird durch den in \textit{content} definierten Text ersetzt.}
+	\caption{Die bestehende Nachricht (Siehe Abfrage \textit{getChat}) wird durch den in \textit{content} definierten Text ersetzt. Eigene Darstellung.}
 	\label{fig:gql:8}
 \end{figure}
 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/graphiql_deleteMessage.png}\cite{}
-	\caption{Die soeben editierte Nachricht wird gelöscht.}
+	\caption{Die soeben editierte Nachricht wird gelöscht. Eigene Darstellung.}
 	\label{fig:gql:9}
 \end{figure}
 
