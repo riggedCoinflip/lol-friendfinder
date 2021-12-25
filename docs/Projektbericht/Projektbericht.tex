@@ -196,16 +196,15 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 \end{titlepage}
 
 \newpage
-
 % Abstract (ACHTUNG: Abweichung zur Reihenfolge im Merkblatt!)
 \begin{abstract}
   Platz für das deutsche Abstract...
 \end{abstract}
 
-\renewcommand{\abstractname}{Abstract}
-\begin{abstract}
-  Platz für das englische Abstract...
-\end{abstract}
+%\renewcommand{\abstractname}{Abstract}
+%\begin{abstract}
+%  Platz für das englische Abstract...
+%\end{abstract}
 %<MERKKASTEN> (für die eigene Verwendung bitte entfernen
 %\vspace{1cm}
 %\begin{tcolorbox}[title={Das Abstract}]
@@ -252,13 +251,14 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 \renewcommand{\listfigurename}{} % Name des Abbildungsverzeichnisses ändern
 \thispagestyle{empty}
 \listoffigures
-
 \newpage
 
+%Glossar
+\newpage
+\printglossaries
 % Tabellenverzeichnis
 %\addcontentsline{toc}{section}{Tabellenverzeichnis}
 %\listoftables
-
 %\newpage
 
 % Hauptteil des Dokuments
@@ -267,7 +267,6 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 % Einbinden der ausgelagerten Dateien in diese Hauptdatei, erfolgt
 % mittels folgendem Befehl (Beispiel):
 % beispiel.tex => \input{beispiel}
-\newpage
 % INFO: Querverweise auf Gliederungselemente, Abbildungen
 %       & Tabellen setzen:
 %
@@ -362,18 +361,15 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 %\end{tcolorbox}
 %</MERKKASTEN>
 
-\newpage
-\printglossaries
-\newpage
-\printbibliography[heading=bibintoc]
-
 % Anhang
 \newpage
 \section*{Anhang}\label{anhang}
 \addcontentsline{toc}{section}{Anhang} % Manuellen Eintrag im Inhaltsverzeichnis erzeugen
 \input{chapters/Anhang}
 
+%Bib
 \newpage
+\printbibliography[heading=bibintoc]
 
 % Erklärung über die selbständige Abfassung der Arbeit
 \pagestyle{empty}
