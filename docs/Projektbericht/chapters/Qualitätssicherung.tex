@@ -24,7 +24,7 @@ In verschiedenen Testfällen werden dazu die entsprechenden Resolver geprüft. D
 \subsubsection*{End-to-End Testfälle}
 \textit{Cypress} ist ein Testautomatisierungswerkzeug für End-to-End-Tests. 
 %\\\subsubsection*{Testautomatisierung}
-Die Automatisierung von Testfällen maximiert die Effizienz, wenn Testfälle in den Kontinuierliche-Integration(Continuous integration) Workflows einbezieht werden. Der neue Code kann automatisch getestet werden, zum Beispiel jedes Mal, wenn ein neues Push-Request erstellt wird.
+Die Automatisierung von Testfällen maximiert die Effizienz, wenn Testfälle in den Kontinuierliche-Integration(Continuous integration) Workflows einbezieht werden. %Der neue Code kann automatisch getestet werden, zum Beispiel jedes Mal, wenn ein neues Push-Request erstellt wird.
 \\\\
 Die \autoref{fig:Continuous_integration_workflow} zeigt in Schritt zwei und drei, wie nach dem neuer Code in einen neuen Branch hinzugefügt wird, werden automatisch Tests durchgeführt. Mit welchen, möglichen Fehler gefunden und behoben werden können. Nach jeder relevanten Aktion, kann mit \textit{GitHub Actions} solche Test durchgeführt werden.
 \begin{figure}[h!]
@@ -35,6 +35,7 @@ Die \autoref{fig:Continuous_integration_workflow} zeigt in Schritt zwei und drei
 \end{figure}
 \\
 In diesem Projekt wurden durch GitHub Actions die korrekte Formatierung des Codes geprüft und die End-To-End-Tests nach der Aktualisierung jedes Branches durchgeführt.
+\newpage
 Die \autoref{fig:Cy_Test_running} zeigt die manuelle Durschführung eines Testfalles. In der linken Spalte die Schritte eines Tests, die alle erfolgreich durchgeführt wurden und mit grüner Farbe markiert sind. Auf der rechten Seite die Benutzeroberfläche, auf der die Testschritte automatisch ausgeführt werden.\footnote{Den entsprechenden Code für den oben gezeigten Test finden Sie in Anhang \ref{Cypress_Code}.
 }
 \\
