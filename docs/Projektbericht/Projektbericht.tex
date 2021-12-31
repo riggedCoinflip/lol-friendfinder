@@ -196,16 +196,15 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 \end{titlepage}
 
 \newpage
-
 % Abstract (ACHTUNG: Abweichung zur Reihenfolge im Merkblatt!)
 \begin{abstract}
   Platz für das deutsche Abstract...
 \end{abstract}
 
-\renewcommand{\abstractname}{Abstract}
-\begin{abstract}
-  Platz für das englische Abstract...
-\end{abstract}
+%\renewcommand{\abstractname}{Abstract}
+%\begin{abstract}
+%  Platz für das englische Abstract...
+%\end{abstract}
 %<MERKKASTEN> (für die eigene Verwendung bitte entfernen
 %\vspace{1cm}
 %\begin{tcolorbox}[title={Das Abstract}]
@@ -252,13 +251,14 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 \renewcommand{\listfigurename}{} % Name des Abbildungsverzeichnisses ändern
 \thispagestyle{empty}
 \listoffigures
-
 \newpage
 
+%Glossar
+\newpage
+\printglossaries
 % Tabellenverzeichnis
 %\addcontentsline{toc}{section}{Tabellenverzeichnis}
 %\listoftables
-
 %\newpage
 
 % Hauptteil des Dokuments
@@ -267,7 +267,6 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 % Einbinden der ausgelagerten Dateien in diese Hauptdatei, erfolgt
 % mittels folgendem Befehl (Beispiel):
 % beispiel.tex => \input{beispiel}
-\newpage
 % INFO: Querverweise auf Gliederungselemente, Abbildungen
 %       & Tabellen setzen:
 %
@@ -281,7 +280,8 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 \input{chapters/Problemstellung}
 
 \newpage
-\section{Einleitung}\label{kap_einleitung}
+\section*{Einleitung}\label{kap_einleitung}
+\addcontentsline{toc}{section}{Einleitung} % Manuellen Eintrag im Inhaltsverzeichnis erzeugen
 \input{chapters/Einleitung}
 
 %\vspace{1cm}
@@ -338,23 +338,13 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 \input{chapters/Frontend}
 
 \newpage
-\section{Serverabfragen }\label{kap_Serverabfragen}
-\input{chapters/Serverabfragen}
-
-\newpage
 \section{Qualitätssicherung }\label{kap_QS}
 \input{chapters/Qualitätssicherung}
 
 \newpage
-\section{Zusammenfassung und Ausblick}\label{kap_zusammfAusbl}
-%\input{}
-TEXT MUSS KONTROLIERT WERDEN...\\
-Es hat sich gezeigt, dass moderne Entwicklungswerkzeuge für JavaScript auch ohne umfassende Kenntnisse der Softwareentwicklung zugänglich sind.
-
-Das Ziel, eine echte Plattform zu schaffen, wurde im Zeitraum von Mai 2021 bis Mitte August 2021 erreicht.
-
-Das heißt, ein Team von zwei Studenten mit grundlegenden Programmierkenntnissen war in der Lage, eine funktionelle Plattform zu schaffen, die die Registrierung, die Anmeldung der Benutzer, die Verwaltung von persönlichen Daten, die Interaktion mit anderen Benutzern auf der Grundlage ihrer Präferenzen umfasst und einen auf Textnachrichten basierenden Kommunikationskanal.
-
+\section*{Zusammenfassung }\label{kap_ZF}
+\addcontentsline{toc}{section}{Zusammenfassung}
+\input{chapters/Zusammenfassung}
 %<MERKKASTEN> (für die eigene Verwendung bitte entfernen
 %\vspace{1cm}
 %\begin{tcolorbox}[title={Inhalte der \textit{Zusammenfassung und Ausblick}}]
@@ -371,20 +361,15 @@ Das heißt, ein Team von zwei Studenten mit grundlegenden Programmierkenntnissen
 %\end{tcolorbox}
 %</MERKKASTEN>
 
-\newpage
-\printglossaries
-\newpage
-\printbibliography[heading=bibintoc]
-
 % Anhang
 \newpage
-%\setcounter{section}{0} % Nummerierung der Gliederungsebene "section" auf 0 setzen
-%\renewcommand*\thesection{\Alph{section}} % Nummerierungsart für die Gliederungsebene "section"
-% auf Großbuchstaben setzen
-%\section{Anhang}\label{anhang}
-%\input{chapters/Anhang}
+\section*{Anhang}\label{anhang}
+\addcontentsline{toc}{section}{Anhang} % Manuellen Eintrag im Inhaltsverzeichnis erzeugen
+\input{chapters/Anhang}
 
+%Bib
 \newpage
+\printbibliography[heading=bibintoc]
 
 % Erklärung über die selbständige Abfassung der Arbeit
 \pagestyle{empty}
@@ -398,20 +383,10 @@ Sämtliche Quellen und Hilfsmittel, die ich für die Arbeit benutzt habe, sind
 angegeben. Die Arbeit hat mit gleichem Inhalt bzw. in wesentlichen Teilen noch keiner anderen Prüfungsbehörde vorgelegen.\\\\
 \begin{tabular}{cp{7cm}}
                                     &             \\
-                                    &             \\ \hline
+          Gummersbach                   &             \\ \hline
   \small (Ort, Datum, Unterschrift) & \normalsize \\
 \end{tabular}
 
-%<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-\vspace{1cm}
-\begin{tcolorbox}[title={Hinweise zur obigen \textit{Erklärung}}]
-  \begin{itemize}
-    \item Bitte verwenden Sie nur die Erklärung, die Ihnen Ihr \textbf{Prüfungsservice} vorgibt. Ansonsten könnte es passieren, dass Ihre Abschlussarbeit nicht angenommen wird. Fragen Sie im Zweifelsfalle bei Ihrem Prüfungsservice nach.
-    \item Sie müssen \textbf{alle abzugebende Exemplare} Ihrer Abschlussarbeit unterzeichnen. Sonst wird die Abschlussarbeit nicht akzeptiert.
-    \item Ein \textbf{Verstoß} gegen die unterzeichnete \textit{Erklärung} kann u.\,a. die Aberkennung Ihres akademischen Titels zur Folge haben.
-  \end{itemize}
-\end{tcolorbox}
-%</MERKKASTEN>
 
 \newpage
 % Unbeschriftetes Abschlussblatt (Leere Seite)

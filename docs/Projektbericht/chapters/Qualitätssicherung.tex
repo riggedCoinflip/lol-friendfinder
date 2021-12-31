@@ -1,14 +1,20 @@
-\subsubsection*{Software Testing 14.11}
+%\subsubsection*{Software Testing 14.11}
 %WARUM SOLLTE GETESTET WERDEN´?
 %WIESO END2END UND UNIT TEST?
 %PROJEKTE SCHREITERN WEGEN MANGELHAFTE TESTING \%
 %Einer der Gründe dafür ist, dass das Risiko, gar nicht oder zu wenig zu testen, erkannt wurde.
 %Unter anderem, weil es klar/verstanden wurde, wie riskant ist, Testaktivitäten zu überspringen oder nicht genug Testing durchzuführen.
-In der Vergangenheit haben Unternehmen das Risiko bei der Entwicklung ihrer Projekte unterschätzt. Die waren gezwungen, ihren Betrieb zu unterbrechen, oder haben aufgrund von Fehlern in ihren Anwendungen Kunden verloren. Beispiele dazu sind Starbucks im Jahr 2015, der gezwungen war, etwa 60\% der Filialen in den USA und Kanada wegen eines Softwarefehlers in seinem Kassensystem zu schließen{\cite{QS1}} oder Nissan im Jahr 2014 als fast 1 Million Fahrzeuge wegen eines Softwarefehlers in den Airbag-Sensoriksystemen zurückgeziehen musste{\cite{QS2}}. Neben der Verringerung des Risikos der oben genannten Situationen bietet das Software-Testing weitere Vorteile. Zu diesen Vorteilen gehören eine Erhöhung der Softwarequalität, die Trennung der zwischen Software-Testing und -entwicklung, bessere Chancen, Fehler zu entdecken, bevor die Kunden sie entdecken und vieles mehr. Aus diesem Grund wurden Unit-Tests für das Backend und End2End für das Frontend vorgesehen. 
-\\
+In der Vergangenheit haben Unternehmen das Risiko bei der Entwicklung ihrer Projekte unterschätzt. Die waren dazu gezwungen, ihren Betrieb zu unterbrechen, oder haben aufgrund von Fehlern in ihren Anwendungen Kunden verloren. Ein Beispiel dazu ist \textit{Starbucks}, welches im Jahr 2015 etwa 60\% der Filialen in den USA und Kanada wegen eines Softwarefehlers in seinem Kassensystem schließen musste{\cite{QS1}}. Ein weiterer Fall war \textit{Nissan} im Jahr 2014, als fast 1 Million Fahrzeuge wegen eines Softwarefehlers in den Airbag-Sensoriksystemen zurückziehen musste{\cite{QS2}}. Unter die Vorteile, welche das Software-Testing bietet zählen die Risikoverringerung bei den Softwareprojekten, eine Erhöhung der Softwarequalität, schnelle Fehlerfindung, die Aufgabentrennung zwischen dem Software-Testing und der -entwicklung.  Aus diesem Grund wurden \textit{Unit-} für das Backend und \textit{End-to-End-Tests} für das Frontend geschrieben. 
+\\\\
+Für das Unit-Testing im Backend wird das Testingframework \textit{Jest} und für das Frontend \textit{Cypress} verwendet. Beide Frameworks stehen an die ersten Plätzen in der Ranking von Test-Frameworks von \textit{OpenBase} veröffentlicht{\cite{QS3}}.
+
 \subsubsection*{Unittest}
-Auch als Komponententest bekannt, wird diese geschrieben, um die richtige Funktionsweise einer Codeeinheit zu prüfen. In den meisten Programmiersprachen ist das eine Funktion, ein Unterprogramm oder eine Methode. Für dieses Projekt wurde das Jest Framework verwendet. 
-Sowohl Cypress als auch Jest stehen an der Spitze der Liste, wenn es um Test-Frameworks geht{\cite{QS3}}.
+Dieser Art von Test dient dazu, die korrekte Funktionsweise einer Codeeinheit zu überprüfen. In den meisten Programmiersprachen ist das eine Funktion, ein Unterprogramm oder eine Methode. %Für dieses Projekt wurde das Jest Framework verwendet. 
+Dazu werden die Testkomponenten mit der Funktion \textit{describe} definiert. Innerhalb einer Komponente werden die Testfälle selbst mit \textit{test} oder dem alias \textit{it} definiert. Außerdem lassen sich Funktionen definieren, die nach oder vor jedem oder allen Testfällen ausgeführt werden sollen. Dies ermöglicht atomare Tests, dessen Ergebnisse nicht durch andere Testfälle verfälscht werden und. Die Testqualität wird somit erhöht. Die Datenbankschemata werden mit Hilfe von \textit{mongodb-memory-server} getestet. Dies erlaubt die Erstellung einer nicht-persistenten Datenbank im Speicher. Die Datenbank ist am Anfang leer und wird nach jedem Testfall gesäubert, um die Atomarität zu gewährleisten.
+Durch Tests der Datenstruktur wird gewährleistet, dass es keine Abweichungen gibt zwischen den Daten, die erwartet werden und denen, die erhalten werden. Tests der Middlewarefunktionen von Mongoose prüfen, ob komplexere Anwendungen, wie das Hashen des Passworts bei dessen Speicherung wie gewünscht ausgeführt werden.
+\\\\
+Die Tests der GraphQl-Schnittstelle setzen voraus, dass die Datenbank wie gewünscht funktioniert und die gewünschten Daten liefert und speichert.
+In verschiedenen Testfällen werden dazu die entsprechenden Resolver geprüft. Dazu wird mit dem Paket \textit{apollo-server-integration-testing} ein Testclient erstellt, der mit \textit{query-} und \textit{mutation-}Abfragen ähnlich wie der richtige Client abgefragt werden kann. Der Testclient unterstützt keine Express-Middleware, welche im Projekt den Nutzer autorisiert und authentifiziert. Diese Funktion musste daher nachgeahmt werden. 
 %Before/after all; damit der Zustand zurücksetzen kann.
 %Ein TF darf nur 1 Sache testen. 
 %1 Beispiel erläutern (User)
@@ -16,59 +22,45 @@ Sowohl Cypress als auch Jest stehen an der Spitze der Liste, wenn es um Test-Fra
 %Beschreibung von Screenshot: 1. Zeile gibt an
 
 \subsubsection*{End-to-End Testfälle}
-Cypress IO ist ein Testautomatisierungswerkzeug für End-to-End-Tests und UI-Tests. 
-\\
-\subsubsection*{Testautomatisierung}
-Die Automatisierung von Testfällen maximiert die Effizienz, wenn Testfälle in den Kontinuierliche-Integration(Continuous integration) Workflows einbezieht werden. Neuer Code kann automatisch getestet werden, z. B. jedes Mal, wenn ein neues Pull-Request erstellt wird.
-
-\begin{figure}[ht]
+\textit{Cypress} ist ein Testautomatisierungswerkzeug für End-to-End-Tests. 
+%\\\subsubsection*{Testautomatisierung}
+Die Automatisierung von Testfällen maximiert die Effizienz, wenn Testfälle in den Kontinuierliche-Integration(Continuous integration) Workflows einbezieht werden. %Der neue Code kann automatisch getestet werden, zum Beispiel jedes Mal, wenn ein neues Push-Request erstellt wird.
+\\\\
+Die \autoref{fig:Continuous_integration_workflow} zeigt in Schritt zwei und drei, wie nach dem neuer Code in einen neuen Branch hinzugefügt wird, werden automatisch Tests durchgeführt. Mit welchen, möglichen Fehler gefunden und behoben werden können. Nach jeder relevanten Aktion, kann mit \textit{GitHub Actions} solche Test durchgeführt werden.
+\begin{figure}[h!]
 	\centering
-    \includegraphics[width=\textwidth]{sources/Gitlab-CI.png}\cite{MG10}
-	\caption{Gitlab-CI}
-	\label{fig:Continuous_integration_workflow } {\cite{GLAB1}}
+    \includegraphics[width=\textwidth]{sources/Gitlab-CI.png}
+	\caption{Gitlab-CI/CD Workflow}
+	\label{fig:Continuous_integration_workflow} {\cite{GLAB1}}
 \end{figure}
-
-
-\subsection*{Testing bei diesem Projekt}
-\paragraph{}
-Nachstehend einer Überblick über die Testfälle bei Cypress.
 \\
-Die \autoref{fig:Continuous_integration_workflow} zeigt den Ablauf, wenn ein neuer Branch erstellt wird und in diesen neuer Code eingebettet wird.
-\begin{center}
-\includegraphics[scale=0.60]{Cy_Test_Cases}
-\label{fig:Cy_Test_Cases}\\
-\textbf{Abbildung \autoref{fig:Cy_Test_Cases}:} Testfälle in Cypress
-\end{center}
-
-\begin{center}
-\includegraphics[scale=0.40]{Cy_Test_running}\label{fig:Cy_Test_running}
-\textbf{Abbildung \autoref{fig:Cy_Test_running}:} Grafische Darstellung der verschiedenen Tests in Cypress
-\end{center}
-
+In diesem Projekt wurden durch GitHub Actions die korrekte Formatierung des Codes geprüft und die End-To-End-Tests nach der Aktualisierung jedes Branches durchgeführt.
+\newpage
+Die \autoref{fig:Cy_Test_running} zeigt die manuelle Durschführung eines Testfalles. In der linken Spalte die Schritte eines Tests, die alle erfolgreich durchgeführt wurden und mit grüner Farbe markiert sind. Auf der rechten Seite die Benutzeroberfläche, auf der die Testschritte automatisch ausgeführt werden.\footnote{Den entsprechenden Code für den oben gezeigten Test finden Sie in Anhang \ref{Cypress_Code}.
+}
+\\
+\includegraphics[width=\textwidth]{sources/Cy_Test_running.png}
+\begin{figure}[h!]
+	\centering
+	\caption{Grafische Sicht eines Testlauf bei Cypress. 
+	Quelle: eigene Darstellung}
+	\label{fig:Cy_Test_running}
+\end{figure} 
 
 %Ergebnise der ganzen Testlauf
-
-\subsection{Unit test (Backend)}
-Für das Unit-Testing im Backend wird das Testingframework \textit{Jest} verwendet.
-Dazu werden die Testkomponenten mit der Funktion \textit{describe} definiert.
-Innerhalb einer Komponente werden die Testfälle selbst mit \textit{test} oder dem alias \textit{it} definiert.
-Außerdem lassen sich Funktionen definieren, die nach oder vor jedem oder allen Testfällen ausgeführt werden sollen.
-Dies ermöglicht atomare Tests, dessen Ergebnisse nicht durch andere Testfälle verfälscht werden und.
-Die Testqualität wird somit erhöht.
-
-Die Datenbankschemata werden mit Hilfe von \textit{mongodb-memory-server} getestet.
-Dies erlaubt die Erstellung einer nicht-persistenten Datenbank im Speicher.
-Die Datenbank ist initial leer und wird nach jedem Testfall gesäubert, um die Atomarität zu gewährleisten.
-Durch Tests der Datenstruktur wird gewährleistet, dass es keine Abweichungen gibt zwischen den Daten, die erwartet werden und denen, die erhalten werden.
-Tests der Middlewarefunktionen von Mongoose prüfen, ob komplexere Anwendungen, wie das Hashen des Passworts bei dessen Speicherung wie gewünscht ausgeführt werden.
-
-Die Tests der GraphQl-Schnittstelle setzen voraus, dass die Datenbank wie gewünscht funktioniert und die gewünschten Daten liefert und speichert.
-In verschiedenen Testfällen werden dazu die entsprechenden Resolver geprüft.
-Dazu wird mit dem Paket \textit{apollo-server-integration-testing} ein Testclient erstellt, der mit \textit{query-} und \textit{mutation-}Abfragen ähnlich wie der richtige Klient abgefragt werden kann.
-Der Testclient unterstützt keine Express-Middleware, welche im Projekt den Nutzer autorisiert und authentifiziert.
-Diese Funktion musste daher nachgeahmt werden. 
-
 \begin{comment}
+\paragraph{}
+%Nachstehend einer Überblick über die Testfälle bei Cypress.\\
+
+
+\includegraphics[width=0.5\textwidth]{sources/Cy_Test_Cases.png}
+\begin{figure}[ht]
+	\centering
+	\caption{Testfälle in Cypress. 
+	Quelle: eigene Darstellung}
+	\label{fig:Cy_Test_Cases}
+\end{figure} 
+
 Obwohl das Projekt relativ klein ist, wurde die Wichtigkeit von automatisierten Tests nicht unterschätzt.
 \\
 Für das Frontend wurden End-to-End Testfälle mit Cypress geschrieben.
