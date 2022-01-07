@@ -22,7 +22,7 @@ Um in einem späteren Entwicklungsschritt die Reduzierung der Wartezeiten durch 
 
 \paragraph{}
 Es bietet sich an, SQL-Datenbanken wie PostgreSQL in eine Normalform zu bringen, um das Aktualisieren und Einfügen von Daten zu beschleunigen und die Konsistenz und Integrität gemäß ACID zu wahren.
-Neben diesen Vorteilen entstehen jedoch Nachteile, die sich negativ auf die Lesegeschwindigkeit auswirken.
+Neben diesen Vorteilen entstehen jedoch Nachteile, die sich negativ auf die Lesegeschwindigkeit auswirken können.
 Daten in einer Normalform befinden sich in verschiedenen Tabellen, die bei Abfragen oft zusammengeführt werden müssen.
 Die Anfragen werden dadurch komplexer und die Effizienz von Indexen nimmt ab.
 Um die Lesegeschwindigkeit zu erhöhen kann Denormalisierung verwendet werden, bei denen die Daten für verschiedene Tabellen dupliziert werden.
@@ -101,13 +101,13 @@ Dies wird unter anderem durch die Möglichkeit geschaffen, Dokumente in andere D
 Infolgedessen entstehen weniger komplexe Abfragen, es müssen seltener Dokumente verschiedener Shards kombiniert werden.
 Die Datenbank wird weniger beansprucht.
 Auch erscheint das Erstellen von Shards mit MongoDB leichter als mit PostgreSQL.\\
-Zusätzlich erlaubt Sharding bei international angelegten Projekten durch geschickte Wahl der Position der Datenbankknoten, die Latenzzeit bei Abfragen zu minimieren \autoref{fig:mongoActiveActive}.
+Zusätzlich erlaubt Sharding bei international angelegten Projekten durch geschickte Wahl der Position der Datenbankknoten, die Latenzzeit bei Abfragen zu minimieren \autoref{fig:db:mongoActiveActive}.
 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sources/MongoDB_sharded.png}\cite{db:mongoActiveActiveImage}
 	\caption{Regionale Shards mit Replikatgruppen. Sekundärknoten befinden sich für niedrigere Latenzzeiten bei Lesezugriffen in anderen Regionen}
-	\label{fig:mongoActiveActive}
+	\label{fig:db:mongoActiveActive}
 \end{figure}
 
 \subsubsection{Hochverfügbarkeit}
@@ -285,8 +285,7 @@ Dies erleichtert auch nicht-englischsprachigen Nutzern, ihre Sprache auswählen 
     \label{db:table:passwort}
 \end{table}
 
-Das Passwort wird nicht im Nutzerdokument gespeichert.
-Wenn das Passwort im Nutzerdokument gespeichert werden würde, könnten schon kleine Programmierfehler dazu führen, dass normale Nutzer das gehashte Passwort anderer Nutzer ermitteln könnten.
+Das Passwort wird nicht im Nutzerdokument gespeichert, da sonst schon kleine Programmierfehler dazu führen könnten, dass normale Nutzer das gehashte Passwort anderer Nutzer ermitteln könnten.
 Um dieses Sicherheitsproblem direkt zu eliminieren, wird daher für jedes Passwort ein eigenes, vom Nutzerdokument isoliertes Dokument verwendet.\\
 Das Passwort wird durch bcrypt, einem Blowfish-basierten Einweg-Hashalgorithmus, auf der Datenbank als Hash mit Salt gespeichert.
 Die Komplexität des Hashes ist frei wählbar und neben Versionsnummer, Salt und dem Hash an sich in der Zeichenkette gespeichtert.\cite{db:bcrypt}\\
