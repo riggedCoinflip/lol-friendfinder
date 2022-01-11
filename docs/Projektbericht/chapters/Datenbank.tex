@@ -146,7 +146,7 @@ Allerdings gibt es verschiedene Projekte, welche Lösungen zur Lastverteilung an
 Knoten in MongoDBs Replikatgruppen teilen sich gegenseitig durch Ping-Befehle ihren \enquote{Herzschlag} mit, um zu ermitteln, ob ein Knoten ausgefallen ist.
 Sollte der Primärknoten \enquote{sterben}, wählen die \enquote{überlebenden} Knoten in einer Abstimmung den nächsten Primärknoten, welcher die Schreibaufträge des vorigen Primärknotens übernimmt.
 Der Prozess einer Wahl sollte in der Regel durchschnittlich nicht länger als 12 Sekunden dauern und passiert vollautomatisch \cite{db:mongoElectionTimeout}.
-Einem Knoten mit mehr Leistung kann eine höhere Priorität zugewiesen werdem, um diesen als präferierten Primärknoten zu definieren \cite{db:mongoElectionPriority}.
+Einem Knoten mit mehr Leistung kann eine höhere Priorität zugewiesen werden, um diesen als präferierten Primärknoten zu definieren \cite{db:mongoElectionPriority}.
 Auch eignet es sich, Knoten in anderen Regionen für die Rolle des Primärknoten als unwählbar zu definieren, da sich die Latenz ansonsten drastisch erhöhen würde.
 Ein Replikset kann aus maximimal 50 Knoten bestehen, wovon bis zu 7 zum Primärknoten wählbar sind \cite{db:mongoReplicaSetMembersLimit}.
 Diese Zahl ist vermutlich groß genug, um einen gleichzeitigen Ausfall aller Knoten aus technischer Sicht nahezu unmöglich zu gestalten, wenn sich die Knoten zusätzlich auf verschiedenen physischen Geräten befinden.\\
@@ -167,7 +167,7 @@ Es wird vermutet, dass mit MongoDB eine Datenbank eingerichtet werden kann, die 
 MongoDB speichert Daten im JSON-Format. 
 \enquote{JSON (JavaScript Object Notation) ist ein schlankes Datenaustauschformat, welches für Menschen einfach zu lesen und für Maschinen einfach zu parsen [\dots] ist} \cite{db:json}. 
 JSON als semistrukturiertes Dateiformat eignet sich daher gut für Schnittstellendaten.\\
-Desw Weiteren wird im gewählten MERN-Techstack ausschließlich JavaScript verwendet - das JavaScript native Dateiformat JSON ist daher ohne Umwandlungen direkt verwendbar und der Umgang für das Entwicklerteam bereits bekannt.
+Des Weiteren wird im gewählten MERN-Techstack ausschließlich JavaScript verwendet - das JavaScript native Dateiformat JSON ist daher ohne Umwandlungen direkt verwendbar und der Umgang für das Entwicklerteam bereits bekannt.
 Dies verringert die Gefahr möglicher Komplikationen und spart Lern- und Programmieraufwand.
 Diesen Vorteil besitzt PostgreSQL nicht.
 Abfrageergebnisse müssen für die Schnittstelle zuerst in JSON-Dateien geändert werden, was einen zusätzlichen Programmierschritt bedeutet.
