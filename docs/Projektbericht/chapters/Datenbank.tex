@@ -2,7 +2,8 @@
 \paragraph{}
 Es wird eine moderne Plattform entwickelt, auf der sich Nutzer ähnlich Social Media Profile anderer Nutzer anschauen und miteinander Chats führen.
 Nutzer sollen in Echtzeit miteinander schreiben können und nahezu keine Wartezeit in Kauf nehmen müssen, um sich andere Profile anzeigen zu lassen.
-Die Datenbank muss nahezu immer erreichbar sein, da unsere Webseite ohne Datenbankanbindung nur beschränkt nutzbar ist, bis auf statische Seiten wie die Homepage werden nahezu überall Datenbankabfragen durchgeführt.
+Die Datenbank sollte eine geringe Ausfallwahrscheinlichkeit haben, da die Anwendung ohne Datenbankanbindung nur beschränkt nutzbar ist.
+Bis auf statische Seiten wie die Homepage werden nahezu überall Datenbankabfragen benötigt.
 Um eine potenziell große Anzahl an Nutzern in der Zukunft des Projektes verwalten zu können, sollte es Skalierungsmöglichkeiten geben.
 
 \paragraph{}
@@ -39,7 +40,7 @@ Anders als PostgreSQL ist MongoDB auf Grundlage dieser Art der Denormalisierung 
 Auch Multi-Dokument-Transaktionen über verschiedene Shards und Replikatgruppen sind optional atomar. \cite{db:mongoAcidCompliance}
 
 \subsubsection{Flexible Datenstrukturen}
-Im Rahmen des \textit{(Minimum Viable Product) MVPs} stehen die Projektanforderungen fest, allerdings soll im späteren Verlauf des Projektes auf die Wünsche der Nutzer geachtet und entsprechende Anpassungen an der Webseite getätigt werden.
+Im Rahmen des \textit{(Minimum Viable Product) MVPs} stehen die Projektanforderungen fest, allerdings soll im späteren Verlauf des Projektes auf die Wünsche der Nutzer geachtet und entsprechende Anpassungen an der Anwendung getätigt werden.
 Datenstrukturen werden verworfen und angepasst, wenn sich diese nicht als nützlich erweisen.
 Speziell in der Anfangsphase eines Teilprojektes erlauben flexible Datenstrukturen eine Lösung zu entwickeln, welche mit wenig Zeitaufwand ein akzeptables Ergebnis liefert.
 Sollte sich das Teilprojekt als erfolgreich erweisen, kann in einem späteren Entwicklungsschritt die Lösung inkrementell verbessert werden.
@@ -63,9 +64,9 @@ Es sollte Wert auf die Abwärtskompatibilität gelegt werden, damit bestehende S
 Mit jedem neuen Nutzer der Plattform steigt die Diversität und somit die Chance, dass sich zwei Nutzer finden, welche zusammenpassen und sich anfreunden.
  Je mehr Teilnehmer dem Netzwerk angehören, desto höher ist die Anzahl der potenziellen Kommunikationspartner und somit der Nutzen und Wert der Plattform.
 Es handelt sich somit um einen positiven direkten Netzwerkeffekt. \cite{db:networkEffect}
-Je größer der Nutzen der Plattform, desto eher werden Webseitenbesucher weiteren potenziellen Besuchern von der Webseite erzählen, wodurch die Plattform weiter wächst und ihren Nutzen weiter ausbaut.
+Je größer der Nutzen der Anwendung, desto eher werden Benutzer weitere Nutzer anwerben, wodurch die Nutzerbasis wächst und der Nutzen steigt.
 Dies kann zu exponentiellem Wachstum führen. \cite{db:networkEffectExponential}
-Desweiteren können große Persönlichkeiten der sozialen Medien (\enquote{Influencer}) mit einer einzigen Bemerkung tausende Personen davon überzeugen, einen Blick auf die Webseite zu werfen. \\
+Desweiteren können große Persönlichkeiten der sozialen Medien (\enquote{Influencer}) mit einer einzigen Bemerkung tausende Personen davon überzeugen, sich die Anwendung zu testen. \\
 Eine kurzfristige, rapide Vergrößerung der Nutzerbasis und exponentielles Wachstum stellen Datenbanken vor eine Herausforderung, die sich mit Skalierung lösen lässt.
 Auch sollen die Kapazitäten der Datenbank flexibel verringert werden können, um in Zeiten, in denen die Datenbank nicht ausgelastet ist, finanzielle Mittel zu sparen.
 Zur Skalierung wird eine Kombination aus vertikaler Skalierung (leistungsfähigere Hardware) und horizontaler Skalierung (mehr Geräte nebeneinander betrieben) gewählt.
@@ -111,10 +112,10 @@ Zusätzlich erlaubt Sharding bei international angelegten Projekten durch geschi
 \end{figure}
 
 \subsubsection{Hochverfügbarkeit}
-Für den Anmeldevorgang, die Registrierung und alle Seiten der Plattform, die einen angemeldeten Nutzer voraussetzen, ist eine Datenbankanbindung zwingend erforderlich.
-Diese Teile machen den Großteil der Webseite aus.
-Jede Minute, in der die Datenbank ausfällt, ist die Plattform bis auf ein paar statische Seiten, wie die Homepage oder das Impressum, nicht verwendbar.
-Es bietet sich eine Datenbank mit Hochverfügbarkeit an, um das Risiko eines Ausfalls unserer Plattform so weit wie möglich zu verringern.\\
+Für den Anmeldevorgang, die Registrierung und alle Seiten der Anwendung, die einen angemeldeten Nutzer voraussetzen, ist eine Datenbankanbindung zwingend erforderlich.
+Sollten diese Dienste ausfallen, ist der Nutzen der Anwendung stark verringert.
+Nur statische Seiten, wie die Startseite oder das Impressum, wären in so einem Fall verwendbar.
+Dementsprechend bietet sich eine Datenbank mit Hochverfügbarkeit an, um das Risiko eines Ausfalls unserer Plattform so weit wie möglich zu verringern.\\
 Um die Erreichbarkeit der Datenbank zu gewährleisten, bietet es sich an, Replikatgruppen zu erstellen.
 Eine Replikatgruppe besteht aus mehreren Datenbankprozessen (Knoten), welche den gleichen Datensatz verwalten. \cite{db:mongoReplicaSetMembers}
 Sollten durch Hardwarefehler einzelne Knoten ausfallen oder Softwarefehler Knoten dazu zwingen, neu gestartet zu werden, ist die Datenbank, wenn auch mit verringerter Leistung, weiterhin erreichbar.
