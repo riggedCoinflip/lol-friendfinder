@@ -90,7 +90,7 @@ Das Aufsetzen von MongoDB gestaltet sich entsprechend einfacher.
 
 \paragraph{Sharding\\}
 \paragraph{}
-Als SQL Datenbank werden bei PostgreSQL für komplexe DQL-Anweisungen \gls{DQL}, die Daten von mehreren Tabellen abfragen, JOIN-Answeisungen verwendet.
+Als SQL Datenbank werden bei PostgreSQL für komplexe \gls{DQL}-Anweisungen , die Daten von mehreren Tabellen abfragen, JOIN-Answeisungen verwendet.
 In einigen Fällen kann dies dazu führen, dass sich die abgefragen Spalten in verschiedenen Shards befinden.
 Dies kann zu erhöhtem Aufwand bei Abfragen führen.
 Um diesen Nachteil zu verringern, sollte darauf geachtet werden, wie die Shards konzipiert sind.
@@ -276,7 +276,7 @@ Dies erleichtert auch nicht-englischsprachigen Nutzern, ihre Sprache auswählen 
 \paragraph{Passwort\\}
 \begin{table}
     \centering
-    \begin{tabular}{ |c|c| }
+    \begin{tabularx}{\textwidth}{ |X|X| }
         \hline
         Feld & Beschreibung  \\
         \hline
@@ -284,7 +284,7 @@ Dies erleichtert auch nicht-englischsprachigen Nutzern, ihre Sprache auswählen 
         Passwort & Bcrypt Hash des Passworts bestehend aus Versionsnummer, Komplexität, Salt und Hash \\
         NutzerID & MongoId des zugehörigen Nutzers \\
         \hline
-    \end{tabular}
+    \end{tabularx}
     \caption{Schema Passwort}
     \label{db:table:passwort}
 \end{table}
@@ -303,7 +303,7 @@ Zur Verringerung des Erfolges von Brute-Force-Angriffen wird verlangt, dass das 
 Für mehr Varianz in den Passwörtern sind zudem einige Sonderzeichen erlaubt.
 Es besteht eine 1:1-Relation zwischen Passwörtern und Nutzerkonten.
 
-\paragraph{Verhältnis\\}
+\paragraph{Likes\\}
 \begin{table}
     \centering
     \begin{tabular}{ |c|c| }

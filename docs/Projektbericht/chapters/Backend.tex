@@ -51,14 +51,14 @@ Genauere Informationen zu GraphQL und Apollo sind in dem entsprechenden Kapitel 
 
 \paragraph{/api\\}
 GraphQL unterstützt nativ nur eingeschränkte Möglichkeiten zum Hochladen von Multipart-Dateien wie Bildern \cite{be:graphQlTypes}.
-ES wurde sich daher für einen klassischen REST-Endpunkt entschieden.
+Es wurde sich daher für einen klassischen REST-Endpunkt entschieden.
 Mit Hilfe des Paketes Multer werden die Bilddateien auf AWS S3 gespeichert \cite{be:multer}\cite{be:multerS3}.
 Die Autorisierung von AWS wird dabei durch das Paket \textit{aws-sdk} gelöst.\\
 
 Zum Erstellen von Profilbildern wird die Subroute \textit{/avatar} verwendet.
-Mit Hilfe von Multer werden verschiedene Regeln definiert, welche testen, ob es sich bei der hochgeladenen Datei auch wirklich um ein Bild handelt und die maximale Dateigröße nicht überschritten wird.
-Sollten alle Tests erfolgreich sein, wird das Bild mit einem durch UUID Version 4 generiertem Dateinamen auf S3 hochgeladen.
-Um das Bild öffentlich verfügbar zu machen, muss die Zugriffskontrollliste von AWS für dieses Bild auf \enquote{öffentlich lesbar} gesetzt werden.
+Mit Hilfe von Multer werden verschiedene Regeln definiert, welche prüfen, ob es sich bei der hochgeladenen Datei um ein Bild handelt und die maximale Dateigröße nicht überschritten wird.
+Sollten alle Prüfungen erfolgreich sein, wird das Bild mit einem durch UUID Version 4 generiertem Dateinamen auf S3 hochgeladen.
+Damit das Bild öffentlich verfügbar ist, muss die Zugriffskontrollliste von AWS für das Bild auf \enquote{öffentlich lesbar} gesetzt werden.
 Zum Schluss wird die URL des generierten Bildes im Nutzerdokument abgelegt, um eine Referenz auf das Bild zu erhalten.\\
 
 Die Route \textit{/avatar} steht nur für POST-Anfragen zur Verfügung.
