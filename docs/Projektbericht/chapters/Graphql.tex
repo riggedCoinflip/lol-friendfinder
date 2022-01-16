@@ -30,27 +30,27 @@ GraphQL bietet verschiedene Verbesserungen, wie zum Beispiel Leistungsoptimierun
 
 \subsection{Overfetching und Underfetching}
 \paragraph{}
-Antworten von REST-Schnittstellen sind dafür bekannt, zu viele Daten (Overfetching) oder zu wenige Daten (Underfetching) zu beinhalten.
-In beiden Fällen entstehen - durch mehr benötigte Bandbreite oder mehr Anfragen - Leistungseinbuße, die als Folge längere Antwortzeiten und höhere Serverkosten beinhalten. \\  %TODO cite
-Das Problem ist mit REST-Schnittstellen schwer zu umgehen.
-Eine perfekte Konfiguration würde exakt die Endpunkte beinhalten, die genau die angefragen Daten liefern.
-Dies ist jedoch praxisfern, da sich die Anforderungen in einem Projekt ständig verändern und jeder Endpunkt für dessen Betrieb Ressourcen benötigt und gewartet und getestet werden muss.
+Da bei REST-Schnittstellen nicht wählbar ist, welche Daten in einer Abfrage zurückgegeben werden sollen, gibt es Abfragen, bei denen irrelevante Daten zurückgegeben werden.
+Dies wird als Overfetching bezeichnet.
+In einigen Fällen werden außerdem Daten benötigt, die mehrere Anfragen an verschiedene Endpunkte voraussetzen.
+Dies wird als Underfetching bezeichnet.
+Sowohl Overfetching als auch Underfetching sorgen für suboptimale Abfragen und es kommt zu Leistungseinbußen, entweder durch unnötig viel benötigte Bandbreite oder unnötige viele Abfragen.
+Dieses Problem ist mit REST-Schnittstellen schwer zu umgehen, da es Praxisfern ist, für jede mögliche kombination von benötigten Daten einen perfekten Endpunkt zu erstellen.
 
 \paragraph{}
 GraphQL löst das Problem, indem bei jeder Anfrage genau definiert wird, welche Daten von welchen Endpunkten erfragt werden.
-Dies entlastet die Datenbank, da diese weniger Daten zur Verfügung stellen muss.
-Auch wird die Arbeit des Frontends erleichtert, da nur eine einzige Abfrage erstellt werden muss und irrelevante Daten gar nicht erst abgefragt und somit nicht geliefert werden müssen.\\
+Neben genannter Leistungsoptimierung wird auch die Arbeit der Frontend-Endwickler erleichtert, da diese bei einer Abfrage genau die benötigten Daten definieren können - irrelevante Daten müssen gar nicht erst abgefragt werden, die Anfrage wird \enquote{verschlankt}.\\
 REST fokussiert sich auf die verschiedenen Endpunkte, während GraphQL den Fokus auf die einzelnen Aufgaben legt.
 In GraphQL entscheidet die Applikation über die Daten die es erhält, nicht der Server.
 Mehrere Abfragen können in eine einzige Schnittstellenabfrage gebündelt werden, der Client erhält somit zusammenhängende Daten und die Datenbank wird durch präzise Abfragen geschont.
 
 \subsection{Stabilität}
 Durch GraphQls Typenschemata wird definiert, welche Abfragen und Mutationen möglich sind.
-Sollte bei einer Abfrage die Datenbank einen anderen Datentyp als durch das Typenschema definiert liefern, wirft GraphQL einen Fehler.
+GraphQL akzeptiert Anfragen nur, wenn die richtigen Datentypen verwendet werden und weist fehlerhafte Anfragen zurück.
+Sollte die Datenbank den falschen Datentyp zurückgeben, wird auch ein Fehler geworfen.
 Der Klient kann somit bei einer Abfrage damit rechnen, Daten in den angegebenen Datentypen zu erhalten, Ausnahmen für andere Datentypen müssen nicht definiert werden.
-Genauso wird eine Abfrage mit nicht erlaubten Datentypen direkt mit einer Fehlermeldung beantwortet, die genau auf den falschen Datentyp hinweist.
-Dadurch werden Inkonsistenzen der Datenbank oder weitere Datentypenkontrollen durch Design bereits stark mitigiert.
-%TODO cite
+Ebenso wird eine Abfrage mit nicht erlaubten Datentypen direkt mit einer Fehlermeldung beantwortet, die genau auf den falschen Datentyp hinweist.
+Dadurch werden Inkonsistenzen der Datenbank und der Zwang für weitere Datentypenkontrollen durch Design bereits stark mitigiert.
 
 \subsection{Dokumentation}
 GraphQL selbstdokumentiert jeden Endpunkt durch die vorliegenden Datentypen.
@@ -74,8 +74,15 @@ Im Projekt konnte durch die Nutzung des Editors beim Erstellen von Datentypdefin
 \subsection{Resolver}
 Durch die Pakete \textit{graphql-compose} und \textit{graphql-compose-mongoose} werden aus den bestehenden Datenbankmodellen Typenschemata entsprechend der Datentypen erstellt, die in GraphQL weiterverwendet werden können. 
 Resolver ("to resolve", etw. auflösen/abwickeln/klären) beantworten Abfragen und Mutationen.
-Sie bilden das Bindeglied zwischen Schnittstellenabfrage und Datenbankantwort.
-So wird beispielsweise eine Schnittstellenabfrage, welche nach dem Namen, Alter und Freitext des Nutzers "Foobar" fragt, durch einen Resolver in die entsprechende Datenbankabfrage übersetzt und die Antwort der Datenbank wiederum so editiert, dass diese der gewünschten Datenstruktur der Abfrage entspricht. %TODO schaubild stattdessen
+Sie bilden das Bindeglied zwischen Schnittstellenabfrage und Datenbankantwort. \\
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{sources/GraphQL_Resolver_Schaubild.drawio}\cite{}
+	\caption{Client sendet Abfrage an Resolver, dieser \enquote{übersetzt} Abfrage in Datenbanksprache und antwortet mit den Daten der DB}
+	\label{fig:gql:resolver_schaubild}
+\end{figure}
+
 Simplere Resolver, welche zum Beispiel einen einzelnen Datenbankeintrag durch die ID identifizieren (\textit{findOne}) oder anhand der bestehenden Datenstruktur einen Datenbankeintrag erstellen (\textit{createOne}), werden durch die verwendeten Pakete bereit gestellt und lassen sich in das Projekt integrieren.
 Für komplexere Resolver lassen sich bestehende Resolver anpassen oder gänzlich neue erstellen.
 Die verwendeten Resolver und Typenschemata werden dem \textit{schemaComposer} bereit gestellt, welcher aus den bestehenden Daten die Dokumentation generiert.

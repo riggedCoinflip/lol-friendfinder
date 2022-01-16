@@ -23,7 +23,7 @@ Um in einem späteren Entwicklungsschritt die Reduzierung der Wartezeiten durch 
 
 \paragraph{}
 Es bietet sich an, SQL-Datenbanken wie PostgreSQL in eine Normalform zu bringen, um das Aktualisieren und Einfügen von Daten zu beschleunigen und die Konsistenz und Integrität gemäß ACID zu wahren.
-Neben diesen Vorteilen entstehen jedoch Nachteile, die sich negativ auf die Lesegeschwindigkeit auswirken können.
+Normalisierung kann sich jedoch auch negativ auf die Lesegeschwindigkeit auswirken.
 Daten in einer Normalform befinden sich in verschiedenen Tabellen, die bei Abfragen oft zusammengeführt werden müssen.
 Die Anfragen werden dadurch komplexer und die Effizienz von Indexen nimmt ab.
 Um die Lesegeschwindigkeit zu erhöhen kann Denormalisierung verwendet werden, bei denen die Daten für verschiedene Tabellen dupliziert werden.
@@ -167,7 +167,7 @@ Es wird vermutet, dass mit MongoDB eine Datenbank eingerichtet werden kann, die 
 MongoDB speichert Daten im JSON-Format. 
 \enquote{JSON (JavaScript Object Notation) ist ein schlankes Datenaustauschformat, welches für Menschen einfach zu lesen und für Maschinen einfach zu parsen [\dots] ist} \cite{db:json}. 
 JSON als semistrukturiertes Dateiformat eignet sich daher gut für Schnittstellendaten.\\
-Des Weiteren wird im gewählten MERN-Techstack ausschließlich JavaScript verwendet - das JavaScript native Dateiformat JSON ist daher ohne Umwandlungen direkt verwendbar und der Umgang für das Entwicklerteam bereits bekannt.
+Desweiteren wird im gewählten MERN-Techstack ausschließlich JavaScript verwendet - das JavaScript native Dateiformat JSON ist daher ohne Umwandlungen direkt verwendbar und der Umgang für das Entwicklerteam bereits bekannt.
 Dies verringert die Gefahr möglicher Komplikationen und spart Lern- und Programmieraufwand.
 Diesen Vorteil besitzt PostgreSQL nicht.
 Abfrageergebnisse müssen für die Schnittstelle zuerst in JSON-Dateien geändert werden, was einen zusätzlichen Programmierschritt bedeutet.
@@ -191,19 +191,22 @@ Abfrageergebnisse müssen für die Schnittstelle zuerst in JSON-Dateien geänder
 \label{db:table:comparisonPostgresMongo}
 \end{table}
 
-Es konnte gezeigt werden, dass beide Datenbanken eine ausgereifte Architektur besitzen und sich daher beide gut für Projekte eignen.
-Für dieses Projekt hat jedoch MongoDB einige Vorteile, die sich darauf zurückführen lassen, aus welchem Beweggrund MongoDB entstanden ist.\\ %TODO Krys feedback
+Es konnte gezeigt werden, dass beide Datenbanken eine ausgereifte Architektur besitzen und sich daher beide gut für Softwareprojekte eignen.
+Für dieses Projekt bietet MongoDB einige Vorteile, die sich auf die Entstehungsgeschichte von MongoDB zurückführen lassen.\\
 Die 2007 neu gegründete Firma 10Gen, mittlerweile bekannt als MongoDB Inc., benötigte eine Datenbank, welche den Anforderungen ihrer quelloffenen Plattform-as-a-Service Cloud-Architektur gerecht werden würde.
 Das Team suchte nach einer Datenbank, die elastisch, skalierbar, einfach zu verwalten und für Entwickler und Anwender einfach zu benutzen ist.
 Unzufrieden mit den zu der Zeit auf dem Markt verfügbaren Datenbanksystemen wurde MongoDB, eine dokumentbasierte Datenbank, entwickelt.
 Als das Team das Potenzial der Datenbank realisierte, wurde die Idee der Cloud-Plattform eingestellt und die Entwicklung von MongoDB gefördert.\cite{db:mongoHistory}\\
-Aufgrund von MongoDBs Historie sind automatische Ausfallsicherung, horizontale Skalierung und Sharding native Funktionen, die sich mit wenig Entwicklungsaufwand einstellen und skalieren lassen.
-Auf der Plattform ist es gut denkbar, dass auf einen komplexen Schreibzugriff dutzende oder hunderte Lesezugriffe kommen, die höhere Geschwindigkeit ist bemerkbar. Auch integriert sich das von MongoDB gewählte Dateiformat JSON gut mit der weiteren Architektur des verwendeten MERN-Techstacks.
-Aus den genannten Gründen fällt die Wahl für das Projekt auf MongoDB.
+Native Funktionen wie MongoDBs automatische Ausfallsicherung, horizontale Skalierung und Sharding lassen sich wenig Aufwand konfigurieren und skalieren.
+Bei der Anwendung werden auf einen komplexen Schreibzugriff vermutlich dutzende bis hunderte Lesezugriffe kommen.
+Dementsprechend sorgt die schnellere Lesegeschwindigkeit zu Kosten der Schreibgeschwindigkeit für schnellere Datenbankzugriffe.
+Zudem integriert sich das von MongoDB gewählte Dateiformat JSON gut mit der weiteren Architektur des verwendeten MERN-Techstacks.
+Aus den genannten Gründen fällt die Wahl der Datenbank für das Projekt auf MongoDB.
 
 
 \subsection{Schemata}
-Folgende Kollektionen wurden verwendet, um die Daten optimal zu verwalten.
+MongoDB organisiert Daten in Kollektionen.	
+Folgende Kollektionen wurden verwendet, um die Daten optimal zu verwalten:
 
 \paragraph{Nutzer}
 \begin{table}
@@ -212,7 +215,7 @@ Folgende Kollektionen wurden verwendet, um die Daten optimal zu verwalten.
         \hline
         Feld & Beschreibung & Beispiel \\ 
         \hline
-        id & Standardmäßige MongoId & \\
+        Id & Standardmäßige MongoId & \\
         Benutzername & einzigartiger, öffentlicher Name & MaxMustermann \\ 
         normalisierter Name & Name in Kleinbuchstaben. Wird verwendet, um die Einzigartigkeit von Namen zu gewährleisten & maxmustermann \\ 
         Email & private eMail des Nutzers & mustermann@email.de \\
@@ -252,8 +255,8 @@ Damit Nutzer ihre gesprochenen Sprachen wählen können, bieten wir die Wahl zwi
     \hline
         Feld & Beschreibung & Beispiel \\
         \hline
-        id & Alpha-2 Code der Sprache & en, de, fr \\
-        name & Englische Schreibweise der Sprache & English, German, French \\
+        Id & Alpha-2 Code der Sprache & en, de, fr \\
+        Name & Englische Schreibweise der Sprache & English, German, French \\
         nativer Name & native Schreibweise der Sprache & English, Deutsch, français \\
         \hline
     \end{tabular}
@@ -277,8 +280,8 @@ Dies erleichtert auch nicht-englischsprachigen Nutzern, ihre Sprache auswählen 
         \hline
         Feld & Beschreibung  \\
         \hline
-        id & Standardmäßige MongoId \\
-        password & Bcrypt Hash bestehend aus Versionsnummer, Komplexität, Salt und Hash \\
+        Id & Standardmäßige MongoId \\
+        Passwort & Bcrypt Hash des Passworts bestehend aus Versionsnummer, Komplexität, Salt und Hash \\
         NutzerID & MongoId des zugehörigen Nutzers \\
         \hline
     \end{tabular}
@@ -295,9 +298,10 @@ Eine höhere Komplexität erhöht die benötigte Zeit pro Versuch eines Angreife
 Gleichzeitig wird aber auch die Zeit, die unser Server benötigt, um ein neues Passwort zu generieren oder den Anmeldeversuch eines ehrlichen Nutzers zu bestätigen, erhöht.
 Eine zu hohe Komplexität kann daher den Server stark verlangsamen und macht Angriffszenarien per (D)DOS ((distributed) denial of service, Überlastung des Servers durch übermäßigen Datenverkehr) gefährlicher, da gezielte Anmeldeversuche viel Last auf dem Server erzeugen.
 In Zukunft werden weitere Limitierungen auf Seiten des Backends erstellt, um wiederholte Anmeldeversuche zu bremsen.\\
-Um die Wahrscheinlichkeit von Glückstreffern bei Angriffen zu verringern, wird verlangt, dass das Passwort mindestens aus 8 Zeichen, darunter 1 Großbuchstabe, 1 Kleinbuchstabe und 1 Ziffer erstellt wird.
-Für mehr Varianz in den Passwörtern sind zudem einige Sonderzeichen erlaubt. %TODO anforderungen?
-Durch gewählte Restriktionen besteht eine 1:1-Relation zwischen Passwörtern und Nutzerkonten.
+
+Zur Verringerung des Erfolges von Brute-Force-Angriffen wird verlangt, dass das Passwort aus mindestens 8 Zeichen, darunter mindestens jeweils 1 Großbuchstabe, 1 Kleinbuchstabe und 1 Ziffer, erstellt wird.
+Für mehr Varianz in den Passwörtern sind zudem einige Sonderzeichen erlaubt.
+Es besteht eine 1:1-Relation zwischen Passwörtern und Nutzerkonten.
 
 \paragraph{Verhältnis\\}
 \begin{table}
@@ -306,7 +310,7 @@ Durch gewählte Restriktionen besteht eine 1:1-Relation zwischen Passwörtern un
         \hline
         Feld & Beschreibung  \\
         \hline
-        id & Standardmäßige MongoId \\
+        Id & Standardmäßige MongoId \\
         Sender & NutzerID der Person, die den Like/Dislike versendet. \\
         Empfänger &  NutzerID der Person, die den Like/Dislike empfängt. \\
         Status & Gibt an, ob es sich um einen Like oder Dislike handelt. \\
@@ -329,7 +333,7 @@ Dislikes sorgen dafür, dass ein Kontakt in Zukunft nicht mehr möglich ist.
         \hline
         Feld & Beschreibung  \\
         \hline
-        id & Standardmäßige MongoId \\
+        Id & Standardmäßige MongoId \\
         Teilnehmer & Array von NutzerIDs, die dem Chat beiwohnen. Aktuell maximal 2. \\
         Nachrichten & Array von Nachrichten, die die Nutzer untereinander ausgetauscht haben. \\
         \hline
@@ -356,7 +360,7 @@ Sie weisen folgende Datenstruktur auf:
         \hline
         Feld & Beschreibung  \\
         \hline
-        id & Standardmäßige MongoId \\
+        Id & Standardmäßige MongoId \\
         Inhalt & Text der Nachricht \\
         Autor & NutzerID des Verfassers der Nachricht \\
         \hline

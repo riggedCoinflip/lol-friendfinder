@@ -1,6 +1,6 @@
 \subsection{--generell--}
 Im Rahmen des Praxisprojekts wird ein Minimum Viable Product
-(MVP) %TODO Glossar
+(MVP) \gls{MVP}
 für eine Anwendung entwickelt, auf der sich Nutzer kennenlernen und miteinander interagieren können. Zielgruppe der Anwendung sind Spieler des Videospiels \textit{League of Legends}, welche nach neuen Mitspielern für gemeinsame Partien suchen.
 
 Um die Anwendung im vollen Umfang nutzen zu können, muss sich der Nutzer ein Konto erstellen.
@@ -15,11 +15,11 @@ Neben einer Suche ohne Parameter, welche zufällige Nutzer anzeigt, soll eine Fi
 Diese erlaubt es, die Suche auf Nutzer mit den gewählten Eigenschaften, zum Beispiel einem bestimmten Geschlecht oder einer präferiterten Spielposition, einzugrenzen.
 
 %Freunde
-Das Befreunden mit anderen Nutzern soll ähnlich wie auf dem Datingportal \texit{Tinder} gelöst werden: Nutzern kann ein \textit{Like} ("mag ich") gesendet werden.
+Das Befreunden mit anderen Nutzern soll ähnlich wie auf dem Datingportal \textit{Tinder} gelöst werden: Nutzern kann ein \textit{Like} (\enquote{mag ich}) gesendet werden.
 Dies sorgt dafür, dass die suchende Person in der nächsten Suche der gesuchten Person oben angezeigt wird.
 Wenn die gesuchte Person den \textit{Like} erwiedert, werden die beiden Nutzer befreundet.
 Befreundete Nutzer sollen in der Lage sein, miteinander über einen Chat zu kommunizieren.
-Dieser Chat erlaubt das Schreiben von Text nach UTF-8 Spezifikation, %TODO UTF8
+Dieser Chat erlaubt das Schreiben von Text nach UTF-8 Spezifikation \gls{UTF-8},
 dies ermöglicht das schicken von Emojis.
 
 Fehlverhalten, wie zum Beispiel die Bewerbung von kostenpflichtigen Diensten sowie explizite Inhalte und aufdringliches Verhalten sind unerwünscht.
@@ -39,11 +39,12 @@ Dadurch können zum Beispiel Termine zum gemeinsamen Spielen vereinbart, Kontakt
 Auf der Startseite soll ein Interessent einen ersten Eindruck von der Anwendung erhalten, bevor dieser sich ein Konto erstellen muss.
 
 Um viele Nutzer erreichen zu können, soll die Anwendung in Englisch verfügbar sein.
-Durch Responsive Webdesign %TODO Glossar
+Durch Responsive Webdesign \gls{responsive_webdesign}
 soll die Anwendung Desktop und Mobil unterstützen können, dies erhöht die potenzielle Nutzerbasis.
 
 Aus Softwaresicht sollte auf eine gute Dokumentation geachtet werden, um die Wartbarkeit des Projektes zu erhöhen und Kollaboratoren einen einfacheren Einstieg zu ermöglichen.
-Auch sollen Nutzerpasswörter ausreichend verschlüsselt werden, um Fremdzugriff zu unterbinden.
+Um die Chance von erfolgreichen Brute-Force-Angriffen auf Passwörter zu verringern, sollen sinnvolle Anforderungen an das vom Nutzer gewählte Passwort gestellt werden.
+Auch sollen die Passwörter ausreichend verschlüsselt werden, um die Auswirkungen von Datenbankangriffen zu verringern.
 
 Da es sich bei dem Projekt um ein MVP handelt, sollen nur die nötigsten Grundfunktionen entwickelt werden.
 Themen wie UI/UX und Finanzierung liegen daher nicht im Rahmen des Projekts.
