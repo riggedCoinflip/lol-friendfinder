@@ -143,24 +143,17 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 
 %Glossary
 \usepackage[toc]{glossaries}
-\makeglossaries
 \addcontentsline{toc}{section}{Glossar} 
+\makeglossaries
+\loadglsentries{chapters/Begriffe}
+
 %%% MUSTER %%%
-\newglossaryentry{}
-{
-    name=,
-    description={}
-}
+%\newglossaryentry{}
+%{name=, description={}}
 
 %%%%%%%%%%%%
 %%% TIMO %%%
 %%%%%%%%%%%%
-
-\newglossaryentry{MVP}
-{
-    name=MVP,
-    description={Minimum Viable Product, erste funktionsfähige Version des Produkts; dient dazu zu prüfen, ob es Sinn macht, das Produkt weiterzuentwickeln und ggf. anzupassen}
-}
 
 \newglossaryentry{UTF-8}
 {
@@ -180,6 +173,7 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
     description={Data Query Language, Datenabfragesprache für SQL}
 }
 
+\glsaddall % displays all the entries before it
 
 %Cite
 \usepackage[style=ieee]{biblatex}
@@ -230,10 +224,10 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
   \end{center}
 \end{titlepage}
 
-\newpage
-\begin{abstract}
-  Platz für das deutsche Abstract... %TODO
-\end{abstract}
+%\newpage
+%\begin{abstract}
+%  Platz für das deutsche Abstract... %TODO
+%\end{abstract}
 
 %\renewcommand{\abstractname}{Abstract}
 %\begin{abstract}
@@ -253,69 +247,31 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 %\end{tcolorbox}
 %</MERKKASTEN>
 
-%<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-%\vspace{1cm}
-%\begin{tcolorbox}[title={Hinweise zu dieser Dokumentvorlage}]
-%  \begin{itemize}
-%    \item Es handelt sich hierbei um eine Beispiel-Vorlage für wissenschaftliche Ausarbeitungen.
-%          Über die konkrete, formale Ausgestaltung Ihrer wissenschaftlichen Arbeit sprechen Sie unbedingt mit Ihre/m Betreuer/in.
-%    \item Unabhängig, ob Sie beispielsweise eine Bachelor-, Master- oder Hausarbeit schreiben müssen. Diese Vorlage kann als eine gute Basis für Ihre Arbeit dienen. Passen Sie einfach die Vorlage Ihren Anforderungen entsprechend an.
-%  \end{itemize}
-%\end{tcolorbox}
-%</MERKKASTEN>
-
 \newpage
 
 % Inhaltsverzeichnis
 \tableofcontents
-
-\newpage
 \pagestyle{fancy} % Kopf- und Fußzeilen aktivieren (=> Paket "fancyhdr")
 
-% Abbildungsverzeichnis
-% INFO: Abbildung einbinden (Beispiel):
-%  \begin{figure}[h!]
-%    \centering
-%    \includegraphics[scale=1.00]{Pfad zum Bild}\\
-%    \caption{Bildunterschrift}
-%    \label{Marke zum Referenzieren auf die Abbildung}
-%  \end{figure}
+\newpage
 \section*{Abbildungsverzeichnis}
 \addcontentsline{toc}{section}{Abbildungsverzeichnis} % Manuellen Eintrag im Inhaltsverzeichnis erzeugen
 \renewcommand{\listfigurename}{} % Name des Abbildungsverzeichnisses ändern
 \thispagestyle{empty}
 \listoffigures
-\newpage
 
-%Glossar
-\newpage
-\printglossaries
-% Tabellenverzeichnis
-%\addcontentsline{toc}{section}{Tabellenverzeichnis}
-%\listoftables
 %\newpage
+%\section{Glossar2}%\label{Glossar_alt}
+%\input{chapters/Begriffe}
 
-% Hauptteil des Dokuments
-% TIPP: Jedes Kapitel oder jeder Abschnitt in eine eigene
-% LaTeX-Datei (.tex) auslagern.
-% Einbinden der ausgelagerten Dateien in diese Hauptdatei, erfolgt
-% mittels folgendem Befehl (Beispiel):
-% beispiel.tex => \input{beispiel}
-% INFO: Querverweise auf Gliederungselemente, Abbildungen
-%       & Tabellen setzen:
-%
-% Voraussetzung: Gesetzte Referenzmarke mit dem Befehl: \label{marke}
-%
-% Referenzierung erfolgt dann mittels dem Befehl:
-% \ref{marke}
+\newpage
+\section*{Einleitung}\label{kap_einleitung}
+\addcontentsline{toc}{section}{Einleitung} % Manuellen Eintrag im Inhaltsverzeichnis erzeugen
+\input{chapters/Einleitung}
 
+\newpage
 \section{Anforderungen}\label{kap_anforderungen}
 \input{chapters/Anforderungen}
-
-%\newpage
-%\section*{Einleitung}\label{kap_einleitung}
-%\addcontentsline{toc}{section}{Einleitung} % Manuellen Eintrag im Inhaltsverzeichnis erzeugen
-%\input{chapters/Einleitung}
 
 %\vspace{1cm}
 %\begin{tcolorbox}[title={Die Einleitung(DELETE AFTER CHECK WE COMPLETE ALL POINTS)}]
@@ -378,21 +334,10 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 \section*{Zusammenfassung }\label{kap_ZF}
 \addcontentsline{toc}{section}{Zusammenfassung}
 \input{chapters/Zusammenfassung}
-%<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-%\vspace{1cm}
-%\begin{tcolorbox}[title={Inhalte der \textit{Zusammenfassung und Ausblick}}]
-%  Das Kapitel \textit{Zusammenfassung und Ausblick} enthält folgende formale Aspekte\footnote{Vgl. \cite{BBoJ},S. 6}:
-%  \begin{itemize}
-%    \item Kapitelweise Kurzdarstellung der Inhalte (inklusive Referenzierung auf die Kapitelnummerierung) => Nach dem Motto: \textit{Was wurde wo beschrieben?}
-%    \item Kurzdarstellung \textit{Problem – Lösungsweg – Ergebnisse}
-%    \item Rückkopplung auf die Einleitung: Wurde die Zielstellung der Arbeit und die Fragestellung zufriedenstellend beantwortet?
-%    \item Kritische Bewertung (sofern nicht bereits im Hauptteil geschehen)
-%    \item Offene Probleme
-%    \item Richtung der zukünftigen/möglichen Arbeiten
-%    \item Erläuterung, warum welche Aspekte in der Arbeit nicht erläutert wurden
-%  \end{itemize}
-%\end{tcolorbox}
-%</MERKKASTEN>
+
+%Glossar
+\newpage
+\printglossaries
 
 % Anhang
 \newpage
@@ -426,7 +371,5 @@ angegeben. Die Arbeit hat mit gleichem Inhalt bzw. in wesentlichen Teilen noch k
 \thispagestyle{empty}
 \input{leereSeite}
 
-
- 
 \end{document}
 
