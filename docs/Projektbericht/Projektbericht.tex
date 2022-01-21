@@ -121,28 +121,9 @@ footskip=1cm,headheight=14.599pt]{geometry} % Einrichtung der Seite
 \usepackage[colorlinks,pdfpagelabels,pdfstartview=FitH,
 bookmarksopen=true,bookmarksnumbered=true,linkcolor=black,
 plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkungen
-% INFO: Verlinkungen mit dem hyperref-Paket:
-%
-% Die Angabe von URLs mit dem Befehl \url{} erlaubt einen
-% gesonderten Umgang mit Weblinks. Denn die Links werden verlinkt.
-% Auch erfolgt automatisch am Zeilenende ein Umbruch des Links.
-% Es ist auch nicht erforderlich, Sonderzeichen in der URL manuell zu 
-% entschärfen.
-%
-% TIPP: Sollte ein Umbuch bei einem Link nicht automatisch erfolgen, so kann
-% das daran liegen, dass ein/mehrere Zeichen zusätzlich angegeben werden müssen,
-% an dem der Link umbrochen werden kann.
-% Dies kann mit folgendem Befehl erfolgen (Beispiel):
-% \renewcommand*\UrlBreaks{\do-\do_}
-% Das Paket "biblatex" für autom. 
-% Literaturverzeichnisse:
-%\usepackage{csquotes} % Für sprachangepasste Anführungszeichen
-%\usepackage[backend=bibtex,style=alphabetic]  
-%           {biblatex}
-%\addbibresource{bib/literatur.bib}      #
 
 %Glossary
-\usepackage[toc]{glossaries}
+\usepackage[xindy,acronym,toc]{glossaries}
 \makeglossaries
 \addcontentsline{toc}{section}{Glossar} 
 %%% MUSTER %%%
@@ -264,7 +245,6 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
     description={NodeJS-Paket zur Objektmodellierung von MongoDB}
 }
 
-
 \newglossaryentry{NoSQL}
 {
     name=NoSQL,
@@ -367,13 +347,11 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
     description={Application Programming Interface; Programmierschnittstelle, durch die verschiedene Programme Daten austauschen können}
 }
 
-
 \newglossaryentry{Mutation}
 {
     name=Mutation,
     description={Veränderung der bestehenden Daten nach GraphQl-Spezifikation, entspricht POST/PUT/PATCH/DELETE in REST-API}
 }
-
 
 \newglossaryentry{Angular}
 {
@@ -447,6 +425,7 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
     description={Softwartests, welche in sich abgeschlossen sind und andere Tests nicht beeinflussen.}
 }
 
+%\loadglsentries{chapters/Begriffe}
 %Cite
 \usepackage[style=ieee]{biblatex}
 \bibliography{refs} % Entries are in the refs.bib file
@@ -460,8 +439,7 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 \newpage % Neue Seite
 \input{leereSeite} % Ausgelagerte LaTeX-Datei (hier: leereSeite.tex) einbinden
 
-\newpage
-
+%\newpage
 % Deckblatt
 \pagestyle{empty}
 \begin{titlepage}
@@ -473,16 +451,16 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
     \hrule\par\rule{0pt}{2cm}
     \LARGE
     \textsc{BERICHT ZUM PRAXISPROJEKT}\\
-    \vspace{1cm}
+    \vspace{0.8cm}
     \huge
     MVP für eine Webanwendung zur Spielersuche\\ 
     \Large
     Eine mit Javascript entwickelte Plattform \\
-    \vspace{1cm}
+    \vspace{0.8cm}
     \large
     Vorgelegt an der TH Köln Campus Gummersbach\\
     im Studiengang Wirtschaftsinformatik\\
-    \vspace{1.0cm}
+    \vspace{0.8cm}
     ausgearbeitet von:\\
     \textsc{Timo Kalter} 11127585\\
     \textsc{Carlo Menjivar} 11117929\\
@@ -491,130 +469,48 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
       \textbf{Erster Prüfer:}  & Prof. Dr. Birgit Bertelsmeier \\
       \textbf{Zweiter Prüfer:} & <Name des 2. Prüfers> \\
     \end{tabular}
-    \vspace{1cm}
+    \vspace{0.5cm}
     \\Gummersbach, im Januar 2022
   \end{center}
 \end{titlepage}
 
-\newpage
-\begin{abstract}
-  Platz für das deutsche Abstract... %TODO
-\end{abstract}
+%\newpage
+%\begin{abstract}
+%  Platz für das deutsche Abstract... %TODO
+%\end{abstract}
 
 %\renewcommand{\abstractname}{Abstract}
 %\begin{abstract}
 %  Platz für das englische Abstract...
 %\end{abstract}
-%<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-%\vspace{1cm}
-%\begin{tcolorbox}[title={Das Abstract}]
-%  Bei einem Abstract handelt es sich um eine Art \textit{Zusammenfassung} Ihrer Arbeit. Diese kann in deutscher und/oder englischer Sprache verfasst werden. Mithilfe des Abstracts kann der Leser sich zügig orientieren, in wie fern Ihre Arbeit für ihn Relevanz besitzt.\\                                                                      Sprechen Sie unbedingt mit Ihrer Betreuerin/Ihrem Betreuer, ob Sie für Ihre Arbeit ein Abstract benötigen.\\
-%  Ein Abstract beinhaltet folgende Aspekte \footnote{ Vgl. \cite{SW11}, S. 249}:
-%  \begin{itemize}
-%    \item Ziel der Arbeit
-%    \item Fragestellung der Arbeit
-%    \item Herangezogener, theoretischer Ansatz ("Quellen")
-%    \item \textit{Optional:} Methodik
-%  \end{itemize}
-%\end{tcolorbox}
-%</MERKKASTEN>
-
-%<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-%\vspace{1cm}
-%\begin{tcolorbox}[title={Hinweise zu dieser Dokumentvorlage}]
-%  \begin{itemize}
-%    \item Es handelt sich hierbei um eine Beispiel-Vorlage für wissenschaftliche Ausarbeitungen.
-%          Über die konkrete, formale Ausgestaltung Ihrer wissenschaftlichen Arbeit sprechen Sie unbedingt mit Ihre/m Betreuer/in.
-%    \item Unabhängig, ob Sie beispielsweise eine Bachelor-, Master- oder Hausarbeit schreiben müssen. Diese Vorlage kann als eine gute Basis für Ihre Arbeit dienen. Passen Sie einfach die Vorlage Ihren Anforderungen entsprechend an.
-%  \end{itemize}
-%\end{tcolorbox}
-%</MERKKASTEN>
-
 \newpage
 
 % Inhaltsverzeichnis
 \tableofcontents
-
-\newpage
 \pagestyle{fancy} % Kopf- und Fußzeilen aktivieren (=> Paket "fancyhdr")
 
-% Abbildungsverzeichnis
-% INFO: Abbildung einbinden (Beispiel):
-%  \begin{figure}[h!]
-%    \centering
-%    \includegraphics[scale=1.00]{Pfad zum Bild}\\
-%    \caption{Bildunterschrift}
-%    \label{Marke zum Referenzieren auf die Abbildung}
-%  \end{figure}
+\newpage
 \section*{Abbildungsverzeichnis}
 \addcontentsline{toc}{section}{Abbildungsverzeichnis} % Manuellen Eintrag im Inhaltsverzeichnis erzeugen
 \renewcommand{\listfigurename}{} % Name des Abbildungsverzeichnisses ändern
 \thispagestyle{empty}
 \listoffigures
-\newpage
 
-%Glossar
-\newpage
-\printglossaries
-% Tabellenverzeichnis
-%\addcontentsline{toc}{section}{Tabellenverzeichnis}
-%\listoftables
 %\newpage
+%\clearpage
+%\printglossaries
+\section*{Glossar}%\label{Begriffe}
+\input{chapters/Begriffe}
+\addcontentsline{toc}{section}{Glossar} 
 
-% Hauptteil des Dokuments
-% TIPP: Jedes Kapitel oder jeder Abschnitt in eine eigene
-% LaTeX-Datei (.tex) auslagern.
-% Einbinden der ausgelagerten Dateien in diese Hauptdatei, erfolgt
-% mittels folgendem Befehl (Beispiel):
-% beispiel.tex => \input{beispiel}
-% INFO: Querverweise auf Gliederungselemente, Abbildungen
-%       & Tabellen setzen:
-%
-% Voraussetzung: Gesetzte Referenzmarke mit dem Befehl: \label{marke}
-%
-% Referenzierung erfolgt dann mittels dem Befehl:
-% \ref{marke}
+\newpage
+\section*{Struktur des Projektberichts}\label{kap_struktur}
+\addcontentsline{toc}{section}{Struktur des Projektberichts} % Manuellen Eintrag im Inhaltsverzeichnis erzeugen
+\input{chapters/Einleitung}
 
+\newpage
 \section{Anforderungen}\label{kap_anforderungen}
 \input{chapters/Anforderungen}
-
-%\newpage
-%\section*{Einleitung}\label{kap_einleitung}
-%\addcontentsline{toc}{section}{Einleitung} % Manuellen Eintrag im Inhaltsverzeichnis erzeugen
-%\input{chapters/Einleitung}
-
-%\vspace{1cm}
-%\begin{tcolorbox}[title={Die Einleitung(DELETE AFTER CHECK WE COMPLETE ALL POINTS)}]
-%  Die Einleitung umfasst folgende Elemente\footnote{Vgl. u.a. \cite{BBoJ}, S. 5-6}:
-%  \begin{itemize}
-%    \item Einführung in das Thema (Motivation, zentrale Begriffe etc.)
-%    \item Hinführung zu den Ergebnissen
-%    \item Ggf. Angabe des Schwerpunktes
-%    \item Ggf. Einschränkungen darlegen
-%    \item Problemstellung
-%    \item Zielstellung der Arbeit
-%    \item Fragestellung der Arbeit
-%    \item Übersicht über die Kapitel geben:
-%          \begin{quotation}
-%            Eine Einleitung muss auch durch die Arbeit führen. Sie muss dem Leser helfen, sich in der Arbeit und ihrer Struktur zu Recht zu finden. Für jedes Kapitel sollte eine ganz kurze Inhaltsangabe gemacht werden und ggf. motiviert werden, warum es geschrieben wurde. Oft denkt sich ein Autor etwas bei der Struktur seiner Arbeit, auch solche Beweggründe sind dem Leser zu erklären\footnote{\cite{BBoJ}, S. 6}:.
-%          \end{quotation}
-%  \end{itemize}
-%\end{tcolorbox}
-
-
-%<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-%\vspace{1cm}
-%\begin{tcolorbox}[title={Das Kapitel/der Abschnitt}]
-%  Hierbei handelt es sich um ein Beispiel-Kapitel. Es ist zu empfehlen, dass Sie Kapitel und auch Abschnitte immer mit einer kurzen Einleitung beginnen. In dieser beschreiben Sie kurz, was den Leser in diesem Kapitel/Abschnitt erwartet. Bei einem Kapitel mit Abschnitten nehmen Sie auch inhaltlichen Bezug auf die enthaltenen Abschnitte (inklusive Referenzierung auf die Abschnittsnummerierung).
-%\end{tcolorbox}
-%</MERKKASTEN>
-
-%<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-%\vspace{1cm}
-%\begin{tcolorbox}[title={Abbildungen, Tabellen \& Co.}]
-%  Bei Verwendung von Tabellen und auch Abbildungen beachten Sie bitte, dass diese immer Unter-/Überschriften enthalten (inklusive einer Nummer). Im Textfluss erklären/beschreiben Sie die Abbildung bzw. die Tabelle und nehmen Bezug über einen Verweis auf die Nummer.
-%\end{tcolorbox}
-%</MERKKASTEN>
 
 \newpage
 \section{Technologieinfrastruktur}\label{kap_Technologieinfrastruktur}
@@ -644,21 +540,10 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 \section*{Zusammenfassung }\label{kap_ZF}
 \addcontentsline{toc}{section}{Zusammenfassung}
 \input{chapters/Zusammenfassung}
-%<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-%\vspace{1cm}
-%\begin{tcolorbox}[title={Inhalte der \textit{Zusammenfassung und Ausblick}}]
-%  Das Kapitel \textit{Zusammenfassung und Ausblick} enthält folgende formale Aspekte\footnote{Vgl. \cite{BBoJ},S. 6}:
-%  \begin{itemize}
-%    \item Kapitelweise Kurzdarstellung der Inhalte (inklusive Referenzierung auf die Kapitelnummerierung) => Nach dem Motto: \textit{Was wurde wo beschrieben?}
-%    \item Kurzdarstellung \textit{Problem – Lösungsweg – Ergebnisse}
-%    \item Rückkopplung auf die Einleitung: Wurde die Zielstellung der Arbeit und die Fragestellung zufriedenstellend beantwortet?
-%    \item Kritische Bewertung (sofern nicht bereits im Hauptteil geschehen)
-%    \item Offene Probleme
-%    \item Richtung der zukünftigen/möglichen Arbeiten
-%    \item Erläuterung, warum welche Aspekte in der Arbeit nicht erläutert wurden
-%  \end{itemize}
-%\end{tcolorbox}
-%</MERKKASTEN>
+
+%Glossar
+%\newpage
+
 
 % Anhang
 \newpage
@@ -692,7 +577,5 @@ angegeben. Die Arbeit hat mit gleichem Inhalt bzw. in wesentlichen Teilen noch k
 \thispagestyle{empty}
 \input{leereSeite}
 
-
- 
 \end{document}
 

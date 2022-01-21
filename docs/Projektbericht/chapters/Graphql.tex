@@ -48,7 +48,7 @@ Mehrere Abfragen können in eine einzige Schnittstellenabfrage gebündelt werden
 Durch GraphQls Typenschemata wird definiert, welche Abfragen und Mutationen möglich sind.
 GraphQL akzeptiert Anfragen nur, wenn die richtigen Datentypen verwendet werden und weist fehlerhafte Anfragen zurück.
 Sollte die Datenbank den falschen Datentyp zurückgeben, wird auch ein Fehler geworfen.
-Der Klient kann somit bei einer Abfrage damit rechnen, Daten in den angegebenen Datentypen zu erhalten, Ausnahmen für andere Datentypen müssen nicht definiert werden.
+Der Client kann somit bei einer Abfrage damit rechnen, Daten in den angegebenen Datentypen zu erhalten, Ausnahmen für andere Datentypen müssen nicht definiert werden.
 Ebenso wird eine Abfrage mit nicht erlaubten Datentypen direkt mit einer Fehlermeldung beantwortet, die genau auf den falschen Datentyp hinweist.
 Dadurch werden Inkonsistenzen der Datenbank und der Zwang für weitere Datentypenkontrollen durch Design bereits stark mitigiert.
 

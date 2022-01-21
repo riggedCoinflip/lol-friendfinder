@@ -84,7 +84,7 @@ Eine vom Express-Paket gelieferte Middleware wird verwendet, welche es erlaubt, 
 \paragraph{JWT\\}
 Einige Daten der Datenbankschnittstelle sind öffentlich verfügbar.
 Manche Daten, wie zum Beispiel private Nutzerdaten, benötigen stattdessen eine Autorisierung für den Zugriff.
-Um die Autorität des Nutzers zu bestätigen, wird beim Anmeldeprozess ein JSON Web Token (JWT) nach RFC-7519 Standard an den Klienten verschickt\cite{be:rfc7519}.
+Um die Autorität des Nutzers zu bestätigen, wird beim Anmeldeprozess ein JSON Web Token (JWT) nach RFC-7519 Standard an den Clienten verschickt\cite{be:rfc7519}.
 Bei allen Folgeabfragen, so auch einer Abfrage der privaten Nutzerdaten, wird das Token als Teil des Anfragekopfes (request header) an das Backend gesendet.
 Eine Middlewarefunktion validiert und entschlüsselt das Token und fügt der Anfrage die Daten des entschlüsselten Tokens hinzu.
 Die Datenbankschnittstelle nutzt die Daten des entschlüsselten Tokens um zu entscheiden, ob der Nutzer für die Abfrage autorisiert ist.
