@@ -121,60 +121,11 @@ footskip=1cm,headheight=14.599pt]{geometry} % Einrichtung der Seite
 \usepackage[colorlinks,pdfpagelabels,pdfstartview=FitH,
 bookmarksopen=true,bookmarksnumbered=true,linkcolor=black,
 plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkungen
-% INFO: Verlinkungen mit dem hyperref-Paket:
-%
-% Die Angabe von URLs mit dem Befehl \url{} erlaubt einen
-% gesonderten Umgang mit Weblinks. Denn die Links werden verlinkt.
-% Auch erfolgt automatisch am Zeilenende ein Umbruch des Links.
-% Es ist auch nicht erforderlich, Sonderzeichen in der URL manuell zu 
-% entschärfen.
-%
-% TIPP: Sollte ein Umbuch bei einem Link nicht automatisch erfolgen, so kann
-% das daran liegen, dass ein/mehrere Zeichen zusätzlich angegeben werden müssen,
-% an dem der Link umbrochen werden kann.
-% Dies kann mit folgendem Befehl erfolgen (Beispiel):
-% \renewcommand*\UrlBreaks{\do-\do_}
-% Das Paket "biblatex" für autom. 
-% Literaturverzeichnisse:
-%\usepackage{csquotes} % Für sprachangepasste Anführungszeichen
-%\usepackage[backend=bibtex,style=alphabetic]  
-%           {biblatex}
-%\addbibresource{bib/literatur.bib}      #
 
 %Glossary
-\usepackage[toc]{glossaries}
-\addcontentsline{toc}{section}{Glossar} 
+\usepackage[xindy,acronym,toc]{glossaries}
 \makeglossaries
-\loadglsentries{chapters/Begriffe}
-
-%%% MUSTER %%%
-%\newglossaryentry{}
-%{name=, description={}}
-
-%%%%%%%%%%%%
-%%% TIMO %%%
-%%%%%%%%%%%%
-
-\newglossaryentry{UTF-8}
-{
-    name=UTF-8,
-    description={Weit verbreitete Kodierung für Unicode-Zeichen, sehr beliebt für Webseiten}
-}
-
-\newglossaryentry{Responsive Webdesign}
-{
-    name=Responsive Webdesign,
-    description={Die Webseite wird so aufgebaut, dass sie auf möglichst vielen Endgeräten mit verschiedenen Bildschirmgrößen und Eingabemethoden (Maus, Touchscreen) skaliert wird und bedienbar ist.}
-}
-
-\newglossaryentry{DQL}
-{
-    name=DQL,
-    description={Data Query Language, Datenabfragesprache für SQL}
-}
-
-\glsaddall % displays all the entries before it
-
+%\loadglsentries{chapters/Begriffe}
 %Cite
 \usepackage[style=ieee]{biblatex}
 \bibliography{refs} % Entries are in the refs.bib file
@@ -188,8 +139,7 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 \newpage % Neue Seite
 \input{leereSeite} % Ausgelagerte LaTeX-Datei (hier: leereSeite.tex) einbinden
 
-\newpage
-
+%\newpage
 % Deckblatt
 \pagestyle{empty}
 \begin{titlepage}
@@ -201,16 +151,16 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
     \hrule\par\rule{0pt}{2cm}
     \LARGE
     \textsc{BERICHT ZUM PRAXISPROJEKT}\\
-    \vspace{1cm}
+    \vspace{0.8cm}
     \huge
     MVP für eine Webanwendung zur Spielersuche\\ 
     \Large
     Eine mit Javascript entwickelte Plattform \\
-    \vspace{1cm}
+    \vspace{0.8cm}
     \large
     Vorgelegt an der TH Köln Campus Gummersbach\\
     im Studiengang Wirtschaftsinformatik\\
-    \vspace{1.0cm}
+    \vspace{0.8cm}
     ausgearbeitet von:\\
     \textsc{Timo Kalter} 11127585\\
     \textsc{Carlo Menjivar} 11117929\\
@@ -219,7 +169,7 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
       \textbf{Erster Prüfer:}  & Prof. Dr. Birgit Bertelsmeier \\
       \textbf{Zweiter Prüfer:} & <Name des 2. Prüfers> \\
     \end{tabular}
-    \vspace{1cm}
+    \vspace{0.5cm}
     \\Gummersbach, im Januar 2022
   \end{center}
 \end{titlepage}
@@ -233,20 +183,6 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 %\begin{abstract}
 %  Platz für das englische Abstract...
 %\end{abstract}
-%<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-%\vspace{1cm}
-%\begin{tcolorbox}[title={Das Abstract}]
-%  Bei einem Abstract handelt es sich um eine Art \textit{Zusammenfassung} Ihrer Arbeit. Diese kann in deutscher und/oder englischer Sprache verfasst werden. Mithilfe des Abstracts kann der Leser sich zügig orientieren, in wie fern Ihre Arbeit für ihn Relevanz besitzt.\\                                                                      Sprechen Sie unbedingt mit Ihrer Betreuerin/Ihrem Betreuer, ob Sie für Ihre Arbeit ein Abstract benötigen.\\
-%  Ein Abstract beinhaltet folgende Aspekte \footnote{ Vgl. \cite{SW11}, S. 249}:
-%  \begin{itemize}
-%    \item Ziel der Arbeit
-%    \item Fragestellung der Arbeit
-%    \item Herangezogener, theoretischer Ansatz ("Quellen")
-%    \item \textit{Optional:} Methodik
-%  \end{itemize}
-%\end{tcolorbox}
-%</MERKKASTEN>
-
 \newpage
 
 % Inhaltsverzeichnis
@@ -261,50 +197,20 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 \listoffigures
 
 %\newpage
-%\section{Glossar2}%\label{Glossar_alt}
-%\input{chapters/Begriffe}
+%\clearpage
+%\printglossaries
+\section*{Glossar}%\label{Begriffe}
+\input{chapters/Begriffe}
+\addcontentsline{toc}{section}{Glossar} 
 
 \newpage
-\section*{Einleitung}\label{kap_einleitung}
-\addcontentsline{toc}{section}{Einleitung} % Manuellen Eintrag im Inhaltsverzeichnis erzeugen
+\section*{Struktur der Arbeit}\label{kap_struktur}
+\addcontentsline{toc}{section}{Struktur der Arbeit} % Manuellen Eintrag im Inhaltsverzeichnis erzeugen
 \input{chapters/Einleitung}
 
 \newpage
 \section{Anforderungen}\label{kap_anforderungen}
 \input{chapters/Anforderungen}
-
-%\vspace{1cm}
-%\begin{tcolorbox}[title={Die Einleitung(DELETE AFTER CHECK WE COMPLETE ALL POINTS)}]
-%  Die Einleitung umfasst folgende Elemente\footnote{Vgl. u.a. \cite{BBoJ}, S. 5-6}:
-%  \begin{itemize}
-%    \item Einführung in das Thema (Motivation, zentrale Begriffe etc.)
-%    \item Hinführung zu den Ergebnissen
-%    \item Ggf. Angabe des Schwerpunktes
-%    \item Ggf. Einschränkungen darlegen
-%    \item Problemstellung
-%    \item Zielstellung der Arbeit
-%    \item Fragestellung der Arbeit
-%    \item Übersicht über die Kapitel geben:
-%          \begin{quotation}
-%            Eine Einleitung muss auch durch die Arbeit führen. Sie muss dem Leser helfen, sich in der Arbeit und ihrer Struktur zu Recht zu finden. Für jedes Kapitel sollte eine ganz kurze Inhaltsangabe gemacht werden und ggf. motiviert werden, warum es geschrieben wurde. Oft denkt sich ein Autor etwas bei der Struktur seiner Arbeit, auch solche Beweggründe sind dem Leser zu erklären\footnote{\cite{BBoJ}, S. 6}:.
-%          \end{quotation}
-%  \end{itemize}
-%\end{tcolorbox}
-
-
-%<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-%\vspace{1cm}
-%\begin{tcolorbox}[title={Das Kapitel/der Abschnitt}]
-%  Hierbei handelt es sich um ein Beispiel-Kapitel. Es ist zu empfehlen, dass Sie Kapitel und auch Abschnitte immer mit einer kurzen Einleitung beginnen. In dieser beschreiben Sie kurz, was den Leser in diesem Kapitel/Abschnitt erwartet. Bei einem Kapitel mit Abschnitten nehmen Sie auch inhaltlichen Bezug auf die enthaltenen Abschnitte (inklusive Referenzierung auf die Abschnittsnummerierung).
-%\end{tcolorbox}
-%</MERKKASTEN>
-
-%<MERKKASTEN> (für die eigene Verwendung bitte entfernen
-%\vspace{1cm}
-%\begin{tcolorbox}[title={Abbildungen, Tabellen \& Co.}]
-%  Bei Verwendung von Tabellen und auch Abbildungen beachten Sie bitte, dass diese immer Unter-/Überschriften enthalten (inklusive einer Nummer). Im Textfluss erklären/beschreiben Sie die Abbildung bzw. die Tabelle und nehmen Bezug über einen Verweis auf die Nummer.
-%\end{tcolorbox}
-%</MERKKASTEN>
 
 \newpage
 \section{Technologieinfrastruktur}\label{kap_Technologieinfrastruktur}
@@ -336,8 +242,8 @@ plainpages=false,hypertexnames=false,citecolor=black]{hyperref} % Für Verlinkun
 \input{chapters/Zusammenfassung}
 
 %Glossar
-\newpage
-\printglossaries
+%\newpage
+
 
 % Anhang
 \newpage
